@@ -401,7 +401,7 @@
          [pattern-dimensions
           (let ([gauge   (Options-gauge options)])
             `(dimensions
-              (row-count ,(Pattern-row-count p))
+              (nrows ,(Pattern-nrows p))
               ; FIXME (first-row-stitches-in-count ,(Rowdata-first-row-stitches-in-count rowdata))
               ; FIXME (last-row-stitches-out-count ,(Rowdata-last-row-stitches-out-count rowdata))
               ,@(if (false? gauge)

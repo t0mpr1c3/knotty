@@ -52,13 +52,13 @@
    [rowspecs : Rowspecs]
    [rowmap : Rowmap]
    [rowcounts : Rowcounts]
-   [row-count : Positive-Integer]
+   [nrows : Positive-Integer]
    [options : Options]
    [repeats : Repeats]
    [max-colors : Natural]
    [yarns : Yarns])
   #:guard
-  (λ (name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns type-name)
+  (λ (name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns type-name)
     (log-message knotty-logger 'debug "in `Pattern` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     ((compose pattern-guard-sort-rowmap
@@ -70,7 +70,7 @@
               pattern-guard-yarns
               pattern-guard-turns
               pattern-guard-options)
-     name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns))
+     name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns))
   #:transparent)
 
 ;; composable guard function for Pattern struct
@@ -98,7 +98,7 @@
                                   Repeats
                                   Natural
                                   Yarns)))
-(define (pattern-guard-options name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-options name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   (let* ([technique (Options-technique options)]
          [form      (Options-form options)]
          [face      (Options-face options)]
@@ -109,7 +109,7 @@
       (for ([rowspec rowspecs])
         (when (rowspec-short-row? rowspec)
           (err SAFE "short rows are ony allowed in flat hand knits")))))
-  (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns))
+  (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns))
 
 ;; composable guard function for Pattern struct
 (: pattern-guard-turns (String
@@ -136,13 +136,13 @@
                                 Repeats
                                 Natural
                                 Yarns)))
-(define (pattern-guard-turns name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-turns name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   (log-message knotty-logger 'debug "in `pattern-guard-turns` function" #f)
   ;; disallow turns in first row
   (let ([first-row (rowmap-find rowmap 1)])
     (when (rowspec-short-row? (vector-ref rowspecs first-row))
       (err SAFE "first row cannot contain a short row turn")))
-  (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns))
+  (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns))
 
 ;; composable guard function for Pattern struct
 (: pattern-guard-yarns (String
@@ -169,7 +169,7 @@
                                 Repeats
                                 Natural
                                 Yarns)))
-(define (pattern-guard-yarns name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-yarns name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   ;; maximum number of yarns that can be specified is 256
   (when (> (vector-length yrns) 256)
     (err SAFE "too many yarns specified"))
@@ -208,7 +208,7 @@
                                        (< stitches-per-4-inches 6.0)))
                       (and (= 7 w)     (> stitches-per-4-inches 7.0)))))
           (log-message knotty-logger 'warning "check your pattern information: yarn weight may be incompatible with pattern gauge" #f))))
-    (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)))
+    (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 ;; check that stitches are compatible with machine/hand knitting
 ;; composable guard function for Pattern struct
@@ -236,7 +236,7 @@
                                                Repeats
                                                Natural
                                                Yarns)))
-(define (pattern-guard-stitch-compatibility name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-stitch-compatibility name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   (let ([technique (Options-technique options)])
     (for ([i (in-range (vector-length rowspecs))])
       (let ([rowspec : Rowspec (vector-ref rowspecs i)])
@@ -244,7 +244,7 @@
           (err SAFE (format "stitches in row ~a not compatible with ~a knitting"
                             (add1 i)
                             (remove-hyphen technique))))))
-    (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)))
+    (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 #|
 ;; composable function as part of Pattern struct guard function
@@ -381,7 +381,7 @@
                                      Repeats
                                      Natural
                                      Yarns)))
-(define (pattern-guard-max-colors name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-max-colors name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   ;; check that number of colors is compatible with specified technique
   (let ([technique  (Options-technique options)])
     (when (and (eq? 'machine-texture technique)
@@ -393,7 +393,7 @@
     (when (and (eq? 'machine-jacquard technique)
                (> max-colors 6))
       (err SAFE "too many colors: machine Jacquard can handle a maximum of 6 colors per row"))
-    (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)))
+    (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 ;; composable function as part of Pattern struct guard function
 (: pattern-guard-row-repeats (String
@@ -420,14 +420,14 @@
                                       Repeats
                                       Natural
                                       Yarns)))
-(define (pattern-guard-row-repeats name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-row-repeats name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   (let* ([frr (Repeats-first-repeat-row repeats)]
          [lrr (Repeats-last-repeat-row  repeats)])
     (when (and (not (false? frr))
                (not (false? lrr))
                (< lrr frr))
       (err SAFE "error in row repeats"))
-    (values name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)))
+    (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 #|
 ;; composable function as part of Pattern struct guard function
@@ -613,7 +613,7 @@
                                       Repeats
                                       Natural
                                       Yarns)))
-(define (pattern-guard-sort-rowmap name url attribution keywords rowspecs rowmap rowcounts row-count options repeats max-colors yrns)
+(define (pattern-guard-sort-rowmap name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
   (log-message knotty-logger 'debug "in `pattern-guard-sort-rowmap` function" #f)
   ;; sort rowmap and rowspec by lowest rownumber
   (let* ([row-numbers (Rowmap-numbers rowmap)]
@@ -631,9 +631,9 @@
               ([i (in-range n)]) : (Vectorof Positive-Integer)
             (vector-ref row-numbers (list-ref rowspecs-order i)))]
          [rowmap~ (make-rowmap row-numbers~)]
-         [row-count~ (vector-length (Rowmap-index rowmap~))])
-    (assert (> row-count~ 0))
-    (values name url attribution keywords rowspecs~ rowmap~ rowcounts row-count~ options repeats max-colors yrns)))
+         [nrows~ (vector-length (Rowmap-index rowmap~))])
+    (assert (> nrows~ 0))
+    (values name url attribution keywords rowspecs~ rowmap~ rowcounts nrows~ options repeats max-colors yrns)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -687,7 +687,7 @@
                                (Rows-rownums x)))
                             rs~)))]
              [rowcounts (make-rowcounts rowspecs rowmap)]
-             [row-count (vector-length (Rowmap-index rowmap))]
+             [nrows (vector-length (Rowmap-index rowmap))]
              [options (Options technique form face side gauge)]
              [yarns-used (rowspecs-yarns-used rowspecs)]
              [yrns
@@ -699,7 +699,7 @@
               (if (positive-integer? repeat-rows)
                   (list repeat-rows repeat-rows)
                   repeat-rows)])
-        (assert (positive-integer? row-count))
+        (assert (positive-integer? nrows))
         (let ([p (Pattern name
                           url
                           attribution
@@ -707,7 +707,7 @@
                           rowspecs
                           rowmap
                           rowcounts
-                          row-count
+                          nrows
                           options
                           dummy-repeats
                           yarns-used
@@ -715,57 +715,6 @@
           (pattern-substitute-stitches
            (struct-copy Pattern p
                         [repeats (pattern-make-repeats p repeat-rows~)])))))))
-
-#|
-NB contract is:
-(->*
- ()
- (#:attribution
-  (vectorof
-   (prefab/c 'Author string? string?))
-  #:face
-  (or/c 'ws 'rs)
-  #:form
-  (or/c 'circular 'flat)
-  #:gauge
-  (or/c
-   #f
-   (prefab/c
-    'Gauge
-    (and/c exact-integer? positive?)
-    (and/c exact-integer? positive?)
-    (and/c exact-integer? positive?)
-    (and/c exact-integer? positive?)
-    (or/c 'cm 'inch)))
-  #:keywords
-  (vectorof string?)
-  #:name
-  string?
-  #:repeat-rows
-  (or/c
-   #f
-   (cons/c
-    (and/c exact-integer? positive?)
-    (and/c exact-integer? positive?)))
-  #:side
-  (or/c 'right 'left)
-  #:technique
-  (or/c
-   'machine-jacquard
-   'machine-intarsia
-   'machine-fair-isle
-   'machine-texture
-   'hand)
-  #:url
-  string?)
- #:rest
- (listof
-  (or/c
-   (listof (or/c Yarn? Rows?))
-   Yarn?
-   Rows?))
- Pattern?)
-|#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -957,7 +906,7 @@ NB contract is:
   (when (> start-row end-row)
     (err SAFE "invalid row repeat range"))
   (if (and (= start-row 1)
-           (= end-row   (Pattern-row-count p)))
+           (= end-row   (Pattern-nrows p)))
       p
       (let* ([rowmap  (Pattern-rowmap p)]
              [numbers  (Rowmap-numbers rowmap)]
@@ -991,13 +940,13 @@ NB contract is:
               (let* ([rowmap~    (make-rowmap (list->vector (reverse number-acc)))]
                      [rowspecs~  (list->vector (reverse rowspec-acc))]
                      [rowcounts~ (make-rowcounts rowspecs~ rowmap~)]
-                     [row-count~ (- end-row start-row -1)])
-                (assert (positive-integer? row-count~))
+                     [nrows~     (- end-row start-row -1)])
+                (assert (positive-integer? nrows~))
                 (struct-copy Pattern p
                              [rowmap    rowmap~]
                              [rowspecs  rowspecs~]
                              [rowcounts rowcounts~]
-                             [row-count row-count~]
+                             [nrows     nrows~]
                              [repeats   dummy-repeats])))))))
 
 ;; expand variable repeats
@@ -1006,7 +955,7 @@ NB contract is:
   (let* ([rowspecs  (Pattern-rowspecs  p)]
          [rowmap    (Pattern-rowmap    p)]
          [rowcounts (Pattern-rowcounts p)]
-         [n-rows    (Pattern-row-count p)]
+         [n-rows    (Pattern-nrows p)]
          [options   (Pattern-options   p)]
          [repeats   (Pattern-repeats   p)]
          [first-repeat-row (Repeats-first-repeat-row repeats)]
@@ -1087,7 +1036,7 @@ NB contract is:
                        [rowspecs  rowspecs~]
                        [rowmap    rowmap~]
                        [rowcounts (make-rowcounts rowspecs~ rowmap~)]
-                       [row-count n-rows~]))))))
+                       [nrows     n-rows~]))))))
 
 (: pattern-make-repeats : Pattern (Option (List Positive-Integer Positive-Integer)) -> Repeats)
 (define (pattern-make-repeats p repeat-rows)
@@ -1122,7 +1071,7 @@ NB contract is:
                                                          (Pattern-rowmap p~))])
                         (rowcounts-vertical-repeatable? rowcounts~
                                                         1
-                                                        (Pattern-row-count p~))))])
+                                                        (Pattern-nrows p~))))])
             (when (and (not (false? first-repeat-row))
                        (not (false? last-repeat-row))
                        (not repeatable?))

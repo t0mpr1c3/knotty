@@ -209,7 +209,7 @@
          [p~ (pattern-expand-repeats p h-repeats v-repeats)]
            [rowspecs (Pattern-rowspecs p~)]
            [rowmap (Pattern-rowmap p~)]
-           [height (Pattern-row-count p~)]
+           [height (Pattern-nrows p~)]
            [stv ((inst vector-map (Vectorof Stitch) Rowspec)
                  (λ ([rowspec : Rowspec])
                    (~> rowspec

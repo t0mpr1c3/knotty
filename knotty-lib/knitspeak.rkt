@@ -125,7 +125,7 @@
 (define (pattern->ks p)
   (let* ([rowspecs (Pattern-rowspecs p)]
          [rowmap (Pattern-rowmap p)]
-         [n-rows (Pattern-row-count p)]
+         [n-rows (Pattern-nrows p)]
          [n (vector-length rowspecs)]
          [options (Pattern-options p)]
          [flat? (eq? 'flat (Options-form options))]

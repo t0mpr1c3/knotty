@@ -80,7 +80,7 @@
        "    <side>right</side>"
        "  </options>"
        "  <dimensions>"
-       "    <row-count>5</row-count>"
+       "    <nrows>5</nrows>"
        "    <gauge>"
        "      <stitch-count>10</stitch-count>"
        "      <stitch-measurement>4</stitch-measurement>"

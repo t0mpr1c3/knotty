@@ -238,7 +238,7 @@
          [rs? (eq? 'rs (Options-face options))]
          [r2l? (eq? 'right (Options-side options))]
          [repeats (Pattern-repeats p)]
-         [nrows (Pattern-row-count p)]
+         [nrows (Pattern-nrows p)]
          [r (original-row-index repeats nrows n)]
          [partial (format "Row number ~a\n" n)]
          [result (string-append
