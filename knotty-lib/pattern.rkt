@@ -65,7 +65,7 @@
               ;pattern-substitute-stitches
               pattern-guard-row-repeats
               ;pattern-guard-rows-conformable
-              pattern-guard-max-colors
+              ;pattern-guard-max-colors
               pattern-guard-stitch-compatibility
               pattern-guard-yarns
               pattern-guard-turns
@@ -356,6 +356,7 @@
     (values name url attribution keywords rowspecs rowmap rowcounts n-rows options repeats max-colors yrns)))
 |#
 
+#|
 ;; composable function as part of Pattern struct guard function
 (: pattern-guard-max-colors (String
                              String
@@ -394,6 +395,7 @@
                (> max-colors 6))
       (err SAFE "too many colors: machine Jacquard can handle a maximum of 6 colors per row"))
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
+|#
 
 ;; composable function as part of Pattern struct guard function
 (: pattern-guard-row-repeats (String
@@ -797,6 +799,7 @@
                         (Stitchtype-rs-symbol (get-stitch s))))))
   ;; check that number of colors is compatible with specified technique
   (let ([max-colors (Pattern-max-colors p)])
+    #|
     (when (and (eq? 'machine-texture technique~)
                (> max-colors 1))
       (err SAFE "too many colors: machine texture knitting can handle a maximum of 1 color per row"))
@@ -806,6 +809,7 @@
     (when (and (eq? 'machine-jacquard technique~)
                (> max-colors 6))
       (err SAFE "too many colors: machine Jacquard can handle a maximum of 6 colors per row"))
+    |#
     (let ([options~ (struct-copy Options (Pattern-options p)
                                  [technique technique~])])
       (struct-copy Pattern p
@@ -1052,40 +1056,36 @@
                    #f
                    #f)
           ;; check validity of row repeats
-          (let* ([first-repeat-row (first  repeat-rows)]
-                 [last-repeat-row  (second repeat-rows)]
-                 [first-repeat-row-short? (rowspec-short-row?
-                                           (vector-ref rowspecs
-                                                       (rowmap-find rowmap first-repeat-row)))]
-                 [repeatable?
-                  (if first-repeat-row-short?
-                      ;; use unaltered pattern
-                      (rowcounts-vertical-repeatable? rowcounts
-                                                      first-repeat-row
-                                                      last-repeat-row)
-                      ;; restrict pattern to repeat row range
-                      (let* ([p~ (pattern-select-rows p
-                                                      first-repeat-row
-                                                      last-repeat-row)]
-                             [rowcounts~ (make-rowcounts (Pattern-rowspecs p~)
-                                                         (Pattern-rowmap p~))])
-                        (rowcounts-vertical-repeatable? rowcounts~
-                                                        1
-                                                        (Pattern-nrows p~))))])
-            (when (and (not (false? first-repeat-row))
-                       (not (false? last-repeat-row))
-                       (not repeatable?))
+          (let ([first-repeat-row (first  repeat-rows)]
+                [last-repeat-row  (second repeat-rows)])            
+            (when (or (false? first-repeat-row)
+                      (false? last-repeat-row))
               (err SAFE "pattern is not repeatable over the range of rows specified"))
-            ;; return result
-            (if repeatable?
-                (Repeats caston-repeat-multiple
-                         caston-repeat-addition
-                         first-repeat-row
-                         last-repeat-row)
-                (Repeats caston-repeat-multiple
-                         caston-repeat-addition
-                         #f
-                         #f)))))))
+            (let* ([first-repeat-row-short? (rowspec-short-row?
+                                             (vector-ref rowspecs
+                                                         (rowmap-find rowmap first-repeat-row)))]
+                   [repeatable?
+                    (if first-repeat-row-short?
+                        ;; use unaltered pattern
+                        (rowcounts-vertical-repeatable? rowcounts
+                                                        first-repeat-row
+                                                        last-repeat-row)
+                        ;; restrict pattern to repeat row range
+                        (let* ([p~ (pattern-select-rows p
+                                                        first-repeat-row
+                                                        last-repeat-row)]
+                               [rowcounts~ (make-rowcounts (Pattern-rowspecs p~)
+                                                           (Pattern-rowmap p~))])
+                          (rowcounts-vertical-repeatable? rowcounts~
+                                                          1
+                                                          (Pattern-nrows p~))))])
+              (when (not repeatable?)
+                (err SAFE "pattern is not repeatable over the range of rows specified"))
+              ;; return result
+              (Repeats caston-repeat-multiple
+                       caston-repeat-addition
+                       first-repeat-row
+                       last-repeat-row)))))))
 
 (: nohrep? : Pattern -> Boolean)
 (define (nohrep? p)
@@ -1285,7 +1285,7 @@
 
 (define owl
   (pattern
-    #:technique 'machine-fair-isle
+    #:technique 'machine
     #:face 'ws
     #:side 'left
     (yarn #xdbe9f4 "azureish white")

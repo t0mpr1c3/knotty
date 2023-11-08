@@ -50,10 +50,12 @@
                                             Side
                                             (Option Gauge))))
 (define (options-guard technique form face side gauge)
+    #|
     ;; circular knitting is for hand knits only, not machine knits
     (when (and (not (eq? technique 'hand))
                (eq? form 'circular))
       (err SAFE "machine knit patterns must be flat, not circular"))
+    |#
     ;; hand knits that start on the right side are knitted right-to-left
     (when (and (eq? technique 'hand)
                (eq? face 'rs)

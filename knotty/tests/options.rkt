@@ -24,6 +24,7 @@
 
 (module+ test
 
+  #|
   ;; machine knits cannot be circular
   (check-exn
    exn:fail?
@@ -33,6 +34,7 @@
               'rs
               'right
               #f)))
+  |#
 
   ;; hand knits start on RS, RHS
   (check-exn
@@ -96,7 +98,7 @@
 
   (check-equal?
    (options-row-rs?
-    (Options 'machine-fair-isle
+    (Options 'machine
              'flat
              'rs
              'right
@@ -166,7 +168,7 @@
 
   (check-equal?
    (options-row-r2l?
-    (Options 'machine-fair-isle
+    (Options 'machine
              'flat
              'rs
              'right

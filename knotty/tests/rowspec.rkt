@@ -23,13 +23,13 @@
 (module+ test
   (require typed/rackunit
 	   threading)
-  (require knotty/util
-           knotty/stitch
-           knotty/tree
-           knotty/yarn
-           knotty/macros
-           knotty/rows
-           knotty/rowspec)
+  (require "../../knotty-lib/util.rkt"
+           "../../knotty-lib/stitch.rkt"
+           "../../knotty-lib/tree.rkt"
+           "../../knotty-lib/yarn.rkt"
+           "../../knotty-lib/macros.rkt"
+           "../../knotty-lib/rows.rkt"
+           "../../knotty-lib/rowspec.rkt")
 
   (check-equal?
    (Rowspec null "" 0 0 'no-turn)
@@ -52,7 +52,7 @@
     (Rowspec
      (list (make-leaf 1 #s(Stitch dyo 0)))
      "" 0 1 'no-turn)
-    'machine-intarsia)
+    'machine)
    #f)
 
   (check-equal?

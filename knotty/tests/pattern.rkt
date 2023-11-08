@@ -233,16 +233,17 @@
   (check-exn
    exn:fail?
    (λ ()
-     (pattern #:technique 'machine-texture
+     (pattern #:technique 'machine
        ((row 1) kyk))))
 
   ;; stitch incompatible with machine knitting
   (check-exn
    exn:fail?
    (λ ()
-     (pattern #:technique 'machine-texture
+     (pattern #:technique 'machine
        ((row 1) k1 (cc1 p1) slwyif1))))
 
+  #|
   ;; too many colors
   (check-exn
    exn:fail?
@@ -275,6 +276,7 @@
         (cc4 k1)
         (cc5 k1)
         (cc6 k1)))))
+  |#
 
   ;; variable repeat leaf
   (check-equal?
@@ -1796,11 +1798,11 @@
   ;; test of `pattern-rs<->ws` function
   (check-equal?
    (pattern-rs<->ws
-    (pattern #:technique 'machine-texture #:form 'flat #:face 'rs #:side 'right
+    (pattern #:technique 'machine #:form 'flat #:face 'rs #:side 'right
       ((rows 1 4 #:memo "test of `pattern-rs<->ws` function") k6 p1)
       ((rows 2 5 #:memo "test of `pattern-rs<->ws` function") k5 p2)
       ((rows 3 6 #:memo "test of `pattern-rs<->ws` function") k4 p3)))
-   (pattern #:technique 'machine-texture #:form 'flat #:face 'ws #:side 'left
+   (pattern #:technique 'machine #:form 'flat #:face 'ws #:side 'left
      ((rows 1 4 #:memo "test of `pattern-rs<->ws` function") k1 p6)
      ((rows 2 5 #:memo "test of `pattern-rs<->ws` function") k2 p5)
      ((rows 3 6 #:memo "test of `pattern-rs<->ws` function") k3 p4)))
@@ -1930,7 +1932,7 @@
   (check-equal?
    (pattern-set-technique
     (pattern
-      #:technique 'machine-texture
+      #:technique 'machine
       ((row 1) k1))
     'hand)
    (Pattern
@@ -1944,13 +1946,13 @@
   (check-equal?
    (pattern-set-technique
     (pattern ((row 1) k1))
-    'machine-texture)
+    'machine)
    (Pattern
     "" "" '#() '#()
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 1 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'machine-texture 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'machine 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
     default-yarns))
 
   ;; incompatible stitch
@@ -1958,7 +1960,7 @@
    exn:fail?
    (λ ()
      (pattern-set-technique
-      (pattern #:technique 'machine-texture
+      (pattern #:technique 'machine
         ((row 1) tuck))
       'hand)))
 
@@ -1969,8 +1971,9 @@
      (pattern-set-technique
       (pattern #:technique 'hand
         ((row 1) dyo))
-      'machine-texture)))
+      'machine)))
 
+  #|
   ;; too many yarns
   (check-exn
    exn:fail?
@@ -2016,6 +2019,7 @@
          (cc5 k1)
          (cc6 k1)))
       'machine-jacquard)))
+  |#
 
   (check-equal?
    (pattern-set-yarns
@@ -2206,140 +2210,156 @@
     (make-vector 4 (Rowcount 0 0 0 0 0 17 17 17 17 0 0 0 0 0))
     4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 17 #f #f) 1 default-yarns))
 
-   ;; nohrep?
-   (check-equal?
-    (nohrep?
-     (pattern
-       ((rows 1) k1)))
-    #t)
+  ;; nohrep?
+  (check-equal?
+   (nohrep?
+    (pattern
+      ((rows 1) k1)))
+   #t)
 
-   ;; nohrep?
-   (check-equal?
-    (nohrep?
-     (pattern
-       ((rows 1) k)))
-    #f)
+  ;; nohrep?
+  (check-equal?
+   (nohrep?
+    (pattern
+      ((rows 1) k)))
+   #f)
 
-   ;; novrep?
-   (check-equal?
-    (novrep?
-     (pattern
-       ((rows 1) k3tog)))
-    #t)
+  ;; novrep?
+  (check-equal?
+   (novrep?
+    (pattern
+      ((rows 1) k3tog)))
+   #t)
 
-   ;; novrep?
-   (check-equal?
-    (novrep?
+  ;; novrep?
+  (check-equal?
+   (novrep?
+    (pattern
+      #:repeat-rows 1
+      ((rows 1) k)))
+   #f)
+  
+  ;; error in row repeats
+  (check-exn
+   exn:fail?
+   (λ ()
+     (pattern
+       #:repeat-rows 2
+       ((rows 1) k))))
+  
+  ;; error in row repeats
+  (check-exn
+   exn:fail?
+   (λ ()
+     (pattern
+       #:repeat-rows '(2 1)
+       ((rows 1 2) k))))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:repeat-rows #f
+     ((rows 1 2) gs))
+   (pattern
+     #:repeat-rows #f
+     ((rows 1) k)
+     ((rows 2) k)))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:form 'circular
+     #:repeat-rows #f
+     ((rows 1 2) gs))
+   (pattern
+     #:form 'circular
+     #:repeat-rows #f
+     ((rows 1) k)
+     ((rows 2) p)))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:repeat-rows #f
+     ((rows 1 2) ss))
+   (pattern
+     #:repeat-rows #f
+     ((rows 1) k)
+     ((rows 2) p)))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:repeat-rows #f
+     ((rows 1 2) rss))
+   (pattern
+     #:repeat-rows #f
+     ((rows 1) p)
+     ((rows 2) k)))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:repeat-rows 1
+     ((rows 1) gs))
+   (Pattern
+    "" "" '#() '#()
+    (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
+    (make-rowmap '#(#(1)))
+    (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:form 'circular
+     #:repeat-rows 1
+     ((rows 1) ss))
+   (Pattern
+    "" "" '#() '#()
+    (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
+    (make-rowmap '#(#(1)))
+    (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+
+  ;; pattern-substitute-stitches
+  (check-equal?
+   (pattern
+     #:form 'circular
+     #:repeat-rows 1
+     ((rows 1) rss))
+   (Pattern
+    "" "" '#() '#()
+    (vector (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn))
+    (make-rowmap '#(#(1)))
+    (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+
+  ;; pattern-substitute-stitches
+  (check-exn
+   exn:fail?
+   (λ ()
+     (pattern
+       #:form 'circular
+       #:repeat-rows 1
+       ((rows 1) gs))))
+
+  ;; pattern-substitute-stitches
+  (check-exn
+   exn:fail?
+   (λ ()
      (pattern
        #:repeat-rows 1
-       ((rows 1) k)))
-    #f)
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:repeat-rows #f
-      ((rows 1 2) gs))
-    (pattern
-      #:repeat-rows #f
-      ((rows 1) k)
-      ((rows 2) k)))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:form 'circular
-      #:repeat-rows #f
-      ((rows 1 2) gs))
-    (pattern
-      #:form 'circular
-      #:repeat-rows #f
-      ((rows 1) k)
-      ((rows 2) p)))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:repeat-rows #f
-      ((rows 1 2) ss))
-    (pattern
-      #:repeat-rows #f
-      ((rows 1) k)
-      ((rows 2) p)))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:repeat-rows #f
-      ((rows 1 2) rss))
-    (pattern
-      #:repeat-rows #f
-      ((rows 1) p)
-      ((rows 2) k)))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:repeat-rows 1
-      ((rows 1) gs))
-    (Pattern
-     "" "" '#() '#()
-     (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
-     (make-rowmap '#(#(1)))
-     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-     1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:form 'circular
-      #:repeat-rows 1
-      ((rows 1) ss))
-    (Pattern
-     "" "" '#() '#()
-     (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
-     (make-rowmap '#(#(1)))
-     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-     1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
-
-   ;; pattern-substitute-stitches
-   (check-equal?
-    (pattern
-      #:form 'circular
-      #:repeat-rows 1
-      ((rows 1) rss))
-    (Pattern
-     "" "" '#() '#()
-     (vector (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn))
-     (make-rowmap '#(#(1)))
-     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-     1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+       ((rows 1) ss))))
 
   ;; pattern-substitute-stitches
   (check-exn
    exn:fail?
    (λ ()
-    (pattern
-      #:form 'circular
-      #:repeat-rows 1
-      ((rows 1) gs))))
+     (pattern
+       #:repeat-rows 1
+       ((rows 1) rss))))
 
-  ;; pattern-substitute-stitches
-  (check-exn
-   exn:fail?
-   (λ ()
-    (pattern
-      #:repeat-rows 1
-      ((rows 1) ss))))
-
-  ;; pattern-substitute-stitches
-  (check-exn
-   exn:fail?
-   (λ ()
-    (pattern
-      #:repeat-rows 1
-      ((rows 1) rss))))
-
-   )
-  ;; end
+  )
+;; end
 

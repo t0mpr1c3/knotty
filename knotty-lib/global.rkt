@@ -39,10 +39,7 @@
 (define-type
   Technique
   (U 'hand
-     'machine-texture
-     'machine-fair-isle
-     'machine-intarsia
-     'machine-jacquard))
+     'machine))
 (define-predicate Technique? Technique)
 
 (define-type

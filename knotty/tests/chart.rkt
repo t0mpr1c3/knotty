@@ -1224,7 +1224,7 @@
 
   (check-equal?
    (let* ([owl-opt~ (struct-copy Options owl-opt
-                                 [technique 'machine-jacquard])]
+                                 [technique 'machine])]
           [owl~ (struct-copy Pattern owl
                              [options owl-opt~])]
           [owl-chart~ (pattern->chart owl~)])

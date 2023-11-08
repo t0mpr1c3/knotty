@@ -96,9 +96,9 @@
   (check-equal?
    (pattern->text
     (pattern
-      #:technique 'machine-texture
+      #:technique 'machine
       #:form 'flat
-      #:side 'right
+      #:side 'left
       #:face 'rs
       #:keywords '#("knitting" "cool stuff")
       #:attribution '#(#s(Author "Tom" "") #s(Author "Dick" "") #s(Author "Harry" ""))
@@ -113,13 +113,34 @@
     "Notes:\n"
     "This machine knitting pattern is designed to be knit flat.\n"
     "Every row is knit on the RS of the piece.\n"
-    "The first row starts on the right hand side of the pattern.\n\n"
+    "The first row starts on the left hand side of the pattern.\n\n"
     "Yarn:\nMC - #FEEDEE pink lace \n\n"
     ;"Stitches:\nk2tog : Right-slanting decrease\n\n"
     "Instructions:\n"
     "Cast on a multiple of 2 stitches.\n"
     "Row 1 (RS): * in MC k1, p1; repeat from * to end of row.\n"
     "Repeat row 1.\n"))
+  
+  ;; test `pattern->text`
+  (check-equal?
+   (pattern->text
+    (pattern
+      #:technique 'machine
+      #:form 'circular
+      #:side 'right
+      #:face 'ws
+      (yarn #xfeedee "pink" 1)
+      ((row 1) (repeat k1 p1) k1)))
+   (string-append
+    "Notes:\n"
+    "This machine knitting pattern is designed to be knit in the round.\n"
+    "Every round is knit on the WS of the piece.\n"
+    "Each round starts on the right hand side of the pattern.\n\n"
+    "Yarn:\nMC - #FEEDEE pink super fine \n\n"
+    ;"Stitches:\nk2tog : Right-slanting decrease\n\n"
+    "Instructions:\n"
+    "Cast on a multiple of 2 stitches plus 1 and join in the round.\n"
+    "Round 1 (WS): * in MC k1, p1; repeat from * to last stitch; in MC k1.\n"))
 
   ;; FIXME need more varied tests
 
