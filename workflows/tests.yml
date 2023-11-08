@@ -1,0 +1,106 @@
+name: tests
+on:
+  push:
+    branches:
+      - 'main'
+      - 'dev*'
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.11
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          version: 'stable'
+      - name: Set variables
+        id: vars
+        run: |
+          echo "sha=$(git rev-parse --short head)" >> $GITHUB_OUTPUT
+          echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
+      - name: Cache Racket dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/racket
+            ~/.local/share/racket
+          key: ${{ runner.os }}-racket-${{ steps.vars.outputs.racket-version }}
+      - name: Install dependencies
+        run:  |
+          echo "installing dependencies"
+          raco pkg install --auto --batch --no-docs --skip-installed \
+               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing
+      - name: (Re)install knotty from source
+        run:  |
+          pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
+          echo "packages:" $pkgs
+          if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
+          then
+            echo "updating knotty"
+            raco pkg update --auto --batch --no-docs --force --type dir knotty
+          else
+            echo "installing knotty"
+            raco pkg install --auto --batch --no-docs --force --type dir knotty
+          fi
+#      - name: Run headless tests (to test GUI in DrRacket)
+#        uses: coactions/setup-xvfb@v1.0.1
+#        with:
+#          run: raco test knotty
+      - name: Run tests (omit scribblings directory)
+        run: raco test knotty/tests/*.rkt
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    name: Report coverage
+    environment: test-env
+    env:
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.11
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          version: 'stable'
+      - name: Set variables
+        id: vars
+        run: |
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
+      - name: Cache Racket dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/racket
+            ~/.local/share/racket
+          key: ${{ runner.os }}-racket-${{ steps.vars.outputs.racket-version }}
+      - name: Install dependencies
+        run:  |
+          echo "installing dependencies"
+          raco pkg install --auto --batch --no-docs --skip-installed \
+               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing cover-coveralls
+      - name: (Re)install knotty from source
+        run:  |
+          pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
+          echo "packages:" $pkgs
+          if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
+          then
+            echo "updating knotty"
+            raco pkg update --auto --batch --no-docs --force --type dir knotty
+          else
+            echo "installing knotty"
+            raco pkg install --auto --batch --no-docs --force --type dir knotty
+          fi
+          cd ..
+#      - name: Run headless coverage report
+#        uses: coactions/setup-xvfb@v1.0.1
+#        with:
+#          run: raco cover -b -f coveralls -n knotty/scribblings -n knotty/test -p knotty knotty-lib
+      - name: Run coverage report
+        run: raco cover -b -f coveralls -n knotty/scribblings -n knotty/test -p knotty knotty-lib

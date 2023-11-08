@@ -1,0 +1,59 @@
+name: docs
+on:
+  push:
+    branches:
+      - 'main'
+      - 'dev*'
+    paths:
+      - 'knotty/scribblings/**'
+      - '.github/workflows/docs.yml'
+defaults:
+  run:
+    shell: bash
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    name: Build and deploy backup docs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.11
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          version: 'stable'
+      - name: Save Racket version
+        run : racket --version > .racket-version
+      - name: Install dependencies
+        run:  |
+          echo "installing dependencies"
+          raco pkg install --auto --batch --no-docs --skip-installed \
+               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing
+      - name: (Re)install knotty from source
+        run:  |
+          pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
+          echo "packages:" $pkgs
+          if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
+          then
+            echo "updating knotty"
+            raco pkg update --auto --batch --no-docs --force --type dir knotty
+          else
+            echo "installing knotty"
+            raco pkg install --auto --batch --no-docs --force --type dir knotty
+          fi
+      - name: Build docs for hosting
+        run:  |
+          mkdir -p manual/knotty/leaf-chart/css
+          mkdir -p manual/knotty/leaf-chart/icon
+          scribble +m --redirect-main http://pkg-build.racket-lang.org/doc/ --htmls --dest manual knotty/scribblings/knotty.scrbl
+          cp -R knotty/scribblings/leaf-chart/index.html manual/knotty/leaf-chart/
+          cp -R knotty-lib/resources/css/knotty*.css manual/knotty/leaf-chart/css/
+          cp -R knotty-lib/resources/icon/favicon.ico manual/knotty/leaf-chart/icon/
+          #cp -R knotty/scribblings/leaf-chart/ manual/knotty
+          ls -R manual
+      - name: Push to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          folder: 'manual/knotty'
+          branch: 'pages'
