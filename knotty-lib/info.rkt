@@ -35,7 +35,7 @@
     "sweet-exp-lib"
     "named-arguments"
     "threading-lib"
-    "brag"
+    "brag-lib"
     "br-parser-tools"
     "web-server-lib"
     "sxml"

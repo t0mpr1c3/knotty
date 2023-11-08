@@ -43,7 +43,7 @@
     "rackunit-typed"
     "sweet-exp-lib"
     "threading-lib"
-    "wxme-lib"))
+    "web-server-lib"))
 
 (define implies
   '("knotty-lib"))
