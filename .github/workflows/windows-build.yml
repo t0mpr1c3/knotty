@@ -37,21 +37,28 @@ jobs:
         run:  |
           echo "installing dependencies"
           raco pkg install --auto --batch --no-docs --skip-installed \
-               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing
-      - name: (Re)install knotty-lib from source
-        shell: bash
+               sweet-exp-lib threading-lib brag-lib br-parser-tools \
+               sxml html-template html-parsing
+      - name: (Re)install knotty from source
         run:  |
           pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
-          cd knotty-lib
-          if [ $(echo $pkgs | grep -cw -e knotty-lib -e knotty) -gt 0 ]
+          echo "packages:" $pkgs
+          if [ $(echo $pkgs | grep -cw knotty-lib) -gt 0 ]
           then
             echo "updating knotty-lib"
-            raco pkg update --auto --batch --no-docs --force --checksum ${{ steps.vars.outputs.sha }} --name knotty-lib
+            raco pkg update --auto --batch --no-docs --force --type dir knotty-lib
           else
             echo "installing knotty-lib"
-            raco pkg install --auto --batch --no-docs --force --checksum ${{ steps.vars.outputs.sha }} --name knotty-lib
+            raco pkg install --auto --batch --no-docs --force --type dir knotty-lib
           fi
-          cd ..
+          if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
+          then
+            echo "updating knotty"
+            raco pkg update --auto --batch --no-docs --force --type dir knotty
+          else
+            echo "installing knotty"
+            raco pkg install --auto --batch --no-docs --force --type dir knotty
+          fi
       - name: Set knotty VERSION
         shell: bash
         run:  |

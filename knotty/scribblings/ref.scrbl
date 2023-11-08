@@ -39,7 +39,7 @@ The following reference materials for the Knotty module use the standard
 Racket notation with enclosing parentheses. Knotty accepts other syntax
 styles as well: for more information, see the @racket[sweet-exp]
 @hyperlink{https://sourceforge.net/p/readable/wiki/Examples/
-documentation}.
+ documentation}.
 
 
 @section{Structs}
@@ -54,11 +54,11 @@ documentation}.
   [cable boolean?]
   [rs-string bytes?]
   [ws-string bytes?]
-  [dak-symbol byte?]
-  [dak-rev-symbol byte?]
+  [alt-symbol (or/c byte? #f)]
+  [alt-rev-symbol (or/c byte? #f)]
   [stitches-in natural?]
   [stitches-out natural?]
-  [offset integer?]
+  [offset exact-integer?]
   [repeatable? boolean?]
   [variable-repeat? boolean?]
   [hand-compatible? boolean?]
@@ -69,9 +69,9 @@ documentation}.
 
 @defstruct*[
  Yarn
- ([color fixnum?]
+ ([color (and/c fixnum? nonnegative?)]
   [name string?]
-  [weight (option/c byte?)]
+  [weight (or/c byte? #f)]
   [fiber string?]
   [brand string?])
  #:transparent]{
@@ -80,37 +80,38 @@ documentation}.
  Color is coded as a 24-bit RGB number. Yarn weight can be a number
  between 0 and 7, corresponding to the
  @hyperlink{https://www.craftyarncouncil.com/standards/yarn-weight-system
- CYC categories}, or @racket[#f] if unspecified.
+  CYC categories}, or @racket[#f] if unspecified.
 
  A warning will be issued if the yarn weight appears incompatible with the
  pattern @racket[Gauge].}
 
 @defstruct*[
  Stitch
-  ([stitchtype symbol?]
-   [yarn (option/c byte?)])
-  #:prefab]{
+ ([stitchtype symbol?]
+  [yarn (or/c byte? #f)])
+ #:prefab]{
  Structure type for a single stitch.}
 
 @defstruct*[
  Pattern
  ([name string?]
   [url string?]
-  [attribution (vectorof Author?)]
-  [keywords (vectorof string?)]
+  [attribution (listof (prefab/c 'Author string? string?))]
+  [keywords (listof string?)]
   [rowspecs (vectorof Rowspec?)]
   [rowmap Rowmap?]
   [rowcounts (vectorof Rowcount?)]
+  [nrows (and/c exact-integer? positive?)]
   [options Options?]
   [repeats Repeats?]
   [max-colors natural?]
-  [yarns (vectorof Yarn?)])
+  [yarns (vectorof (or/c Yarn? #f))])
  #:transparent]{
  Structure type for a stitch pattern.}
 
 @defstruct*[
  Rows
- ([rownums (listof positive-integer?)]
+ ([rownums (listof (and/c exact-integer? positive?))]
   [rowspec Rowspec?])
  #:transparent]{
  Structure type for one or more rows that contain identical stitch information.}
@@ -119,34 +120,34 @@ documentation}.
  Rowspec
  ([stitches Tree?]
   [memo string?]
-  [default-yarn (option/c byte?)]
+  [default-yarn byte?]
   [yarns-used natural?]
-  [turn Turn?])
+  [turn (or/c 'no-turn 'turn 'w&t)])
  #:transparent]{
  Structure type for the stitch information in one or more rows.}
 
 @defstruct*[
  Rowmap
- ([numbers (vectorof (vectorof positive-integer?))]
+ ([numbers (vectorof (vectorof (and/c exact-integer? positive?)))]
   [index (vectorof natural?)])
  #:transparent]{
  Data structure for row numbers.}
 
 @defstruct*[
  Rowcount
- ([offset integer?]
-  [stitches-in-before-fix (option/c natural?)]
-  [stitches-in-before-mult (option/c natural?)]
-  [stitches-in-after-fix (option/c natural?)]
-  [stitches-in-after-mult (option/c natural?)]
-  [stitches-in-total (option/c natural?)]
-  [stitches-out-total (option/c natural?)]
-  [stitches-in-fix (option/c natural?)]
-  [stitches-out-fix (option/c natural?)]
-  [stitches-in-var (option/c natural?)]
-  [stitches-out-var (option/c natural?)]
-  [multiple-fix (option/c natural?)]
-  [multiple-var (option/c natural?)]
+ ([offset exact-integer?]
+  [stitches-in-before-fix (or/c natural? #f)]
+  [stitches-in-before-mult (or/c natural? #f)]
+  [stitches-in-after-fix (or/c natural? #f)]
+  [stitches-in-after-mult (or/c natural? #f)]
+  [stitches-in-total (or/c natural? #f)]
+  [stitches-out-total (or/c natural? #f)]
+  [stitches-in-fix (or/c natural? #f)]
+  [stitches-out-fix (or/c natural? #f)]
+  [stitches-in-var (or/c natural? #f)]
+  [stitches-out-var (or/c natural? #f)]
+  [multiple-fix (or/c natural? #f)]
+  [multiple-var (or/c natural? #f)]
   [var-count natural?])
  #:transparent]{
  Structure type for stitch counts for a row.}
@@ -160,31 +161,31 @@ documentation}.
 
 @defstruct*[
  Options
- ([technique Technique?]
-  [form Form?]
-  [face Face?]
-  [side Side?]
-  [gauge (option/c Gauge?)])
+ ([technique (or/c 'hand 'machine)]
+  [form (or/c 'flat 'circular)]
+  [face (or/c 'flat 'circular)]
+  [side (or/c 'flat 'circular)]
+  [gauge (or/c Gauge? #f)])
  #:transparent]{
  Structure type for the knitting techniques used for a stitch pattern.}
 
 @defstruct*[
  Gauge
- ([stitch-count positive-integer?]
-  [stitch-measurement positive-integer?]
-  [row-count positive-integer?]
-  [row-measurement positive-integer?]
-  [measurement-unit Measurement-Unit?])
+ ([stitch-count (and/c exact-integer? positive?)]
+  [stitch-measurement (and/c exact-integer? positive?)]
+  [row-count (and/c exact-integer? positive?)]
+  [row-measurement (and/c exact-integer? positive?)]
+  [measurement-unit (or/c 'inch 'cm)])
  #:prefab]{
  Structure type for gauge. For example, a gauge of 10 stitches and
  12 rows in 4 inches would be encoded as @racket[(Gauge 10 4 12 4 'inch)].}
 
 @defstruct*[
  Repeats
- ([caston-multiple (option/c natural?)]
-  [caston-addition (option/c natural?)]
-  [first-repeat-row (option/c positive-integer?)]
-  [last-repeat-row (option/c positive-integer?)])
+ ([caston-multiple (or/c natural? #f)]
+  [caston-addition (or/c natural? #f)]
+  [first-repeat-row (or/c (and/c exact-integer? positive?) #f)]
+  [last-repeat-row (or/c (and/c exact-integer? positive?) #f)])
  #:transparent]{
  Structure type for the horizontal and vertical repeats for a stitch pattern.}
 
@@ -193,17 +194,17 @@ documentation}.
  ([rows (vectorof Chart-row?)]
   [width natural?]
   [height natural?]
-  [h-repeats positive-integer?]
-  [v-repeats positive-integer?]
+  [h-repeats (and/c exact-integer? positive?)]
+  [v-repeats (and/c exact-integer? positive?)]
   [name string?]
-  [yarns (vectorof Yarn?)])
+  [yarns (vectorof (or/c #f Yarn?))])
  #:transparent]{
  Structure type for a knitting chart.}
 
 @defstruct*[
  Chart-row
- ([stitches (vectorof Stitch?)]
-  [default-yarn (option/c byte?)]
+ ([stitches (vectorof (prefab/c 'Stitch symbol? (or/c byte? #f)))]
+  [default-yarn byte?]
   [rs? boolean?]
   [r2l? boolean?]
   [short? boolean?])
@@ -217,7 +218,7 @@ documentation}.
  #:kind "type"
  (Leaf (Pairof count stitch))
  #:contracts ([count natural?]
-              [stitch Stitch?])]{
+              [stitch (prefab/c 'Stitch symbol? (or/c byte? #f))])]{
  Type for a run of one or more of the same kind of @racket[Stitch].}
 
 @defform[
@@ -242,7 +243,7 @@ documentation}.
 @defform[
  #:kind "type"
  (Attribution (Vectorof author))
- #:contracts ([author Author?])]{
+ #:contracts ([author (prefab/c 'Author string? string?)])]{
  Type for authorship information.}
 
 @defform[
@@ -272,8 +273,7 @@ documentation}.
 @defform[
  #:kind "type"
  (Technique sym)
- #:contracts ([sym (or/c 'hand 'machine-texture 'machine-fair-isle
-                         'machine-intarsia 'machine-jacquard)])]{
+ #:contracts ([sym (or/c 'hand 'machine)])]{
  Type for pattern technique tokens.}
 
 @defform[
@@ -309,7 +309,7 @@ documentation}.
 @defform[
  #:kind "type"
  (Rownums-input (Listof rownum))
- #:contracts ([rownum (or/c positive-integer? Rownums-input?)])]{
+ #:contracts ([rownum (or/c (and/c exact-integer? positive?) Rownums-input?)])]{
  Recursively-defined type for a collection of row numbers.}
 
 
@@ -372,29 +372,24 @@ documentation}.
  (pattern
    [#:name name string? ""]
    [#:url url string? ""]
-   [#:technique technique Technique? 'hand]
-   [#:form form Form? 'flat]
-   [#:face face Face? 'rs]
-   [#:side side Side? 'right]
-   [#:gauge gauge (option/c Gauge?) #f]
-   [yarn Yarn? '#(Yarn #xFFFFFF "" "" "" "")]
-   [rows Rows?] ...)
+   [#:attribution attribution (listof (prefab/c 'Author string? string?)) null]
+   [#:keywords keywords (listof string?) null]
+   [#:technique technique (or/c 'hand 'machine) 'hand]
+   [#:form form (or/c 'circular 'flat) 'flat]
+   [#:face face (or/c 'ws 'rs) 'rs]
+   [#:side side (or/c 'right 'left) 'right]
+   [#:gauge gauge (or/c Gauge? #f) #f]
+   [#:repeat-rows repeat-rows (or/c (and/c exact-integer? positive?)
+                                    (list/c (and/c exact-integer? positive?)
+                                            (and/c exact-integer? positive?))
+                                    #f) #f]
+   [rows-yarns (or/c (listof (or/c Yarn? Rows?)) Yarn? Rows?) ...])
  Pattern?]{
  A @racket[Pattern] constructor that takes a sequence of
  @racket[Yarn] and @racket[Rows] data structures as arguments.
 
  The @racket[technique] option sets whether the piece is worked by
- @racket['hand] or machine knit using one of the following methods:
-
- @itemlist[
- @item{@racket['machine-texture] for single-yarn machine knitting,
-   such as lace}
-
- @item{@racket['machine-fair-isle] for two-color patterns}
-
- @item{@racket['machine-jacquard] for multicolor patterns}
-
- @item{@racket['machine-intarsia] for patterns with blocks of color.}]
+ @racket['hand] or @racket['machine] knit.
 
  Use @racket[form] to set whether the piece is worked @racket['flat]
  or in the round (@racket['circular]).
@@ -411,19 +406,13 @@ documentation}.
 
  Certain combinations of options are disallowed. In hand knitting, a
  piece that starts on the RS must be worked right to left. Conversely
- a piece worked on the WS must be knit left to right. Only single-
- color (textured) machine knits can be knit on the WS.
-
- Machine knit Fair Isle patterns are restricted to a maximum of two
- different yarns  per row. Machine Jacquard is limited to six colors
- per row.}
+ a piece worked on the WS must be knit left to right.}
 
 @defproc[
  ((rows
    [#:memo memo string? ""]
-   [#:stitches stitches-out-total natural? 0]
-   [#:yarn default-yarn (option/c symbol?) #f]
-   [rownums (or/c positive-integer? Rownums-input?)] ...)
+   [#:yarn default-yarn (or/c symbol? #f) #f]
+   [rownums (or/c (and/c exact-integer? positive?) Rownums-input?)] ...)
   [xs (or/c Leaf? Node? Treelike?)] ...)
  Row?]{
  The arguments for this function are row numbers or sequences of row
@@ -444,49 +433,49 @@ documentation}.
 
 @defproc*[
  ([(sequence
-   [end positive-integer?])
-  list?]
- [(sequence
-   [start positive-integer?]
-   [end positive-integer?])
-  list?]
- [(sequence
-   [start positive-integer?]
-   [end positive-integer?]
-   [step positive-integer?])
-  list?])]{
-@racket[sequence] (or alternatively, @racket[seq]) is a helper function
-  used to define row numbers.
+    [end (and/c exact-integer? positive?)])
+   list?]
+  [(sequence
+    [start (and/c exact-integer? positive?)]
+    [end (and/c exact-integer? positive?)])
+   list?]
+  [(sequence
+    [start (and/c exact-integer? positive?)]
+    [end (and/c exact-integer? positive?)]
+    [step (and/c exact-integer? positive?)])
+   list?])]{
+ @racket[sequence] (or alternatively, @racket[seq]) is a helper function
+ used to define row numbers.
 
-@racket[(sequence end)] gives a sequence of consecutive integers from 1 to
-  @racket[end], inclusive.
+ @racket[(sequence end)] gives a sequence of consecutive integers from 1 to
+ @racket[end], inclusive.
 
-@racket[(sequence start end)] gives a sequence from @racket[start] to
-  @racket[end], inclusive.
+ @racket[(sequence start end)] gives a sequence from @racket[start] to
+ @racket[end], inclusive.
 
-@racket[(sequence start end step)] gives a sequence from @racket[start] to
-  @racket[end] with a step size of @racket[step].}
+ @racket[(sequence start end step)] gives a sequence from @racket[start] to
+ @racket[end] with a step size of @racket[step].}
 
 @defproc*[
  ([(seq
-   [end positive-integer?])
-  list?]
- [(seq
-   [start positive-integer?]
-   [end positive-integer?])
-  list?]
- [(seq
-   [start positive-integer?]
-   [end positive-integer?]
-   [step positive-integer?])
-  list?])]{
+    [end (and/c exact-integer? positive?)])
+   list?]
+  [(seq
+    [start (and/c exact-integer? positive?)]
+    [end (and/c exact-integer? positive?)])
+   list?]
+  [(seq
+    [start (and/c exact-integer? positive?)]
+    [end (and/c exact-integer? positive?)]
+    [step (and/c exact-integer? positive?)])
+   list?])]{
  An alias for @racket[sequence].}
 
 @defproc[
  (yarn
-  [color fixnum?]
+  [color (and/c fixnum? nonnegative?)]
   [name string? ""]
-  [weight string? ""]
+  [weight (or/c byte? #f) #f]
   [fiber string? ""]
   [brand string? ""])
  Yarn?]{
@@ -499,7 +488,7 @@ documentation}.
 
 @defproc[
  ((with-yarn
-      [n (option/c byte?)])
+      [n (or/c byte? #f)])
   [xs (or/c Leaf? Node? Treelike?)]
   ...)
  Tree?]{
@@ -541,19 +530,6 @@ documentation}.
  void?]{
  Displays a pattern as a graphical knitting chart.}
 
-@; comment this out as we now (sensibly) have separate instructions for hand and machine knitting
-@; FIXME needs to be reimplemented
-@;|{
-@defproc[
- (check-floats
-  [p Pattern?]
-  [max-length positive-integer?])
- boolean?]{
- Returns a value of @racket[#f] if any of the floats on the reverse side of a
- colorwork pattern exceed a specified maximum length. Shows a chart with long
- floats blanked out. Currently implemented for hand knits only.}
- }|
-
 @defproc[
  (text
   [p Pattern?])
@@ -568,34 +544,19 @@ documentation}.
  Updates the default knitting instructions for the stitch corresponding to
  @racket[stitch-id].}
 
-@;{
- @defproc[
- (import-json
-  [filename path-string?])
- Pattern?]{
-  Loads a Knotty pattern from a JSON file.}
-
- @defproc[
- (export-json
-  [p Pattern?]
-  [filename path-string?])
- bytes?]{
-  Saves a Knotty Pattern data structure as a JSON file.}
-}
-
 @defproc[
  (import-xml
   [filename path-string?])
  Pattern?]{
  Loads a Knotty pattern from an XML file. The XML schema should conform to
  @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty.xsd
- knotty.xsd}.}
+  knotty.xsd}.}
 
 @defproc[
  (recover
   [filename path-string?])
  Pattern?]{
-An alias for @racket[import-xml].}
+ An alias for @racket[import-xml].}
 
 @defproc[
  (export-xml
@@ -604,20 +565,20 @@ An alias for @racket[import-xml].}
  bytes?]{
  Saves a Knotty Pattern data structure as an XML file with schema
  @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty.xsd
- knotty.xsd}.  This XML format can be converted directly to an HTML page of
+  knotty.xsd}.  This XML format can be converted directly to an HTML page of
  knitting instructions using the stylesheet
  @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty-text.xsl
- knotty-text.xsl}.  It can also be turned into a color knitting chart using the
+  knotty-text.xsl}.  It can also be turned into a color knitting chart using the
  stylesheet
  @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty-chart.xsl
- knotty-chart.xsl}.}
+  knotty-chart.xsl}.}
 
 @defproc[
  (save
   [p Pattern?]
   [filename path-string?])
  bytes?]{
-An alias for @racket[export-xml].}
+ An alias for @racket[export-xml].}
 
 @defproc[
  (import-ks
@@ -641,10 +602,18 @@ An alias for @racket[export-xml].}
  (import-png
   [filename path-string?]
   [#:name name string? filename]
-  [#:technique technique Technique? 'hand]
-  [#:form form Form? 'flat]
-  [#:face face Face? 'rs]
-  [#:side side Side? 'right])
+  [#:url url string? ""]
+  [#:attribution attribution (listof (prefab/c 'Author string? string?)) null]
+  [#:keywords keywords (listof string?) null]
+  [#:technique technique (or/c 'hand 'machine) 'hand]
+  [#:form form (or/c 'circular 'flat) 'flat]
+  [#:face face (or/c 'ws 'rs) 'rs]
+  [#:side side (or/c 'right 'left) 'right]
+  [#:gauge gauge (or/c Gauge? #f) #f]
+  [#:repeat-rows repeat-rows (or/c (and/c exact-integer? positive?)
+                                   (list/c (and/c exact-integer? positive?)
+                                           (and/c exact-integer? positive?))
+                                   #f) #f])
  Pattern?]{
  Loads a PNG file and converts it into a multicolor knitting pattern.
 
@@ -652,7 +621,7 @@ An alias for @racket[export-xml].}
  will be raised if the pattern is not compatible with the options supplied.
 
  The default name for the pattern is the filename. Yarns are assigned names
- that correspond to their approximate color.}
+ that approximate their color.}
 
 @defproc[
  (pattern-rs<->ws
@@ -672,7 +641,7 @@ An alias for @racket[export-xml].}
 @defproc[
  (pattern-set-technique
   [p Pattern?]
-  [technique Technique?])
+  [technique (or/c 'hand 'machine)])
  Pattern?]{
  Changes the pattern to use the specified technique. Checks are performed to ensure
  that the stitch and color information are appropriate for the new technique. If
@@ -686,16 +655,16 @@ An alias for @racket[export-xml].}
  Assigns the pattern name.}
 
 @defproc[
-(pattern-set-attribution
+ (pattern-set-attribution
   [p Pattern?]
-  [attribution (vectorof Author?)])
+  [attribution (listof (prefab/c 'Author string? string?))])
  Pattern?]{
  Assigns the pattern authorship information.}
 
 @defproc[
-(pattern-set-keywords
+ (pattern-set-keywords
   [p Pattern?]
-  [keywords (vectorof string?)])
+  [keywords (listof string?)])
  Pattern?]{
  Sets the pattern keywords.}
 
@@ -753,370 +722,370 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
 @racket[turnr] and @racket[w&tl] / @racket[w&tr] as necessary.
 
 @(define ktbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ktbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ktbl #t)))))
 @(define ptbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ptbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ptbl #t)))))
 @(define kb-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'kb #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'kb #t)))))
 @(define pb-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'pb #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'pb #t)))))
 @(define slwyib-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'slwyib #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'slwyib #t)))))
 @(define slwyif-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'slwyif #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'slwyif #t)))))
 @(define slkwyib-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'slkwyib #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'slkwyib #t)))))
 @(define slkwyif-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'slkwyif #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'slkwyif #t)))))
 @(define k2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k2tog #t)))))
 @(define p2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p2tog #t)))))
 @(define k2togtbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k2tog-tbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k2tog-tbl #t)))))
 @(define p2togtbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p2tog-tbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p2tog-tbl #t)))))
 @(define k3tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k3tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k3tog #t)))))
 @(define p3tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p3tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p3tog #t)))))
 @(define k3togtbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k3tog-tbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k3tog-tbl #t)))))
 @(define p3togtbl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p3tog-tbl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p3tog-tbl #t)))))
 @(define k4tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k4tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k4tog #t)))))
 @(define p4tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p4tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p4tog #t)))))
 @(define k5tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k5tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k5tog #t)))))
 @(define p5tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p5tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p5tog #t)))))
 @(define ssk-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ssk #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssk #t)))))
 @(define ssp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ssp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssp #t)))))
 @(define ssk2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ssk2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssk2tog #t)))))
 @(define ssp2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ssp2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssp2tog #t)))))
 @(define sssk-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'sssk #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssk #t)))))
 @(define sssp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'sssp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssp #t)))))
 @(define sssk2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'sssk2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssk2tog #t)))))
 @(define sssp2tog-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'sssp2tog #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssp2tog #t)))))
 @(define cdd-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'cdd #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'cdd #t)))))
 @(define cddp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'cddp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'cddp #t)))))
 @(define yo-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'yo #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'yo #t)))))
 @(define yo2w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'yo2w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'yo2w #t)))))
 @(define yo3w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'yo3w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'yo3w #t)))))
 @(define yo4w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'yo4w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'yo4w #t)))))
 @(define ml-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ml #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ml #t)))))
 @(define mr-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mr #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mr #t)))))
 @(define mlp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mlp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mlp #t)))))
 @(define mrp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mrp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mrp #t)))))
 @(define m-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'm #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'm #t)))))
 @(define mp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mp #t)))))
 @(define cdi-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'cdi #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'cdi #t)))))
 @(define cdip-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'cdip #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'cdip #t)))))
 @(define kyk-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'kyk #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'kyk #t)))))
 @(define pyp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'pyp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'pyp #t)))))
 @(define inc4k-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'inc4k #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'inc4k #t)))))
 @(define inc4p-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'inc4p #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'inc4p #t)))))
 @(define inc5k-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'inc5k #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'inc5k #t)))))
 @(define inc5p-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'inc5p #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'inc5p #t)))))
 @(define k2w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k2w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k2w #t)))))
 @(define p2w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p2w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p2w #t)))))
 @(define k3w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'k3w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'k3w #t)))))
 @(define p3w-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'p3w #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'p3w #t)))))
 @(define pbk-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'pbk #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'pbk #t)))))
 @(define pbp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'pbp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'pbp #t)))))
 @(define drop-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'drop-st #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'drop-st #t)))))
 @(define mb-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mb #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mb #t)))))
 @(define mb-ws-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'mb-ws #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'mb-ws #t)))))
 @(define sp-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'sp #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'sp #t)))))
 @(define turnl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'turnl #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'turnl #t)))))
 @(define turnr-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'turnr #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'turnr #t)))))
 @(define turn-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'turn #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'turn #t)))))
 @(define tl-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'tl #f)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'tl #f)))))
 @(define tuck-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'tuck #f)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'tuck #f)))))
 @(define lt-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lt #f)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lt #f)))))
 @(define rt-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rt #f)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rt #f)))))
 @(define en-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'en #f)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'en #f)))))
 @(define ss-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'ss #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'ss #t)))))
 @(define rss-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rss #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rss #t)))))
 @(define gs-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'gs #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'gs #t)))))
 @(define w&t-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'w&t #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'w&t #t)))))
 
 @tabular[
  #:sep @hspace[1]
  #:row-properties '(bottom-border ())
  (list (list @bold{Symbol} @bold{Stitch (RS)}              @bold{Stitch (WS)}              @bold{Macro}         @bold{H}    @bold{M})
 
- (list @element[dash "¼"]  "Cast on"                       "Cast on"                 @elem[@racket[co]"*"]      "✓"        "✓")
- (list @element[dash "T"]  "Bind off"                      "Bind off"                @elem[@racket[bo]"*"]      "✓"        "✓")
- (list @element[dash "k"]  "Knit"                          "Purl"                    @elem[@racket[k]"*"]       "✓"        "✓")
- (list @element[dash "p"]  "Purl"                          "Knit"                    @elem[@racket[p]"*"]       "✓"        "✓")
- (list @element[dash "n"]  @element[ktbl-style
-                           "Knit tbl"]                     @element[ptbl-style
-                                                           "Purl tbl"]               @elem[@racket[ktbl]"*"]    "✓"        "-")
- (list @element[dash "?"]  @element[ptbl-style
-                           "Purl tbl"]                     @element[ktbl-style
-                                                           "Knit tbl"]               @elem[@racket[ptbl]"*"]    "✓"        "-")
- (list @element[dash "!"]  @element[kb-style
-                           "Knit below"]                   @element[pb-style
-                                                           "Purl below"]             @elem[@racket[kb]"_"]      "✓"        "-")
- (list @element[dash "%"]  @element[pb-style
-                           "Purl below"]                   @element[kb-style
-                                                           "Knit below"]             @elem[@racket[pb]"_"]      "✓"        "-")
- (list @element[dash "&"]  @element[slwyib-style
-                           "Slip purlwise wyib"]           @element[slwyif-style
-                                                           "Slip purlwise wyif"]     @elem[@racket[slwyib]"_"]  "✓"        "✓")
- (list @element[dash "'"]  @element[slwyif-style
-                           "Slip purlwise wyif"]           @element[slwyib-style
-                                                           "Slip purlwise wyib"]     @elem[@racket[slwyif]"_"]  "✓"        "-")
- (list @element[dash "*"]  @element[slkwyib-style
-                           "Slip knitwise wyib"]           @element[slkwyif-style
-                                                           "Slip knitwise wyif"]     @elem[@racket[slkwyib]"_"] "✓"        "-")
- (list @element[dash "Q"]  @element[slkwyif-style
-                           "Slip knitwise wyif"]           @element[slkwyib-style
-                                                           "Slip knitwise wyib"]     @elem[@racket[slkwyif]"_"] "✓"        "-")
- (list @element[dash "U"]  @element[k2tog-style
-                           "Knit 2 together"]              @element[ssp-style
-                                                           "Slip slip purl"]               @racket[k2tog]       "✓"        "✓")
- (list @element[dash "W"]  @element[p2tog-style
-                           "Purl 2 together"]              @element[ssk-style
-                                                           "Slip slip knit"]               @racket[p2tog]       "✓"        "✓")
- (list @element[dash "V"]  @element[ssk-style
-                           "Slip slip knit"]               @element[p2tog-style
-                                                           "Purl 2 together"]              @racket[ssk]         "✓"        "✓")
- (list @element[dash "X"]  @element[ssp-style
-                           "Slip slip purl"]               @element[k2tog-style
-                                                           "Knit 2 together"]              @racket[ssp]         "✓"        "✓")
- (list @element[dash "j"]  @element[cdd-style
-                           "Centered double dec"]          @element[cddp-style
-                                                           "Centered double dec purl"]     @racket[cdd]         "✓"        "†")
- (list @element[dash "("]  @element[cddp-style
-                           "Centered double dec purl"]     @element[cdd-style
-                                                           "Centered double dec"]          @racket[cddp]        "✓"        "†")
- (list @element[dash "s"]  @element[k3tog-style
-                           "Knit 3 together"]              @element[sssp-style
-                                                           "Slip slip slip purl"]          @racket[k3tog]       "✓"        "†")
- (list @element[dash "u"]  @element[k3tog-style
-                           "Purl 3 together"]              @element[sssk-style
-                                                           "Slip slip slip knit"]          @racket[p3tog]       "✓"        "†")
- (list @element[dash "t"]  @element[sssk-style
-                           "Slip slip slip knit"]          @element[p3tog-style
-                                                           "Purl 3 together"]              @racket[sssk / sk2psso] "✓"     "†")
- (list @element[dash "v"]  @element[sssp-style
-                           "Slip slip slip purl"]          @element[k3tog-style
-                                                           "Knit 3 together"]              @racket[sssp]        "✓"        "†")
- (list @element[dash "Uµ"] @element[k2togtbl-style
-                           "Knit 2 together tbl"]          @element[ssp2tog-style
-                                                           "Slip slip purl 2 tog"]         @racket[k2togtbl]    "✓"        "†")
- (list @element[dash "Wµ"] @element[p2togtbl-style
-                           "Purl 2 together tbl"]          @element[ssk2tog-style
-                                                           "Slip slip knit 2 tog"]         @racket[p2togtbl]    "✓"        "†")
- (list @element[dash "V¶"] @element[ssk2tog-style
-                           "Slip slip knit 2 tog"]         @element[p2togtbl-style
-                                                           "Purl 2 together tbl"]          @racket[ssk2tog]     "✓"        "†")
- (list @element[dash "X¶"] @element[ssp2tog-style
-                           "Slip slip purl 2 tog"]         @element[k2togtbl-style
-                                                           "Knit 2 together tbl"]          @racket[ssp2tog]     "✓"        "†")
- (list @element[dash "sµ"] @element[k3togtbl-style
-                           "Knit 3 together tbl"]          @element[sssp2tog-style
-                                                           "Slip slip slip purl 2 tog"]    @racket[k3togtbl]    "✓"        "†")
- (list @element[dash "uµ"] @element[p3togtbl-style
-                           "Purl 3 together tbl"]          @element[sssk2tog-style
-                                                           "Slip slip slip knit 2 tog"]    @racket[p3togtbl]    "✓"        "†")
- (list @element[dash "t¶"] @element[sssk2tog-style
-                           "Slip slip slip knit 3 tog"]    @element[p3togtbl-style
-                                                           "Purl 3 together tbl"]          @racket[sssk3tog]    "✓"        "†")
- (list @element[dash "v¶"] @element[sssp2tog-style
-                           "Slip slip slip purl 3 tog"]    @element[k3togtbl-style
-                                                           "Knit 3 together tbl"]          @racket[sssp3tog]    "✓"        "†")
- (list @element[dash "04"] @element[k4tog-style
-                           "Knit 4 together"]              @element[p4tog-style
-                                                           "Purl 4 together"]              @racket[dec4k]       "✓"        "-")
- (list @element[dash "[4"] @element[p4tog-style
-                           "Purl 4 together"]              @element[k4tog-style
-                                                           "Knit 4 together"]              @racket[dec4p]       "✓"        "-")
- (list @element[dash "05"] @element[k5tog-style
-                           "Knit 5 together"]              @element[p5tog-style
-                                                           "Purl 5 together"]              @racket[dec5k]       "✓"        "-")
- (list @element[dash "[5"] @element[p5tog-style
-                           "Purl 5 together"]              @element[k5tog-style
-                                                           "Knit 5 together"]              @racket[dec5p]       "✓"        "-")
- (list @element[dash "o"]  @element[yo-style
-                           "Yarn over"]                    @element[yo-style
-                                                           "Yarn over"]                    @racket[yo]          "✓"        "†")
- (list @element[dash "oB"] @element[yo2w-style
-                           "Double yarn over"]             @element[yo2w-style
-                                                           "Double yarn over"]             @racket[yo2w]        "✓"        "-")
- (list @element[dash "oC"] @element[yo3w-style
-                           "Triple yarn over"]             @element[yo3w-style
-                                                           "Triple yarn over"]             @racket[yo3w]        "✓"        "-")
- (list @element[dash "oD"] @element[yo4w-style
-                           "Quadruple yarn over"]          @element[yo4w-style
-                                                           "Quadruple yarn over"]          @racket[yo4w]        "✓"        "-")
- (list @element[dash ":"]  @element[ml-style
-                           "Make left"]                    @element[mrp-style
-                                                           "Make right purlwise"]          @racket[ml]          "✓"        "-")
- (list @element[dash ";"]  @element[mr-style
-                           "Make right"]                   @element[mlp-style
-                                                           "Make left purlwise"]           @racket[mr]          "✓"        "-")
- (list @element[dash "x"]  @element[mlp-style
-                           "Make left purlwise"]           @element[mr-style
-                                                           "Make right"]                   @racket[mlp]         "✓"        "-")
- (list @element[dash "y"]  @element[mrp-style
-                           "Make right purlwise"]          @element[ml-style
-                                                           "Make left"]                    @racket[mrp]         "✓"        "-")
- (list @element[dash ">"]  @element[m-style
-                           "Make"]                         @element[mp-style
-                                                           "Make purl"]                    @racket[m]           "✓"        "✓")
- (list @element[dash "@"]  @element[mp-style
-                           "Make purl"]                    @element[m-style
-                                                           "Make"]                         @racket[mp]          "✓"        "✓")
- (list @element[dash "i"]  @element[cdi-style
-                           "Centered double inc"]          @element[cdip-style
-                                                           "Centered double inc purl"]     @racket[cdi]         "✓"        "†")
- (list @element[dash ")"]  @element[cdip-style
-                           "Centered double inc purl"]     @element[cdi-style
-                                                           "Centered double inc"]          @racket[cdip]        "✓"        "†")
- (list @element[dash "L"]  @element[kyk-style
-                           "Knit-yo-knit"]                 @element[pyp-style
-                                                           "Purl-yo-purl"]                 @racket[kyk]         "✓"        "-")
- (list @element[dash "}"]  @element[pyp-style
-                           "Purl-yo-purl"]                 @element[kyk-style
-                                                           "Knit-yo-knit"]                 @racket[pyp]         "✓"        "-")
- (list @element[dash "*c"] @element[inc4k-style
-                           "1-to-4 increase"]              @element[inc4p-style
-                                                           "1-to-4 increase purl"]         @racket[inc4k]       "✓"        "-")
- (list @element[dash "&c"] @element[inc4p-style
-                           "1-to-4 increase purl"]         @element[inc4k-style
-                                                           "1-to-4 increase"]              @racket[inc4p]       "✓"        "-")
- (list @element[dash "*d"] @element[inc5k-style
-                           "1-to-5 increase"]              @element[inc5p-style
-                                                           "1-to-5 increase purl"]         @racket[inc5k]       "✓"        "-")
- (list @element[dash "&d"] @element[inc5p-style
-                           "1-to-5 increase purl"]         @element[inc5k-style
-                                                           "1-to-5 increase"]              @racket[inc5p]       "✓"        "-")
- (list @element[dash "]"]  @element[k2w-style
-                           "Knit wrapping needle twice"]   @element[p2w-style
-                                                           "Purl wrapping needle twice"]   @racket[k2w]         "✓"        "-")
- (list @element[dash "Ú"]  @element[p2w-style
-                           "Purl wrapping needle twice"]   @element[k2w-style
-                                                           "Knit wrapping needle twice"]   @racket[p2w]         "✓"        "-")
- (list @element[dash "Ü"]  @element[k3w-style
-                           "Knit wrapping needle 3 times"] @element[p3w-style
-                                                           "Purl wrapping needle 3 times"] @racket[k3w]         "✓"        "-")
- (list @element[dash "Û"]  @element[p3w-style
-                           "Purl wrapping needle 3 times"] @element[k3w-style
-                                                           "Knit wrapping needle 3 times"] @racket[p3w]         "✓"        "-")
- (list @element[dash "ø"]  @element[pbk-style
-                           "Place bead and knit"]          @element[pbp-style
-                                                           "Place bead and purl"]          @racket[pbk]         "✓"        "-")
- (list @element[dash "ù"]  @element[pbp-style
-                           "Place bead and purl"]          @element[pbk-style
-                                                           "Place bead and knit"]          @racket[pbp]         "✓"        "-")
- (list @element[dash "$"]  @element[mb-style
-                           "Make bobble"]                  @element[mb-ws-style
-                                                           "Make bobble (WS)"]             @racket[mb / mb-ws]  "✓"        "-")
- (list @element[dash "¿"]  @element[sp-style
-                           "Special stitch"]               @element[sp-style
-                                                           "Special stitch"]               @racket[sp]          "✓"        "✓")
- (list @element[dash ","]  @element[drop-style
-                           "Drop stitch"]                  @element[drop-style
-                                                           "Drop stitch"]                  @racket[drop-st]     "✓"        "-")
- (list @element[dash "w"]  "No stitch"                     "No stitch"                     @racket[ns]          "✓"        "✓")
- (list @element[dash "º"]  @element[tl-style
-                           "Thread lace"]                  @element[tl-style
-                                                           "Thread lace"]            @elem[@racket[tl]"_"]      "-"         "✓")
- (list @element[dash "ï"]  @element[tuck-style
-                           "Tuck"]                         @element[tuck-style
-                                                           "Tuck"]                         @racket[tuck]        "-"         "✓")
- (list @element[dash "\\"] @element[lt-style
-                           "Left transfer"]                @element[rt-style
-                                                           "Right transfer"]               @racket[lt]          "-"         "†")
- (list @element[dash "/"]  @element[rt-style
-                           "Right transfer"]               @element[lt-style
-                                                           "Left transfer"]                @racket[rt]          "-"         "†")
- (list @element[dash "."]  @element[en-style
-                           "Empty needle"]                 @element[en-style
-                                                           "Empty needle"]                 @racket[en]          "-"         "✓")
- (list @element[dash "O"]  @element[turnl-style
-                           "Turn left"]                    @element[turnr-style
-                                                           "Turn right"]                   @racket[turnl]       "✓"        "-")
- (list @element[dash "P"]  @element[turnr-style
-                           "Turn right"]                   @element[turnl-style
-                                                           "Turn left"]                    @racket[turnr]       "✓"        "-")
- (list @element[dash "O|"] @element[w&t-style
-                           "Wrap and turn left"]           @element[w&t-style
-                                                           "Wrap and turn right"]          @racket[w&tl]        "✓"        "-")
- (list @element[dash "P|"] @element[w&t-style
-                           "Wrap and turn right"]          @element[w&t-style
-                                                           "Wrap and turn left"]           @racket[w&tr]        "✓"        "-")
- (list ""                  @element[ss-style
-                           "Stockinette"]                  @element[ss-style
-                                                           "Stockinette"]            @elem[@racket[ss]"*"]      "✓"        "✓")
- (list ""                  @element[rss-style
-                           "Reverse stockinette"]          @element[rss-style
-                                                           "Reverse stockinette"]    @elem[@racket[rss]"*"]     "✓"        "✓")
- (list ""                  @element[gs-style
-                           "Garter"]                       @element[gs-style
-                                                           "Garter"]                 @elem[@racket[gs]"*"]      "✓"        "✓")
- (list ""                  @element[turn-style
-                           "Turn"]                         @element[turn-style
-                                                           "Turn"]                   @racket[turn]              "✓"        "-")
- (list ""                  @element[w&t-style
-                           "Wrap and turn"]                @element[w&t-style
-                                                           "Wrap and turn"]          @racket[w&t]               "✓"        "-")
- )]
+       (list @element[dash "¼"]  "Cast on"                       "Cast on"                 @elem[@racket[co]"*"]      "✓"        "✓")
+       (list @element[dash "T"]  "Bind off"                      "Bind off"                @elem[@racket[bo]"*"]      "✓"        "✓")
+       (list @element[dash "k"]  "Knit"                          "Purl"                    @elem[@racket[k]"*"]       "✓"        "✓")
+       (list @element[dash "p"]  "Purl"                          "Knit"                    @elem[@racket[p]"*"]       "✓"        "✓")
+       (list @element[dash "n"]  @element[ktbl-style
+                                          "Knit tbl"]                     @element[ptbl-style
+                                                                                   "Purl tbl"]               @elem[@racket[ktbl]"*"]    "✓"        "-")
+       (list @element[dash "?"]  @element[ptbl-style
+                                          "Purl tbl"]                     @element[ktbl-style
+                                                                                   "Knit tbl"]               @elem[@racket[ptbl]"*"]    "✓"        "-")
+       (list @element[dash "!"]  @element[kb-style
+                                          "Knit below"]                   @element[pb-style
+                                                                                   "Purl below"]             @elem[@racket[kb]"_"]      "✓"        "-")
+       (list @element[dash "%"]  @element[pb-style
+                                          "Purl below"]                   @element[kb-style
+                                                                                   "Knit below"]             @elem[@racket[pb]"_"]      "✓"        "-")
+       (list @element[dash "&"]  @element[slwyib-style
+                                          "Slip purlwise wyib"]           @element[slwyif-style
+                                                                                   "Slip purlwise wyif"]     @elem[@racket[slwyib]"_"]  "✓"        "✓")
+       (list @element[dash "'"]  @element[slwyif-style
+                                          "Slip purlwise wyif"]           @element[slwyib-style
+                                                                                   "Slip purlwise wyib"]     @elem[@racket[slwyif]"_"]  "✓"        "-")
+       (list @element[dash "*"]  @element[slkwyib-style
+                                          "Slip knitwise wyib"]           @element[slkwyif-style
+                                                                                   "Slip knitwise wyif"]     @elem[@racket[slkwyib]"_"] "✓"        "-")
+       (list @element[dash "Q"]  @element[slkwyif-style
+                                          "Slip knitwise wyif"]           @element[slkwyib-style
+                                                                                   "Slip knitwise wyib"]     @elem[@racket[slkwyif]"_"] "✓"        "-")
+       (list @element[dash "U"]  @element[k2tog-style
+                                          "Knit 2 together"]              @element[ssp-style
+                                                                                   "Slip slip purl"]               @racket[k2tog]       "✓"        "✓")
+       (list @element[dash "W"]  @element[p2tog-style
+                                          "Purl 2 together"]              @element[ssk-style
+                                                                                   "Slip slip knit"]               @racket[p2tog]       "✓"        "✓")
+       (list @element[dash "V"]  @element[ssk-style
+                                          "Slip slip knit"]               @element[p2tog-style
+                                                                                   "Purl 2 together"]              @racket[ssk]         "✓"        "✓")
+       (list @element[dash "X"]  @element[ssp-style
+                                          "Slip slip purl"]               @element[k2tog-style
+                                                                                   "Knit 2 together"]              @racket[ssp]         "✓"        "✓")
+       (list @element[dash "j"]  @element[cdd-style
+                                          "Centered double dec"]          @element[cddp-style
+                                                                                   "Centered double dec purl"]     @racket[cdd]         "✓"        "†")
+       (list @element[dash "("]  @element[cddp-style
+                                          "Centered double dec purl"]     @element[cdd-style
+                                                                                   "Centered double dec"]          @racket[cddp]        "✓"        "†")
+       (list @element[dash "s"]  @element[k3tog-style
+                                          "Knit 3 together"]              @element[sssp-style
+                                                                                   "Slip slip slip purl"]          @racket[k3tog]       "✓"        "†")
+       (list @element[dash "u"]  @element[k3tog-style
+                                          "Purl 3 together"]              @element[sssk-style
+                                                                                   "Slip slip slip knit"]          @racket[p3tog]       "✓"        "†")
+       (list @element[dash "t"]  @element[sssk-style
+                                          "Slip slip slip knit"]          @element[p3tog-style
+                                                                                   "Purl 3 together"]              @racket[sssk / sk2psso] "✓"     "†")
+       (list @element[dash "v"]  @element[sssp-style
+                                          "Slip slip slip purl"]          @element[k3tog-style
+                                                                                   "Knit 3 together"]              @racket[sssp]        "✓"        "†")
+       (list @element[dash "Uµ"] @element[k2togtbl-style
+                                          "Knit 2 together tbl"]          @element[ssp2tog-style
+                                                                                   "Slip slip purl 2 tog"]         @racket[k2togtbl]    "✓"        "†")
+       (list @element[dash "Wµ"] @element[p2togtbl-style
+                                          "Purl 2 together tbl"]          @element[ssk2tog-style
+                                                                                   "Slip slip knit 2 tog"]         @racket[p2togtbl]    "✓"        "†")
+       (list @element[dash "V¶"] @element[ssk2tog-style
+                                          "Slip slip knit 2 tog"]         @element[p2togtbl-style
+                                                                                   "Purl 2 together tbl"]          @racket[ssk2tog]     "✓"        "†")
+       (list @element[dash "X¶"] @element[ssp2tog-style
+                                          "Slip slip purl 2 tog"]         @element[k2togtbl-style
+                                                                                   "Knit 2 together tbl"]          @racket[ssp2tog]     "✓"        "†")
+       (list @element[dash "sµ"] @element[k3togtbl-style
+                                          "Knit 3 together tbl"]          @element[sssp2tog-style
+                                                                                   "Slip slip slip purl 2 tog"]    @racket[k3togtbl]    "✓"        "†")
+       (list @element[dash "uµ"] @element[p3togtbl-style
+                                          "Purl 3 together tbl"]          @element[sssk2tog-style
+                                                                                   "Slip slip slip knit 2 tog"]    @racket[p3togtbl]    "✓"        "†")
+       (list @element[dash "t¶"] @element[sssk2tog-style
+                                          "Slip slip slip knit 3 tog"]    @element[p3togtbl-style
+                                                                                   "Purl 3 together tbl"]          @racket[sssk3tog]    "✓"        "†")
+       (list @element[dash "v¶"] @element[sssp2tog-style
+                                          "Slip slip slip purl 3 tog"]    @element[k3togtbl-style
+                                                                                   "Knit 3 together tbl"]          @racket[sssp3tog]    "✓"        "†")
+       (list @element[dash "04"] @element[k4tog-style
+                                          "Knit 4 together"]              @element[p4tog-style
+                                                                                   "Purl 4 together"]              @racket[dec4k]       "✓"        "-")
+       (list @element[dash "[4"] @element[p4tog-style
+                                          "Purl 4 together"]              @element[k4tog-style
+                                                                                   "Knit 4 together"]              @racket[dec4p]       "✓"        "-")
+       (list @element[dash "05"] @element[k5tog-style
+                                          "Knit 5 together"]              @element[p5tog-style
+                                                                                   "Purl 5 together"]              @racket[dec5k]       "✓"        "-")
+       (list @element[dash "[5"] @element[p5tog-style
+                                          "Purl 5 together"]              @element[k5tog-style
+                                                                                   "Knit 5 together"]              @racket[dec5p]       "✓"        "-")
+       (list @element[dash "o"]  @element[yo-style
+                                          "Yarn over"]                    @element[yo-style
+                                                                                   "Yarn over"]                    @racket[yo]          "✓"        "†")
+       (list @element[dash "oB"] @element[yo2w-style
+                                          "Double yarn over"]             @element[yo2w-style
+                                                                                   "Double yarn over"]             @racket[yo2w]        "✓"        "-")
+       (list @element[dash "oC"] @element[yo3w-style
+                                          "Triple yarn over"]             @element[yo3w-style
+                                                                                   "Triple yarn over"]             @racket[yo3w]        "✓"        "-")
+       (list @element[dash "oD"] @element[yo4w-style
+                                          "Quadruple yarn over"]          @element[yo4w-style
+                                                                                   "Quadruple yarn over"]          @racket[yo4w]        "✓"        "-")
+       (list @element[dash ":"]  @element[ml-style
+                                          "Make left"]                    @element[mrp-style
+                                                                                   "Make right purlwise"]          @racket[ml]          "✓"        "-")
+       (list @element[dash ";"]  @element[mr-style
+                                          "Make right"]                   @element[mlp-style
+                                                                                   "Make left purlwise"]           @racket[mr]          "✓"        "-")
+       (list @element[dash "x"]  @element[mlp-style
+                                          "Make left purlwise"]           @element[mr-style
+                                                                                   "Make right"]                   @racket[mlp]         "✓"        "-")
+       (list @element[dash "y"]  @element[mrp-style
+                                          "Make right purlwise"]          @element[ml-style
+                                                                                   "Make left"]                    @racket[mrp]         "✓"        "-")
+       (list @element[dash ">"]  @element[m-style
+                                          "Make"]                         @element[mp-style
+                                                                                   "Make purl"]                    @racket[m]           "✓"        "✓")
+       (list @element[dash "@"]  @element[mp-style
+                                          "Make purl"]                    @element[m-style
+                                                                                   "Make"]                         @racket[mp]          "✓"        "✓")
+       (list @element[dash "i"]  @element[cdi-style
+                                          "Centered double inc"]          @element[cdip-style
+                                                                                   "Centered double inc purl"]     @racket[cdi]         "✓"        "†")
+       (list @element[dash ")"]  @element[cdip-style
+                                          "Centered double inc purl"]     @element[cdi-style
+                                                                                   "Centered double inc"]          @racket[cdip]        "✓"        "†")
+       (list @element[dash "L"]  @element[kyk-style
+                                          "Knit-yo-knit"]                 @element[pyp-style
+                                                                                   "Purl-yo-purl"]                 @racket[kyk]         "✓"        "-")
+       (list @element[dash "}"]  @element[pyp-style
+                                          "Purl-yo-purl"]                 @element[kyk-style
+                                                                                   "Knit-yo-knit"]                 @racket[pyp]         "✓"        "-")
+       (list @element[dash "*c"] @element[inc4k-style
+                                          "1-to-4 increase"]              @element[inc4p-style
+                                                                                   "1-to-4 increase purl"]         @racket[inc4k]       "✓"        "-")
+       (list @element[dash "&c"] @element[inc4p-style
+                                          "1-to-4 increase purl"]         @element[inc4k-style
+                                                                                   "1-to-4 increase"]              @racket[inc4p]       "✓"        "-")
+       (list @element[dash "*d"] @element[inc5k-style
+                                          "1-to-5 increase"]              @element[inc5p-style
+                                                                                   "1-to-5 increase purl"]         @racket[inc5k]       "✓"        "-")
+       (list @element[dash "&d"] @element[inc5p-style
+                                          "1-to-5 increase purl"]         @element[inc5k-style
+                                                                                   "1-to-5 increase"]              @racket[inc5p]       "✓"        "-")
+       (list @element[dash "]"]  @element[k2w-style
+                                          "Knit wrapping needle twice"]   @element[p2w-style
+                                                                                   "Purl wrapping needle twice"]   @racket[k2w]         "✓"        "-")
+       (list @element[dash "Ú"]  @element[p2w-style
+                                          "Purl wrapping needle twice"]   @element[k2w-style
+                                                                                   "Knit wrapping needle twice"]   @racket[p2w]         "✓"        "-")
+       (list @element[dash "Ü"]  @element[k3w-style
+                                          "Knit wrapping needle 3 times"] @element[p3w-style
+                                                                                   "Purl wrapping needle 3 times"] @racket[k3w]         "✓"        "-")
+       (list @element[dash "Û"]  @element[p3w-style
+                                          "Purl wrapping needle 3 times"] @element[k3w-style
+                                                                                   "Knit wrapping needle 3 times"] @racket[p3w]         "✓"        "-")
+       (list @element[dash "ø"]  @element[pbk-style
+                                          "Place bead and knit"]          @element[pbp-style
+                                                                                   "Place bead and purl"]          @racket[pbk]         "✓"        "-")
+       (list @element[dash "ù"]  @element[pbp-style
+                                          "Place bead and purl"]          @element[pbk-style
+                                                                                   "Place bead and knit"]          @racket[pbp]         "✓"        "-")
+       (list @element[dash "$"]  @element[mb-style
+                                          "Make bobble"]                  @element[mb-ws-style
+                                                                                   "Make bobble (WS)"]             @racket[mb / mb-ws]  "✓"        "-")
+       (list @element[dash "¿"]  @element[sp-style
+                                          "Special stitch"]               @element[sp-style
+                                                                                   "Special stitch"]               @racket[sp]          "✓"        "✓")
+       (list @element[dash ","]  @element[drop-style
+                                          "Drop stitch"]                  @element[drop-style
+                                                                                   "Drop stitch"]                  @racket[drop-st]     "✓"        "-")
+       (list @element[dash "w"]  "No stitch"                     "No stitch"                     @racket[ns]          "✓"        "✓")
+       (list @element[dash "º"]  @element[tl-style
+                                          "Thread lace"]                  @element[tl-style
+                                                                                   "Thread lace"]            @elem[@racket[tl]"_"]      "-"         "✓")
+       (list @element[dash "ï"]  @element[tuck-style
+                                          "Tuck"]                         @element[tuck-style
+                                                                                   "Tuck"]                         @racket[tuck]        "-"         "✓")
+       (list @element[dash "\\"] @element[lt-style
+                                          "Left transfer"]                @element[rt-style
+                                                                                   "Right transfer"]               @racket[lt]          "-"         "†")
+       (list @element[dash "/"]  @element[rt-style
+                                          "Right transfer"]               @element[lt-style
+                                                                                   "Left transfer"]                @racket[rt]          "-"         "†")
+       (list @element[dash "."]  @element[en-style
+                                          "Empty needle"]                 @element[en-style
+                                                                                   "Empty needle"]                 @racket[en]          "-"         "✓")
+       (list @element[dash "O"]  @element[turnl-style
+                                          "Turn left"]                    @element[turnr-style
+                                                                                   "Turn right"]                   @racket[turnl]       "✓"        "-")
+       (list @element[dash "P"]  @element[turnr-style
+                                          "Turn right"]                   @element[turnl-style
+                                                                                   "Turn left"]                    @racket[turnr]       "✓"        "-")
+       (list @element[dash "O|"] @element[w&t-style
+                                          "Wrap and turn left"]           @element[w&t-style
+                                                                                   "Wrap and turn right"]          @racket[w&tl]        "✓"        "-")
+       (list @element[dash "P|"] @element[w&t-style
+                                          "Wrap and turn right"]          @element[w&t-style
+                                                                                   "Wrap and turn left"]           @racket[w&tr]        "✓"        "-")
+       (list ""                  @element[ss-style
+                                          "Stockinette"]                  @element[ss-style
+                                                                                   "Stockinette"]            @elem[@racket[ss]"*"]      "✓"        "✓")
+       (list ""                  @element[rss-style
+                                          "Reverse stockinette"]          @element[rss-style
+                                                                                   "Reverse stockinette"]    @elem[@racket[rss]"*"]     "✓"        "✓")
+       (list ""                  @element[gs-style
+                                          "Garter"]                       @element[gs-style
+                                                                                   "Garter"]                 @elem[@racket[gs]"*"]      "✓"        "✓")
+       (list ""                  @element[turn-style
+                                          "Turn"]                         @element[turn-style
+                                                                                   "Turn"]                   @racket[turn]              "✓"        "-")
+       (list ""                  @element[w&t-style
+                                          "Wrap and turn"]                @element[w&t-style
+                                                                                   "Wrap and turn"]          @racket[w&t]               "✓"        "-")
+       )]
 
 @tabular[#:sep @hspace[0]
          (list
@@ -1132,39 +1101,39 @@ on both the RS and the WS. Instructions are provided only for knitting
 them on the RS. Links are provided to some helpful blog posts.
 
 @(define bed-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'bed #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'bed #t)))))
 @(define bebd-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'bebd #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'bebd #t)))))
 @(define beyo-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'beyo #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'beyo #t)))))
 @(define bebyo-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'bebyo #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'bebyo #t)))))
 
 @tabular[
  #:sep @hspace[1]
  #:row-properties '(bottom-border ())
  (list (list @bold{Symbol}    @bold{Stitch (RS)}                    @bold{Stitch (WS)}                       @bold{Macro})
 
- (list @element[dash "®¯"]    @element[bed-style
-                              @hyperlink{https://www.lavisch.com/site/tutorial-bunny-ears-decrease/
-                               Bunny ears decrease}]                "Bunny ears decrease (WS)"               @racket[bed])
- (list @element[purl "®¯"]    "Bunny ears decrease (WS)"            @element[bed-style
-                                                                    "Bunny ears decrease"]                   @racket[bed-ws])
- (list @element[dash "¯®"]    @element[bebd-style
-                              @hyperlink{https://www.gannetdesigns.com/2023/03/17/csd-back-centered-single-decrease-with-center-stitch-at-the-back/
-                               Bunny ears back decrease}]           "Bunny ears back decrease (WS)"          @racket[bebd])
- (list @element[purl "¯®"]    "Bunny ears back decrease (WS)"       @element[bed-style
-                                                                    "Bunny ears back decrease"]              @racket[bebd-ws])
- (list @element[dash "®o¯"]   @element[beyo-style
-                              @hyperlink{https://www.gannetdesigns.com/2020/08/04/bunny-ears-yarnover/
-                               Bunny ears decrease yo}]             "Bunny ears with yo (WS)"                @racket[beyo])
- (list @element[purl "®o¯"]   "Bunny ears decrease yo (WS)"         @element[beyo-style
-                                                                    "Bunny ears with yo"]                    @racket[beyo-ws])
- (list @element[dash "¯o®"]   @element[bebyo-style
-                              "Bunny ears back decrease yo"]        "Bunny ears back with yo (WS)"           @racket[bebyo])
- (list @element[purl "¯o®"]   "Bunny ears back decrease yo (WS)"    @element[bebyo-style
-                                                                    "Bunny ears back with yo"]               @racket[bebyo-ws])
- )]
+       (list @element[dash "®¯"]    @element[bed-style
+                                             @hyperlink{https://www.lavisch.com/site/tutorial-bunny-ears-decrease/
+                                               Bunny ears decrease}]                "Bunny ears decrease (WS)"               @racket[bed])
+       (list @element[purl "®¯"]    "Bunny ears decrease (WS)"            @element[bed-style
+                                                                                   "Bunny ears decrease"]                   @racket[bed-ws])
+       (list @element[dash "¯®"]    @element[bebd-style
+                                             @hyperlink{https://www.gannetdesigns.com/2023/03/17/csd-back-centered-single-decrease-with-center-stitch-at-the-back/
+                                               Bunny ears back decrease}]           "Bunny ears back decrease (WS)"          @racket[bebd])
+       (list @element[purl "¯®"]    "Bunny ears back decrease (WS)"       @element[bed-style
+                                                                                   "Bunny ears back decrease"]              @racket[bebd-ws])
+       (list @element[dash "®o¯"]   @element[beyo-style
+                                             @hyperlink{https://www.gannetdesigns.com/2020/08/04/bunny-ears-yarnover/
+                                               Bunny ears decrease yo}]             "Bunny ears with yo (WS)"                @racket[beyo])
+       (list @element[purl "®o¯"]   "Bunny ears decrease yo (WS)"         @element[beyo-style
+                                                                                   "Bunny ears with yo"]                    @racket[beyo-ws])
+       (list @element[dash "¯o®"]   @element[bebyo-style
+                                             "Bunny ears back decrease yo"]        "Bunny ears back with yo (WS)"           @racket[bebyo])
+       (list @element[purl "¯o®"]   "Bunny ears back decrease yo (WS)"    @element[bebyo-style
+                                                                                   "Bunny ears back with yo"]               @racket[bebyo-ws])
+       )]
 
 
 @subsection[#:tag "cable stitches"]{Cable Stitches}
@@ -1175,253 +1144,253 @@ on both the RS and the WS of the workpiece. It is recommended to chart
 cable stitches on the RS, however, as only generic WS symbols are provided.
 
 @(define rc-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/1 #t)))))
 @(define lc-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/1 #t)))))
 @(define rpc-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/1 #t)))))
 @(define lpc-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/1 #t)))))
 @(define rt-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rt-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rt-1/1 #t)))))
 @(define lt-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lt-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lt-1/1 #t)))))
 @(define rpt-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpt-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpt-1/1 #t)))))
 @(define lpt-1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpt-1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpt-1/1 #t)))))
 @(define rc-1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/2 #t)))))
 @(define lc-1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/2 #t)))))
 @(define rpc-1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/2 #t)))))
 @(define lpc-1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/2 #t)))))
 @(define rc-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/1 #t)))))
 @(define lc-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/1 #t)))))
 @(define rpc-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/1 #t)))))
 @(define lpc-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/1 #t)))))
 @(define rt-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rt-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rt-2/1 #t)))))
 @(define lt-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lt-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lt-2/1 #t)))))
 @(define rpt-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpt-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpt-2/1 #t)))))
 @(define lpt-2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpt-2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpt-2/1 #t)))))
 @(define rc-1/1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/1/1 #t)))))
 @(define lc-1/1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/1/1 #t)))))
 @(define rpc-1/1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/1/1 #t)))))
 @(define lpc-1/1/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/1/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/1/1 #t)))))
 @(define rc-1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/3 #t)))))
 @(define lc-1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/3 #t)))))
 @(define rpc-1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/3 #t)))))
 @(define lpc-1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/3 #t)))))
 @(define rc-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/2 #t)))))
 @(define lc-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/2 #t)))))
 @(define rpc-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/2 #t)))))
 @(define lpc-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/2 #t)))))
 @(define rt-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rt-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rt-2/2 #t)))))
 @(define lt-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lt-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lt-2/2 #t)))))
 @(define rpt-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpt-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpt-2/2 #t)))))
 @(define lpt-2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpt-2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpt-2/2 #t)))))
 @(define rc-3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/1 #t)))))
 @(define lc-3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/1 #t)))))
 @(define rpc-3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/1 #t)))))
 @(define lpc-3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/1 #t)))))
 @(define rc-1/2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/2/1 #t)))))
 @(define lc-1/2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/2/1 #t)))))
 @(define rpc-1/2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/2/1 #t)))))
 @(define lpc-1/2/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/2/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/2/1 #t)))))
 @(define rc-1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/4 #t)))))
 @(define lc-1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/4 #t)))))
 @(define rpc-1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/4 #t)))))
 @(define lpc-1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/4 #t)))))
 @(define rc-2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/3 #t)))))
 @(define lc-2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/3 #t)))))
 @(define rpc-2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/3 #t)))))
 @(define lpc-2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/3 #t)))))
 @(define rc-3/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/2 #t)))))
 @(define lc-3/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/2 #t)))))
 @(define rpc-3/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/2 #t)))))
 @(define lpc-3/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/2 #t)))))
 @(define rc-4/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/1 #t)))))
 @(define lc-4/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/1 #t)))))
 @(define rpc-4/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/1 #t)))))
 @(define lpc-4/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/1 #t)))))
 @(define rc-1/3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-1/3/1 #t)))))
 @(define lc-1/3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-1/3/1 #t)))))
 @(define rpc-1/3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-1/3/1 #t)))))
 @(define lpc-1/3/1-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/3/1 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-1/3/1 #t)))))
 @(define rc-2/1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/1/2 #t)))))
 @(define lc-2/1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/1/2 #t)))))
 @(define rpc-2/1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/1/2 #t)))))
 @(define lpc-2/1/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/1/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/1/2 #t)))))
 @(define rc-2/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/4 #t)))))
 @(define lc-2/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/4 #t)))))
 @(define rpc-2/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/4 #t)))))
 @(define lpc-2/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/4 #t)))))
 @(define rc-3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/3 #t)))))
 @(define lc-3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/3 #t)))))
 @(define rpc-3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/3 #t)))))
 @(define lpc-3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/3 #t)))))
 @(define rc-4/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/2 #t)))))
 @(define lc-4/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/2 #t)))))
 @(define rpc-4/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/2 #t)))))
 @(define lpc-4/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/2 #t)))))
 @(define rc-2/2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-2/2/2 #t)))))
 @(define lc-2/2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-2/2/2 #t)))))
 @(define rpc-2/2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-2/2/2 #t)))))
 @(define lpc-2/2/2-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/2/2 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-2/2/2 #t)))))
 @(define rc-3/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/4 #t)))))
 @(define lc-3/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/4 #t)))))
 @(define rpc-3/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/4 #t)))))
 @(define lpc-3/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/4 #t)))))
 @(define rc-4/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/3 #t)))))
 @(define lc-4/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/3 #t)))))
 @(define rpc-4/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/3 #t)))))
 @(define lpc-4/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/3 #t)))))
 @(define rc-3/1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/1/3 #t)))))
 @(define lc-3/1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/1/3 #t)))))
 @(define rpc-3/1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/1/3 #t)))))
 @(define lpc-3/1/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/1/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/1/3 #t)))))
 @(define rc-4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/4 #t)))))
 @(define lc-4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/4 #t)))))
 @(define rpc-4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/4 #t)))))
 @(define lpc-4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/4 #t)))))
 @(define rc-3/2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/2/3 #t)))))
 @(define lc-3/2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/2/3 #t)))))
 @(define rpc-3/2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/2/3 #t)))))
 @(define lpc-3/2/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/2/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/2/3 #t)))))
 @(define rc-3/3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-3/3/3 #t)))))
 @(define lc-3/3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-3/3/3 #t)))))
 @(define rpc-3/3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-3/3/3 #t)))))
 @(define lpc-3/3/3-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/3/3 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-3/3/3 #t)))))
 @(define rc-4/1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/1/4 #t)))))
 @(define lc-4/1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/1/4 #t)))))
 @(define rpc-4/1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/1/4 #t)))))
 @(define lpc-4/1/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/1/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/1/4 #t)))))
 @(define rc-5/5-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-5/5 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-5/5 #t)))))
 @(define lc-5/5-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-5/5 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-5/5 #t)))))
 @(define rpc-5/5-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-5/5 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-5/5 #t)))))
 @(define lpc-5/5-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-5/5 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-5/5 #t)))))
 @(define rc-6/6-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-6/6 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-6/6 #t)))))
 @(define lc-6/6-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-6/6 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-6/6 #t)))))
 @(define rpc-6/6-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-6/6 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-6/6 #t)))))
 @(define lpc-6/6-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-6/6 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-6/6 #t)))))
 @(define rc-4/4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rc-4/4/4 #t)))))
 @(define lc-4/4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lc-4/4/4 #t)))))
 @(define rpc-4/4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'rpc-4/4/4 #t)))))
 @(define lpc-4/4/4-style
-         (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/4/4 #t)))))
+   (make-style #f (list (hover-property (get-stitch-instructions 'lpc-4/4/4 #t)))))
 
 @tabular[
  #:sep @hspace[2]
@@ -1429,277 +1398,277 @@ cable stitches on the RS, however, as only generic WS symbols are provided.
  (list (list @bold{Symbol}              @bold{Stitch}  @bold{Macro (RS)}  @bold{Macro (WS)})
 
        (list @element[dashcableEH "!"]  @element[rc-1/1-style
-                                        "1/1 RC"]      @racket[rc-1/1]    @racket[rc-1/1-ws])
+                                                 "1/1 RC"]      @racket[rc-1/1]    @racket[rc-1/1-ws])
        (list @element[dashcableEH "\""] @element[lc-1/1-style
-                                        "1/1 LC"]      @racket[lc-1/1]    @racket[lc-1/1-ws])
+                                                 "1/1 LC"]      @racket[lc-1/1]    @racket[lc-1/1-ws])
        (list @element[dashcableEH "#"]  @element[rpc-1/1-style
-                                        "1/1 RPC"]     @racket[rpc-1/1]   @racket[rpc-1/1])
+                                                 "1/1 RPC"]     @racket[rpc-1/1]   @racket[rpc-1/1])
        (list @element[dashcableEH "$"]  @element[lpc-1/1-style
-                                        "1/1 LPC"]     @racket[lpc-1/1]   @racket[lpc-1/1])
+                                                 "1/1 LPC"]     @racket[lpc-1/1]   @racket[lpc-1/1])
        (list @element[dashcableEH "'"]  @element[rt-1/1-style
-                                        "1/1 RT"]      @racket[rt-1/1]    @racket[rt-1/1-ws])
+                                                 "1/1 RT"]      @racket[rt-1/1]    @racket[rt-1/1-ws])
        (list @element[dashcableEH "("]  @element[lt-1/1-style
-                                        "1/1 LT"]      @racket[lt-1/1]    @racket[lt-1/1-ws])
+                                                 "1/1 LT"]      @racket[lt-1/1]    @racket[lt-1/1-ws])
        (list @element[dashcableEH ")"]  @element[rpt-1/1-style
-                                        "1/1 RPT"]     @racket[rpt-1/1]   @racket[rpt-1/1-ws])
+                                                 "1/1 RPT"]     @racket[rpt-1/1]   @racket[rpt-1/1-ws])
        (list @element[dashcableEH "*"]  @element[lpt-1/1-style
-                                        "1/1 LPT"]     @racket[lpt-1/1]   @racket[lpt-1/1-ws])
+                                                 "1/1 LPT"]     @racket[lpt-1/1]   @racket[lpt-1/1-ws])
        (list @element[dashcableEH "ñ"]  "Other (2 sts)" "" "")
 
        (list @element[dashcableEH "/"]  @element[rc-1/2-style
-                                        "1/2 RC"]      @racket[rc-1/2]    @racket[rc-1/2-ws])
+                                                 "1/2 RC"]      @racket[rc-1/2]    @racket[rc-1/2-ws])
        (list @element[dashcableEH "0"]  @element[lc-1/2-style
-                                        "1/2 LC"]      @racket[lc-1/2]    @racket[lc-1/2-ws])
+                                                 "1/2 LC"]      @racket[lc-1/2]    @racket[lc-1/2-ws])
        (list @element[dashcableEH "1"]  @element[rpc-1/2-style
-                                        "1/2 RPC"]     @racket[rpc-1/2]   @racket[rpc-1/2])
+                                                 "1/2 RPC"]     @racket[rpc-1/2]   @racket[rpc-1/2])
        (list @element[dashcableEH "2"]  @element[lpc-1/2-style
-                                        "1/2 LPC"]     @racket[lpc-1/2]   @racket[lpc-1/2])
+                                                 "1/2 LPC"]     @racket[lpc-1/2]   @racket[lpc-1/2])
        (list @element[dashcableEH "+"]  @element[rc-2/1-style
-                                        "2/1 RC"]      @racket[rc-2/1]    @racket[rc-2/1-ws])
+                                                 "2/1 RC"]      @racket[rc-2/1]    @racket[rc-2/1-ws])
        (list @element[dashcableEH ","]  @element[lc-2/1-style
-                                        "2/1 LC"]      @racket[lc-2/1]    @racket[lc-2/1-ws])
+                                                 "2/1 LC"]      @racket[lc-2/1]    @racket[lc-2/1-ws])
        (list @element[dashcableEH "-"]  @element[rpc-2/1-style
-                                        "2/1 RPC"]     @racket[rpc-2/1]   @racket[rpc-2/1])
+                                                 "2/1 RPC"]     @racket[rpc-2/1]   @racket[rpc-2/1])
        (list @element[dashcableEH "."]  @element[lpc-2/1-style
-                                        "2/1 LPC"]     @racket[lpc-2/1]   @racket[lpc-2/1])
+                                                 "2/1 LPC"]     @racket[lpc-2/1]   @racket[lpc-2/1])
        (list @element[dashcableEH "5"]  @element[rt-2/1-style
-                                        "2/1 RT"]      @racket[rt-2/1]    @racket[rt-2/1-ws])
+                                                 "2/1 RT"]      @racket[rt-2/1]    @racket[rt-2/1-ws])
        (list @element[dashcableEH "6"]  @element[lt-2/1-style
-                                        "2/1 LT"]      @racket[lt-2/1]    @racket[lt-2/1-ws])
+                                                 "2/1 LT"]      @racket[lt-2/1]    @racket[lt-2/1-ws])
        (list @element[dashcableEH "7"]  @element[rpt-2/1-style
-                                        "2/1 RPT"]     @racket[rpt-2/1]   @racket[rpt-2/1-ws])
+                                                 "2/1 RPT"]     @racket[rpt-2/1]   @racket[rpt-2/1-ws])
        (list @element[dashcableEH "8"]  @element[lpt-2/1-style
-                                        "2/1 LPT"]     @racket[lpt-2/1]   @racket[lpt-2/1-ws])
+                                                 "2/1 LPT"]     @racket[lpt-2/1]   @racket[lpt-2/1-ws])
        (list @element[dashcableEH "9"]  @element[rc-1/1/1-style
-                                        "1/1/1 RC"]    @racket[rc-1/1/1]  @racket[rc-1/1/1-ws])
+                                                 "1/1/1 RC"]    @racket[rc-1/1/1]  @racket[rc-1/1/1-ws])
        (list @element[dashcableEH ":"]  @element[lc-1/1/1-style
-                                        "1/1/1 LC"]    @racket[lc-1/1/1]  @racket[lc-1/1/1-ws])
+                                                 "1/1/1 LC"]    @racket[lc-1/1/1]  @racket[lc-1/1/1-ws])
        (list @element[dashcableEH ";"]  @element[rpc-1/1/1-style
-                                        "1/1/1 RPC"]   @racket[rpc-1/1/1] @racket[rpc-1/1/1-ws])
+                                                 "1/1/1 RPC"]   @racket[rpc-1/1/1] @racket[rpc-1/1/1-ws])
        (list @element[dashcableEH "<"]  @element[lpc-1/1/1-style
-                                        "1/1/1 LPC"]   @racket[lpc-1/1/1] @racket[lpc-1/1/1-ws])
+                                                 "1/1/1 LPC"]   @racket[lpc-1/1/1] @racket[lpc-1/1/1-ws])
        (list @element[dashcableEH "ò"]  "Other (3 sts)" "" "")
 
        (list @element[dashcableEH "F"]  @element[rc-1/3-style
-                                        "1/3 RC"]      @racket[rc-1/3]    @racket[rc-1/3-ws])
+                                                 "1/3 RC"]      @racket[rc-1/3]    @racket[rc-1/3-ws])
        (list @element[dashcableEH "G"]  @element[lc-1/3-style
-                                        "1/3 LC"]      @racket[lc-1/3]    @racket[lc-1/3-ws])
+                                                 "1/3 LC"]      @racket[lc-1/3]    @racket[lc-1/3-ws])
        (list @element[dashcableEH "H"]  @element[rpc-1/3-style
-                                        "1/3 RPC"]     @racket[rpc-1/3]   @racket[rpc-1/3])
+                                                 "1/3 RPC"]     @racket[rpc-1/3]   @racket[rpc-1/3])
        (list @element[dashcableEH "I"]  @element[lpc-1/3-style
-                                        "1/3 LPC"]     @racket[lpc-1/3]   @racket[lpc-1/3])
+                                                 "1/3 LPC"]     @racket[lpc-1/3]   @racket[lpc-1/3])
        (list @element[dashcableEH ">"]  @element[rc-2/2-style
-                                        "2/2 RC"]      @racket[rc-2/2]    @racket[rc-2/2-ws])
+                                                 "2/2 RC"]      @racket[rc-2/2]    @racket[rc-2/2-ws])
        (list @element[dashcableEH "?"]  @element[lc-2/2-style
-                                        "2/2 LC"]      @racket[lc-2/2]    @racket[lc-2/2-ws])
+                                                 "2/2 LC"]      @racket[lc-2/2]    @racket[lc-2/2-ws])
        (list @element[dashcableEH "@"]  @element[rpc-2/2-style
-                                        "2/2 RPC"]     @racket[rpc-2/2]   @racket[rpc-2/2])
+                                                 "2/2 RPC"]     @racket[rpc-2/2]   @racket[rpc-2/2])
        (list @element[dashcableEH "A"]  @element[lpc-2/2-style
-                                        "2/2 LPC"]     @racket[lpc-2/2]   @racket[lpc-2/2])
+                                                 "2/2 LPC"]     @racket[lpc-2/2]   @racket[lpc-2/2])
        (list @element[dashcableEH "D"]  @element[rt-2/2-style
-                                        "2/2 RT"]      @racket[rt-2/2]    @racket[rt-2/2-ws])
+                                                 "2/2 RT"]      @racket[rt-2/2]    @racket[rt-2/2-ws])
        (list @element[dashcableEH "E"]  @element[lt-2/2-style
-                                        "2/2 LT"]      @racket[lt-2/2]    @racket[lt-2/2-ws])
+                                                 "2/2 LT"]      @racket[lt-2/2]    @racket[lt-2/2-ws])
        (list @element[dashcableEH "Ü"]  @element[rpt-2/2-style
-                                        "2/2 RPT"]     @racket[rpt-2/2]   @racket[rpt-2/2-ws])
+                                                 "2/2 RPT"]     @racket[rpt-2/2]   @racket[rpt-2/2-ws])
        (list @element[dashcableEH "Ý"]  @element[lpt-2/2-style
-                                        "2/2 LPT"]     @racket[lpt-2/2]   @racket[lpt-2/2-ws])
+                                                 "2/2 LPT"]     @racket[lpt-2/2]   @racket[lpt-2/2-ws])
        (list @element[dashcableEH "J"]  @element[rc-3/1-style
-                                        "3/1 RC"]      @racket[rc-3/1]    @racket[rc-3/1-ws])
+                                                 "3/1 RC"]      @racket[rc-3/1]    @racket[rc-3/1-ws])
        (list @element[dashcableEH "K"]  @element[lc-3/1-style
-                                        "3/1 LC"]      @racket[lc-3/1]    @racket[lc-3/1-ws])
+                                                 "3/1 LC"]      @racket[lc-3/1]    @racket[lc-3/1-ws])
        (list @element[dashcableEH "L"]  @element[rpc-3/1-style
-                                        "3/1 RPC"]     @racket[rpc-3/1]   @racket[rpc-3/1])
+                                                 "3/1 RPC"]     @racket[rpc-3/1]   @racket[rpc-3/1])
        (list @element[dashcableEH "M"]  @element[lpc-3/1-style
-                                        "3/1 LPC"]     @racket[lpc-3/1]   @racket[lpc-3/1])
+                                                 "3/1 LPC"]     @racket[lpc-3/1]   @racket[lpc-3/1])
        (list @element[dashcableEH "N"]  @element[rc-1/2/1-style
-                                        "1/2/1 RC"]    @racket[rc-1/2/1]  @racket[rc-1/2/1-ws])
+                                                 "1/2/1 RC"]    @racket[rc-1/2/1]  @racket[rc-1/2/1-ws])
        (list @element[dashcableEH "O"]  @element[lc-1/2/1-style
-                                        "1/2/1 LC"]    @racket[lc-1/2/1]  @racket[lc-1/2/1-ws])
+                                                 "1/2/1 LC"]    @racket[lc-1/2/1]  @racket[lc-1/2/1-ws])
        (list @element[dashcableEH "P"]  @element[rpc-1/2/1-style
-                                        "1/2/1 RPC"]   @racket[rpc-1/2/1] @racket[rpc-1/2/1-ws])
+                                                 "1/2/1 RPC"]   @racket[rpc-1/2/1] @racket[rpc-1/2/1-ws])
        (list @element[dashcableEH "Q"]  @element[lpc-1/2/1-style
-                                        "1/2/1 LPC"]   @racket[lpc-1/2/1] @racket[lpc-1/2/1-ws])
+                                                 "1/2/1 LPC"]   @racket[lpc-1/2/1] @racket[lpc-1/2/1-ws])
        (list @element[dashcableEH "ó"]  "Other (4 sts)" "" "")
 
        (list @element[dashcableEH "R"]  @element[rc-1/4-style
-                                        "1/4 RC"]      @racket[rc-1/4]    @racket[rc-1/4-ws])
+                                                 "1/4 RC"]      @racket[rc-1/4]    @racket[rc-1/4-ws])
        (list @element[dashcableEH "S"]  @element[lc-1/4-style
-                                        "1/4 LC"]      @racket[lc-1/4]    @racket[lc-1/4-ws])
+                                                 "1/4 LC"]      @racket[lc-1/4]    @racket[lc-1/4-ws])
        (list @element[dashcableEH "T"]  @element[rpc-1/4-style
-                                        "1/4 RPC"]     @racket[rpc-1/4]   @racket[rpc-1/4])
+                                                 "1/4 RPC"]     @racket[rpc-1/4]   @racket[rpc-1/4])
        (list @element[dashcableEH "U"]  @element[lpc-1/4-style
-                                        "1/4 LPC"]     @racket[lpc-1/4]   @racket[lpc-1/4])
+                                                 "1/4 LPC"]     @racket[lpc-1/4]   @racket[lpc-1/4])
        (list @element[dashcableEH "V"]  @element[rc-2/3-style
-                                        "2/3 RC"]      @racket[rc-2/3]    @racket[rc-2/3-ws])
+                                                 "2/3 RC"]      @racket[rc-2/3]    @racket[rc-2/3-ws])
        (list @element[dashcableEH "W"]  @element[lc-2/3-style
-                                        "2/3 LC"]      @racket[lc-2/3]    @racket[lc-2/3-ws])
+                                                 "2/3 LC"]      @racket[lc-2/3]    @racket[lc-2/3-ws])
        (list @element[dashcableEH "X"]  @element[rpc-2/3-style
-                                        "2/3 RPC"]     @racket[rpc-2/3]   @racket[rpc-2/3])
+                                                 "2/3 RPC"]     @racket[rpc-2/3]   @racket[rpc-2/3])
        (list @element[dashcableEH "Y"]  @element[lpc-2/3-style
-                                        "2/3 LPC"]     @racket[lpc-2/3]   @racket[lpc-2/3])
+                                                 "2/3 LPC"]     @racket[lpc-2/3]   @racket[lpc-2/3])
        (list @element[dashcableEH "Z"]  @element[rc-3/2-style
-                                        "3/2 RC"]      @racket[rc-3/2]    @racket[rc-3/2-ws])
+                                                 "3/2 RC"]      @racket[rc-3/2]    @racket[rc-3/2-ws])
        (list @element[dashcableEH "["]  @element[lc-3/2-style
-                                        "3/2 LC"]      @racket[lc-3/2]    @racket[lc-3/2-ws])
+                                                 "3/2 LC"]      @racket[lc-3/2]    @racket[lc-3/2-ws])
        (list @element[dashcableEH "\\"] @element[rpc-3/2-style
-                                        "3/2 RPC"]     @racket[rpc-3/2]   @racket[rpc-3/2])
+                                                 "3/2 RPC"]     @racket[rpc-3/2]   @racket[rpc-3/2])
        (list @element[dashcableEH "["]  @element[lpc-3/2-style
-                                        "3/2 LPC"]     @racket[lpc-3/2]   @racket[lpc-3/2])
+                                                 "3/2 LPC"]     @racket[lpc-3/2]   @racket[lpc-3/2])
        (list @element[dashcableEH "^"]  @element[rc-4/1-style
-                                        "4/1 RC"]      @racket[rc-4/1]    @racket[rc-4/1-ws])
+                                                 "4/1 RC"]      @racket[rc-4/1]    @racket[rc-4/1-ws])
        (list @element[dashcableEH "_"]  @element[lc-4/1-style
-                                        "4/1 LC"]      @racket[lc-4/1]    @racket[lc-4/1-ws])
+                                                 "4/1 LC"]      @racket[lc-4/1]    @racket[lc-4/1-ws])
        (list @element[dashcableEH "`"]  @element[rpc-4/1-style
-                                        "4/1 RPC"]     @racket[rpc-4/1]   @racket[rpc-4/1])
+                                                 "4/1 RPC"]     @racket[rpc-4/1]   @racket[rpc-4/1])
        (list @element[dashcableEH "a"]  @element[lpc-4/1-style
-                                        "4/1 LPC"]     @racket[lpc-4/1]   @racket[lpc-4/1])
+                                                 "4/1 LPC"]     @racket[lpc-4/1]   @racket[lpc-4/1])
        (list @element[dashcableEH "f"]  @element[rc-1/3/1-style
-                                        "1/3/1 RC"]    @racket[rc-1/3/1]  @racket[rc-1/3/1-ws])
+                                                 "1/3/1 RC"]    @racket[rc-1/3/1]  @racket[rc-1/3/1-ws])
        (list @element[dashcableEH "g"]  @element[lc-1/3/1-style
-                                        "1/3/1 LC"]    @racket[lc-1/3/1]  @racket[lc-1/3/1-ws])
+                                                 "1/3/1 LC"]    @racket[lc-1/3/1]  @racket[lc-1/3/1-ws])
        (list @element[dashcableEH "h"]  @element[rpc-1/3/1-style
-                                        "1/3/1 RPC"]   @racket[rpc-1/3/1] @racket[rpc-1/3/1-ws])
+                                                 "1/3/1 RPC"]   @racket[rpc-1/3/1] @racket[rpc-1/3/1-ws])
        (list @element[dashcableEH "i"]  @element[lpc-1/3/1-style
-                                        "1/3/1 LPC"]   @racket[lpc-1/3/1] @racket[lpc-1/3/1-ws])
+                                                 "1/3/1 LPC"]   @racket[lpc-1/3/1] @racket[lpc-1/3/1-ws])
        (list @element[dashcableEH "b"]  @element[rc-2/1/2-style
-                                        "2/1/2 RC"]    @racket[rc-2/1/2]  @racket[rc-2/1/2-ws])
+                                                 "2/1/2 RC"]    @racket[rc-2/1/2]  @racket[rc-2/1/2-ws])
        (list @element[dashcableEH "c"]  @element[lc-2/1/2-style
-                                        "2/1/2 LC"]    @racket[lc-2/1/2]  @racket[lc-2/1/2-ws])
+                                                 "2/1/2 LC"]    @racket[lc-2/1/2]  @racket[lc-2/1/2-ws])
        (list @element[dashcableEH "d"]  @element[rpc-2/1/2-style
-                                        "2/1/2 RPC"]   @racket[rpc-2/1/2] @racket[rpc-2/1/2-ws])
+                                                 "2/1/2 RPC"]   @racket[rpc-2/1/2] @racket[rpc-2/1/2-ws])
        (list @element[dashcableEH "e"]  @element[lpc-2/1/2-style
-                                        "2/1/2 LPC"]   @racket[lpc-2/1/2] @racket[lpc-2/1/2-ws])
+                                                 "2/1/2 LPC"]   @racket[lpc-2/1/2] @racket[lpc-2/1/2-ws])
        (list @element[dashcableEH "ô"]  "Other (5 sts)" "" "")
 
        (list @element[dashcableEH "n"]  @element[rc-2/4-style
-                                        "2/4 RC"]      @racket[rc-2/4]    @racket[rc-2/4-ws])
+                                                 "2/4 RC"]      @racket[rc-2/4]    @racket[rc-2/4-ws])
        (list @element[dashcableEH "o"]  @element[lc-2/4-style
-                                        "2/4 LC"]      @racket[lc-2/4]    @racket[lc-2/4-ws])
+                                                 "2/4 LC"]      @racket[lc-2/4]    @racket[lc-2/4-ws])
        (list @element[dashcableEH "p"]  @element[rpc-2/4-style
-                                        "2/4 RPC"]     @racket[rpc-2/4]   @racket[rpc-2/4])
+                                                 "2/4 RPC"]     @racket[rpc-2/4]   @racket[rpc-2/4])
        (list @element[dashcableEH "q"]  @element[lpc-2/4-style
-                                        "2/4 LPC"]     @racket[lpc-2/4]   @racket[lpc-2/4])
+                                                 "2/4 LPC"]     @racket[lpc-2/4]   @racket[lpc-2/4])
        (list @element[dashcableEH "j"]  @element[rc-3/3-style
-                                        "3/3 RC"]      @racket[rc-3/3]    @racket[rc-3/3-ws])
+                                                 "3/3 RC"]      @racket[rc-3/3]    @racket[rc-3/3-ws])
        (list @element[dashcableEH "k"]  @element[lc-3/3-style
-                                        "3/3 LC"]      @racket[lc-3/3]    @racket[lc-3/3-ws])
+                                                 "3/3 LC"]      @racket[lc-3/3]    @racket[lc-3/3-ws])
        (list @element[dashcableEH "l"]  @element[rpc-3/3-style
-                                        "3/3 RPC"]     @racket[rpc-3/3]   @racket[rpc-3/3])
+                                                 "3/3 RPC"]     @racket[rpc-3/3]   @racket[rpc-3/3])
        (list @element[dashcableEH "m"]  @element[lpc-3/3-style
-                                        "3/3 LPC"]     @racket[lpc-3/3]   @racket[lpc-3/3])
+                                                 "3/3 LPC"]     @racket[lpc-3/3]   @racket[lpc-3/3])
        (list @element[dashcableEH "r"]  @element[rc-4/2-style
-                                        "4/2 RC"]      @racket[rc-4/2]    @racket[rc-4/2-ws])
+                                                 "4/2 RC"]      @racket[rc-4/2]    @racket[rc-4/2-ws])
        (list @element[dashcableEH "s"]  @element[lc-4/2-style
-                                        "4/2 LC"]      @racket[lc-4/2]    @racket[lc-4/2-ws])
+                                                 "4/2 LC"]      @racket[lc-4/2]    @racket[lc-4/2-ws])
        (list @element[dashcableEH "t"]  @element[rpc-4/2-style
-                                        "4/2 RPC"]     @racket[rpc-4/2]   @racket[rpc-4/2])
+                                                 "4/2 RPC"]     @racket[rpc-4/2]   @racket[rpc-4/2])
        (list @element[dashcableEH "u"]  @element[lpc-4/2-style
-                                        "4/2 LPC"]     @racket[lpc-4/2]   @racket[lpc-4/2])
+                                                 "4/2 LPC"]     @racket[lpc-4/2]   @racket[lpc-4/2])
        (list @element[dashcableEH "v"]  @element[rc-2/2/2-style
-                                        "2/2/2 RC"]    @racket[rc-2/2/2]  @racket[rc-2/2/2-ws])
+                                                 "2/2/2 RC"]    @racket[rc-2/2/2]  @racket[rc-2/2/2-ws])
        (list @element[dashcableEH "w"]  @element[lc-2/2/2-style
-                                        "2/2/2 LC"]    @racket[lc-2/2/2]  @racket[lc-2/2/2-ws])
+                                                 "2/2/2 LC"]    @racket[lc-2/2/2]  @racket[lc-2/2/2-ws])
        (list @element[dashcableEH "x"]  @element[rpc-2/2/2-style
-                                        "2/2/2 RPC"]   @racket[rpc-2/2/2] @racket[rpc-2/2/2-ws])
+                                                 "2/2/2 RPC"]   @racket[rpc-2/2/2] @racket[rpc-2/2/2-ws])
        (list @element[dashcableEH "y"]  @element[lpc-2/2/2-style
-                                        "2/2/2 LPC"]   @racket[lpc-2/2/2] @racket[lpc-2/2/2-ws])
+                                                 "2/2/2 LPC"]   @racket[lpc-2/2/2] @racket[lpc-2/2/2-ws])
        (list @element[dashcableEH "z"]  "2/2/2 reverse" "" "")
        (list @element[dashcableEH "õ"]  "Other (6 sts)" "" "")
 
        (list @element[dashcableEH "À"]  @element[rc-3/4-style
-                                        "3/4 RC"]      @racket[rc-3/4]    @racket[rc-3/4-ws])
+                                                 "3/4 RC"]      @racket[rc-3/4]    @racket[rc-3/4-ws])
        (list @element[dashcableEH "Á"]  @element[lc-3/4-style
-                                        "3/4 LC"]      @racket[lc-3/4]    @racket[lc-3/4-ws])
+                                                 "3/4 LC"]      @racket[lc-3/4]    @racket[lc-3/4-ws])
        (list @element[dashcableEH "Â"]  @element[rpc-3/4-style
-                                        "3/4 RPC"]     @racket[rpc-3/4]   @racket[rpc-3/4])
+                                                 "3/4 RPC"]     @racket[rpc-3/4]   @racket[rpc-3/4])
        (list @element[dashcableEH "Ã"]  @element[lpc-3/4-style
-                                        "3/4 LPC"]     @racket[lpc-3/4]   @racket[lpc-3/4])
+                                                 "3/4 LPC"]     @racket[lpc-3/4]   @racket[lpc-3/4])
        (list @element[dashcableEH "Ä"]  @element[rc-4/3-style
-                                        "4/3 RC"]      @racket[rc-4/3]    @racket[rc-4/3-ws])
+                                                 "4/3 RC"]      @racket[rc-4/3]    @racket[rc-4/3-ws])
        (list @element[dashcableEH "Å"]  @element[lc-4/3-style
-                                        "4/3 LC"]      @racket[lc-4/3]    @racket[lc-4/3-ws])
+                                                 "4/3 LC"]      @racket[lc-4/3]    @racket[lc-4/3-ws])
        (list @element[dashcableEH "Æ"]  @element[rpc-4/3-style
-                                        "4/3 RPC"]     @racket[rpc-4/3]   @racket[rpc-4/3])
+                                                 "4/3 RPC"]     @racket[rpc-4/3]   @racket[rpc-4/3])
        (list @element[dashcableEH "Ç"]  @element[lpc-4/3-style
-                                        "4/3 LPC"]     @racket[lpc-4/3]   @racket[lpc-4/3])
+                                                 "4/3 LPC"]     @racket[lpc-4/3]   @racket[lpc-4/3])
        (list @element[dashcableEH "{"]  @element[rc-3/1/3-style
-                                        "3/1/3 RC"]    @racket[rc-3/1/3]  @racket[rc-3/1/3-ws])
+                                                 "3/1/3 RC"]    @racket[rc-3/1/3]  @racket[rc-3/1/3-ws])
        (list @element[dashcableEH "|"]  @element[lc-3/1/3-style
-                                        "3/1/3 LC"]    @racket[lc-3/1/3]  @racket[lc-3/1/3-ws])
+                                                 "3/1/3 LC"]    @racket[lc-3/1/3]  @racket[lc-3/1/3-ws])
        (list @element[dashcableEH "}"]  @element[rpc-3/1/3-style
-                                        "3/1/3 RPC"]   @racket[rpc-3/1/3] @racket[rpc-3/1/3-ws])
+                                                 "3/1/3 RPC"]   @racket[rpc-3/1/3] @racket[rpc-3/1/3-ws])
        (list @element[dashcableEH "~"]  @element[lpc-3/1/3-style
-                                        "3/1/3 LPC"]   @racket[lpc-3/1/3] @racket[lpc-3/1/3-ws])
+                                                 "3/1/3 LPC"]   @racket[lpc-3/1/3] @racket[lpc-3/1/3-ws])
        (list @element[dashcableEH "ö"]  "Other (7 sts)" "" "")
 
        (list @element[dashcableEH "È"]  @element[rc-4/4-style
-                                        "4/4 RC"]      @racket[rc-4/4]    @racket[rc-4/4-ws])
+                                                 "4/4 RC"]      @racket[rc-4/4]    @racket[rc-4/4-ws])
        (list @element[dashcableEH "É"]  @element[lc-4/4-style
-                                        "4/4 LC"]      @racket[lc-4/4]    @racket[lc-4/4-ws])
+                                                 "4/4 LC"]      @racket[lc-4/4]    @racket[lc-4/4-ws])
        (list @element[dashcableEH "Ê"]  @element[rpc-4/4-style
-                                        "4/4 RPC"]     @racket[rpc-4/4]   @racket[rpc-4/4])
+                                                 "4/4 RPC"]     @racket[rpc-4/4]   @racket[rpc-4/4])
        (list @element[dashcableEH "Ë"]  @element[lpc-4/4-style
-                                        "4/4 LPC"]     @racket[lpc-4/4]   @racket[lpc-4/4])
+                                                 "4/4 LPC"]     @racket[lpc-4/4]   @racket[lpc-4/4])
        (list @element[dashcableEH "Ì"]  @element[rc-3/2/3-style
-                                        "3/2/3 RC"]    @racket[rc-3/2/3]  @racket[rc-3/2/3-ws])
+                                                 "3/2/3 RC"]    @racket[rc-3/2/3]  @racket[rc-3/2/3-ws])
        (list @element[dashcableEH "Í"]  @element[lc-3/2/3-style
-                                        "3/2/3 LC"]    @racket[lc-3/2/3]  @racket[lc-3/2/3-ws])
+                                                 "3/2/3 LC"]    @racket[lc-3/2/3]  @racket[lc-3/2/3-ws])
        (list @element[dashcableEH "Î"]  @element[rpc-3/2/3-style
-                                        "3/2/3 RPC"]   @racket[rpc-3/2/3] @racket[rpc-3/2/3-ws])
+                                                 "3/2/3 RPC"]   @racket[rpc-3/2/3] @racket[rpc-3/2/3-ws])
        (list @element[dashcableEH "Ï"]  @element[lpc-3/2/3-style
-                                        "3/2/3 LPC"]   @racket[lpc-3/2/3] @racket[lpc-3/2/3-ws])
+                                                 "3/2/3 LPC"]   @racket[lpc-3/2/3] @racket[lpc-3/2/3-ws])
        (list @element[dashcableEH "Ñ"]  "3/2/3 reverse" "" "")
        (list @element[dashcableEH "ø"]  "Other (8 sts)" "" "")
 
        (list @element[dashcableEH "Ø"]  @element[rc-3/3/3-style
-                                        "3/3/3 RC"]    @racket[rc-3/3/3]  @racket[rc-3/3/3-ws])
+                                                 "3/3/3 RC"]    @racket[rc-3/3/3]  @racket[rc-3/3/3-ws])
        (list @element[dashcableEH "Ù"]  @element[lc-3/3/3-style
-                                        "3/3/3 LC"]    @racket[lc-3/3/3]  @racket[lc-3/3/3-ws])
+                                                 "3/3/3 LC"]    @racket[lc-3/3/3]  @racket[lc-3/3/3-ws])
        (list @element[dashcableEH "Ú"]  @element[rpc-3/3/3-style
-                                        "3/3/3 RPC"]   @racket[rpc-3/3/3] @racket[rpc-3/3/3-ws])
+                                                 "3/3/3 RPC"]   @racket[rpc-3/3/3] @racket[rpc-3/3/3-ws])
        (list @element[dashcableEH "Û"]  @element[lpc-3/3/3-style
-                                        "3/3/3 LPC"]   @racket[lpc-3/3/3] @racket[lpc-3/3/3-ws])
+                                                 "3/3/3 LPC"]   @racket[lpc-3/3/3] @racket[lpc-3/3/3-ws])
        (list @element[dashcableEH "Ö"]  "3/3/3 reverse" "" "")
        (list @element[dashcableEH "Ò"]  @element[rc-4/1/4-style
-                                        "4/1/4 RC"]    @racket[rc-4/1/4]  @racket[rc-4/1/4-ws])
+                                                 "4/1/4 RC"]    @racket[rc-4/1/4]  @racket[rc-4/1/4-ws])
        (list @element[dashcableEH "Ó"]  @element[rc-4/1/4-style
-                                        "4/1/4 LC"]    @racket[lc-4/1/4]  @racket[lc-4/1/4-ws])
+                                                 "4/1/4 LC"]    @racket[lc-4/1/4]  @racket[lc-4/1/4-ws])
        (list @element[dashcableEH "Ô"]  @element[rc-4/1/4-style
-                                        "4/1/4 RPC"]   @racket[rpc-4/1/4] @racket[rpc-4/1/4-ws])
+                                                 "4/1/4 RPC"]   @racket[rpc-4/1/4] @racket[rpc-4/1/4-ws])
        (list @element[dashcableEH "Õ"]  @element[rc-4/1/4-style
-                                        "4/1/4 LPC"]   @racket[lpc-4/1/4] @racket[lpc-4/1/4-ws])
+                                                 "4/1/4 LPC"]   @racket[lpc-4/1/4] @racket[lpc-4/1/4-ws])
        (list @element[dashcableEH "ù"]  "Other (9 sts)" "" "")
 
        (list @element[dashcableEH "à"]  @element[rc-5/5-style
-                                        "5/5 RC"]      @racket[rc-5/5]    @racket[rc-5/5-ws])
+                                                 "5/5 RC"]      @racket[rc-5/5]    @racket[rc-5/5-ws])
        (list @element[dashcableEH "á"]  @element[lc-5/5-style
-                                        "5/5 LC"]      @racket[lc-5/5]    @racket[lc-5/5-ws])
+                                                 "5/5 LC"]      @racket[lc-5/5]    @racket[lc-5/5-ws])
        (list @element[dashcableEH "â"]  @element[rpc-5/5-style
-                                        "5/5 RPC"]     @racket[rpc-5/5]   @racket[rpc-5/5])
+                                                 "5/5 RPC"]     @racket[rpc-5/5]   @racket[rpc-5/5])
        (list @element[dashcableEH "ã"]  @element[lpc-5/5-style
-                                        "5/5 LPC"]     @racket[lpc-5/5]   @racket[lpc-5/5])
+                                                 "5/5 LPC"]     @racket[lpc-5/5]   @racket[lpc-5/5])
        (list @element[dashcableEH "ú"]  "Other (10 sts)" "" "")
 
        (list @element[dashcableEH "ä"]  @element[rc-6/6-style
-                                        "6/6 RC"]      @racket[rc-6/6]    @racket[rc-6/6-ws])
+                                                 "6/6 RC"]      @racket[rc-6/6]    @racket[rc-6/6-ws])
        (list @element[dashcableEH "å"]  @element[lc-6/6-style
-                                        "6/6 LC"]      @racket[lc-6/6]    @racket[lc-6/6-ws])
+                                                 "6/6 LC"]      @racket[lc-6/6]    @racket[lc-6/6-ws])
        (list @element[dashcableEH "æ"]  @element[rpc-6/6-style
-                                        "6/6 RPC"]     @racket[rpc-6/6]   @racket[rpc-6/6])
+                                                 "6/6 RPC"]     @racket[rpc-6/6]   @racket[rpc-6/6])
        (list @element[dashcableEH "ç"]  @element[lpc-6/6-style
-                                        "6/6 LPC"]     @racket[lpc-6/6]   @racket[lpc-6/6])
+                                                 "6/6 LPC"]     @racket[lpc-6/6]   @racket[lpc-6/6])
        (list @element[dashcableEH "è"]  @element[rc-4/4/4-style
-                                        "4/4/4 RC"]    @racket[rc-4/4/4]  @racket[rc-4/4/4-ws])
+                                                 "4/4/4 RC"]    @racket[rc-4/4/4]  @racket[rc-4/4/4-ws])
        (list @element[dashcableEH "é"]  @element[lc-4/4/4-style
-                                        "4/4/4 LC"]    @racket[lc-4/4/4]  @racket[lc-4/4/4-ws])
+                                                 "4/4/4 LC"]    @racket[lc-4/4/4]  @racket[lc-4/4/4-ws])
        (list @element[dashcableEH "ê"]  @element[rpc-4/4/4-style
-                                        "4/4/4 RPC"]   @racket[rpc-4/4/4] @racket[rpc-4/4/4-ws])
+                                                 "4/4/4 RPC"]   @racket[rpc-4/4/4] @racket[rpc-4/4/4-ws])
        (list @element[dashcableEH "ë"]  @element[lpc-4/4/4-style
-                                        "4/4/4 LPC"]   @racket[lpc-4/4/4] @racket[lpc-4/4/4-ws])
+                                                 "4/4/4 LPC"]   @racket[lpc-4/4/4] @racket[lpc-4/4/4-ws])
        (list @element[dashcableEH "ì"]  "4/4/4 reverse" "" "")
        (list @element[dashcableEH "ü"]  "Other (12 sts)" "" "")
-)]
+       )]
 
 
 @section{Shortcuts}
@@ -1764,11 +1733,11 @@ indented syntax:
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 with
- \\
-  SAFE #f
- pattern
-  [technique hand]
-  row(1) k1 tuck k1
+\\
+SAFE #f
+pattern
+[technique hand]
+row(1) k1 tuck k1
 
 }|
 
@@ -1779,10 +1748,10 @@ simple cases:
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 define
-  bad-pattern
-  UN SAFE
-    pattern
-      row(2) k1
+bad-pattern
+UN SAFE
+pattern
+row(2) k1
 
 }|
 
@@ -1796,10 +1765,10 @@ to receive more detailed messages from Knotty. You can use the
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 define
-  bad-pattern
-  SO VERBOSE
-    pattern
-      row(1) k1
+bad-pattern
+SO VERBOSE
+pattern
+row(1) k1
 
 }|
 
