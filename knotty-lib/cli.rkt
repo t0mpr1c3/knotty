@@ -207,7 +207,7 @@
               (let ([out-file-path (path-replace-extension filestem #".xml")])
                 (replace-file-if-forced force?
                                         out-file-path
-                                        (thunk (export-stp p out-file-path))
+                                        (thunk (export-xml p out-file-path))
                                         "xml")))
             (when webserver?
               (serve-pattern p 2 2)))))))

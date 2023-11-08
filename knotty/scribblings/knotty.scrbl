@@ -48,7 +48,7 @@ particular feature that doesn't exist yet!
 
 @subsection[#:tag "getting started"]{Getting Started}
 
-@subsubsection[#:tag "install"]{Installation}
+@subsubsection[#:tag "installation"]{Installation}
 
 Download and install the lastest version of Racket from the homepage. The
 installation will include an application called @racket[DrRacket]. DrRacket is

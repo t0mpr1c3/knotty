@@ -20,7 +20,6 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          echo "sha=$(git rev-parse --short head)" >> $GITHUB_OUTPUT
           echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
       - name: Cache Racket dependencies
         uses: actions/cache@v3
@@ -33,11 +32,20 @@ jobs:
         run:  |
           echo "installing dependencies"
           raco pkg install --auto --batch --no-docs --skip-installed \
-               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing
+               sweet-exp-lib threading-lib brag-lib br-parser-tools \
+               sxml html-template html-parsing
       - name: (Re)install knotty from source
         run:  |
           pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
           echo "packages:" $pkgs
+          if [ $(echo $pkgs | grep -cw knotty-lib) -gt 0 ]
+          then
+            echo "updating knotty-lib"
+            raco pkg update --auto --batch --no-docs --force --type dir knotty-lib
+          else
+            echo "installing knotty-lib"
+            raco pkg install --auto --batch --no-docs --force --type dir knotty-lib
+          fi
           if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
           then
             echo "updating knotty"
@@ -52,10 +60,10 @@ jobs:
 #          run: raco test knotty
       - name: Run tests (omit scribblings directory)
         run: raco test knotty/tests/*.rkt
+
   coverage:
     needs: test
     runs-on: ubuntu-latest
-    name: Report coverage
     environment: test-env
     env:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
@@ -71,7 +79,6 @@ jobs:
       - name: Set variables
         id: vars
         run: |
-          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
           echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
       - name: Cache Racket dependencies
         uses: actions/cache@v3
@@ -84,23 +91,10 @@ jobs:
         run:  |
           echo "installing dependencies"
           raco pkg install --auto --batch --no-docs --skip-installed \
-               sweet-exp-lib threading-lib brag br-parser-tools sxml html-template html-parsing cover-coveralls
-      - name: (Re)install knotty from source
-        run:  |
-          pkgs=$(raco pkg show | grep '^ [^[]' | grep -v '^ Package' | cut -d ' ' -f2)
-          echo "packages:" $pkgs
-          if [ $(echo $pkgs | grep -cw knotty) -gt 0 ]
-          then
-            echo "updating knotty"
-            raco pkg update --auto --batch --no-docs --force --type dir knotty
-          else
-            echo "installing knotty"
-            raco pkg install --auto --batch --no-docs --force --type dir knotty
-          fi
-          cd ..
+               cover-lib cover-coveralls
 #      - name: Run headless coverage report
 #        uses: coactions/setup-xvfb@v1.0.1
 #        with:
 #          run: raco cover -b -f coveralls -n knotty/scribblings -n knotty/test -p knotty knotty-lib
       - name: Run coverage report
-        run: raco cover -b -f coveralls -n knotty/scribblings -n knotty/test -p knotty knotty-lib
+        run: raco cover -bf coveralls -p knotty knotty-lib
