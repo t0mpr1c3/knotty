@@ -140,7 +140,7 @@
     ;"Stitches:\nk2tog : Right-slanting decrease\n\n"
     "Instructions:\n"
     "Cast on a multiple of 2 stitches plus 1 and join in the round.\n"
-    "Round 1 (WS): * in MC k1, p1; repeat from * to last stitch; in MC k1.\n"))
+    "Round 1 (WS): * in MC k1, p1; repeat from * to last stitch; k1.\n"))
 
   ;; FIXME need more varied tests
 

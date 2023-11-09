@@ -633,13 +633,10 @@
                ;; node
                (let* ([t (node-tree head)]
                       [n (node-count head)]
-                      [y (if (or (false? yrn)
-                                 (not (tree-all-same-yarn t yrn)))
-                             #f
-                             yrn)]
+                      [y? (tree-all-same-yarn t yrn)]
                       [rest (cdr tail)])
                  (loop rest
-                       y
+                       (if y? (tree-first-yarn t) #f)
                        `(,@(sexp-chop-last acc)
                          ,@(if (false? yrn)
                                null
@@ -647,7 +644,7 @@
                          ,(if (zero? n)
                               " *"
                               " [")
-                         ,@(stitches-sxml t y)
+                         ,@(stitches-sxml t (if y? yrn #f))
                          ,@(if (zero? n)
                                `(,(string-append "; repeat from *" (trailing-stitches rest)))
                                `(" ]" ,(repeat->text n)))

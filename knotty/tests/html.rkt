@@ -243,7 +243,7 @@
       ((row 1) (repeat k2tog yo) k1)))
    (string-append
     "Cast on a multiple of 2 stitches plus 1.\n"
-    "Row 1 (RS): * in MC k2tog, yo; repeat from * to last stitch; in MC k1.\n"
+    "Row 1 (RS): * in MC k2tog, yo; repeat from * to last stitch; k1.\n"
     "Repeat row 1.\n"))
 
   (check-equal?
