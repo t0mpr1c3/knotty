@@ -10,6 +10,8 @@
    (make-style "stt" (list (css-addition "knotty-lib/resources/css/scribble.css"))))
 @(define box
    (make-style "box" (list (css-addition "knotty-lib/resources/css/knotty-manual.css"))))
+@(define shadowbox
+   (make-style "shadowbox" (list (css-addition "knotty-lib/resources/css/knotty-manual.css"))))
 
 
 @title[#:tag "code"]{Code Examples}
@@ -137,6 +139,7 @@ show
 }|
 @image{knotty/scribblings/star.png})
 
+@;{
 (list
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
@@ -177,7 +180,7 @@ show
     row(27) cw("0000001111100000")
 
 }|
-@image{knotty/scribblings/mario-screenshot.png})
+@image{knotty/scribblings/mario-screenshot.png})}
 
 (list
 @codeblock[#:keep-lang-line? #f]|{
@@ -220,6 +223,7 @@ show
 }|
 @image{knotty/scribblings/megaman-screenshot.png})
 
+@;{
 (list
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
@@ -260,7 +264,32 @@ show
     row(26) cw("000000011110000000")
 
 }|
-@image{knotty/scribblings/knotty-screenshot.png})
+@image{knotty/scribblings/knotty-screenshot.png})}
+
+(list
+@codeblock[#:keep-lang-line? #f]|{
+#lang sweet-exp typed/racket
+define
+   check
+   pattern
+     [form circular]
+     [repeat-rows '(1 10)]
+     yarn #xFFFFFF
+     yarn #xDD0088
+     row(1)    (repeat cw("111011111011"))
+     row(2 10) (repeat cw("110001110101"))
+     row(3  9) (repeat cw("100000101110"))
+     row(4  8) (repeat cw("010001011111"))
+     row(5  7) (repeat cw("001010001110"))
+     row(6)    (repeat cw("000100000100"))
+show
+  pattern-flat<->circular check
+
+}|
+@image[#:scale 0.4 #:style shadowbox "knotty/scribblings/check.png"])
+
+(list "" 
+@image[#:scale 0.4 #:style shadowbox "knotty/scribblings/check-float.png"])
 
 @;{
 (list
