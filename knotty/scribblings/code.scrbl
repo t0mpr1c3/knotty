@@ -90,13 +90,29 @@ show
 #lang sweet-exp typed/racket
 show
   pattern
+    [gauge (Gauge 5 1 5 1 'inch)]
     yarn #x333333 "charcoal"
     yarn #xFFFFFF "white"
     rows(seq(1 7 2)) x4(cc1(k1) mc(k1))
     rows(seq(2 8 2)) x4(cc1(p1) mc(p1))
 
 }|
-@image{knotty/scribblings/chessboard.png})
+@image[#:scale 0.5 "knotty/scribblings/chessboard.png"])
+
+(list
+@; NB whitespace indentation is required here
+@codeblock[#:keep-lang-line? #f]|{
+#lang sweet-exp typed/racket
+show
+  pattern
+    [gauge (Gauge 4 1 7 1 'inch)]
+    yarn #x333333 "charcoal"
+    yarn #xFFFFFF "white"
+    rows(seq(1 7 2)) x4(cc1(k1) mc(k1))
+    rows(seq(2 8 2)) x4(cc1(p1) mc(p1))
+
+}|
+@image[#:scale 0.5 "knotty/scribblings/chessboard-squashed.png"])
 
 (list
 @; NB whitespace indentation is required here

@@ -20,10 +20,7 @@
 
 (provide (all-defined-out))
 
-(require "global.rkt"
-         "logger.rkt")
-
-(log-message knotty-logger 'info "start of gauge.rkt" #f)
+(require "global.rkt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -48,5 +45,11 @@
       " cm"
       "\""))
 
-(log-message knotty-logger 'info "end of gauge.rkt" #f)
+(: gauge->aspect-ratio : (Option Gauge) -> Float)
+(define (gauge->aspect-ratio g)
+  (if (false? g)
+      0.80 ;; default value
+      (/ (* (Gauge-row-measurement g) (Gauge-stitch-count g) 1.0)
+         (* (Gauge-stitch-measurement g) (Gauge-row-count g) 1.0))))
+
 ;;end

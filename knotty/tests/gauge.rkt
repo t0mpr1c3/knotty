@@ -33,5 +33,20 @@
     (Gauge 12 10 15 10 'cm))
     " cm")
 
+  (check-equal?
+   (gauge->aspect-ratio
+    #f)
+   0.8)
+
+  (check-equal?
+   (gauge->aspect-ratio
+    (Gauge 5 1 5 1 'inch))
+   1.0)
+
+  (check-equal?
+   (gauge->aspect-ratio
+    (Gauge 5 1 4 1 'inch))
+   1.25)
+
   )
 ;; end

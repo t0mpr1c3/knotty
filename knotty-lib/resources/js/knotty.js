@@ -9,7 +9,7 @@ function zoom() {
   var slider = document.getElementById('slider');
   var chart = document.getElementById('figure');
   var x = slider.value;
-  chart.style.scale = x / 80 + ' ' + x / 100;
+  chart.style.scale = x / 80 + ' ' + x / 100 * aspectRatio;
   chart.style.transition = '0.4s';
 }
 

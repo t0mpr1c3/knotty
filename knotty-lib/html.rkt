@@ -756,6 +756,11 @@
        (link (@ [rel "icon"]
                 [href "icon/favicon.ico"])))
       (body
+       (script (%verbatim (format "var aspectRatio = ~a;\n"
+                                  (~> p
+                                      Pattern-options
+                                      Options-gauge
+                                      gauge->aspect-ratio))))
        (script (@ [src "js/knotty.js"]))
        (div (@ [class "outside-container"])
             (div (@ [class "container"])
