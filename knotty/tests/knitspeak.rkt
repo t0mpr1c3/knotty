@@ -108,7 +108,7 @@
   (check-equal?
    (pattern->ks
     (Pattern
-      "" "" '#() '#()
+    "" "" null null
       (vector
        (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
        (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
@@ -202,7 +202,7 @@
   (check-equal?
    kp0
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
      (Rowspec
@@ -253,7 +253,7 @@
        "Row 4: K5, CO 3 sts, k5 (13 sts)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
      (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
@@ -281,7 +281,7 @@
        "Row 8: BO 5 sts, k1, yo, k2tog, k1 (5 sts)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((1 . #s(Stitch slwyif 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0)))
@@ -323,7 +323,7 @@
        "Row 13: Sl1 wyif, k2, yo, ssk, k2, k2tog, k2, [yo, k2tog] twice, k1 (15 sts)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
@@ -450,7 +450,7 @@
        "Row 4: Knit."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
      (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
@@ -479,7 +479,7 @@
        "Repeat rows from 1 to 2."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((0 (1 . #s(Stitch yo 0)) (3 . #s(Stitch k 0)) (1 . #s(Stitch sssk 0)) (3 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0)))
@@ -514,7 +514,7 @@
        "Repeat rows 7-18."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((1 . #s(Stitch k 0))
@@ -569,7 +569,7 @@
        "Row 11: BO (0 sts)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((25 . #s(Stitch k 0))) "" 0 1 'no-turn)
      (Rowspec '((20 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 1 'w&t)
@@ -616,7 +616,7 @@
        "Repeat rows 1-2."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((1 . #s(Stitch slwyif 0)) (29 . #s(Stitch p 0))) "" 0 1 'no-turn)
      (Rowspec '((0 (1 . #s(Stitch slwyib 0)) (1 . #s(Stitch k 0)))) "" 0 1 'no-turn)
@@ -689,7 +689,7 @@
   (check-equal?
    kp1
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((50 . #s(Stitch co 0))) "" 0 1 'no-turn)
      (Rowspec
@@ -1070,7 +1070,7 @@
        "Row 4: BO to last 10 sts, k3, p1, k2, p1, k3 (11 sts)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
@@ -1112,7 +1112,7 @@
        "Row 2: P1 tbl, *k1 tbl, p1 tbl, repeat from *."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((1 . #s(Stitch ktbl 0)) (0 (1 . #s(Stitch ptbl 0)) (1 . #s(Stitch ktbl 0)))) "" 0 1 'no-turn)
      (Rowspec '((1 . #s(Stitch ptbl 0)) (0 (1 . #s(Stitch ktbl 0)) (1 . #s(Stitch ptbl 0)))) "" 0 1 'no-turn))
@@ -1130,7 +1130,7 @@
      '("Row 1 (RS): K2, yo, knit tbl to last 9 sts, yo, k2tog tbl, k5, k2 (1 more st)."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (0 . #s(Stitch ktbl 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog-tbl 0)) (7 . #s(Stitch k 0)))
@@ -1162,7 +1162,7 @@
        "Row 4: P5, k2, p3, yo, p4, p2tog, p2tog twisted, p4, yo, p3, k2, p5."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((5 . #s(Stitch k 0))
@@ -1259,7 +1259,7 @@
        "Repeat rows 2-3."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
      (Rowspec '((0 (3 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (2 . #s(Stitch k 0))) (1 . #s(Stitch k 0))) "" 0 1 'no-turn)
@@ -1284,7 +1284,7 @@
        "Repeat rows 3-4."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch kyk 0)) (1 . #s(Stitch k 0))) "" 0 1 'no-turn)
      (Rowspec '((1 . #s(Stitch k2tog 0)) (0 . #s(Stitch k 0))) "" 0 1 'no-turn)
@@ -1306,7 +1306,7 @@
      '("Row 1 (RS): K4, 1/2 RC, 1/2 LC."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector (Rowspec '((4 . #s(Stitch k 0)) (1 . #s(Stitch rc-1/2 0)) (1 . #s(Stitch lc-1/2 0))) "" 0 1 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 10 10 10 10 0 0 0 0 0))
@@ -1328,7 +1328,7 @@
        "Row 2: P1, k2, p2, k2, p1, k2, p8, k2, p8, k2, p1, k2, p2, k2, p1."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec
       '((1 . #s(Stitch k 0))
@@ -1381,7 +1381,7 @@
        "Repeat rounds 4-7."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (2 . #s(Stitch ktbl 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn)
      (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch rt-1/1 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn)
@@ -1463,7 +1463,7 @@
        "Row 4: K1 wrapping yarn twice, *k2 wrapping yarn twice, k1, p3, k1, k3 wrapping yarn twice, repeat from *."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
      (Rowspec
@@ -1514,7 +1514,7 @@
        "Repeat rows 1-2."))
     knotty-ns)
    (Pattern
-    "" "" '#() '#()
+    "" "" null null
     (vector
      (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 1 'no-turn)
      (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 1 'no-turn)

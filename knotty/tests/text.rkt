@@ -43,7 +43,7 @@
     (pattern
       #:name "Demo"
       #:url  "url"
-      #:attribution '#(#s(Author "Me" ""))
+      #:attribution '(#s(Author "Me" ""))
       #:technique 'hand
       (yarn 0 "black" 5)
       (yarn #xffffff "white" 6)
@@ -100,8 +100,8 @@
       #:form 'flat
       #:side 'left
       #:face 'rs
-      #:keywords '#("knitting" "cool stuff")
-      #:attribution '#(#s(Author "Tom" "") #s(Author "Dick" "") #s(Author "Harry" ""))
+      #:keywords '("knitting" "cool stuff")
+      #:attribution '(#s(Author "Tom" "") #s(Author "Dick" "") #s(Author "Harry" ""))
       #:gauge (Gauge 10 4 12 4 'inch)
       #:repeat-rows 1
       (yarn #xfeedee "pink" 0)

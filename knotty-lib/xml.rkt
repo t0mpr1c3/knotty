@@ -100,7 +100,7 @@
                       (~> sxml
                           ((sxpath "/pattern/attribution/author") _)
                           (cast (Listof Sexp))))])
-    (list->vector authors)))
+    authors))
 
 (: sxml->author : Sexp -> Author)
 (define (sxml->author sxml)
@@ -118,7 +118,7 @@
                         (~> sxml
                             ((sxpath "/pattern/keywords/keyword") _)
                             (cast (Listof Sexp))))])
-    (list->vector keywords)))
+    keywords))
 
 (: sxml->keyword : Sexp -> String)
 (define (sxml->keyword sxml)
@@ -384,13 +384,13 @@
   (let* ([options (Pattern-options p)]
          [pattern-attribution
           `(attribution
-            ,@(for/list ([i (in-range (vector-length (Pattern-attribution p)))]) : (Listof Sexp)
-                (let ([author : Author (vector-ref (Pattern-attribution p) i)])
+            ,@(for/list ([i (in-range (length (Pattern-attribution p)))]) : (Listof Sexp)
+                (let ([author : Author (list-ref (Pattern-attribution p) i)])
                   (author->sxml author))))]
          [pattern-keywords
           `(keywords
-            ,@(for/list ([i (in-range (vector-length (Pattern-keywords p)))]) : (Listof Sexp)
-                (let ([keyword : String (vector-ref (Pattern-keywords p) i)])
+            ,@(for/list ([i (in-range (length (Pattern-keywords p)))]) : (Listof Sexp)
+                (let ([keyword : String (list-ref (Pattern-keywords p) i)])
                   (keyword->sxml keyword))))]
          [pattern-options
           `(options

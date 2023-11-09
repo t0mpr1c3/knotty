@@ -66,7 +66,7 @@
     (pattern
       #:name "Demo"
       #:url  "url"
-      #:attribution '#(#s(Author "Me" ""))
+      #:attribution '(#s(Author "Me" ""))
       #:technique 'hand
       (yarn 0 "black" 5)
       (yarn #xffffff "white" 6)

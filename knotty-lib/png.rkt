@@ -49,26 +49,28 @@
 (: import-png (->* (Path-String)
                    (#:name String
                     #:url String
-                    #:author String
-                    #:author-url String
+                    #:attribution (Listof Author)
+                    #:keywords (Listof String)
                     #:technique Technique
                     #:form Form
                     #:face Face
                     #:side Side
-                    #:gauge (Option Gauge))
+                    #:gauge (Option Gauge)
+                    #:row-repeats (U False Positive-Integer (List Positive-Integer Positive-Integer)))
                    Pattern))
 (define (import-png
          filename
          #:name [name (let-values ([(a b c) (split-path filename)])
                         (if (path? b) (path->string b) (symbol->string b)))]
          #:url [url ""]
-         #:author [author ""]
-         #:author-url [author-url ""]
+         #:attribution [attribution null]
+         #:keywords [keywords null]
          #:technique [technique default-pattern-technique]
          #:form [form default-pattern-form]
          #:face [face default-pattern-face]
          #:side [side default-pattern-side]
-         #:gauge [gauge #f])
+         #:gauge [gauge #f]
+         #:row-repeats [row-repeats #f])
   (log-message knotty-logger 'debug "in `import-png` with:" #f)
   (log-message knotty-logger 'debug (format "filename: ~a" filename) #f)
   (let ([bitmap (read-bitmap filename 'png)])
@@ -76,36 +78,39 @@
      bitmap
      #:name name
      #:url url
-     #:author author
-     #:author-url author-url
+     #:attribution attribution
+     #:keywords keywords
      #:technique technique
      #:form form
      #:face face
      #:side side
-     #:gauge gauge)))
+     #:gauge gauge
+     #:row-repeats row-repeats)))
 
 (: bitmap->pattern (->* ((Instance Bitmap%))
                         (#:name String
                          #:url String
-                         #:author String
-                         #:author-url String
+                         #:attribution (Listof Author)
+                         #:keywords (Listof String)
                          #:technique Technique
                          #:form Form
                          #:face Face
                          #:side Side
-                         #:gauge (Option Gauge))
+                         #:gauge (Option Gauge)
+                         #:row-repeats (U False Positive-Integer (List Positive-Integer Positive-Integer)))
                         Pattern))
 (define (bitmap->pattern
          bitmap
          #:name [name ""]
          #:url [url ""]
-         #:author [author ""]
-         #:author-url [author-url ""]
+         #:attribution [attribution null]
+         #:keywords [keywords null]
          #:technique [technique default-pattern-technique]
          #:form [form default-pattern-form]
          #:face [face default-pattern-face]
          #:side [side default-pattern-side]
-         #:gauge [gauge #f])
+         #:gauge [gauge #f]
+         #:row-repeats [row-repeats #f])
   (let* ([hand?  : Boolean (eq? technique 'hand)]
          [flat?  : Boolean (eq? form 'flat)]
          [rs?    : Boolean (eq? face 'rs)]
@@ -247,8 +252,8 @@
                         gauge)]
              [p (Pattern name
                  url
-                 dummy-attribution
-                 dummy-keywords
+                 attribution
+                 keywords
                  rowspecs~
                  rowmap~
                  rowcounts~
@@ -258,7 +263,7 @@
                  (rowspecs-yarns-used rowspecs~)
                  yrns)])
           (struct-copy Pattern p
-                       [repeats (pattern-make-repeats p #f)])))))
+                       [repeats (pattern-make-repeats p row-repeats)])))))
 
 (: run-length-encode : Bytes -> (Listof (Pairof Positive-Integer Byte)))
 (define (run-length-encode b)

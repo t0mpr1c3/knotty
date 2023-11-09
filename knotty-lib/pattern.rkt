@@ -696,11 +696,7 @@
               (if (zero? (length ys~))
                   default-yarns
                   (apply yarns
-                         (reverse ys~)))]
-             [repeat-rows~
-              (if (positive-integer? repeat-rows)
-                  (list repeat-rows repeat-rows)
-                  repeat-rows)])
+                         (reverse ys~)))])
         (assert (positive-integer? nrows))
         (let ([p (Pattern name
                           url
@@ -716,7 +712,7 @@
                           yrns)])
           (pattern-substitute-stitches
            (struct-copy Pattern p
-                        [repeats (pattern-make-repeats p repeat-rows~)])))))))
+                        [repeats (pattern-make-repeats p repeat-rows)])))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1042,22 +1038,26 @@
                        [rowcounts (make-rowcounts rowspecs~ rowmap~)]
                        [nrows     n-rows~]))))))
 
-(: pattern-make-repeats : Pattern (Option (List Positive-Integer Positive-Integer)) -> Repeats)
+(: pattern-make-repeats : Pattern (U False Positive-Integer (List Positive-Integer Positive-Integer)) -> Repeats)
 (define (pattern-make-repeats p repeat-rows)
   (let ([rowspecs  (Pattern-rowspecs p)]
         [rowmap    (Pattern-rowmap p)]
-        [rowcounts (Pattern-rowcounts p)])
+        [rowcounts (Pattern-rowcounts p)]
+             [repeat-rows~
+              (if (positive-integer? repeat-rows)
+                  (list repeat-rows repeat-rows)
+                  repeat-rows)])
     (let-values ([(caston-repeat-multiple caston-repeat-addition dummy1 dummy2)
                   (rowcount-caston-repeats (vector-ref rowcounts 0))])
       (assert (natural? caston-repeat-addition))
-      (if (false? repeat-rows)
+      (if (false? repeat-rows~)
           (Repeats caston-repeat-multiple
                    caston-repeat-addition
                    #f
                    #f)
           ;; check validity of row repeats
-          (let ([first-repeat-row (first  repeat-rows)]
-                [last-repeat-row  (second repeat-rows)])            
+          (let ([first-repeat-row (first  repeat-rows~)]
+                [last-repeat-row  (second repeat-rows~)])            
             (when (or (false? first-repeat-row)
                       (false? last-repeat-row))
               (err SAFE "pattern is not repeatable over the range of rows specified"))
@@ -1244,9 +1244,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; pattern attribution
-(define-type Attribution (Vectorof Author))
+(define-type Attribution (Listof Author))
 
-(define dummy-attribution : Attribution '#())
+(define dummy-attribution : Attribution null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1261,9 +1261,9 @@
 ;; pattern keywords
 ;; limit of 30 keywords
 ;; limit of 30 characters each
-(define-type Keywords (Vectorof String))
+(define-type Keywords (Listof String))
 
-(define dummy-keywords : Keywords '#())
+(define dummy-keywords : Keywords null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1275,8 +1275,8 @@
     #:face 'ws
     #:side 'left
     #:gauge (Gauge 4 10 4 12 'inch)
-    #:attribution '#(#s(Author "Tom" "tom-url") #s(Author "Amber" "amber-url") #s(Author "Muggins" ""))
-    #:keywords '#("knitting" "cool stuff" "seamless" "pattern" "extra awesome")
+    #:attribution '(#s(Author "Tom" "tom-url") #s(Author "Amber" "amber-url") #s(Author "Muggins" ""))
+    #:keywords '("knitting" "cool stuff" "seamless" "pattern" "extra awesome")
     (yarn #x7f7f7f "grey" 5)
     (yarn #xffffff "white" 6)
     ((row 1) (cc1 k1) (mc rc-2/2 lc-2/2) (cc1 k))

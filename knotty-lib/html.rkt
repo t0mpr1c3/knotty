@@ -63,7 +63,7 @@
 
 (define (attribution-sxml p)
   (let* ([attrib (Pattern-attribution p)]
-         [n (vector-length attrib)])
+         [n (length attrib)])
     `(div (@ [class "attribution"])
           ,@(if (= 0 n)
                 null
@@ -73,7 +73,7 @@
                   (p (@ [class "details attribution"])
                      ,@(apply append
                               (for/list ([i (in-range n)])
-                                (let ([author (vector-ref attrib i)])
+                                (let ([author (list-ref attrib i)])
                                   `((span (@ [class "details author"])
                                           ,(linked-text (Author-name author) (Author-url author)))
                                     ,@(cond
@@ -83,7 +83,7 @@
 
 (define (keywords-sxml p)
   (let* ([keywords (Pattern-keywords p)]
-         [n (vector-length keywords)])
+         [n (length keywords)])
     `(div (@ [class "keywords"])
           ,@(if (= 0 n)
                 null
@@ -92,7 +92,7 @@
                      ,@(apply append
                               (for/list ([i (in-range n)])
                                 `((span (@ [class "details keywords"])
-                                        ,(vector-ref keywords i))
+                                        ,(list-ref keywords i))
                                   ,(if (= i (sub1 n))
                                        "."
                                        ", "))))))))))

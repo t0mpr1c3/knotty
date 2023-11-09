@@ -46,8 +46,8 @@
     test-pattern
     (pattern
       #:name "Demo"
-      #:attribution (vector (Author "Tom" "my url"))
-      #:keywords (vector "knitting")
+      #:attribution (list (Author "Tom" "my url"))
+      #:keywords '("knitting")
       #:gauge (Gauge 10 4 15 4 'inch)
       (yarn 0)
       (yarn #xFFFFFF "white" 6)
