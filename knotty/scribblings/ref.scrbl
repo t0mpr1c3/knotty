@@ -163,8 +163,8 @@ styles as well: for more information, see the @racket[sweet-exp]
  Options
  ([technique (or/c 'hand 'machine)]
   [form (or/c 'flat 'circular)]
-  [face (or/c 'flat 'circular)]
-  [side (or/c 'flat 'circular)]
+  [face (or/c 'rs 'ws)]
+  [side (or/c 'right 'left)]
   [gauge (or/c Gauge? #f)])
  #:transparent]{
  Structure type for the knitting techniques used for a stitch pattern.}
@@ -197,7 +197,7 @@ styles as well: for more information, see the @racket[sweet-exp]
   [h-repeats (and/c exact-integer? positive?)]
   [v-repeats (and/c exact-integer? positive?)]
   [name string?]
-  [yarns (vectorof (or/c #f Yarn?))])
+  [yarns (vectorof (or/c Yarn? #f))])
  #:transparent]{
  Structure type for a knitting chart.}
 
@@ -291,7 +291,7 @@ styles as well: for more information, see the @racket[sweet-exp]
 @defform[
  #:kind "type"
  (Side sym)
- #:contracts ([sym (or/c 'left 'right)])]{
+ #:contracts ([sym (or/c 'right 'left)])]{
  Type for pattern side tokens.}
 
 @defform[
@@ -303,7 +303,7 @@ styles as well: for more information, see the @racket[sweet-exp]
 @defform[
  #:kind "type"
  (Measurement-Unit sym)
- #:contracts ([sym (or/c 'cm 'inch)])]{
+ #:contracts ([sym (or/c 'inch 'cm)])]{
  Type for measurement unit tokens.}
 
 @defform[
@@ -375,8 +375,8 @@ styles as well: for more information, see the @racket[sweet-exp]
    [#:attribution attribution (listof (prefab/c 'Author string? string?)) null]
    [#:keywords keywords (listof string?) null]
    [#:technique technique (or/c 'hand 'machine) 'hand]
-   [#:form form (or/c 'circular 'flat) 'flat]
-   [#:face face (or/c 'ws 'rs) 'rs]
+   [#:form form (or/c 'flat 'circular) 'flat]
+   [#:face face (or/c 'rs 'ws) 'rs]
    [#:side side (or/c 'right 'left) 'right]
    [#:gauge gauge (or/c Gauge? #f) #f]
    [#:repeat-rows repeat-rows (or/c (and/c exact-integer? positive?)
@@ -528,7 +528,8 @@ styles as well: for more information, see the @racket[sweet-exp]
  (show
   [p Pattern?])
  void?]{
- Displays a pattern as a graphical knitting chart.}
+ Opens a webpage showing the pattern as a knitting chart with written
+ instructions.}
 
 @defproc[
  (text
@@ -606,8 +607,8 @@ styles as well: for more information, see the @racket[sweet-exp]
   [#:attribution attribution (listof (prefab/c 'Author string? string?)) null]
   [#:keywords keywords (listof string?) null]
   [#:technique technique (or/c 'hand 'machine) 'hand]
-  [#:form form (or/c 'circular 'flat) 'flat]
-  [#:face face (or/c 'ws 'rs) 'rs]
+  [#:form form (or/c 'flat 'circular) 'flat]
+  [#:face face (or/c 'rs 'ws) 'rs]
   [#:side side (or/c 'right 'left) 'right]
   [#:gauge gauge (or/c Gauge? #f) #f]
   [#:repeat-rows repeat-rows (or/c (and/c exact-integer? positive?)
@@ -1733,11 +1734,11 @@ indented syntax:
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 with
-\\
-SAFE #f
-pattern
-[technique hand]
-row(1) k1 tuck k1
+  \\
+    SAFE #f
+  pattern
+    [technique hand]
+    row(1) k1 tuck k1
 
 }|
 
@@ -1748,10 +1749,10 @@ simple cases:
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 define
-bad-pattern
-UN SAFE
-pattern
-row(2) k1
+  bad-pattern
+  UN SAFE
+    pattern
+      row(2) k1
 
 }|
 
@@ -1765,10 +1766,10 @@ to receive more detailed messages from Knotty. You can use the
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 define
-bad-pattern
-SO VERBOSE
-pattern
-row(1) k1
+  bad-pattern
+  SO VERBOSE
+    pattern
+      row(1) k1
 
 }|
 

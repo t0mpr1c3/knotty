@@ -262,6 +262,7 @@ show
 }|
 @image{knotty/scribblings/knotty-screenshot.png})
 
+@;{
 (list
 @; NB whitespace indentation is required here
 @codeblock[#:keep-lang-line? #f]|{
@@ -287,5 +288,6 @@ define
 check-floats owl 4
 
 }|
-@image{knotty/scribblings/owl.png})
+@image{knotty/scribblings/owl.png})}
+  
 )]
