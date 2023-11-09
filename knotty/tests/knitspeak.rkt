@@ -110,8 +110,8 @@
     (Pattern
     "" "" null null
       (vector
-       (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
-       (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
+       (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+       (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
       (make-rowmap '#(#(1) #(2)))
       (vector
        (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1)
@@ -204,7 +204,7 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch k 0))
         (0
@@ -215,7 +215,7 @@
          (1 . #s(Stitch yo 0))
          (2 . #s(Stitch k 0))
          (1 . #s(Stitch ssk 0))))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((0
          (1 . #s(Stitch k2tog 0))
@@ -226,7 +226,7 @@
          (2 . #s(Stitch k 0))
          (1 . #s(Stitch ssk 0)))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 3) #(2) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 10 10 0 0 1 1 10 9 1)
@@ -255,10 +255,10 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((5 . #s(Stitch k 0)) (3 . #s(Stitch bo 0)) (4 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((5 . #s(Stitch k 0)) (3 . #s(Stitch co 0)) (5 . #s(Stitch k 0))) "" 0 1 'no-turn))
+     (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((5 . #s(Stitch k 0)) (3 . #s(Stitch bo 0)) (4 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((5 . #s(Stitch k 0)) (3 . #s(Stitch co 0)) (5 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 5) #(2 6) #(3) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 13 13  0  0 1 1 13 0 1)
@@ -285,13 +285,13 @@
     (vector
      (Rowspec
       '((1 . #s(Stitch slwyif 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch k 0)) (1 . #s(Stitch inc5k 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (6 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((7 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((5 . #s(Stitch bo 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (6 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((7 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((5 . #s(Stitch bo 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3 5 7) #(4 6) #(8)))
     (vector
      (Rowcount 0 0 0 0 0  5  6  5  6 0 0 0 0 0)
@@ -335,10 +335,10 @@
         (2 . #s(Stitch k 0))
         (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch k 0)) (7 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -352,10 +352,10 @@
         (1 . #s(Stitch ssk 0))
         (1 . #s(Stitch yo 0))
         (2 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch k 0)) (8 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -365,10 +365,10 @@
         (1 . #s(Stitch ssk 0))
         (1 . #s(Stitch yo 0))
         (2 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch k 0)) (10 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -381,10 +381,10 @@
         (1 . #s(Stitch ssk 0))
         (1 . #s(Stitch yo 0))
         (2 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch k 0)) (12 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -395,7 +395,7 @@
         (2 . #s(Stitch k 0))
         (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -406,10 +406,10 @@
         (2 . #s(Stitch k 0))
         (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch k 0)) (9 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -420,7 +420,7 @@
         (2 . #s(Stitch k 0))
         (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4 14) #(5) #(6 10) #(7) #(8) #(9) #(11) #(12) #(13)))
     (vector
      (Rowcount 0 0 0 0 0 15 14 15 14 0 0 0 0 0)
@@ -452,14 +452,14 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
+     (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((3 . #s(Stitch k 0))
         (0 (3 . #s(Stitch k2tog 0)) (5 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0))) (1 . #s(Stitch yo 0)) (3 . #s(Stitch k2tog 0)))
         (3 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 23 23 0 0  1  1 23 17 1)
@@ -488,14 +488,14 @@
         (1 . #s(Stitch sssk 0))
         (3 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((0 (1 . #s(Stitch yo 0)) (9 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0)))
         (1 . #s(Stitch yo 0))
         (9 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3)))
     (vector
      (Rowcount 0 0 0 0 0 19 19 9 9 10 10 1 1 1)
@@ -525,13 +525,13 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch ssk 0))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((5 . #s(Stitch k 0))
         (0 (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch ssk 0)) (3 . #s(Stitch k 0)))
         (2 . #s(Stitch k 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 3 5 13 15 17) #(2 4 6 8 10 12 14 16 18) #(7 9 11)))
     (vector
      (Rowcount 0 0 0 0 0 15 15 7 7 8 8  1 1 1)
@@ -571,14 +571,14 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((25 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((20 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 1 'w&t)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((15 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 1 'w&t)
-     (Rowspec '((10 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 1 'w&t)
-     (Rowspec '((5 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 1 'w&t)
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
-     (Rowspec '((0 . #s(Stitch bo 0))) "" 0 1 'no-turn))
+     (Rowspec '((25 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((20 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 (set 0) 'w&t)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((15 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 (set 0) 'w&t)
+     (Rowspec '((10 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 (set 0) 'w&t)
+     (Rowspec '((5 . #s(Stitch p 0)) (1 . #s(Stitch w&tl 0))) "" 0 (set 0) 'w&t)
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 . #s(Stitch bo 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3 5 7 9) #(4) #(6) #(8) #(10) #(11)))
     (vector
      (Rowcount 0  0 0  0 0 25 25 25 25 0 0  0 0 0)
@@ -618,20 +618,20 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (29 . #s(Stitch p 0))) "" 0 1 'no-turn)
-     (Rowspec '((0 (1 . #s(Stitch slwyib 0)) (1 . #s(Stitch k 0)))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (16 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (5 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (6 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (7 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (8 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (9 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (10 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (11 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (12 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (13 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (14 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyib 0)) (15 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0))) "" 0 1 'no-turn))
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (29 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 (1 . #s(Stitch slwyib 0)) (1 . #s(Stitch k 0)))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (16 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (5 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (6 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (7 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (8 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (9 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (10 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (11 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (12 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (13 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (14 . #s(Stitch p 0)) (1 . #s(Stitch p2tog 0)) (1 . #s(Stitch p 0)) (1 . #s(Stitch turnl 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyib 0)) (15 . #s(Stitch k 0)) (1 . #s(Stitch ssk 0)) (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4) #(5) #(6) #(7) #(8) #(9) #(10) #(11) #(12) #(13) #(14)))
     (vector
      (Rowcount   0  0 0  0 0 30 30 30 30 0 0  0 0 0)
@@ -691,7 +691,7 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((50 . #s(Stitch co 0))) "" 0 1 'no-turn)
+     (Rowspec '((50 . #s(Stitch co 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -712,8 +712,8 @@
         (1 . #s(Stitch yo 0))
         (16 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (0 . #s(Stitch p 0)) (4 . #s(Stitch k 0))) "" 0 1 'no-turn)
+      "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (0 . #s(Stitch p 0)) (4 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((9 . #s(Stitch k 0))
         (1 . #s(Stitch k2tog 0))
@@ -735,7 +735,7 @@
         (1 . #s(Stitch k2tog 0))
         (12 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -743,7 +743,7 @@
         (1 . #s(Stitch k2tog 0))
         (9 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((9 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -765,7 +765,7 @@
         (1 . #s(Stitch yo 0))
         (8 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -790,7 +790,7 @@
         (1 . #s(Stitch yo 0))
         (7 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((11 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -808,7 +808,7 @@
         (1 . #s(Stitch yo 0))
         (6 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -833,7 +833,7 @@
         (1 . #s(Stitch k2tog 0))
         (2 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((8 . #s(Stitch k 0))
         (1 . #s(Stitch k2tog 0))
@@ -841,7 +841,7 @@
         (1 . #s(Stitch yo 0))
         (6 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -863,7 +863,7 @@
         (1 . #s(Stitch k2tog 0))
         (3 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((10 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -881,7 +881,7 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch k2tog 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -898,7 +898,7 @@
         (1 . #s(Stitch k2tog 0))
         (2 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((9 . #s(Stitch k 0))
         (1 . #s(Stitch k2tog 0))
@@ -913,10 +913,10 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch k2tog 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0)) (2 (1 . #s(Stitch yo 0)) (2 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (5 . #s(Stitch k 0))) (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((9 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -929,7 +929,7 @@
         (1 . #s(Stitch yo 0))
         (3 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -945,10 +945,10 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch k 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((11 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch cdd 0)) (1 . #s(Stitch yo 0)) (4 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
+      "" 0 (set 0) 'turn)
      (Rowspec
       '((6 . #s(Stitch k 0))
         (1 . #s(Stitch yo 0))
@@ -960,15 +960,15 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch k2tog 0))
         (1 . #s(Stitch turnr 0)))
-      "" 0 1 'turn)
-     (Rowspec '((8 . #s(Stitch k 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (4 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((6 . #s(Stitch k 0)) (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((10 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((6 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((6 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((4 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 1 'turn)
-     (Rowspec '((1 . #s(Stitch slwyif 0)) (3 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((50 . #s(Stitch k 0))) "" 0 1 'no-turn))
+      "" 0 (set 0) 'turn)
+     (Rowspec '((8 . #s(Stitch k 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch yo 0)) (4 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((6 . #s(Stitch k 0)) (2 (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch k 0))) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((10 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((6 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((6 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((4 . #s(Stitch k 0)) (1 . #s(Stitch turnr 0))) "" 0 (set 0) 'turn)
+     (Rowspec '((1 . #s(Stitch slwyif 0)) (3 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((50 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap
      '#(#(1) #(2)
              #(3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 49)
@@ -1080,8 +1080,8 @@
         (1 . #s(Stitch k 0))
         (2 . #s(Stitch yo 0))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((4 (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0))) (3 . #s(Stitch k 0))) "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((4 (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0))) (3 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -1091,10 +1091,10 @@
         (1 . #s(Stitch yo 0))
         (1 . #s(Stitch ssk 0))
         (7 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((0 . #s(Stitch bo 0)) (3 . #s(Stitch k 0)) (1 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0)) (3 . #s(Stitch k 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 11 15 11 15 0 0 0 0 0)
@@ -1114,8 +1114,8 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((1 . #s(Stitch ktbl 0)) (0 (1 . #s(Stitch ptbl 0)) (1 . #s(Stitch ktbl 0)))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch ptbl 0)) (0 (1 . #s(Stitch ktbl 0)) (1 . #s(Stitch ptbl 0)))) "" 0 1 'no-turn))
+     (Rowspec '((1 . #s(Stitch ktbl 0)) (0 (1 . #s(Stitch ptbl 0)) (1 . #s(Stitch ktbl 0)))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch ptbl 0)) (0 (1 . #s(Stitch ktbl 0)) (1 . #s(Stitch ptbl 0)))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2)))
     (vector
      (Rowcount 0 0 0 0 0 3 3 1 1 2 2 1 1 1)
@@ -1134,7 +1134,7 @@
     (vector
      (Rowspec
       '((2 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (0 . #s(Stitch ktbl 0)) (1 . #s(Stitch yo 0)) (1 . #s(Stitch k2tog-tbl 0)) (7 . #s(Stitch k 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 12 13 11 12 1 1 1 1 1))
     1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 11 #f #f) 1 default-yarns))
@@ -1176,7 +1176,7 @@
         (1 . #s(Stitch yo 0))
         (2 . #s(Stitch p 0))
         (5 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((5 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
@@ -1191,7 +1191,7 @@
         (1 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
         (5 . #s(Stitch p 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((5 . #s(Stitch k 0))
         (2 . #s(Stitch p 0))
@@ -1206,7 +1206,7 @@
         (2 . #s(Stitch k 0))
         (2 . #s(Stitch p 0))
         (5 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((5 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
@@ -1220,7 +1220,7 @@
         (3 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
         (5 . #s(Stitch p 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (make-vector 4 (Rowcount 0 0 0 0 0 32 32 32 32 0 0 0 0 0))
     4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 32 #f #f)
@@ -1261,9 +1261,9 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 . #s(Stitch p 0))) "" 0 1 'no-turn)
-     (Rowspec '((0 (3 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (2 . #s(Stitch k 0))) (1 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch bebd 0)) (2 . #s(Stitch p 0)))) "" 0 1 'no-turn))
+     (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 (3 . #s(Stitch k 0)) (1 . #s(Stitch yo 0)) (2 . #s(Stitch k 0))) (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch bebd 0)) (2 . #s(Stitch p 0)))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2 4) #(3)))
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 1 1 6 5 1)
@@ -1286,10 +1286,10 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch kyk 0)) (1 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch k2tog 0)) (0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch kyk 0)) (0 . #s(Stitch k 0))) "" 0 1 'no-turn)
-     (Rowspec '((1 . #s(Stitch k2tog 0)) (0 . #s(Stitch k 0))) "" 0 1 'no-turn))
+     (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch kyk 0)) (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch k2tog 0)) (0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch kyk 0)) (0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((1 . #s(Stitch k2tog 0)) (0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 3 5 3 5 0 0 0 0 0)
@@ -1307,7 +1307,7 @@
     knotty-ns)
    (Pattern
     "" "" null null
-    (vector (Rowspec '((4 . #s(Stitch k 0)) (1 . #s(Stitch rc-1/2 0)) (1 . #s(Stitch lc-1/2 0))) "" 0 1 'no-turn))
+    (vector (Rowspec '((4 . #s(Stitch k 0)) (1 . #s(Stitch rc-1/2 0)) (1 . #s(Stitch lc-1/2 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 10 10 10 10 0 0 0 0 0))
     1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 10 #f #f) 1 default-yarns))
@@ -1346,7 +1346,7 @@
         (2 . #s(Stitch k 0))
         (2 . #s(Stitch p 0))
         (1 . #s(Stitch k 0)))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
@@ -1363,7 +1363,7 @@
         (2 . #s(Stitch p 0))
         (2 . #s(Stitch k 0))
         (1 . #s(Stitch p 0)))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2)))
     (make-vector 2 (Rowcount 0 0 0 0 0 38 38 38 38 0 0 0 0 0))
     2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 38 #f #f) 1 default-yarns))
@@ -1383,9 +1383,9 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (2 . #s(Stitch ktbl 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn)
-     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch rt-1/1 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn)
-     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch rpt-1/1 0)) (1 . #s(Stitch lpt-1/1 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn)
+     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (2 . #s(Stitch ktbl 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch rt-1/1 0)) (1 . #s(Stitch p 0))) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch rpt-1/1 0)) (1 . #s(Stitch lpt-1/1 0))) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((2 . #s(Stitch p 0))
         (1 . #s(Stitch ktbl 0))
@@ -1394,8 +1394,8 @@
         (1 . #s(Stitch p 0))
         (1 . #s(Stitch ktbl 0))
         (2 . #s(Stitch p 0)))
-      "" 0 1 'no-turn)
-     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch lpt-1/1 0)) (1 . #s(Stitch rpt-1/1 0))) (2 . #s(Stitch p 0))) "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn)
+     (Rowspec '((2 . #s(Stitch p 0)) (0 (1 . #s(Stitch lpt-1/1 0)) (1 . #s(Stitch rpt-1/1 0))) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 2 3 8 9 10) #(4) #(5) #(6) #(7)))
     (vector
      (Rowcount 0 0 0 0 0 12 12 4 4 4 4 2 1 1)
@@ -1465,13 +1465,13 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 . #s(Stitch k 0))) "" 0 1 'no-turn)
+     (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch p 0)) (0 (1 . #s(Stitch p 0)) (1 . #s(Stitch k 0)) (5 . #s(Stitch k2w 0)) (1 . #s(Stitch k 0)) (2 . #s(Stitch p 0))))
-      "" 0 1 'no-turn)
+      "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch k2w 0)) (0 (2 . #s(Stitch k2w 0)) (1 . #s(Stitch k 0)) (3 . #s(Stitch p 0)) (1 . #s(Stitch k 0)) (3 . #s(Stitch k2w 0))))
-      "" 0 1 'no-turn))
+      "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 3) #(2) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 11 11 0 0  1  1 11 10 1)
@@ -1516,9 +1516,9 @@
    (Pattern
     "" "" null null
     (vector
-     (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 1 'no-turn)
-     (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 1 'no-turn)
-     (Rowspec '((3 . #s(Stitch bo 0)) (0 . #s(Stitch drop-st 0))) "" 0 1 'no-turn))
+     (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 (set 0) 'no-turn)
+     (Rowspec '((3 . #s(Stitch bo 0)) (0 . #s(Stitch drop-st 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3)))
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)

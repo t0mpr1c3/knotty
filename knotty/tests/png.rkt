@@ -20,7 +20,7 @@
 
 (module+ test
   (require typed/rackunit
-	   typed/racket/draw
+           typed/racket/draw
            racket/fixnum)
   (require "../../knotty-lib/colors.rkt"
            "../../knotty-lib/stitch.rkt"
@@ -37,18 +37,18 @@
   (check-equal?
    (let* ([small
            (bytes-append
-            #"\211PNG\r\n\32\n\0\0\0\r"
-            #"IHDR\0\0\0\1\0\0\0\2\b\2\0\0\0\26\343!p\0\0\0\1"
-            #"sRGB\0\256\316\34\351\0\0\0\4"
-            #"gAMA\0\0\261\217\v\374a\5\0\0\0\20"
-            #"IDAT\30Wc\370\377\377?\23\3\3\3\0\21\376\3\0_\nWj\0\0\0\0"
-            #"IEND\256B`\202")]
+          #"\211PNG\r\n\32\n\0\0\0\r"
+          #"IHDR\0\0\0\1\0\0\0\2\b\6\0\0\0\231\201\266'\0\0\0\22"
+          #"IDAT\b\231c\220\226\226\376\317\304\302\302\302\0\0\b\272\1_QO\262\234\0\0\0\0"
+          #"IEND\256B`\202")]
           [input (open-input-bytes small)]
           [pic (read-bitmap input 'png)])
      (bitmap->pattern pic))
-    (pattern
-      ((row 1) k1)
-      ((row 2) p1)))
+   (pattern
+     (yarn #x1B1B1B "Nero")
+     (yarn #x1F1F1F "Nero (2)")
+     ((row 1) (cc1 k1))
+     ((row 2) p1)))
 
   (check-equal?
    (let* ([megaman

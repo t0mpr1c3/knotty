@@ -108,7 +108,7 @@
       ((with-yarn y) xs)
       memo
       y
-      0
+      (seteq 0)
       'no-turn))))
 
 ;; aliases

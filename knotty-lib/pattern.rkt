@@ -170,12 +170,16 @@
                                 Natural
                                 Yarns)))
 (define (pattern-guard-yarns name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
+  ;; all yarns used must be defined
+  (when (not (subset? (rowspecs-yarns-used rowspecs)
+                      (apply seteq (range (vector-length yrns)))))
+    (err SAFE "yarn is used that has not been specified in the pattern"))
   ;; maximum number of yarns that can be specified is 256
   (when (> (vector-length yrns) 256)
     (err SAFE "too many yarns specified"))
   ;; issue warning if yarn weight appears incompatible with gauge
   ;; https://www.craftyarncouncil.com/standards/yarn-weight-system
-  (let ([gauge   (Options-gauge options)])
+  (let ([gauge (Options-gauge options)])
     (unless (false? gauge)
       (let* ([stitches-per-4-inches
               (/ (* 4.0
@@ -187,7 +191,7 @@
                  )]
              [yarn-weights (vector->list
                             (vector-map
-                             (λ ([y : (Option Yarn)]) (if (false? y) #f (Yarn-weight y)))
+                             (λ ([y : Yarn]) (Yarn-weight y))
                              yrns))])
         (when (for/or ([w : (Option Byte) yarn-weights]) : Boolean
                 (and (not (false? w))
@@ -691,7 +695,7 @@
              [rowcounts (make-rowcounts rowspecs rowmap)]
              [nrows (vector-length (Rowmap-index rowmap))]
              [options (Options technique form face side gauge)]
-             [yarns-used (rowspecs-yarns-used rowspecs)]
+             [yarns-used (rowspecs-max-yarns-used rowspecs)]
              [yrns
               (if (zero? (length ys~))
                   default-yarns
@@ -1043,10 +1047,10 @@
   (let ([rowspecs  (Pattern-rowspecs p)]
         [rowmap    (Pattern-rowmap p)]
         [rowcounts (Pattern-rowcounts p)]
-             [repeat-rows~
-              (if (positive-integer? repeat-rows)
-                  (list repeat-rows repeat-rows)
-                  repeat-rows)])
+        [repeat-rows~
+         (if (positive-integer? repeat-rows)
+             (list repeat-rows repeat-rows)
+             repeat-rows)])
     (let-values ([(caston-repeat-multiple caston-repeat-addition dummy1 dummy2)
                   (rowcount-caston-repeats (vector-ref rowcounts 0))])
       (assert (natural? caston-repeat-addition))

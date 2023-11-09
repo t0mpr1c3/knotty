@@ -43,7 +43,7 @@
   ([stitches : Tree]
    [memo : String]
    [default-yarn : Byte]
-   [yarns-used : Natural]
+   [yarns-used : (Setof Byte)]
    [turn : Turn])
   #:guard
   (λ (stitches
@@ -69,12 +69,12 @@
 (: rowspec-guard-turns (Tree
                         String
                         Byte
-                        Natural
+                        (Setof Byte)
                         Turn
                         -> (values Tree
                                    String
                                    Byte
-                                   Natural
+                                   (Setof Byte)
                                    Turn)))
 (define (rowspec-guard-turns stitches memo default-yarn yarns-used turn)
   (let ([sts (tree-stitchtype-list stitches)])
@@ -104,15 +104,15 @@
 
 ;; composable function as part of `Rowspec` struct guard function
 (: rowspec-guard-vars (Tree
-                             String
-                             Byte
-                             Natural
-                             Boolean
-                             -> (values Tree
-                                        String
-                                        Byte
-                                        Natural
-                                        Boolean)))
+                       String
+                       Byte
+                       (Setof Byte)
+                       Boolean
+                       -> (values Tree
+                                  String
+                                  Byte
+                                  (Setof Byte)
+                                  Boolean)))
 (define (rowspec-guard-vars stitches memo default-yarn yarns-used short-row?)
   ;; check no more than one variable repeat
   (let ([var-count (tree-count-var stitches)])
@@ -120,19 +120,19 @@
       (err SAFE "more than one variable number repeat specified")))
   ;; check no variable repeats nested within nodes
   (when (tree-nested-var? (tree-combine stitches))
-      (err SAFE "variable number repeat nested within node"))
+    (err SAFE "variable number repeat nested within node"))
   (values stitches memo default-yarn yarns-used short-row?))
 
 ;; composable function as part of `Rowspec` struct guard function
 (: rowspec-guard-combine-stitches (Tree
                                    String
                                    Byte
-                                   Natural
+                                   (Setof Byte)
                                    Boolean
                                    -> (values Tree
                                               String
                                               Byte
-                                              Natural
+                                              (Setof Byte)
                                               Boolean)))
 (define (rowspec-guard-combine-stitches stitches memo default-yarn yarns-used short-row?)
   (values (tree-combine stitches) memo default-yarn yarns-used short-row?))
@@ -141,16 +141,16 @@
 (: rowspec-guard-count-yarns-used (Tree
                                    String
                                    Byte
-                                   Natural
+                                   (Setof Byte)
                                    Boolean
                                    -> (values Tree
                                               String
                                               Byte
-                                              Natural
+                                              (Setof Byte)
                                               Boolean)))
 (define (rowspec-guard-count-yarns-used stitches memo default-yarn yarns-used short-row?)
-  ;; count number of yarns used in row
-  (let ([yarns-used~ : Natural (length (tree-yarns stitches default-yarn))])
+  ;; get yarns used in row
+  (let ([yarns-used~ : (Setof Byte) (tree-yarns stitches default-yarn)])
     (values stitches memo default-yarn yarns-used~ short-row?)))
 
 ;; constructor
@@ -163,14 +163,14 @@
    tree
    m
    y
-   #xFF
+   (tree-yarns tree)
    'no-turn))
 
 ;; Rowspecs type definition
 (define-type Rowspecs (Vectorof Rowspec))
 
 (define dummy-rowspec  : Rowspec
-  (Rowspec null "" 0 0 'no-turn))
+  (Rowspec null "" 0 (set 0) 'no-turn))
 
 ;; dummy Rowspecs
 (define dummy-rowspecs : Rowspecs
@@ -183,11 +183,19 @@
 (define (rowspec-short-row? rowspec)
   (not (eq? 'no-turn (Rowspec-turn rowspec))))
 
-(: rowspecs-yarns-used : Rowspecs -> Natural )
-(define (rowspecs-yarns-used rowspecs)
+(: rowspecs-max-yarns-used : Rowspecs -> Natural)
+(define (rowspecs-max-yarns-used rowspecs)
   (vector-max
    (for/vector ([rowspec rowspecs]) : Natural
-     (Rowspec-yarns-used rowspec))))
+     (set-count (Rowspec-yarns-used rowspec)))))
+
+(: rowspecs-yarns-used : Rowspecs -> (Setof Byte))
+(define (rowspecs-yarns-used rowspecs)
+  (let ([h : (HashTable Byte Boolean) (make-hasheq)])
+   (for ([i (in-range (vector-length rowspecs))])
+     (set-for-each (Rowspec-yarns-used (vector-ref rowspecs i))
+                   (λ ([j : Byte]) (hash-set! h j #t))))
+    (apply seteq (hash-keys h))))
 
 ;; change stitches, keep other variables
 (: rowspec-set-stitches : Rowspec Tree -> Rowspec)

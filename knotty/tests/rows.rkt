@@ -18,17 +18,17 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 |#
 
-(module+ test
-  (require typed/rackunit
-           typed/racket)
-  (require "../../knotty-lib/util.rkt"
-           "../../knotty-lib/stitch.rkt"
-           "../../knotty-lib/tree.rkt"
-           "../../knotty-lib/yarn.rkt"
-           "../../knotty-lib/macros.rkt"
-           "../../knotty-lib/rowspec.rkt"
-           "../../knotty-lib/rows.rkt")
+(require typed/rackunit
+         typed/racket)
+(require "../../knotty-lib/util.rkt"
+         "../../knotty-lib/stitch.rkt"
+         "../../knotty-lib/tree.rkt"
+         "../../knotty-lib/yarn.rkt"
+         "../../knotty-lib/macros.rkt"
+         "../../knotty-lib/rowspec.rkt"
+         "../../knotty-lib/rows.rkt")
 
+(module+ test
   ;; tests of `rows` constructor
 
   ;; multiple (non-nested) repeats
@@ -42,35 +42,35 @@
    ((rows 1 #:memo "test of `rows` constructor") k1 k1)
    (Rows
     '(1)
-    (Rowspec '((2 . #s(Stitch k 0))) "test of `rows` constructor" 0 1 'no-turn)))
+    (Rowspec '((2 . #s(Stitch k 0))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
 
   ;; no variable repeats, combine leaf in singleton node
   (check-equal?
    ((rows 1 #:memo "test of `rows` constructor") (x2 k1))
    (Rows
     '(1)
-    (Rowspec '((2 . #s(Stitch k 0))) "test of `rows` constructor" 0 1 'no-turn)))
+    (Rowspec '((2 . #s(Stitch k 0))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
 
   ;; no variable repeats, multiple simplifications
   (check-equal?
    ((rows 1 #:memo "test of `rows` constructor") (x2 (x3 (x4 k1 k1))))
    (Rows
     '(1)
-    (Rowspec '((48 . #s(Stitch k 0))) "test of `rows` constructor" 0 1 'no-turn)))
+    (Rowspec '((48 . #s(Stitch k 0))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
 
   ;; nonconsecutive rows
   (check-equal?
    ((rows 1 3 #:memo "test of `rows` constructor") p2)
    (Rows
     '(1 3)
-    (Rowspec '((2 . #s(Stitch p 0))) "test of `rows` constructor" 0 1 'no-turn)))
+    (Rowspec '((2 . #s(Stitch p 0))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
 
   ;; consecutive and conformable
   (check-equal?
    ((rows 1 2 #:memo "test of `rows` constructor") k2 p2)
    (Rows
     '(1 2)
-    (Rowspec '((2 . #s(Stitch k 0)) (2 . #s(Stitch p 0))) "test of `rows` constructor" 0 1 'no-turn)))
+    (Rowspec '((2 . #s(Stitch k 0)) (2 . #s(Stitch p 0))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
 
   ;; consecutive and conformable, memo, repeated and list-format row numbers
   (check-equal?
@@ -83,7 +83,7 @@
         (1 . #s(Stitch yo 0))
         (3 (2 . #s(Stitch bo 0)))
         (2 (1 . #s(Stitch yo 0))))
-       (3 (1 . #s(Stitch cdd 0)))) "test of `rows` constructor" 0 1 'no-turn)))
+       (3 (1 . #s(Stitch cdd 0)))) "test of `rows` constructor" 0 (set 0) 'no-turn)))
   #|
   ;; consecutive but not conformable
   (check-exn
@@ -108,14 +108,14 @@
    ((rows 1 #:memo "test of yarn function") (cc1 k1))
    (Rows
     '(1)
-    (Rowspec '((1 . #s(Stitch k 1))) "test of yarn function" 0 1 'no-turn)))
+    (Rowspec '((1 . #s(Stitch k 1))) "test of yarn function" 0 (set 0) 'no-turn)))
 
   ;; yarn MC
   (check-equal?
    ((rows 1 #:yarn mc #:memo "test of yarn function") (cc2 k1))
    (Rows
     '(1)
-    (Rowspec '((1 . #s(Stitch k 2))) "test of yarn function" 0 1 'no-turn)))
+    (Rowspec '((1 . #s(Stitch k 2))) "test of yarn function" 0 (set 0) 'no-turn)))
 
   ;; invalid yarn
   (check-exn
@@ -128,7 +128,7 @@
    ((rows 1 #:memo "test of yarn function") (mc (cc3 k1)))
    (Rows
     '(1)
-    (Rowspec '((1 . #s(Stitch k 3))) "test of yarn function" 0 1 'no-turn)))
+    (Rowspec '((1 . #s(Stitch k 3))) "test of yarn function" 0 (set 0) 'no-turn)))
 
   ;; row #:yarn specification cedes priority
   (check-equal?
@@ -137,7 +137,7 @@
     '(1)
     (Rowspec
      '((1 . #s(Stitch k 1))
-       (1 . #s(Stitch p 4))) "test of yarn function" 1 2 'no-turn)))
+       (1 . #s(Stitch p 4))) "test of yarn function" 1 (seteq 1 4) 'no-turn)))
 
   ;; row #:yarn specification cedes priority
   (check-equal?
@@ -146,7 +146,7 @@
     '(1)
     (Rowspec
      '((1 . #s(Stitch k 0))
-       (1 . #s(Stitch p 5))) "test of yarn function" 5 2 'no-turn)))
+       (1 . #s(Stitch p 5))) "test of yarn function" 5 (seteq 0 5) 'no-turn)))
 
   ;; unparseable row #:yarn specification
   (check-exn
@@ -158,7 +158,7 @@
   (check-equal?
    ((rows 1 #:yarn #f #:memo "test of yarn function") k1)
    (Rows '(1)
-         (Rowspec '((1 . #s(Stitch k 0))) "test of yarn function" 0 1 'no-turn)))
+         (Rowspec '((1 . #s(Stitch k 0))) "test of yarn function" 0 (set 0) 'no-turn)))
 
   #| should give warning
   ;; 'mc is default yarn
@@ -203,7 +203,7 @@
    ((rows 1 #:memo "test of short row") k1 turn)
    (Rows
     '(1)
-    (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch turn 0))) "test of short row" 0 1 'turn))) ;; FIXME eventually need to fix turn to width 0
+    (Rowspec '((1 . #s(Stitch k 0)) (1 . #s(Stitch turn 0))) "test of short row" 0 (set 1) 'turn))) ;; FIXME eventually need to fix turn to width 0
 
   (check-equal?
    (consecutive-rows '(1 2))

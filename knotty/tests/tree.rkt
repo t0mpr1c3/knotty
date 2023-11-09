@@ -92,13 +92,13 @@
    (tree-yarns
     '((1 . #s(Stitch k #f))
       (2 (2 . #s(Stitch p 1)))))
-   '(0 1))
+   (seteq 0 1))
 
   (check-equal?
    (tree-yarns
     '((1 . #s(Stitch k #f)))
     99)
-   '(99))
+   (seteq 99))
 
   (check-equal?
    (trimmed-stitchvector

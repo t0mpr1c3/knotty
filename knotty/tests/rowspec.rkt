@@ -32,7 +32,7 @@
            "../../knotty-lib/rowspec.rkt")
 
   (check-equal?
-   (Rowspec null "" 0 0 'no-turn)
+   (Rowspec null "" 0 (set 0) 'no-turn)
    dummy-rowspec)
 
   (check-equal?
@@ -43,7 +43,7 @@
    (rowspec-stitches-compatible?
     (Rowspec
      (list (make-leaf 1 #s(Stitch tuck 0)))
-     "" 0 1 'no-turn)
+     "" 0 (set 1) 'no-turn)
     'hand)
    #f)
 
@@ -51,24 +51,24 @@
    (rowspec-stitches-compatible?
     (Rowspec
      (list (make-leaf 1 #s(Stitch dyo 0)))
-     "" 0 1 'no-turn)
+     "" 0 (set 1) 'no-turn)
     'machine)
    #f)
 
   (check-equal?
    (rowspec-set-stitches dummy-rowspec '((1 . #s(Stitch k 0))))
-   (Rowspec '((1 . #s(Stitch k 0))) "" 0 0 'no-turn))
+   (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
 
   (check-equal?
    (rowspec-swap-stitch
-    (Rowspec '((1 . #s(Stitch k 0))) "" 0 0 'no-turn)
+    (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
     'k 'p)
-   (Rowspec '((1 . #s(Stitch p 0))) "" 0 0 'no-turn))
+   (Rowspec '((1 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
 
   (check-exn
    exn:fail?
    (λ ()
-     (Rowspec '((1 . #s(Stitch turnr 0)) (1 . #s(Stitch k 0))) "" 0 0 'turn)))
+     (Rowspec '((1 . #s(Stitch turnr 0)) (1 . #s(Stitch k 0))) "" 0 (set 0) 'turn)))
 
   )
 ;; end

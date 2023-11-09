@@ -80,7 +80,7 @@
 
 ;; yarns type definition
 (define-type Yarns
-  (Vectorof (Option Yarn)))
+  (Vectorof Yarn))
 
 
 ;; Yarn functions
@@ -94,9 +94,9 @@
               [brand ""])
   (Yarn color name weight fiber brand))
 
-(: yarns : (Option Yarn) * -> Yarns)
+(: yarns : Yarn * -> Yarns)
 (define (yarns . ys)
-  ((inst list->vector (Option Yarn)) ys))
+  ((inst list->vector Yarn) ys))
 
 (: with-yarn : (Option Byte) -> ((U Leaf Node Treelike) (U Leaf Node Treelike) * -> Tree))
 (define ((with-yarn n) . xs)

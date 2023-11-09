@@ -373,12 +373,12 @@
          tree))
 
 ;; traverse stitch tree finding yarns used
-(: tree-yarns (->* (Tree) (Byte) (Listof Byte)))
+(: tree-yarns (->* (Tree) (Byte) (Setof Byte)))
 (define (tree-yarns tree [default 0])
   (let ([h : (HashTable Byte Boolean) (make-hasheq)])
     (let loop ([tail : Tree tree])
       (if (null? tail)
-          (hash-keys h)
+          (apply seteq (hash-keys h))
           (let ([next (car tail)])
             (if (Leaf? next)
                 (let ([y (leaf-yarn next)])

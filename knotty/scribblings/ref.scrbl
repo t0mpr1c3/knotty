@@ -105,7 +105,7 @@ styles as well: for more information, see the @racket[sweet-exp]
   [options Options?]
   [repeats Repeats?]
   [max-colors natural?]
-  [yarns (vectorof (or/c Yarn? #f))])
+  [yarns (or/c? (vectorof Yarn?) #f)])
  #:transparent]{
  Structure type for a stitch pattern.}
 
@@ -197,7 +197,7 @@ styles as well: for more information, see the @racket[sweet-exp]
   [h-repeats (and/c exact-integer? positive?)]
   [v-repeats (and/c exact-integer? positive?)]
   [name string?]
-  [yarns (vectorof (or/c Yarn? #f))])
+  [yarns (vectorof Yarn?)])
  #:transparent]{
  Structure type for a knitting chart.}
 

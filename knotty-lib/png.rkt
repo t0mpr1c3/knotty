@@ -39,8 +39,6 @@
          "repeats.rkt"
          "pattern.rkt")
 
-(log-message knotty-logger 'info "start of png.rkt" #f)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; convert PNG file to Knotty pattern
@@ -71,8 +69,6 @@
          #:side [side default-pattern-side]
          #:gauge [gauge #f]
          #:row-repeats [row-repeats #f])
-  (log-message knotty-logger 'debug "in `import-png` with:" #f)
-  (log-message knotty-logger 'debug (format "filename: ~a" filename) #f)
   (let ([bitmap (read-bitmap filename 'png)])
     (bitmap->pattern
      bitmap
@@ -172,7 +168,7 @@
                                          (range (length colors))))]
            [main-yarn : Byte (hash-ref yarn-palette main-color)]
            [main-color-name (rgb->name main-color)]
-           [yrns ((inst make-vector (Option Yarn)) (length colors) #f)]
+           [yrns ((inst make-vector Yarn) (length colors) default-yarn)]
            [color-names : (HashTable String Natural) (make-hash)])
       (hash-set! color-names main-color-name 1)
       (vector-set! yrns 0 (yarn main-color main-color-name))
@@ -192,7 +188,7 @@
                     (hash-set! color-names color-name 1)
                     (vector-set! yrns y (yarn c color-name)))
                   (let* ([name-count (add1 (hash-ref color-names color-name))]
-                         [color-name~ (format "~s (~a)" color-name name-count)])
+                         [color-name~ (format "~a (~a)" color-name name-count)])
                     (hash-set! color-names color-name name-count)
                     (vector-set! yrns y (yarn c color-name~))))))))
       ;; split data into rows
@@ -260,7 +256,7 @@
                  h
                  options~
                  dummy-repeats
-                 (rowspecs-yarns-used rowspecs~)
+                 (rowspecs-max-yarns-used rowspecs~)
                  yrns)])
           (struct-copy Pattern p
                        [repeats (pattern-make-repeats p row-repeats)])))))
@@ -279,5 +275,4 @@
                 (loop (sub1 i) x 1 ((inst cons (Pairof Positive-Integer Byte) (Listof (Pairof Positive-Integer Byte)))
                                     ((inst cons Positive-Integer Byte) k c) v))))))))
 
-(log-message knotty-logger 'info "end of png.rkt" #f)
-;end
+;; end

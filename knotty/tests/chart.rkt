@@ -1195,6 +1195,8 @@
   ;; tests of `check-floats`
   (define owl
     (pattern
+      (yarn 0)
+      (yarn 1)
       ((row 12) (cw "001000100"))
       ((row 11) (cw "001111100"))
       ((row 10) (cw "001010100"))
