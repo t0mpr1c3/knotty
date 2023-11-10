@@ -82,12 +82,13 @@
            [export-xml?      (equal? '((export-xml? #t))      ((sxpath "/export-xml?")      flags~))]
            ;[deobfuscate?     (equal? '((deobfuscate? #t))     ((sxpath "/deobfuscate?")     flags~))]
            [force?           (equal? '((force? #t))           ((sxpath "/force?")           flags~))]
-           [generic-matches? (equal? '((generic-matches? #t)) ((sxpath "/generic-matches?") flags~))]
+           ;[generic-matches? (equal? '((generic-matches? #t)) ((sxpath "/generic-matches?") flags~))]
            [safe?       (not (equal? '((unsafe? #t))          ((sxpath "/unsafe?")          flags~)))]
            [quiet?           (equal? '((quiet? #t))           ((sxpath "/quiet?")           flags~))]
            [verbose?         (equal? '((verbose? #t))         ((sxpath "/verbose?")         flags~))]
            [very-verbose?    (equal? '((verbose? #t))         ((sxpath "/very-verbose?")    flags~))]
-           [webserver?       (equal? '((webserver? #t))       ((sxpath "/webserver?")       flags~))])
+           [webserver?       (equal? '((webserver? #t))       ((sxpath "/webserver?")       flags~))]
+           [repeats                                           ((sxpath "/repeats")          flags~)])
 
       (parameterize ([SILENT  quiet?]
                      [VERBOSE verbose?]
@@ -156,12 +157,14 @@
             |#
             (when export-html?
               (let-values ([(base name dir?) (split-path filestem)])
-                (let* ([out-file-path (path-replace-extension filestem #".html")]
+                (let* ([h (if (null? repeats) 1 (cadar repeats))]
+                       [v (if (null? repeats) 1 (caddar repeats))]
+                       [out-file-path (path-replace-extension filestem #".html")]
                        [css-dest-dir-path (build-path base "css")]
                        [js-dest-dir-path (build-path base "js")])
                   (replace-file-if-forced force?
                                           out-file-path
-                                          (thunk (export-html p out-file-path))
+                                          (thunk (export-html p out-file-path h v))
                                           "html")
                   (unless (directory-exists? css-dest-dir-path)
                     (make-directory css-dest-dir-path))
@@ -197,7 +200,9 @@
                                         (thunk (export-xml p out-file-path))
                                         "xml")))
             (when webserver?
-              (serve-pattern p 2 2)))))))
+              (let ([h (if (null? repeats) 2 (cadar repeats))]
+                    [v (if (null? repeats) 2 (caddar repeats))])
+                (serve-pattern p h v))))))))
 
   ;; filesystem functions
 
@@ -304,13 +309,20 @@
    [("-f" "--force")
     "Overwrite existing file(s) after conversion"
     `(force? #t)]
+   #|
    [("-g" "--generic-matches")
     "Allow generic stitch matches when converting Designaknit .stp files"
     `(generic-matches? #t)]
+   |#
+   [("-r" "--repeats")
+    hreps vreps ;; arguments for flag
+    "Specify number of horizontal and vertical repeats in HTML output"
+    `(repeats ,(string->posint hreps)
+              ,(string->posint vreps))]
    [("-u" "--unsafe")
     "Override error messages"
     `(unsafe? #t)]
-   [("-W" "--web")
+   [("-w" "--web")
     "View imported file as webpage"
     `(webserver? #t)]
 

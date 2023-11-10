@@ -124,6 +124,22 @@
         (reverse acc)
         (loop (+ x step) (cons x acc)))))
 
+;; string to positive integer
+(: string->posint : String -> (Option Positive-Integer))
+(define (string->posint x)
+  (let ([n (string->number x)])
+    (if (or (false? n)
+            (not (real? n))
+            (eqv? +nan.0 n)
+            (eqv? +inf.0 n)
+            (eqv? -inf.0 n))
+        #f
+        (let ([i (inexact->exact (truncate n))])
+          (if (or (not (integer? i))
+                  (not (positive? i)))
+              #f
+              i)))))
+
 
 ;; functions over Bytes
 
@@ -377,7 +393,7 @@
 (define (st->text n)
   (if (= 1 n)
       "stitch"
-  (format "~a stitches" n)))
+      (format "~a stitches" n)))
 
 (: sts->text : Integer -> String)
 (define (sts->text n)

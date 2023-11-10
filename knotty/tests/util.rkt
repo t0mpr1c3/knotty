@@ -189,5 +189,15 @@
    (remove-tags "<html>ok</html>")
    "ok")
 
+  (check-equal? (string->posint "") #f)
+  (check-equal? (string->posint "x") #f)
+  (check-equal? (string->posint "+nan.f") #f)
+  (check-equal? (string->posint "-inf.0") #f)
+  (check-equal? (string->posint "+inf.f") #f)
+  (check-equal? (string->posint "-1+i") #f)
+  (check-equal? (string->posint "-1.2") #f)
+  (check-equal? (string->posint "0") #f)
+  (check-equal? (string->posint "1") 1)
+
   )
 ;; end

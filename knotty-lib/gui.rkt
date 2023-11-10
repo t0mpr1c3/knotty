@@ -51,15 +51,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; export static HTML page
-(: export-html : Pattern Path-String -> Void)
-(define (export-html p filename)
-  (log-message knotty-logger 'debug "in `export-html` with:" #f)
-  (log-message knotty-logger 'debug (format "filename=~a" filename) #f)
+(: export-html (->* (Pattern Path-String) (Positive-Integer Positive-Integer) Void))
+(define (export-html p filename [h 1] [v 1])
   (let ([inputs
          (make-hasheq
           `((stat  . 1)
-            (hreps . 1)
-            (vreps . 1)
+            (hreps . ,h)
+            (vreps . ,v)
             (zoom  . 80)
             (float . 0)
             (notes . 0)
