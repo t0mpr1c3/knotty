@@ -94,8 +94,9 @@
 (define knotty-logger (make-logger 'knotty (current-logger)))
 
 ;; raises parameterized error message
-(: err : (Parameterof Boolean) String -> Void)
-(define (err param msg)
-  (if (param)
-      (error msg)
-      (log-message knotty-logger 'error msg #f)))
+(define-syntax (err stx)
+  (syntax-parse stx
+    [(err param:id msg)
+     #`(if (param)
+         #,(syntax/loc stx (error msg))
+         (log-message knotty-logger 'error msg #f))]))

@@ -166,22 +166,18 @@
         `(seq
           #'0
           ,(append
-            (if (null? rep)
-                null
-                (if (pair? (car rep))
-                    rep
-                    (list rep)))))))]
+            (if (pair? (car rep))
+                rep
+                (list rep))))))]
     [({~literal conditional-stitch-statement} conditional-stitch-group-stx repeat-condition-stx)
      (let ([rep (interpret-conditional-stitch-group #'conditional-stitch-group-stx)])
        (interpret-seq
         `(seq
           #'0
           ,(append
-            (if (null? rep)
-                null
-                (if (pair? (car rep))
-                    rep
-                    (list rep)))))))]))
+            (if (pair? (car rep))
+                rep
+                (list rep))))))]))
 
 (define (interpret-conditional-stitch-group conditional-stitch-group-stx)
   (syntax-parse conditional-stitch-group-stx
