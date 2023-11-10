@@ -30,6 +30,7 @@
            syntax/parse/define  ;; for `define-syntax-parse-rule`
            sxml/sxpath)
   (require "global.rkt"
+           "logger.rkt"
            "util.rkt"
            "stitch.rkt"
            "tree.rkt"
@@ -83,37 +84,20 @@
            [force?           (equal? '((force? #t))           ((sxpath "/force?")           flags~))]
            [generic-matches? (equal? '((generic-matches? #t)) ((sxpath "/generic-matches?") flags~))]
            [safe?       (not (equal? '((unsafe? #t))          ((sxpath "/unsafe?")          flags~)))]
+           [quiet?           (equal? '((quiet? #t))           ((sxpath "/quiet?")           flags~))]
            [verbose?         (equal? '((verbose? #t))         ((sxpath "/verbose?")         flags~))]
            [very-verbose?    (equal? '((verbose? #t))         ((sxpath "/very-verbose?")    flags~))]
            [webserver?       (equal? '((webserver? #t))       ((sxpath "/webserver?")       flags~))])
 
-      (parameterize ([VERBOSE verbose?]
+      (parameterize ([SILENT  quiet?]
+                     [VERBOSE verbose?]
                      [DEBUG   very-verbose?]
                      [SAFE    safe?])
-
-        ;; initialize log receiver
-        ;; reprises code from "logger.rkt"
-        (define knotty-receiver
-          (make-log-receiver knotty-logger (if (DEBUG)
-                                               'debug
-                                               (if (VERBOSE)
-                                                   'info
-                                                   'warning))))
-        (log-message knotty-logger 'info "knotty-logger initialized")
-        (log-message knotty-logger 'debug (format "resources location: ~a" resources-path))
-
-        ;; set up thread to print output from log receiver
-        (void
-         (thread
-          (λ () (let sync-loop ()
-                  (define v (sync knotty-receiver))
-                  (printf "[~a] ~a\n" (vector-ref v 0) (vector-ref v 1))
-                  (sync-loop)))))
 
         (log-message knotty-logger 'debug "in `cli-handler` with:")
         (log-message knotty-logger 'debug (format "command line flags=~a" flags))
 
-#|
+        #|
         ;; (de)obfuscate DAK files
         (when (or (and import-dak? export-stp?)
                   (and import-stp? export-dak?))
@@ -129,47 +113,47 @@
                                     (thunk (write-bytes (de/obfuscate data import-stp?) out)
                                            (close-output-port out))
                                     (if export-stp? "stp" "dak"))))
-|#
+        |#
 
         ;; convert format / launch webserver
         (when (or import-ks?
                   import-png?
                   (and import-xml?
                        (or ;export-dak?
-                           export-html?
-                           ;export-stp?
-                           export-text?
-                           webserver?)))
-#|
+                        export-html?
+                        ;export-stp?
+                        export-text?
+                        webserver?)))
+          #|
                   (and (or import-dak?
                            import-stp?)
                        (or export-html?
                            export-text?
                            export-xml?
                            webserver?)))
-|#
+          |#
           (let* ([input-filename
                   (cond ;[import-dak? (path-replace-extension filestem #".dak")]
-                        [import-ks?  (path-replace-extension filestem #".ks")]
-                        [import-png? (path-replace-extension filestem #".png")]
-                        ;[import-stp? (path-replace-extension filestem #".stp")]
-                        [import-xml? (path-replace-extension filestem #".xml")]
-                        [else (error invalid-input)])]
+                    [import-ks?  (path-replace-extension filestem #".ks")]
+                    [import-png? (path-replace-extension filestem #".png")]
+                    ;[import-stp? (path-replace-extension filestem #".stp")]
+                    [import-xml? (path-replace-extension filestem #".xml")]
+                    [else (error invalid-input)])]
                  [p
                   (cond ;[import-dak? (import-dak input-filename generic-matches? #f)]
-                        [import-ks?  (import-ks  input-filename)]
-                        [import-png? (import-png input-filename)]
-                        ;[import-stp? (import-stp input-filename generic-matches?)]
-                        [import-xml? (import-xml input-filename)]
-                        [else (error invalid-input)])])
-#|
+                    [import-ks?  (import-ks  input-filename)]
+                    [import-png? (import-png input-filename)]
+                    ;[import-stp? (import-stp input-filename generic-matches?)]
+                    [import-xml? (import-xml input-filename)]
+                    [else (error invalid-input)])])
+            #|
             (when export-dak?
               (let ([out-file-path (path-replace-extension filestem #".dak")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-stp p out-file-path))
                                         "dak")))
-|#
+            |#
             (when export-html?
               (let-values ([(base name dir?) (split-path filestem)])
                 (let* ([out-file-path (path-replace-extension filestem #".html")]
@@ -195,14 +179,14 @@
                                         out-file-path
                                         (thunk (export-ks p out-file-path))
                                         "ks")))
-#|
+            #|
             (when export-stp?
               (let ([out-file-path (path-replace-extension filestem #".stp")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-stp p out-file-path))
                                         "stp")))
-|#
+            |#
             (when export-xml?
               (let ([out-file-path (path-replace-extension filestem #".xml")])
                 (replace-file-if-forced force?
@@ -250,33 +234,33 @@
 
    ;; import format
    #:once-any
-#|
+   #|
    [("-d" "--import-dak")
     "Import deobfuscated Designaknit .dak file"
     `(import-dak? #t)] ;; FIXME for testing purposes only. Comment out this option when ready for release.
-|#
+   |#
    [("-k" "--import-ks")
     "Import Knitspeak .ks file"
     `(import-ks? #t)]
    [("-p" "--import-png")
     "Import graphical .png file"
     `(import-png? #t)]
-#|
+   #|
    [("-s" "--import-stp")
     "Import Designaknit .stp file"
     `(import-stp? #t)]
-|#
+   |#
    [("-x" "--import-xml")
     "Import Knotty XML file"
     `(import-xml? #t)]
 
    ;; export format
    #:once-each
-#|
+   #|
    [("-D" "--export-dak")
     "Export deobfuscated Designaknit .dak file"
     `(export-dak? #t)] ;; FIXME for testing purposes only. Comment out this option when ready for release.
-|#
+   |#
    [("-H" "--export-html")
     "Export chart and instructions as webpage"
     `(export-html? #t)]
@@ -291,23 +275,28 @@
     "Export Racket source file"
     `(export-rkt? #t)]
    |#
-#|
+   #|
    [("-S" "--export-stp")
     "Export Designaknit .stp file"
     `(export-stp? #t)]
-|#
+   |#
    [("-X" "--export-xml")
     "Export Knotty XML file"
     `(export-xml? #t)]
 
-   ;; parameter settings
+   ;; log settings
    #:once-any
+   [("-q" "--quiet")
+    "Turn off messages"
+    `(quiet? #t)]
    [("-v" "--verbose")
     "Show detailed messages"
     `(verbose? #t)]
    [("-V" "--vv")
     "Show very verbose messages"
     `(very-verbose? #t)]
+   
+   ;; other settings
    #:once-each
    [("-f" "--force")
     "Overwrite existing file(s) after conversion"

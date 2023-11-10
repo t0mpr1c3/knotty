@@ -78,6 +78,9 @@
 ;; pattern settings return warnings instead of error messages
 (define SAFE : (Parameterof Boolean) (make-parameter #t))
 
+;; set to #t to turn off messages
+(define SILENT : (Parameterof Boolean) (make-parameter #f))
+
 ;; set to #t for detailed messages
 (define VERBOSE : (Parameterof Boolean) (make-parameter #f))
 
