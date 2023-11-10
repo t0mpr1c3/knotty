@@ -123,6 +123,9 @@ span.slider,
   position: relative;
   top: -2em;
 }
+span.lower {
+  top: 0.75em;
+}
 #float-span.active {
   top: -2px;
 }
