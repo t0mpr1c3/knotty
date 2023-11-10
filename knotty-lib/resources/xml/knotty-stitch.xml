@@ -19,9 +19,9 @@
   </stitch>
   <stitch>
     <rs-symbol>ssk2tog</rs-symbol>
-    <ws-symbol>p2togtbl</ws-symbol>
-    <rs-string>V¶</rs-string>
-    <ws-string>Wµ</ws-string>
+    <ws-symbol>p2tog-tbl</ws-symbol>
+    <rs-string>VÂ¶</rs-string>
+    <ws-string>WÂµ</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>2</stitches-in>
@@ -35,27 +35,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yrn3p</rs-symbol>
-    <ws-symbol>yrn3k</ws-symbol>
-    <rs-string>Û</rs-string>
-    <ws-string>Ü</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Purl, wrapping yarn three times around needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lpc-3/1/3</rs-symbol>
     <ws-symbol>lpc-3/1/3-ws</ws-symbol>
     <rs-string>~</rs-string>
-    <ws-string>ö</ws-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -71,8 +54,8 @@
   <stitch>
     <rs-symbol>bebd</rs-symbol>
     <ws-symbol>bebd-ws</ws-symbol>
-    <rs-string>¯®</rs-string>
-    <ws-string>ÂÂ</ws-string>
+    <rs-string>Â¯Â®</rs-string>
+    <ws-string>ÃÃ</ws-string>
     <width>2</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -105,8 +88,8 @@
   <stitch>
     <rs-symbol>lc-4/3</rs-symbol>
     <ws-symbol>lc-3/4-ws</ws-symbol>
-    <rs-string>Å</rs-string>
-    <ws-string>ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -122,8 +105,8 @@
   <stitch>
     <rs-symbol>lc-3/2/3</rs-symbol>
     <ws-symbol>lc-3/2/3-ws</ws-symbol>
-    <rs-string>Í</rs-string>
-    <ws-string>Ñ</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -139,8 +122,8 @@
   <stitch>
     <rs-symbol>gs</rs-symbol>
     <ws-symbol>gs</ws-symbol>
-    <rs-string>ß</rs-string>
-    <ws-string>ß</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -173,7 +156,7 @@
   <stitch>
     <rs-symbol>rc-3/1/3-ws</rs-symbol>
     <ws-symbol>rc-3/1/3</ws-symbol>
-    <rs-string>ö</rs-string>
+    <rs-string>Ã¶</rs-string>
     <ws-string>{</ws-string>
     <width>7</width>
     <cable>1</cable>
@@ -190,7 +173,7 @@
   <stitch>
     <rs-symbol>rc-2/3-ws</rs-symbol>
     <ws-symbol>rc-3/2</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>Z</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -207,8 +190,8 @@
   <stitch>
     <rs-symbol>rc-4/3</rs-symbol>
     <ws-symbol>rc-3/4-ws</ws-symbol>
-    <rs-string>Ä</rs-string>
-    <ws-string>ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -224,7 +207,7 @@
   <stitch>
     <rs-symbol>lc-3/3-ws</rs-symbol>
     <ws-symbol>lc-3/3</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>k</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -241,7 +224,7 @@
   <stitch>
     <rs-symbol>rpc-3/1/3-ws</rs-symbol>
     <ws-symbol>rpc-3/1/3</ws-symbol>
-    <rs-string>ö</rs-string>
+    <rs-string>Ã¶</rs-string>
     <ws-string>}</ws-string>
     <width>7</width>
     <cable>1</cable>
@@ -258,8 +241,8 @@
   <stitch>
     <rs-symbol>lc-3/4</rs-symbol>
     <ws-symbol>lc-4/3-ws</ws-symbol>
-    <rs-string>Á</rs-string>
-    <ws-string>ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -307,26 +290,9 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>sl</rs-symbol>
-    <ws-symbol>slwyif</ws-symbol>
-    <rs-string>&amp;amp;</rs-string>
-    <ws-string>'</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>1</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>With yarn at back of work, slip stitch purlwise</hand-instructions>
-    <machine-instructions>Machine slip/miss</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>rc-1/2-ws</rs-symbol>
     <ws-symbol>rc-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>+</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -343,8 +309,8 @@
   <stitch>
     <rs-symbol>rpc-4/4</rs-symbol>
     <ws-symbol>rpc-4/4</ws-symbol>
-    <rs-string>Ê</rs-string>
-    <ws-string>Ê</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -378,7 +344,7 @@
     <rs-symbol>lt-2/1</rs-symbol>
     <ws-symbol>lt-2/1-ws</ws-symbol>
     <rs-string>4</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -395,7 +361,7 @@
     <rs-symbol>lc-1/2/1</rs-symbol>
     <ws-symbol>lc-1/2/1-ws</ws-symbol>
     <rs-string>O</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -428,7 +394,7 @@
   <stitch>
     <rs-symbol>lpc-2/1/2-ws</rs-symbol>
     <ws-symbol>lpc-2/1/2</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>e</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -445,8 +411,8 @@
   <stitch>
     <rs-symbol>tl</rs-symbol>
     <ws-symbol>tl</ws-symbol>
-    <rs-string>º</rs-string>
-    <ws-string>º</ws-string>
+    <rs-string>Âº</rs-string>
+    <ws-string>Âº</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -462,8 +428,8 @@
   <stitch>
     <rs-symbol>lpc-6/6</rs-symbol>
     <ws-symbol>lpc-6/6</ws-symbol>
-    <rs-string>ç</rs-string>
-    <ws-string>ç</ws-string>
+    <rs-string>Ã§</rs-string>
+    <ws-string>Ã§</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -480,7 +446,7 @@
     <rs-symbol>inc4p</rs-symbol>
     <ws-symbol>inc4k</ws-symbol>
     <rs-string>*b</rs-string>
-    <ws-string>&amp;amp;b</ws-string>
+    <ws-string>&amp;b</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -496,8 +462,8 @@
   <stitch>
     <rs-symbol>rc-4/4</rs-symbol>
     <ws-symbol>rc-4/4-ws</ws-symbol>
-    <rs-string>È</rs-string>
-    <ws-string>ø</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¸</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -513,7 +479,7 @@
   <stitch>
     <rs-symbol>lc-1/1/1-ws</rs-symbol>
     <ws-symbol>lc-1/1/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>:</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -530,8 +496,8 @@
   <stitch>
     <rs-symbol>rpt-2/2-ws</rs-symbol>
     <ws-symbol>rpt-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
-    <ws-string>Ü</ws-string>
+    <rs-string>Ã³</rs-string>
+    <ws-string>Ã</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -547,8 +513,8 @@
   <stitch>
     <rs-symbol>rc-3/2/3-ws</rs-symbol>
     <ws-symbol>rc-3/2/3</ws-symbol>
-    <rs-string>Ñ</rs-string>
-    <ws-string>Ì</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -562,27 +528,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yo4</rs-symbol>
-    <ws-symbol>yo4</ws-symbol>
-    <rs-string>oD</rs-string>
-    <ws-string>oD</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>0</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Yarn over wrapping yarn 4 times, drop extra wraps on next row</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>pbp</rs-symbol>
     <ws-symbol>pbk</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>ø</ws-string>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã¸</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -597,7 +546,7 @@
   </stitch>
   <stitch>
     <rs-symbol>slkwyif</rs-symbol>
-    <ws-symbol>slk</ws-symbol>
+    <ws-symbol>slkwyib</ws-symbol>
     <rs-string>Q</rs-string>
     <ws-string>*</ws-string>
     <width>1</width>
@@ -615,7 +564,7 @@
   <stitch>
     <rs-symbol>inc5p</rs-symbol>
     <ws-symbol>inc5k</ws-symbol>
-    <rs-string>&amp;amp;c</rs-string>
+    <rs-string>&amp;c</rs-string>
     <ws-string>*c</ws-string>
     <width>1</width>
     <cable>0</cable>
@@ -633,7 +582,7 @@
     <rs-symbol>lc-4/2</rs-symbol>
     <ws-symbol>lc-2/4-ws</ws-symbol>
     <rs-string>s</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>
@@ -644,23 +593,6 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches onto cable needle and hold at front, knit next 2 stitches from left hand needle, knit 4 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>lpc-3/2/3</rs-symbol>
-    <ws-symbol>lpc-3/2/3-ws</ws-symbol>
-    <rs-string>Ï</rs-string>
-    <ws-string>Ñ</ws-string>
-    <width>8</width>
-    <cable>1</cable>
-    <stitches-in>8</stitches-in>
-    <stitches-out>8</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 3 stitches to cable needle and hold at front, slip next 2 stitches to second cable needle and hold at back. Knit next 3 stitches from left hand needle, purl next 2 stitches from back cable needle, knit next 3 stitches from front cable needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -681,10 +613,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>k2tog-twisted</rs-symbol>
+    <ws-symbol>ssp2tog</ws-symbol>
+    <rs-string>UÂµ</rs-string>
+    <ws-string>UÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lpc-3/2/3</rs-symbol>
+    <ws-symbol>lpc-3/2/3-ws</ws-symbol>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>8</width>
+    <cable>1</cable>
+    <stitches-in>8</stitches-in>
+    <stitches-out>8</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 3 stitches to cable needle and hold at front, slip next 2 stitches to second cable needle and hold at back. Knit next 3 stitches from left hand needle, purl next 2 stitches from back cable needle, knit next 3 stitches from front cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>lpc-2/1/2</rs-symbol>
     <ws-symbol>lpc-2/1/2-ws</ws-symbol>
     <rs-string>e</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -700,7 +666,7 @@
   <stitch>
     <rs-symbol>lc-1/1-ws</rs-symbol>
     <ws-symbol>lc-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>"</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -718,7 +684,7 @@
     <rs-symbol>lc-3/3</rs-symbol>
     <ws-symbol>lc-3/3-ws</ws-symbol>
     <rs-string>k</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>
@@ -729,74 +695,6 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 3 stitches onto cable needle and hold at front, knit next 3 stitches from left hand needle, knit 3 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>lc-2/1/2-ws</rs-symbol>
-    <ws-symbol>lc-2/1/2</ws-symbol>
-    <rs-string>ô</rs-string>
-    <ws-string>c</ws-string>
-    <width>5</width>
-    <cable>1</cable>
-    <stitches-in>5</stitches-in>
-    <stitches-out>5</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next 2 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), purl next stitch from left hand needle, purl next 2 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>k2tog</rs-symbol>
-    <ws-symbol>ssp</ws-symbol>
-    <rs-string>U</rs-string>
-    <ws-string>X</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>2</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>1</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Knit 2 together</hand-instructions>
-    <machine-instructions>Right-slanting decrease</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>lpc-4/1/4-ws</rs-symbol>
-    <ws-symbol>lpc-4/1/4</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>Õ</ws-string>
-    <width>9</width>
-    <cable>1</cable>
-    <stitches-in>9</stitches-in>
-    <stitches-out>9</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 5 stitches to cable needle and hold in front (WS), purl next 4 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), knit next stitch from left hand needle, purl next 4 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>k2togtbl</rs-symbol>
-    <ws-symbol>ssp2tog</ws-symbol>
-    <rs-string>Uµ</rs-string>
-    <ws-string>U¶</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>2</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>1</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Knit 2 together through back of loops</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -814,6 +712,91 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 2 stitches onto cable needle and hold at back, knit next 3 stitches from left hand needle, purl 2 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lt-2/2</rs-symbol>
+    <ws-symbol>lt-2/2-ws</ws-symbol>
+    <rs-string>E</rs-string>
+    <ws-string>Ã³</ws-string>
+    <width>4</width>
+    <cable>1</cable>
+    <stitches-in>4</stitches-in>
+    <stitches-out>4</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 2 stitches to cable needle and hold at front. Knit next 2 stitches through the back loop from left hand needle, knit 2 stitches through the back loop from cable needle.</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>bebd-ws</rs-symbol>
+    <ws-symbol>bebd</ws-symbol>
+    <rs-string>ÃÃ</rs-string>
+    <ws-string>Â¯Â®</ws-string>
+    <width>2</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>2</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lc-2/1/2-ws</rs-symbol>
+    <ws-symbol>lc-2/1/2</ws-symbol>
+    <rs-string>Ã´</rs-string>
+    <ws-string>c</ws-string>
+    <width>5</width>
+    <cable>1</cable>
+    <stitches-in>5</stitches-in>
+    <stitches-out>5</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next 2 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), purl next stitch from left hand needle, purl next 2 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lpc-4/1/4-ws</rs-symbol>
+    <ws-symbol>lpc-4/1/4</ws-symbol>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>9</width>
+    <cable>1</cable>
+    <stitches-in>9</stitches-in>
+    <stitches-out>9</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 5 stitches to cable needle and hold in front (WS), purl next 4 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), knit next stitch from left hand needle, purl next 4 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lc-1/2/1-ws</rs-symbol>
+    <ws-symbol>lc-1/2/1</ws-symbol>
+    <rs-string>Ã³</rs-string>
+    <ws-string>O</ws-string>
+    <width>4</width>
+    <cable>1</cable>
+    <stitches-in>4</stitches-in>
+    <stitches-out>4</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next stitch from left hand needle, slip next 2 stitches from cable needle to left needle and move cable needle to back (RS), purl next 2 stitches from left hand needle, purl next stitch from cable needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -851,112 +834,44 @@
     <machine-instructions>Right-slanting increase purlwise</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yo3</rs-symbol>
-    <ws-symbol>yo3</ws-symbol>
-    <rs-string>oC</rs-string>
-    <ws-string>oC</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>0</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Yarn over wrapping yarn 3 times, drop extra wraps on next row</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>lt-2/2</rs-symbol>
-    <ws-symbol>lt-2/2-ws</ws-symbol>
-    <rs-string>E</rs-string>
-    <ws-string>ó</ws-string>
-    <width>4</width>
-    <cable>1</cable>
-    <stitches-in>4</stitches-in>
-    <stitches-out>4</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 2 stitches to cable needle and hold at front. Knit next 2 stitches through the back loop from left hand needle, knit 2 stitches through the back loop from cable needle.</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>bebd-ws</rs-symbol>
-    <ws-symbol>bebd</ws-symbol>
-    <rs-string>ÂÂ</rs-string>
-    <ws-string>¯®</ws-string>
-    <width>2</width>
-    <cable>0</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>2</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>false</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>sk2psso</rs-symbol>
-    <ws-symbol>p3tog</ws-symbol>
-    <rs-string>t</rs-string>
-    <ws-string>u</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>-2</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip next stitch knitwise, knit 2 together, pass slipped stitch over</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>yrn2p</rs-symbol>
-    <ws-symbol>yrn2k</ws-symbol>
-    <rs-string>Ú</rs-string>
-    <ws-string>]</ws-string>
+    <rs-symbol>slwyib</rs-symbol>
+    <ws-symbol>slwyif</ws-symbol>
+    <rs-string>&amp;</rs-string>
+    <ws-string>'</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
     <stitches-out>1</stitches-out>
     <offset>0</offset>
-    <repeatable>0</repeatable>
+    <repeatable>1</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Purl, wrapping yarn twice around needle</hand-instructions>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>With yarn at back of work, slip stitch purlwise</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>lc-1/2/1-ws</rs-symbol>
-    <ws-symbol>lc-1/2/1</ws-symbol>
-    <rs-string>ó</rs-string>
-    <ws-string>O</ws-string>
-    <width>4</width>
-    <cable>1</cable>
-    <stitches-in>4</stitches-in>
-    <stitches-out>4</stitches-out>
-    <offset>0</offset>
+    <rs-symbol>k2tog</rs-symbol>
+    <ws-symbol>ssp</ws-symbol>
+    <rs-string>U</rs-string>
+    <ws-string>X</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
     <repeatable>0</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next stitch from left hand needle, slip next 2 stitches from cable needle to left needle and move cable needle to back (RS), purl next 2 stitches from left hand needle, purl next stitch from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Knit 2 together</hand-instructions>
+    <machine-instructions>Right-slanting decrease</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>rc-4/1</rs-symbol>
     <ws-symbol>rc-1/4-ws</ws-symbol>
     <rs-string>^</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -972,7 +887,7 @@
   <stitch>
     <rs-symbol>rpc-1/2/1-ws</rs-symbol>
     <ws-symbol>rpc-1/2/1</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>P</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -984,6 +899,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next stitch to cable needle and hold at back (RS), slip next 2 stitches to second cable needle and hold at front (WS). Purl next stitch from left hand needle, knit next 2 stitches from front cable needle, purl next stitch from back cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>p2w</rs-symbol>
+    <ws-symbol>k2w</ws-symbol>
+    <rs-string>Ã</rs-string>
+    <ws-string>]</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Purl, wrapping yarn twice around needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -1040,8 +972,8 @@
   <stitch>
     <rs-symbol>lpc-3/4</rs-symbol>
     <ws-symbol>lpc-4/3</ws-symbol>
-    <rs-string>Ã</rs-string>
-    <ws-string>Ç</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -1058,7 +990,7 @@
     <rs-symbol>rc-3/1/3</rs-symbol>
     <ws-symbol>rc-3/1/3-ws</ws-symbol>
     <rs-string>{</rs-string>
-    <ws-string>ö</ws-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -1092,7 +1024,7 @@
     <rs-symbol>rpt-1/1</rs-symbol>
     <ws-symbol>rpt-1/1-ws</ws-symbol>
     <rs-string>)</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -1109,7 +1041,7 @@
     <rs-symbol>rc-4/2</rs-symbol>
     <ws-symbol>rc-2/4-ws</ws-symbol>
     <rs-string>r</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>
@@ -1142,8 +1074,8 @@
   <stitch>
     <rs-symbol>lc-3/4-ws</rs-symbol>
     <ws-symbol>lc-4/3</ws-symbol>
-    <rs-string>ö</rs-string>
-    <ws-string>Å</ws-string>
+    <rs-string>Ã¶</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -1157,27 +1089,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yo2</rs-symbol>
-    <ws-symbol>yo2</ws-symbol>
-    <rs-string>oB</rs-string>
-    <ws-string>oB</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>0</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Yarn over wrapping yarn twice, drop extra wrap on next row</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lc-4/4</rs-symbol>
     <ws-symbol>lc-4/4-ws</ws-symbol>
-    <rs-string>É</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -1209,9 +1124,9 @@
   </stitch>
   <stitch>
     <rs-symbol>sssp3tog</rs-symbol>
-    <ws-symbol>k3togtbl</ws-symbol>
-    <rs-string>v¶</rs-string>
-    <ws-string>sµ</ws-string>
+    <ws-symbol>k3tog-tbl</ws-symbol>
+    <rs-string>vÂ¶</rs-string>
+    <ws-string>sÂµ</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -1227,7 +1142,7 @@
   <stitch>
     <rs-symbol>lc-1/4-ws</rs-symbol>
     <ws-symbol>lc-4/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>_</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -1261,7 +1176,7 @@
   <stitch>
     <rs-symbol>rc-1/1/1-ws</rs-symbol>
     <ws-symbol>rc-1/1/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>9</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -1279,7 +1194,7 @@
     <rs-symbol>rpc-3/1/3</rs-symbol>
     <ws-symbol>rpc-3/1/3-ws</ws-symbol>
     <rs-string>}</rs-string>
-    <ws-string>ö</ws-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -1293,27 +1208,27 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>ssp2tog</rs-symbol>
-    <ws-symbol>k2togtbl</ws-symbol>
-    <rs-string>U¶</rs-string>
-    <ws-string>Uµ</ws-string>
+    <rs-symbol>yo2w</rs-symbol>
+    <ws-symbol>yo2w</ws-symbol>
+    <rs-string>oB</rs-string>
+    <ws-string>oB</ws-string>
     <width>1</width>
     <cable>0</cable>
-    <stitches-in>2</stitches-in>
+    <stitches-in>0</stitches-in>
     <stitches-out>1</stitches-out>
-    <offset>-1</offset>
+    <offset>0</offset>
     <repeatable>0</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip 1 knitwise twice, slip stitches back to left needle and purl 2 together</hand-instructions>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Yarn over wrapping yarn twice, drop extra wrap on next row</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>w&amp;amp;t</rs-symbol>
-    <ws-symbol>w&amp;amp;t</ws-symbol>
-    <rs-string>ÿ</rs-string>
-    <ws-string>ÿ</ws-string>
+    <rs-symbol>w&amp;t</rs-symbol>
+    <ws-symbol>w&amp;t</ws-symbol>
+    <rs-string>Ã¿</rs-string>
+    <ws-string>Ã¿</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
@@ -1330,7 +1245,7 @@
     <rs-symbol>inc4k</rs-symbol>
     <ws-symbol>inc4p</ws-symbol>
     <rs-string>*b</rs-string>
-    <ws-string>&amp;amp;b</ws-string>
+    <ws-string>&amp;b</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -1347,7 +1262,7 @@
     <rs-symbol>rt-2/2</rs-symbol>
     <ws-symbol>rt-2/2-ws</ws-symbol>
     <rs-string>D</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -1361,26 +1276,9 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>p3togtbl</rs-symbol>
-    <ws-symbol>sssk3tog</ws-symbol>
-    <rs-string>uµ</rs-string>
-    <ws-string>t¶</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>2</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Purl 3 together through back of loops</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lpt-2/1-ws</rs-symbol>
     <ws-symbol>lpt-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>&amp;#6;8</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -1397,7 +1295,7 @@
   <stitch>
     <rs-symbol>rc-3/2-ws</rs-symbol>
     <ws-symbol>rc-2/3</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>U</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -1412,10 +1310,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>ssp2tog</rs-symbol>
+    <ws-symbol>k2togtbl</ws-symbol>
+    <rs-string>UÂ¶</rs-string>
+    <ws-string>UÂµ</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Slip 1 knitwise twice, slip stitches back to left needle and purl 2 together</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>p3tog-tbl</rs-symbol>
+    <ws-symbol>sssk3tog</ws-symbol>
+    <rs-string>uÂµ</rs-string>
+    <ws-string>tÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Purl 3 together through back of loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rc-2/1</rs-symbol>
     <ws-symbol>rc-1/2-ws</ws-symbol>
     <rs-string>+</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -1431,8 +1363,8 @@
   <stitch>
     <rs-symbol>sp</rs-symbol>
     <ws-symbol>sp</ws-symbol>
-    <rs-string>¿</rs-string>
-    <ws-string>¿</ws-string>
+    <rs-string>Â¿</rs-string>
+    <ws-string>Â¿</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -1500,7 +1432,7 @@
     <rs-symbol>rt-1/1</rs-symbol>
     <ws-symbol>rt-1/1-ws</ws-symbol>
     <rs-string>'</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -1516,8 +1448,8 @@
   <stitch>
     <rs-symbol>beyo</rs-symbol>
     <ws-symbol>beyo-ws</ws-symbol>
-    <rs-string>®o¯</rs-string>
-    <ws-string>ÂoÂ</ws-string>
+    <rs-string>Â®oÂ¯</rs-string>
+    <ws-string>ÃoÃ</ws-string>
     <width>3</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -1531,27 +1463,27 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>lpt-2/1</rs-symbol>
-    <ws-symbol>lpt-2/1-ws</ws-symbol>
-    <rs-string>&amp;#6;8</rs-string>
-    <ws-string>ò</ws-string>
-    <width>3</width>
-    <cable>1</cable>
+    <rs-symbol>sssk</rs-symbol>
+    <ws-symbol>p3tog</ws-symbol>
+    <rs-string>t</rs-string>
+    <ws-string>u</ws-string>
+    <width>1</width>
+    <cable>0</cable>
     <stitches-in>3</stitches-in>
-    <stitches-out>3</stitches-out>
-    <offset>0</offset>
+    <stitches-out>1</stitches-out>
+    <offset>-2</offset>
     <repeatable>0</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 2 stitches to cable needle and hold at front. Knit next stitch from left hand needle, knit 2 stitches through the back loop from cable needle.</hand-instructions>
-    <machine-instructions>false</machine-instructions>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Slip 1 knitwise 3 times. Insert left needle from back through all 3 stitches and knit 3 together</hand-instructions>
+    <machine-instructions>Left-slanting double decrease</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>lc-3/3/3</rs-symbol>
     <ws-symbol>lc-3/3/3-ws</ws-symbol>
-    <rs-string>Ù</rs-string>
-    <ws-string>Ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -1584,8 +1516,8 @@
   <stitch>
     <rs-symbol>rc-2/2-ws</rs-symbol>
     <ws-symbol>rc-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
-    <ws-string>&amp;gt;</ws-string>
+    <rs-string>Ã³</rs-string>
+    <ws-string>&gt;</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -1601,8 +1533,8 @@
   <stitch>
     <rs-symbol>lpc-4/4/4</rs-symbol>
     <ws-symbol>lpc-4/4/4-ws</ws-symbol>
-    <rs-string>ë</rs-string>
-    <ws-string>ì</ws-string>
+    <rs-string>Ã«</rs-string>
+    <ws-string>Ã¬</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -1618,7 +1550,7 @@
   <stitch>
     <rs-symbol>lc-3/1-ws</rs-symbol>
     <ws-symbol>lc-1/3</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>G</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -1635,8 +1567,8 @@
   <stitch>
     <rs-symbol>lc-3/2/3-ws</rs-symbol>
     <ws-symbol>lc-3/2/3</ws-symbol>
-    <rs-string>Ñ</rs-string>
-    <ws-string>Í</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -1650,10 +1582,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>yo3w</rs-symbol>
+    <ws-symbol>yo3w</ws-symbol>
+    <rs-string>oC</rs-string>
+    <ws-string>oC</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>0</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Yarn over wrapping yarn 3 times, drop extra wraps on next row</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lpt-2/1</rs-symbol>
+    <ws-symbol>lpt-2/1-ws</ws-symbol>
+    <rs-string>&amp;#6;8</rs-string>
+    <ws-string>Ã²</ws-string>
+    <width>3</width>
+    <cable>1</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>3</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 2 stitches to cable needle and hold at front. Knit next stitch from left hand needle, knit 2 stitches through the back loop from cable needle.</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rt-2/1</rs-symbol>
     <ws-symbol>rt-2/1-ws</ws-symbol>
     <rs-string>3</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -1669,8 +1635,8 @@
   <stitch>
     <rs-symbol>lc-4/4/4-ws</rs-symbol>
     <ws-symbol>lc-4/4/4</ws-symbol>
-    <rs-string>ì</rs-string>
-    <ws-string>é</ws-string>
+    <rs-string>Ã¬</rs-string>
+    <ws-string>Ã©</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -1686,7 +1652,7 @@
   <stitch>
     <rs-symbol>rc-1/3/1-ws</rs-symbol>
     <ws-symbol>rc-1/3/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>f</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -1703,8 +1669,8 @@
   <stitch>
     <rs-symbol>turn</rs-symbol>
     <ws-symbol>turn</ws-symbol>
-    <rs-string>ð</rs-string>
-    <ws-string>ð</ws-string>
+    <rs-string>Ã°</rs-string>
+    <ws-string>Ã°</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
@@ -1720,7 +1686,7 @@
   <stitch>
     <rs-symbol>rt-2/1-ws</rs-symbol>
     <ws-symbol>rt-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>3</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -1754,8 +1720,8 @@
   <stitch>
     <rs-symbol>rc-3/3/3</rs-symbol>
     <ws-symbol>rc-3/3/3-ws</ws-symbol>
-    <rs-string>Ø</rs-string>
-    <ws-string>Ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -1771,8 +1737,8 @@
   <stitch>
     <rs-symbol>rc-4/4/4-ws</rs-symbol>
     <ws-symbol>rc-4/4/4</ws-symbol>
-    <rs-string>ì</rs-string>
-    <ws-string>è</ws-string>
+    <rs-string>Ã¬</rs-string>
+    <ws-string>Ã¨</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -1822,8 +1788,8 @@
   <stitch>
     <rs-symbol>lpt-2/2</rs-symbol>
     <ws-symbol>lpt-2/2-ws</ws-symbol>
-    <rs-string>Ý</rs-string>
-    <ws-string>ó</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -1873,7 +1839,7 @@
   <stitch>
     <rs-symbol>lt-2/2-ws</rs-symbol>
     <ws-symbol>lt-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>E</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -1890,7 +1856,7 @@
   <stitch>
     <rs-symbol>rc-1/3-ws</rs-symbol>
     <ws-symbol>rc-3/1</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>J</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -1924,8 +1890,8 @@
   <stitch>
     <rs-symbol>lpc-5/5</rs-symbol>
     <ws-symbol>lpc-5/5</ws-symbol>
-    <rs-string>ã</rs-string>
-    <ws-string>ã</ws-string>
+    <rs-string>Ã£</rs-string>
+    <ws-string>Ã£</ws-string>
     <width>10</width>
     <cable>1</cable>
     <stitches-in>10</stitches-in>
@@ -1941,8 +1907,8 @@
   <stitch>
     <rs-symbol>lc-4/1/4</rs-symbol>
     <ws-symbol>lc-4/1/4-ws</ws-symbol>
-    <rs-string>Ó</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -1976,7 +1942,7 @@
     <rs-symbol>lc-4/1</rs-symbol>
     <ws-symbol>lc-1/4-ws</ws-symbol>
     <rs-string>_</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -1988,23 +1954,6 @@
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches onto cable needle and hold at front, knit next stitch from left hand needle, knit 4 stitches from cable needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>ds</rs-symbol>
-    <ws-symbol>ds</ws-symbol>
-    <rs-string>,</rs-string>
-    <ws-string>,</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>0</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Drop next stitch off left needle and allow to unravel</hand-instructions>
-    <machine-instructions>Drop stitch</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>p2tog</rs-symbol>
@@ -2025,7 +1974,7 @@
   </stitch>
   <stitch>
     <rs-symbol>p3tog</rs-symbol>
-    <ws-symbol>sk2psso</ws-symbol>
+    <ws-symbol>sssk</ws-symbol>
     <rs-string>u</rs-string>
     <ws-string>t</ws-string>
     <width>1</width>
@@ -2043,7 +1992,7 @@
   <stitch>
     <rs-symbol>rc-2/4-ws</rs-symbol>
     <ws-symbol>rc-4/2</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>r</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -2061,7 +2010,7 @@
     <rs-symbol>lpc-1/2/1</rs-symbol>
     <ws-symbol>lpc-1/2/1-ws</ws-symbol>
     <rs-string>Q</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -2094,8 +2043,8 @@
   <stitch>
     <rs-symbol>rpc-4/4/4</rs-symbol>
     <ws-symbol>rpc-4/4/4-ws</ws-symbol>
-    <rs-string>ê</rs-string>
-    <ws-string>ì</ws-string>
+    <rs-string>Ãª</rs-string>
+    <ws-string>Ã¬</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -2111,7 +2060,7 @@
   <stitch>
     <rs-symbol>lt-1/1-ws</rs-symbol>
     <ws-symbol>lt-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>&amp;#4;8</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -2128,7 +2077,7 @@
   <stitch>
     <rs-symbol>rpc-2/1/2-ws</rs-symbol>
     <ws-symbol>rpc-2/1/2</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>d</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -2145,7 +2094,7 @@
   <stitch>
     <rs-symbol>lt-2/1-ws</rs-symbol>
     <ws-symbol>lt-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>4</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -2162,7 +2111,7 @@
   <stitch>
     <rs-symbol>rpt-1/1-ws</rs-symbol>
     <ws-symbol>rpt-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>)</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -2179,8 +2128,8 @@
   <stitch>
     <rs-symbol>lc-5/5-ws</rs-symbol>
     <ws-symbol>lc-5/5</ws-symbol>
-    <rs-string>ú</rs-string>
-    <ws-string>á</ws-string>
+    <rs-string>Ãº</rs-string>
+    <ws-string>Ã¡</ws-string>
     <width>10</width>
     <cable>1</cable>
     <stitches-in>10</stitches-in>
@@ -2197,7 +2146,7 @@
     <rs-symbol>lpc-1/3/1</rs-symbol>
     <ws-symbol>lpc-1/3/1-ws</ws-symbol>
     <rs-string>i</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -2279,10 +2228,27 @@
     <machine-instructions>Lace tool: right transfer</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>p2tog-tbl</rs-symbol>
+    <ws-symbol>ssk2tog</ws-symbol>
+    <rs-string>WÂµ</rs-string>
+    <ws-string>VÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Purl 2 together through back of loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rc-6/6</rs-symbol>
     <ws-symbol>rc-6/6-ws</ws-symbol>
-    <rs-string>ä</rs-string>
-    <ws-string>ü</ws-string>
+    <rs-string>Ã¤</rs-string>
+    <ws-string>Ã¼</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -2298,7 +2264,7 @@
   <stitch>
     <rs-symbol>lpc-1/3/1-ws</rs-symbol>
     <ws-symbol>lpc-1/3/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>i</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -2384,7 +2350,7 @@
     <rs-symbol>lc-1/2</rs-symbol>
     <ws-symbol>lc-2/1-ws</ws-symbol>
     <rs-string>&amp;#5;8</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -2401,7 +2367,7 @@
     <rs-symbol>rc-1/1</rs-symbol>
     <ws-symbol>rc-1/1-ws</ws-symbol>
     <rs-string>!</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -2434,7 +2400,7 @@
   <stitch>
     <rs-symbol>lc-2/3-ws</rs-symbol>
     <ws-symbol>lc-3/2</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>[</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -2452,7 +2418,7 @@
     <rs-symbol>lc-2/4</rs-symbol>
     <ws-symbol>lc-4/2-ws</ws-symbol>
     <rs-string>o</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>
@@ -2468,8 +2434,8 @@
   <stitch>
     <rs-symbol>beyo-ws</rs-symbol>
     <ws-symbol>beyo</ws-symbol>
-    <rs-string>ÂoÂ</rs-string>
-    <ws-string>®o¯</ws-string>
+    <rs-string>ÃoÃ</rs-string>
+    <ws-string>Â®oÂ¯</ws-string>
     <width>3</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -2485,7 +2451,7 @@
   <stitch>
     <rs-symbol>lc-1/3/1-ws</rs-symbol>
     <ws-symbol>lc-1/3/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>g</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -2502,8 +2468,8 @@
   <stitch>
     <rs-symbol>lpc-4/3</rs-symbol>
     <ws-symbol>lpc-3/4</ws-symbol>
-    <rs-string>Ç</rs-string>
-    <ws-string>Ã</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -2520,7 +2486,7 @@
     <rs-symbol>lc-3/1/3</rs-symbol>
     <ws-symbol>lc-3/1/3-ws</ws-symbol>
     <rs-string>|</rs-string>
-    <ws-string>ö</ws-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -2534,27 +2500,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yrn2k</rs-symbol>
-    <ws-symbol>yrn2p</ws-symbol>
-    <rs-string>]</rs-string>
-    <ws-string>Ú</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Knit, wrapping yarn twice around needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>rc-4/1/4-ws</rs-symbol>
     <ws-symbol>rc-4/1/4</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>Ò</ws-string>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -2568,27 +2517,27 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>bed-ws</rs-symbol>
-    <ws-symbol>bed</ws-symbol>
-    <rs-string>ÂÂ</rs-string>
-    <ws-string>®¯</ws-string>
-    <width>2</width>
+    <rs-symbol>na</rs-symbol>
+    <ws-symbol>na</ws-symbol>
+    <rs-string></rs-string>
+    <ws-string></ws-string>
+    <width>1</width>
     <cable>0</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>2</stitches-out>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
     <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
+    <repeatable>1</repeatable>
+    <variable-repeat>1</variable-repeat>
     <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>false</hand-instructions>
-    <machine-instructions>false</machine-instructions>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions></hand-instructions>
+    <machine-instructions></machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>rpc-4/4/4-ws</rs-symbol>
     <ws-symbol>rpc-4/4/4</ws-symbol>
-    <rs-string>ì</rs-string>
-    <ws-string>ê</ws-string>
+    <rs-string>Ã¬</rs-string>
+    <ws-string>Ãª</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -2604,7 +2553,7 @@
   <stitch>
     <rs-symbol>lc-2/4-ws</rs-symbol>
     <ws-symbol>lc-4/2</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>s</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -2621,8 +2570,8 @@
   <stitch>
     <rs-symbol>lc-6/6-ws</rs-symbol>
     <ws-symbol>lc-6/6</ws-symbol>
-    <rs-string>ü</rs-string>
-    <ws-string>å</ws-string>
+    <rs-string>Ã¼</rs-string>
+    <ws-string>Ã¥</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -2639,7 +2588,7 @@
     <rs-symbol>rc-2/4</rs-symbol>
     <ws-symbol>rc-4/2-ws</ws-symbol>
     <rs-string>n</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>
@@ -2655,8 +2604,8 @@
   <stitch>
     <rs-symbol>ss</rs-symbol>
     <ws-symbol>ss</ws-symbol>
-    <rs-string>Ð</rs-string>
-    <ws-string>Ð</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -2673,7 +2622,7 @@
     <rs-symbol>mp</rs-symbol>
     <ws-symbol>m</ws-symbol>
     <rs-string>@</rs-string>
-    <ws-string>&amp;gt;</ws-string>
+    <ws-string>&gt;</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
@@ -2690,7 +2639,7 @@
     <rs-symbol>lc-1/3</rs-symbol>
     <ws-symbol>lc-3/1-ws</ws-symbol>
     <rs-string>G</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -2707,7 +2656,7 @@
     <rs-symbol>rc-1/2</rs-symbol>
     <ws-symbol>rc-2/1-ws</ws-symbol>
     <rs-string>/</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -2741,7 +2690,7 @@
     <rs-symbol>lc-1/3/1</rs-symbol>
     <ws-symbol>lc-1/3/1-ws</ws-symbol>
     <rs-string>g</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -2758,7 +2707,7 @@
     <rs-symbol>rc-2/1/2</rs-symbol>
     <ws-symbol>rc-2/1/2-ws</ws-symbol>
     <rs-string>b</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -2775,7 +2724,7 @@
     <rs-symbol>rc-3/1</rs-symbol>
     <ws-symbol>rc-1/3-ws</ws-symbol>
     <rs-string>J</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -2791,8 +2740,8 @@
   <stitch>
     <rs-symbol>co</rs-symbol>
     <ws-symbol>co</ws-symbol>
-    <rs-string>¼</rs-string>
-    <ws-string>¼</ws-string>
+    <rs-string>Â¼</rs-string>
+    <ws-string>Â¼</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
@@ -2808,8 +2757,8 @@
   <stitch>
     <rs-symbol>lc-6/6</rs-symbol>
     <ws-symbol>lc-6/6-ws</ws-symbol>
-    <rs-string>å</rs-string>
-    <ws-string>ü</ws-string>
+    <rs-string>Ã¥</rs-string>
+    <ws-string>Ã¼</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -2825,7 +2774,7 @@
   <stitch>
     <rs-symbol>rc-1/4-ws</rs-symbol>
     <ws-symbol>rc-4/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>^</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -2843,7 +2792,7 @@
     <rs-symbol>lc-2/3</rs-symbol>
     <ws-symbol>lc-3/2-ws</ws-symbol>
     <rs-string>V</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -2876,8 +2825,8 @@
   <stitch>
     <rs-symbol>rpc-4/1/4</rs-symbol>
     <ws-symbol>rpc-4/1/4-ws</ws-symbol>
-    <rs-string>Ô</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -2891,44 +2840,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>slk</rs-symbol>
-    <ws-symbol>slkwyif</ws-symbol>
-    <rs-string>*</rs-string>
-    <ws-string>Q</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>1</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>With yarn at back of work, slip stitch knitwise</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>na</rs-symbol>
-    <ws-symbol>na</ws-symbol>
-    <rs-string></rs-string>
-    <ws-string></ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>1</repeatable>
-    <variable-repeat>1</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions></hand-instructions>
-    <machine-instructions></machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lpt-1/1</rs-symbol>
     <ws-symbol>lpt-1/1-ws</ws-symbol>
     <rs-string>*</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -2942,8 +2857,8 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>w&amp;amp;tr</rs-symbol>
-    <ws-symbol>w&amp;amp;tr</ws-symbol>
+    <rs-symbol>w&amp;tr</rs-symbol>
+    <ws-symbol>w&amp;tr</ws-symbol>
     <rs-string>P|</rs-string>
     <ws-string>O|</ws-string>
     <width>1</width>
@@ -2959,9 +2874,43 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>bed-ws</rs-symbol>
+    <ws-symbol>bed</ws-symbol>
+    <rs-string>ÃÃ</rs-string>
+    <ws-string>Â®Â¯</ws-string>
+    <width>2</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>2</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>yo4w</rs-symbol>
+    <ws-symbol>yo4w</ws-symbol>
+    <rs-string>oD</rs-string>
+    <ws-string>oD</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>0</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Yarn over wrapping yarn 4 times, drop extra wraps on next row</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>inc5k</rs-symbol>
     <ws-symbol>inc5p</ws-symbol>
-    <rs-string>&amp;amp;c</rs-string>
+    <rs-string>&amp;c</rs-string>
     <ws-string>*c</ws-string>
     <width>1</width>
     <cable>0</cable>
@@ -2978,8 +2927,8 @@
   <stitch>
     <rs-symbol>lpc-1/1/1</rs-symbol>
     <ws-symbol>lpc-1/1/1-ws</ws-symbol>
-    <rs-string>&amp;lt;</rs-string>
-    <ws-string>ò</ws-string>
+    <rs-string>&lt;</rs-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -3012,8 +2961,8 @@
   <stitch>
     <rs-symbol>pbk</rs-symbol>
     <ws-symbol>pbp</ws-symbol>
-    <rs-string>ø</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã¸</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -3029,7 +2978,7 @@
   <stitch>
     <rs-symbol>rc-3/1-ws</rs-symbol>
     <ws-symbol>rc-1/3</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>F</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -3080,8 +3029,8 @@
   <stitch>
     <rs-symbol>lpc-4/4</rs-symbol>
     <ws-symbol>lpc-4/4</ws-symbol>
-    <rs-string>Ë</rs-string>
-    <ws-string>Ë</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -3098,7 +3047,7 @@
     <rs-symbol>rc-1/3</rs-symbol>
     <ws-symbol>rc-3/1-ws</ws-symbol>
     <rs-string>F</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -3114,8 +3063,8 @@
   <stitch>
     <rs-symbol>rc-5/5</rs-symbol>
     <ws-symbol>rc-5/5-ws</ws-symbol>
-    <rs-string>à</rs-string>
-    <ws-string>ú</ws-string>
+    <rs-string>Ã </rs-string>
+    <ws-string>Ãº</ws-string>
     <width>10</width>
     <cable>1</cable>
     <stitches-in>10</stitches-in>
@@ -3131,8 +3080,8 @@
   <stitch>
     <rs-symbol>rc-3/2/3</rs-symbol>
     <ws-symbol>rc-3/2/3-ws</ws-symbol>
-    <rs-string>Ì</rs-string>
-    <ws-string>Ñ</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -3148,7 +3097,7 @@
   <stitch>
     <rs-symbol>rc-3/3-ws</rs-symbol>
     <ws-symbol>rc-3/3</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>j</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -3165,8 +3114,8 @@
   <stitch>
     <rs-symbol>lpc-3/3/3</rs-symbol>
     <ws-symbol>lpc-3/3/3-ws</ws-symbol>
-    <rs-string>Û</rs-string>
-    <ws-string>Ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3183,7 +3132,7 @@
     <rs-symbol>rc-2/3</rs-symbol>
     <ws-symbol>rc-3/2-ws</ws-symbol>
     <rs-string>U</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -3199,7 +3148,7 @@
   <stitch>
     <rs-symbol>rt-2/2-ws</rs-symbol>
     <ws-symbol>rt-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>D</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -3216,8 +3165,8 @@
   <stitch>
     <rs-symbol>lpc-3/3/3-ws</rs-symbol>
     <ws-symbol>lpc-3/3/3</ws-symbol>
-    <rs-string>Ö</rs-string>
-    <ws-string>Û</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3234,7 +3183,7 @@
     <rs-symbol>lc-2/2</rs-symbol>
     <ws-symbol>lc-2/2-ws</ws-symbol>
     <rs-string>?</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -3250,8 +3199,8 @@
   <stitch>
     <rs-symbol>rss</rs-symbol>
     <ws-symbol>rss</ws-symbol>
-    <rs-string>Ñ</rs-string>
-    <ws-string>Ñ</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -3265,27 +3214,10 @@
     <machine-instructions>Purl on RS, knit on WS</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>p2togtbl</rs-symbol>
-    <ws-symbol>ssk2tog</ws-symbol>
-    <rs-string>Wµ</rs-string>
-    <ws-string>V¶</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>2</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>1</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Purl 2 together through back of loops</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>bebyo</rs-symbol>
     <ws-symbol>bebyo-ws</ws-symbol>
-    <rs-string>¯o®</rs-string>
-    <ws-string>ÂoÂ</ws-string>
+    <rs-string>Â¯oÂ®</rs-string>
+    <ws-string>ÃoÃ</ws-string>
     <width>3</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -3299,10 +3231,27 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>sl2-k1-p2sso</rs-symbol>
+    <ws-symbol>cddp</ws-symbol>
+    <rs-string>j</rs-string>
+    <ws-string>(</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rpc-1/3/1</rs-symbol>
     <ws-symbol>rpc-1/3/1-ws</ws-symbol>
     <rs-string>h</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -3316,27 +3265,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>mb</rs-symbol>
-    <ws-symbol>mb-ws</ws-symbol>
-    <rs-string>&amp;#20;</rs-string>
-    <ws-string>&amp;#20;</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Make bobble: (k1, yo, k1, yo, k1) in next stitch, turn; p5, turn; k2tog, k1, ssk, turn; p3, turn; cdd</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lc-4/3-ws</rs-symbol>
     <ws-symbol>lc-3/4</ws-symbol>
-    <rs-string>ö</rs-string>
-    <ws-string>Á</ws-string>
+    <rs-string>Ã¶</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -3352,8 +3284,8 @@
   <stitch>
     <rs-symbol>rc-4/4-ws</rs-symbol>
     <ws-symbol>rc-4/4</ws-symbol>
-    <rs-string>ø</rs-string>
-    <ws-string>È</ws-string>
+    <rs-string>Ã¸</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -3403,14 +3335,14 @@
   <stitch>
     <rs-symbol>mmr</rs-symbol>
     <ws-symbol>mml</ws-symbol>
-    <rs-string>¾</rs-string>
-    <ws-string>¾</ws-string>
+    <rs-string>Â¾</rs-string>
+    <ws-string>Â¾</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
     <stitches-out>0</stitches-out>
     <offset>0</offset>
-    <repeatable>0</repeatable>
+    <repeatable>1</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
@@ -3418,10 +3350,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>k2w</rs-symbol>
+    <ws-symbol>p2w</ws-symbol>
+    <rs-string>]</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Knit, wrapping yarn twice around needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>p3w</rs-symbol>
+    <ws-symbol>k3w</ws-symbol>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Purl, wrapping yarn three times around needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>lc-1/1</rs-symbol>
     <ws-symbol>lc-1/1-ws</ws-symbol>
     <rs-string>"</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -3438,7 +3404,7 @@
     <rs-symbol>rc-1/4</rs-symbol>
     <ws-symbol>rc-4/1-ws</ws-symbol>
     <rs-string>R</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -3454,8 +3420,8 @@
   <stitch>
     <rs-symbol>rc-2/2</rs-symbol>
     <ws-symbol>rc-2/2-ws</ws-symbol>
-    <rs-string>&amp;gt;</rs-string>
-    <ws-string>ó</ws-string>
+    <rs-string>&gt;</rs-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -3486,10 +3452,44 @@
     <machine-instructions>Right-slanting increase</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>mb</rs-symbol>
+    <ws-symbol>mb-ws</ws-symbol>
+    <rs-string>&amp;#20;</rs-string>
+    <ws-string>&amp;#20;</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Make bobble: (k1, yo, k1, yo, k1) in next stitch, turn; p5, turn; k2tog, k1, ssk, turn; p3, turn; cdd</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>k2tog-tbl</rs-symbol>
+    <ws-symbol>ssp2tog</ws-symbol>
+    <rs-string>UÂµ</rs-string>
+    <ws-string>UÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Knit 2 together through back of loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rc-3/4-ws</rs-symbol>
     <ws-symbol>rc-4/3</ws-symbol>
-    <rs-string>ö</rs-string>
-    <ws-string>Ä</ws-string>
+    <rs-string>Ã¶</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -3505,7 +3505,7 @@
   <stitch>
     <rs-symbol>lpc-3/1/3-ws</rs-symbol>
     <ws-symbol>lpc-3/1/3</ws-symbol>
-    <rs-string>ö</rs-string>
+    <rs-string>Ã¶</rs-string>
     <ws-string>~</ws-string>
     <width>7</width>
     <cable>1</cable>
@@ -3523,7 +3523,7 @@
     <rs-symbol>lc-2/1</rs-symbol>
     <ws-symbol>lc-1/2-ws</ws-symbol>
     <rs-string>,</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -3539,7 +3539,7 @@
   <stitch>
     <rs-symbol>rc-1/1-ws</rs-symbol>
     <ws-symbol>rc-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>!</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -3556,8 +3556,8 @@
   <stitch>
     <rs-symbol>rc-4/3-ws</rs-symbol>
     <ws-symbol>rc-3/4</ws-symbol>
-    <rs-string>ö</rs-string>
-    <ws-string>À</ws-string>
+    <rs-string>Ã¶</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -3573,7 +3573,7 @@
   <stitch>
     <rs-symbol>rc-2/1/2-ws</rs-symbol>
     <ws-symbol>rc-2/1/2</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>b</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -3605,27 +3605,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>rc-5/5-ws</rs-symbol>
-    <ws-symbol>rc-5/5</ws-symbol>
-    <rs-string>ú</rs-string>
-    <ws-string>à</ws-string>
-    <width>10</width>
-    <cable>1</cable>
-    <stitches-in>10</stitches-in>
-    <stitches-out>10</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 5 stitches onto cable needle and hold at back (RS), purl next 5 stitches from left hand needle, purl 5 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>tuck</rs-symbol>
     <ws-symbol>tuck</ws-symbol>
-    <rs-string>ï</rs-string>
-    <ws-string>ï</ws-string>
+    <rs-string>Ã¯</rs-string>
+    <ws-string>Ã¯</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -3639,27 +3622,10 @@
     <machine-instructions>Machine tuck</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>rpt-2/1-ws</rs-symbol>
-    <ws-symbol>rpt-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
-    <ws-string>7</ws-string>
-    <width>3</width>
-    <cable>1</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>3</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next stitch to cable needle and hold at back. Purl next 2 stitches through the back loop from left hand needle, knit stitch from cable needle.</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lc-5/5</rs-symbol>
     <ws-symbol>lc-5/5-ws</ws-symbol>
-    <rs-string>á</rs-string>
-    <ws-string>ú</ws-string>
+    <rs-string>Ã¡</rs-string>
+    <ws-string>Ãº</ws-string>
     <width>10</width>
     <cable>1</cable>
     <stitches-in>10</stitches-in>
@@ -3692,7 +3658,7 @@
   <stitch>
     <rs-symbol>rc-1/2/1-ws</rs-symbol>
     <ws-symbol>rc-1/2/1</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>N</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -3709,8 +3675,8 @@
   <stitch>
     <rs-symbol>rpc-5/5</rs-symbol>
     <ws-symbol>rpc-5/5</ws-symbol>
-    <rs-string>â</rs-string>
-    <ws-string>â</ws-string>
+    <rs-string>Ã¢</rs-string>
+    <ws-string>Ã¢</ws-string>
     <width>10</width>
     <cable>1</cable>
     <stitches-in>10</stitches-in>
@@ -3741,10 +3707,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>cdd-twisted</rs-symbol>
+    <ws-symbol>cddp</ws-symbol>
+    <rs-string>j</rs-string>
+    <ws-string>(</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>rc-5/5-ws</rs-symbol>
+    <ws-symbol>rc-5/5</ws-symbol>
+    <rs-string>Ãº</rs-string>
+    <ws-string>Ã </ws-string>
+    <width>10</width>
+    <cable>1</cable>
+    <stitches-in>10</stitches-in>
+    <stitches-out>10</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 5 stitches onto cable needle and hold at back (RS), purl next 5 stitches from left hand needle, purl 5 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>lc-3/3/3-ws</rs-symbol>
     <ws-symbol>lc-3/3/3</ws-symbol>
-    <rs-string>Ö</rs-string>
-    <ws-string>Ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3760,8 +3760,8 @@
   <stitch>
     <rs-symbol>lpc-4/4/4-ws</rs-symbol>
     <ws-symbol>lpc-4/4/4</ws-symbol>
-    <rs-string>ì</rs-string>
-    <ws-string>ë</ws-string>
+    <rs-string>Ã¬</rs-string>
+    <ws-string>Ã«</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -3778,7 +3778,7 @@
     <rs-symbol>rpc-2/1/2</rs-symbol>
     <ws-symbol>rpc-2/1/2-ws</ws-symbol>
     <rs-string>d</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -3794,8 +3794,8 @@
   <stitch>
     <rs-symbol>lc-4/4/4</rs-symbol>
     <ws-symbol>lc-4/4/4-ws</ws-symbol>
-    <rs-string>é</rs-string>
-    <ws-string>ì</ws-string>
+    <rs-string>Ã©</rs-string>
+    <ws-string>Ã¬</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -3811,8 +3811,8 @@
   <stitch>
     <rs-symbol>rpc-3/4</rs-symbol>
     <ws-symbol>rpc-4/3</ws-symbol>
-    <rs-string>Â</rs-string>
-    <ws-string>Æ</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -3828,8 +3828,8 @@
   <stitch>
     <rs-symbol>lc-4/1/4-ws</rs-symbol>
     <ws-symbol>lc-4/1/4</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>Ó</ws-string>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3845,8 +3845,8 @@
   <stitch>
     <rs-symbol>bebyo-ws</rs-symbol>
     <ws-symbol>bebyo</ws-symbol>
-    <rs-string>ÂoÂ</rs-string>
-    <ws-string>¯o®</ws-string>
+    <rs-string>ÃoÃ</rs-string>
+    <ws-string>Â¯oÂ®</ws-string>
     <width>3</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -3860,9 +3860,43 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>k3w</rs-symbol>
+    <ws-symbol>p3w</ws-symbol>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Knit, wrapping yarn three times around needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>rpt-2/1-ws</rs-symbol>
+    <ws-symbol>rpt-2/1</ws-symbol>
+    <rs-string>Ã²</rs-string>
+    <ws-string>7</ws-string>
+    <width>3</width>
+    <cable>1</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>3</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next stitch to cable needle and hold at back. Purl next 2 stitches through the back loop from left hand needle, knit stitch from cable needle.</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rt-1/1-ws</rs-symbol>
     <ws-symbol>rt-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>'</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -3880,7 +3914,7 @@
     <rs-symbol>lc-1/1/1</rs-symbol>
     <ws-symbol>lc-1/1/1-ws</ws-symbol>
     <rs-string>:</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -3896,8 +3930,8 @@
   <stitch>
     <rs-symbol>lpc-4/1/4</rs-symbol>
     <ws-symbol>lpc-4/1/4-ws</ws-symbol>
-    <rs-string>Õ</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3913,8 +3947,8 @@
   <stitch>
     <rs-symbol>rpc-3/3/3-ws</rs-symbol>
     <ws-symbol>rpc-3/3/3</ws-symbol>
-    <rs-string>Ö</rs-string>
-    <ws-string>Ú</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -3930,7 +3964,7 @@
   <stitch>
     <rs-symbol>lpc-1/2/1-ws</rs-symbol>
     <ws-symbol>lpc-1/2/1</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>Q</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -3947,8 +3981,8 @@
   <stitch>
     <rs-symbol>rc-3/4</rs-symbol>
     <ws-symbol>rc-4/3-ws</ws-symbol>
-    <rs-string>À</rs-string>
-    <ws-string>ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¶</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -3964,8 +3998,8 @@
   <stitch>
     <rs-symbol>bed</rs-symbol>
     <ws-symbol>bed-ws</ws-symbol>
-    <rs-string>®¯</rs-string>
-    <ws-string>ÂÂ</ws-string>
+    <rs-string>Â®Â¯</rs-string>
+    <ws-string>ÃÃ</ws-string>
     <width>2</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -3981,8 +4015,8 @@
   <stitch>
     <rs-symbol>lc-4/4-ws</rs-symbol>
     <ws-symbol>lc-4/4</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>É</ws-string>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -4015,8 +4049,8 @@
   <stitch>
     <rs-symbol>rpc-4/1/4-ws</rs-symbol>
     <ws-symbol>rpc-4/1/4</ws-symbol>
-    <rs-string>ù</rs-string>
-    <ws-string>Ô</ws-string>
+    <rs-string>Ã¹</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -4033,7 +4067,7 @@
     <rs-symbol>lt-1/1</rs-symbol>
     <ws-symbol>lt-1/1-ws</ws-symbol>
     <rs-string>&amp;#4;8</rs-string>
-    <ws-string>ñ</ws-string>
+    <ws-string>Ã±</ws-string>
     <width>2</width>
     <cable>1</cable>
     <stitches-in>2</stitches-in>
@@ -4083,8 +4117,8 @@
   <stitch>
     <rs-symbol>rc-6/6-ws</rs-symbol>
     <ws-symbol>rc-6/6</ws-symbol>
-    <rs-string>ü</rs-string>
-    <ws-string>ä</ws-string>
+    <rs-string>Ã¼</rs-string>
+    <ws-string>Ã¤</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -4100,8 +4134,8 @@
   <stitch>
     <rs-symbol>rc-4/1/4</rs-symbol>
     <ws-symbol>rc-4/1/4-ws</ws-symbol>
-    <rs-string>Ò</rs-string>
-    <ws-string>ù</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã¹</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -4118,7 +4152,7 @@
     <rs-symbol>rpc-1/2/1</rs-symbol>
     <ws-symbol>rpc-1/2/1-ws</ws-symbol>
     <rs-string>P</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -4129,6 +4163,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 3 stitches to cable needle and hold at back, knit next stitch from left hand needle, slip next 2 stitches from cable needle to left needle and move cable needle to front, purl next 2 stitches from left hand needle, knit next stitch from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>sl1-k2tog-psso</rs-symbol>
+    <ws-symbol>p3tog</ws-symbol>
+    <rs-string>t</rs-string>
+    <ws-string>u</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Slip next stitch knitwise, knit 2 together, pass slipped stitch over</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -4168,8 +4219,8 @@
   <stitch>
     <rs-symbol>lpc-3/2/3-ws</rs-symbol>
     <ws-symbol>lpc-3/2/3</ws-symbol>
-    <rs-string>Ñ</rs-string>
-    <ws-string>Ï</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -4185,7 +4236,7 @@
   <stitch>
     <rs-symbol>lc-3/2-ws</rs-symbol>
     <ws-symbol>lc-2/3</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>V</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -4202,8 +4253,8 @@
   <stitch>
     <rs-symbol>lpt-2/2-ws</rs-symbol>
     <ws-symbol>lpt-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
-    <ws-string>Ý</ws-string>
+    <rs-string>Ã³</rs-string>
+    <ws-string>Ã</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -4219,7 +4270,7 @@
   <stitch>
     <rs-symbol>lc-2/1-ws</rs-symbol>
     <ws-symbol>lc-1/2</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>&amp;#5;8</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -4236,8 +4287,8 @@
   <stitch>
     <rs-symbol>rpc-3/2/3</rs-symbol>
     <ws-symbol>rpc-3/2/3-ws</ws-symbol>
-    <rs-string>Î</rs-string>
-    <ws-string>Ñ</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -4253,8 +4304,8 @@
   <stitch>
     <rs-symbol>rc-4/4/4</rs-symbol>
     <ws-symbol>rc-4/4/4-ws</ws-symbol>
-    <rs-string>è</rs-string>
-    <ws-string>ì</ws-string>
+    <rs-string>Ã¨</rs-string>
+    <ws-string>Ã¬</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -4285,31 +4336,48 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>yrn3k</rs-symbol>
-    <ws-symbol>yrn3p</ws-symbol>
-    <rs-string>Ü</rs-string>
-    <ws-string>Û</ws-string>
+    <rs-symbol>drop-st</rs-symbol>
+    <ws-symbol>drop-st</ws-symbol>
+    <rs-string>,</rs-string>
+    <ws-string>,</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
-    <stitches-out>1</stitches-out>
+    <stitches-out>0</stitches-out>
     <offset>0</offset>
     <repeatable>0</repeatable>
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
-    <hand-instructions>Knit, wrapping yarn three times around needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
+    <hand-instructions>Drop next stitch off left needle and allow to unravel</hand-instructions>
+    <machine-instructions>Drop stitch</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>mml</rs-symbol>
     <ws-symbol>mmr</ws-symbol>
-    <rs-string>½</rs-string>
-    <ws-string>½</ws-string>
+    <rs-string>Â½</rs-string>
+    <ws-string>Â½</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>0</stitches-in>
     <stitches-out>0</stitches-out>
+    <offset>0</offset>
+    <repeatable>1</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>cddp-twisted</rs-symbol>
+    <ws-symbol>cdd</ws-symbol>
+    <rs-string>(</rs-string>
+    <ws-string>j</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
     <offset>0</offset>
     <repeatable>0</repeatable>
     <variable-repeat>0</variable-repeat>
@@ -4322,7 +4390,7 @@
     <rs-symbol>lc-2/1/2</rs-symbol>
     <ws-symbol>lc-2/1/2-ws</ws-symbol>
     <rs-string>c</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -4338,7 +4406,7 @@
   <stitch>
     <rs-symbol>rpc-1/3/1-ws</rs-symbol>
     <ws-symbol>rpc-1/3/1</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>h</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -4355,7 +4423,7 @@
   <stitch>
     <rs-symbol>rc-4/2-ws</rs-symbol>
     <ws-symbol>rc-2/4</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>n</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -4367,6 +4435,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 2 stitches onto cable needle and hold at back (RS), purl next 4 stitches from left hand needle, purl 2 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>slkwyib</rs-symbol>
+    <ws-symbol>slkwyif</ws-symbol>
+    <rs-string>*</rs-string>
+    <ws-string>Q</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>1</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>With yarn at back of work, slip stitch knitwise</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -4387,10 +4472,10 @@
     <machine-instructions>Empty needle: after transfer, leave empty needle in working position</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>k3togtbl</rs-symbol>
-    <ws-symbol>sssp3tog</ws-symbol>
-    <rs-string>sµ</rs-string>
-    <ws-string>v¶</ws-string>
+    <rs-symbol>p3tog-twisted</rs-symbol>
+    <ws-symbol>sssk3tog</ws-symbol>
+    <rs-string>uÂµ</rs-string>
+    <ws-string>tÂ¶</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -4400,13 +4485,13 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
-    <hand-instructions>Knit 3 together through back of loops</hand-instructions>
+    <hand-instructions>false</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>rpc-1/1/1-ws</rs-symbol>
     <ws-symbol>rpc-1/1/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>;</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -4441,7 +4526,7 @@
     <rs-symbol>rc-1/1/1</rs-symbol>
     <ws-symbol>rc-1/1/1-ws</ws-symbol>
     <rs-string>9</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -4474,7 +4559,7 @@
   <stitch>
     <rs-symbol>lc-3/1/3-ws</rs-symbol>
     <ws-symbol>lc-3/1/3</ws-symbol>
-    <rs-string>ö</rs-string>
+    <rs-string>Ã¶</rs-string>
     <ws-string>|</ws-string>
     <width>7</width>
     <cable>1</cable>
@@ -4492,7 +4577,7 @@
     <rs-symbol>rc-1/2/1</rs-symbol>
     <ws-symbol>rc-1/2/1-ws</ws-symbol>
     <rs-string>N</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -4508,7 +4593,7 @@
   <stitch>
     <rs-symbol>rc-4/1-ws</rs-symbol>
     <ws-symbol>rc-1/4</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>R</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -4526,7 +4611,7 @@
     <rs-symbol>lc-3/2</rs-symbol>
     <ws-symbol>lc-2/3-ws</ws-symbol>
     <rs-string>[</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -4542,8 +4627,8 @@
   <stitch>
     <rs-symbol>lpc-1/1/1-ws</rs-symbol>
     <ws-symbol>lpc-1/1/1</ws-symbol>
-    <rs-string>ò</rs-string>
-    <ws-string>&amp;lt;</ws-string>
+    <rs-string>Ã²</rs-string>
+    <ws-string>&lt;</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -4559,7 +4644,7 @@
   <stitch>
     <rs-symbol>lc-4/2-ws</rs-symbol>
     <ws-symbol>lc-2/4</ws-symbol>
-    <rs-string>õ</rs-string>
+    <rs-string>Ãµ</rs-string>
     <ws-string>o</ws-string>
     <width>6</width>
     <cable>1</cable>
@@ -4576,8 +4661,8 @@
   <stitch>
     <rs-symbol>rpc-6/6</rs-symbol>
     <ws-symbol>rpc-6/6</ws-symbol>
-    <rs-string>æ</rs-string>
-    <ws-string>æ</ws-string>
+    <rs-string>Ã¦</rs-string>
+    <ws-string>Ã¦</ws-string>
     <width>12</width>
     <cable>1</cable>
     <stitches-in>12</stitches-in>
@@ -4594,7 +4679,7 @@
     <rs-symbol>rpt-2/1</rs-symbol>
     <ws-symbol>rpt-2/1-ws</ws-symbol>
     <rs-string>7</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -4610,7 +4695,7 @@
   <stitch>
     <rs-symbol>lc-1/2-ws</rs-symbol>
     <ws-symbol>lc-2/1</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>,</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -4627,7 +4712,7 @@
   <stitch>
     <rs-symbol>lpt-1/1-ws</rs-symbol>
     <ws-symbol>lpt-1/1</ws-symbol>
-    <rs-string>ñ</rs-string>
+    <rs-string>Ã±</rs-string>
     <ws-string>*</ws-string>
     <width>2</width>
     <cable>1</cable>
@@ -4645,7 +4730,7 @@
     <rs-symbol>lc-1/4</rs-symbol>
     <ws-symbol>lc-4/1-ws</ws-symbol>
     <rs-string>S</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -4695,7 +4780,7 @@
   <stitch>
     <rs-symbol>lc-2/2-ws</rs-symbol>
     <ws-symbol>lc-2/2</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>?</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -4711,9 +4796,9 @@
   </stitch>
   <stitch>
     <rs-symbol>slwyif</rs-symbol>
-    <ws-symbol>sl</ws-symbol>
+    <ws-symbol>slwyib</ws-symbol>
     <rs-string>'</rs-string>
-    <ws-string>&amp;amp;</ws-string>
+    <ws-string>&amp;</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -4730,7 +4815,7 @@
     <rs-symbol>rc-1/3/1</rs-symbol>
     <ws-symbol>rc-1/3/1-ws</ws-symbol>
     <rs-string>f</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -4747,7 +4832,7 @@
     <rs-symbol>rc-3/2</rs-symbol>
     <ws-symbol>rc-2/3-ws</ws-symbol>
     <rs-string>Z</rs-string>
-    <ws-string>ô</ws-string>
+    <ws-string>Ã´</ws-string>
     <width>5</width>
     <cable>1</cable>
     <stitches-in>5</stitches-in>
@@ -4763,7 +4848,7 @@
   <stitch>
     <rs-symbol>m</rs-symbol>
     <ws-symbol>mp</ws-symbol>
-    <rs-string>&amp;gt;</rs-string>
+    <rs-string>&gt;</rs-string>
     <ws-string>@</ws-string>
     <width>1</width>
     <cable>0</cable>
@@ -4780,8 +4865,8 @@
   <stitch>
     <rs-symbol>rc-3/3/3-ws</rs-symbol>
     <ws-symbol>rc-3/3/3</ws-symbol>
-    <rs-string>Ö</rs-string>
-    <ws-string>Ø</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -4797,8 +4882,8 @@
   <stitch>
     <rs-symbol>rpt-2/2</rs-symbol>
     <ws-symbol>rpt-2/2-ws</ws-symbol>
-    <rs-string>Ü</rs-string>
-    <ws-string>ó</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -4829,27 +4914,10 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>cdd</rs-symbol>
-    <ws-symbol>cddp</ws-symbol>
-    <rs-string>j</rs-string>
-    <ws-string>(</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>3</stitches-in>
-    <stitches-out>1</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>1</machine-compatible>
-    <hand-instructions>Centered double decrease: Slip 2 stitches as if to knit 2 together, knit 1, pass 2 slipped stitches over</hand-instructions>
-    <machine-instructions>Centered double decrease</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>rpc-3/2/3-ws</rs-symbol>
     <ws-symbol>rpc-3/2/3</ws-symbol>
-    <rs-string>Ñ</rs-string>
-    <ws-string>Î</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>8</width>
     <cable>1</cable>
     <stitches-in>8</stitches-in>
@@ -4863,9 +4931,26 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>k3tog-tbl</rs-symbol>
+    <ws-symbol>sssp3tog</ws-symbol>
+    <rs-string>sÂµ</rs-string>
+    <ws-string>vÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Knit 3 together through back of loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>lc-1/3-ws</rs-symbol>
     <ws-symbol>lc-3/1</ws-symbol>
-    <rs-string>ó</rs-string>
+    <rs-string>Ã³</rs-string>
     <ws-string>K</ws-string>
     <width>4</width>
     <cable>1</cable>
@@ -4880,10 +4965,27 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>p2tog-twisted</rs-symbol>
+    <ws-symbol>ssk2tog</ws-symbol>
+    <rs-string>WÂµ</rs-string>
+    <ws-string>VÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>lc-3/1</rs-symbol>
     <ws-symbol>lc-1/3-ws</ws-symbol>
     <rs-string>K</rs-string>
-    <ws-string>ó</ws-string>
+    <ws-string>Ã³</ws-string>
     <width>4</width>
     <cable>1</cable>
     <stitches-in>4</stitches-in>
@@ -4899,7 +5001,7 @@
   <stitch>
     <rs-symbol>rc-2/1-ws</rs-symbol>
     <ws-symbol>rc-1/2</ws-symbol>
-    <rs-string>ò</rs-string>
+    <rs-string>Ã²</rs-string>
     <ws-string>/</ws-string>
     <width>3</width>
     <cable>1</cable>
@@ -4915,9 +5017,9 @@
   </stitch>
   <stitch>
     <rs-symbol>sssk3tog</rs-symbol>
-    <ws-symbol>p3togtbl</ws-symbol>
-    <rs-string>t¶</rs-string>
-    <ws-string>uµ</ws-string>
+    <ws-symbol>p3tog-tbl</ws-symbol>
+    <rs-string>tÂ¶</rs-string>
+    <ws-string>uÂµ</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>3</stitches-in>
@@ -4931,8 +5033,8 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>w&amp;amp;tl</rs-symbol>
-    <ws-symbol>w&amp;amp;tl</ws-symbol>
+    <rs-symbol>w&amp;tl</rs-symbol>
+    <ws-symbol>w&amp;tl</ws-symbol>
     <rs-string>O|</rs-string>
     <ws-string>P|</ws-string>
     <width>1</width>
@@ -4950,8 +5052,8 @@
   <stitch>
     <rs-symbol>rpc-3/3/3</rs-symbol>
     <ws-symbol>rpc-3/3/3-ws</ws-symbol>
-    <rs-string>Ú</rs-string>
-    <ws-string>Ö</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>9</width>
     <cable>1</cable>
     <stitches-in>9</stitches-in>
@@ -4965,10 +5067,44 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>cdd</rs-symbol>
+    <ws-symbol>cddp</ws-symbol>
+    <rs-string>j</rs-string>
+    <ws-string>(</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Centered double decrease: Slip 2 stitches as if to knit 2 together, knit 1, pass 2 slipped stitches over</hand-instructions>
+    <machine-instructions>Centered double decrease</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>k3tog-twisted</rs-symbol>
+    <ws-symbol>sssp3tog</ws-symbol>
+    <rs-string>sÂµ</rs-string>
+    <ws-string>vÂ¶</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rpc-4/3</rs-symbol>
     <ws-symbol>rpc-3/4</ws-symbol>
-    <rs-string>Æ</rs-string>
-    <ws-string>Â</ws-string>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
     <width>7</width>
     <cable>1</cable>
     <stitches-in>7</stitches-in>
@@ -4984,7 +5120,7 @@
   <stitch>
     <rs-symbol>lc-4/1-ws</rs-symbol>
     <ws-symbol>lc-1/4</ws-symbol>
-    <rs-string>ô</rs-string>
+    <rs-string>Ã´</rs-string>
     <ws-string>S</ws-string>
     <width>5</width>
     <cable>1</cable>
@@ -5002,7 +5138,7 @@
     <rs-symbol>rpc-1/1/1</rs-symbol>
     <ws-symbol>rpc-1/1/1-ws</ws-symbol>
     <rs-string>;</rs-string>
-    <ws-string>ò</ws-string>
+    <ws-string>Ã²</ws-string>
     <width>3</width>
     <cable>1</cable>
     <stitches-in>3</stitches-in>
@@ -5019,7 +5155,7 @@
     <rs-symbol>rc-3/3</rs-symbol>
     <ws-symbol>rc-3/3-ws</ws-symbol>
     <rs-string>j</rs-string>
-    <ws-string>õ</ws-string>
+    <ws-string>Ãµ</ws-string>
     <width>6</width>
     <cable>1</cable>
     <stitches-in>6</stitches-in>

@@ -99,7 +99,7 @@
          <xs:enumeration value="circular"/>
       </xs:restriction>
    </xs:simpleType>
-   <!-- whether the first row is worked on the right side ("rs") or wrong
+   <!-- whether the first row is worked on the right side ("rs") or wrong 
       side ("ws") of the piece -->
    <xs:simpleType name="face-type">
       <xs:restriction base="xs:token">
@@ -280,11 +280,13 @@
          <xs:enumeration value="beyo-ws"/>
          <xs:enumeration value="bo"/>
          <xs:enumeration value="cdd"/>
+         <xs:enumeration value="cdd-twisted"/>
          <xs:enumeration value="cddp"/>
+         <xs:enumeration value="cddp-twisted"/>
          <xs:enumeration value="cdi"/>
          <xs:enumeration value="cdip"/>
          <xs:enumeration value="co"/>
-         <xs:enumeration value="ds"/>
+         <xs:enumeration value="drop-st"/>
          <xs:enumeration value="dyo"/>
          <xs:enumeration value="en"/>
          <xs:enumeration value="gs"/>
@@ -294,9 +296,13 @@
          <xs:enumeration value="inc5p"/>
          <xs:enumeration value="k"/>
          <xs:enumeration value="k2tog"/>
-         <xs:enumeration value="k2togtbl"/>
+         <xs:enumeration value="k2tog-tbl"/>
+         <xs:enumeration value="k2tog-twisted"/>
+         <xs:enumeration value="k2w"/>
          <xs:enumeration value="k3tog"/>
-         <xs:enumeration value="k3togtbl"/>
+         <xs:enumeration value="k3tog-tbl"/>
+         <xs:enumeration value="k3tog-twisted"/>
+         <xs:enumeration value="k3w"/>
          <xs:enumeration value="kb"/>
          <xs:enumeration value="ktbl"/>
          <xs:enumeration value="kyk"/>
@@ -420,9 +426,13 @@
          <xs:enumeration value="ns"/>
          <xs:enumeration value="p"/>
          <xs:enumeration value="p2tog"/>
-         <xs:enumeration value="p2togtbl"/>
+         <xs:enumeration value="p2tog-tbl"/>
+         <xs:enumeration value="p2tog-twisted"/>
+         <xs:enumeration value="p2w"/>
          <xs:enumeration value="p3tog"/>
-         <xs:enumeration value="p3togtbl"/>
+         <xs:enumeration value="p3tog-tbl"/>
+         <xs:enumeration value="p3tog-twisted"/>
+         <xs:enumeration value="p3w"/>
          <xs:enumeration value="pb"/>
          <xs:enumeration value="pbk"/>
          <xs:enumeration value="pbp"/>
@@ -536,10 +546,11 @@
          <xs:enumeration value="rt-2/1-ws"/>
          <xs:enumeration value="rt-2/2"/>
          <xs:enumeration value="rt-2/2-ws"/>
-         <xs:enumeration value="sk2psso"/>
-         <xs:enumeration value="sl"/>
-         <xs:enumeration value="slk"/>
+         <xs:enumeration value="sl1-k2tog-psso"/>
+         <xs:enumeration value="sl2-k1-p2sso"/>
+         <xs:enumeration value="slkwyib"/>
          <xs:enumeration value="slkwyif"/>
+         <xs:enumeration value="slwyib"/>
          <xs:enumeration value="slwyif"/>
          <xs:enumeration value="sp"/>
          <xs:enumeration value="ss"/>
@@ -547,6 +558,7 @@
          <xs:enumeration value="ssk2tog"/>
          <xs:enumeration value="ssp"/>
          <xs:enumeration value="ssp2tog"/>
+         <xs:enumeration value="sssk"/>
          <xs:enumeration value="sssk3tog"/>
          <xs:enumeration value="sssp"/>
          <xs:enumeration value="sssp3tog"/>
@@ -555,17 +567,13 @@
          <xs:enumeration value="turn"/>
          <xs:enumeration value="turnl"/>
          <xs:enumeration value="turnr"/>
-         <xs:enumeration value="w&amp;amp;t"/>
-         <xs:enumeration value="w&amp;amp;tl"/>
-         <xs:enumeration value="w&amp;amp;tr"/>
+         <xs:enumeration value="w&amp;t"/>
+         <xs:enumeration value="w&amp;tl"/>
+         <xs:enumeration value="w&amp;tr"/>
          <xs:enumeration value="yo"/>
-         <xs:enumeration value="yo2"/>
-         <xs:enumeration value="yo3"/>
-         <xs:enumeration value="yo4"/>
-         <xs:enumeration value="yrn2k"/>
-         <xs:enumeration value="yrn2p"/>
-         <xs:enumeration value="yrn3k"/>
-         <xs:enumeration value="yrn3p"/>
+         <xs:enumeration value="yo2w"/>
+         <xs:enumeration value="yo3w"/>
+         <xs:enumeration value="yo4w"/>
       </xs:restriction>
    </xs:simpleType>
    <!-- other stitches can be identified using a short alphanumeric string -->

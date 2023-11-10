@@ -52,8 +52,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
          (all-from-out "xml.rkt")
          (all-from-out named-arguments/square-brackets))
 
-(require "logger.rkt"
-         "global.rkt"
+(require "global.rkt"
+         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "stitch-instructions.rkt"
@@ -83,26 +83,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ;; FIXME improve error messages/exception handling
 ;; FIXME refactor stitch, pattern etc as classes?
 
-(module+ main
+(module* main racket
   ;; Main submodule.
   ;; This code is executed when this file is run using DrRacket or the `racket` executable.
   ;; The code does not run when the file is required by another module.
   ;; Documentation: http://docs.racket-lang.org/guide/Module_Syntax.html#%28part._main-and-test
 
   ;; create lookup table for chart symbols (knotty-stitches.xml)
-
-  ;; FIXME encoding in file is broken: need to replace all instances of "&#" with "&amp;#"
-  ;; FIXME current solution is a hack -- solve using `html-template`
-  (require threading)
-  (require/typed sxml
-                 [srl:sxml->xml (Sexp -> String)])
+  (require threading
+           sxml)
+  (require "global.rkt"
+           "stitch.rkt"
+           "stitch-instructions.rkt")
+  
   (define stitch-sxml
     (append
      '((*PI* (xml (version "1.0") (encoding "utf-8"))))
      (list
       (append
        '(stitches)
-       (for/list ([id (filter (compose not false?) (hash-keys stitch-hash))]) : (Listof Sexp)
+       (for/list ([id (filter (compose not false?) (hash-keys stitch-hash))])
          (let* ([st      (get-stitch id)]
                 [rs-sym  (~a id)]
                 [ws-sym  (~a (Stitchtype-ws-symbol st))]
@@ -134,26 +134,30 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
                     (machine-compatible ,m?)
                     (hand-instructions ,h-instr)
                     (machine-instructions ,m-instr))))))))
+
   (let* ([filename "knotty-stitch.xml"]
          [filedir  (build-path resources-path "xml")]
          [filepath (build-path filedir filename)]
          [backup-name "knotty-stitch~.xml"]
          [backup-dir  (build-path resources-path "backups")]
          [backup-path (build-path backup-dir backup-name)])
+
     ;; backup old file
     (when (file-exists? filepath)
       (begin
+        (unless (directory-exists? backup-dir)
+          (make-directory backup-dir))
         (when (file-exists? backup-path)
           (delete-file backup-path))
         (rename-file-or-directory filepath backup-path)))
+
     ;; write new file
     (let* ([out (open-output-file filepath)]
            [output-str (srl:sxml->xml stitch-sxml)]
            ;; fix broken string encoding
            [output-str~ (regexp-replaces
                          output-str
-                         '([#px"&" "&amp;"]))])
-      (assert (string? output-str~))
+                         '([#px"&(?=#)" "&amp;"]))])
       (write-bytes (string->bytes/utf-8 output-str~) out)
       (close-output-port out))
 
