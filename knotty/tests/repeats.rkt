@@ -28,32 +28,32 @@
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f 2 1) 2 1)
+    (Repeats 0 0 2 1) 2 1)
     #f)
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f #f #f) 1 2)
+    (Repeats 0 0 #f #f) 1 2)
     #f)
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f #f 1) 1 1)
+    (Repeats 0 0 #f 1) 1 1)
     0)
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f 1 #f) 1 1)
+    (Repeats 0 0 1 #f) 1 1)
     0)
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f 1 2) 2 3)
+    (Repeats 0 0 1 2) 2 3)
     0)
 
   (check-equal?
    (original-row-index
-    (Repeats #f #f 3 3) 3 4)
+    (Repeats 0 0 3 3) 3 4)
     2)
 
   )

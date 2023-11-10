@@ -182,8 +182,8 @@ styles as well: for more information, see the @racket[sweet-exp]
 
 @defstruct*[
  Repeats
- ([caston-multiple (or/c natural? #f)]
-  [caston-addition (or/c natural? #f)]
+ ([caston-multiple natural?]
+  [caston-addition natural?]
   [first-repeat-row (or/c (and/c exact-integer? positive?) #f)]
   [last-repeat-row (or/c (and/c exact-integer? positive?) #f)])
  #:transparent]{

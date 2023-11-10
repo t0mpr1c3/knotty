@@ -1333,45 +1333,33 @@
        var-count))))
 
 ;; calculate caston repeats from rowcount
-(: rowcount-caston-repeats : Rowcount -> (values (Option Natural) (Option Integer) (Option Natural) (Option Natural)))
+(: rowcount-caston-repeats : Rowcount -> (values Natural Natural Natural Natural))
 (define (rowcount-caston-repeats rowcount)
-  (let* ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
-         [sbm (Rowcount-stitches-in-before-mult rowcount)]
-         [saf (Rowcount-stitches-in-after-fix   rowcount)]
-         [sam (Rowcount-stitches-in-after-mult  rowcount)]
-         [sif (Rowcount-stitches-in-fix         rowcount)]
-         [siv (Rowcount-stitches-in-var         rowcount)]
-         [mf  (Rowcount-multiple-fix            rowcount)]
-         [mv  (Rowcount-multiple-var            rowcount)]
-         [caston-repeat-multiple
-          (cond [(or (false? sbm)
-                     (false? sam)
-                     (false? mv))
-                 #f]
-                [(zero? mv)
-                 (+ sbm sam)]
-                [(false? siv)
-                 #f]
-                [else
-                 (+ sbm sam (* mv siv))])]
-         [caston-repeat-addition
-          (cond [(or (false? sbf)
-                     (false? saf)
-                     (false? sif)
-                     (false? mf)
-                     (false? caston-repeat-multiple))
-                 #f]
-                [(zero? mf)
-                 (- (+ sbf saf sif) caston-repeat-multiple)]
-                [(false? siv)
-                 #f]
-                [else
-                 (- (+ sbf saf sif (* mf siv))
-                    caston-repeat-multiple)])])
-    (values caston-repeat-multiple caston-repeat-addition sbf sbm)))
+  (let ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
+        [sbm (Rowcount-stitches-in-before-mult rowcount)]
+        [saf (Rowcount-stitches-in-after-fix   rowcount)]
+        [sam (Rowcount-stitches-in-after-mult  rowcount)]
+        [sif (Rowcount-stitches-in-fix         rowcount)]
+        [siv (Rowcount-stitches-in-var         rowcount)]
+        [mf  (Rowcount-multiple-fix            rowcount)]
+        [mv  (Rowcount-multiple-var            rowcount)])
+    (assert (natural? sbf))
+    (assert (natural? sbm))
+    (assert (natural? saf))
+    (assert (natural? sam))
+    (assert (natural? sif))
+    (assert (natural? siv))
+    (assert (natural? mf))
+    (assert (natural? mv))
+    (let* ([caston-repeat-multiple (+ sbm sam (* mv siv))]
+           [caston-repeat-addition (- (+ sbf saf sif (* mf siv))
+                                      caston-repeat-multiple)])
+      (assert (natural? caston-repeat-multiple))
+      (assert (natural? caston-repeat-addition))
+      (values caston-repeat-multiple caston-repeat-addition sbf sbm))))
 
 ;; calculate castoff repeats from rowcount
-(: rowcount-castoff-repeats : Rowcount -> (values (Option Natural) (Option Integer) (Option Natural) (Option Natural)))
+(: rowcount-castoff-repeats : Rowcount -> (values Natural Natural Natural Natural))
 (define (rowcount-castoff-repeats rowcount)
   (let* ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
          [sbm (Rowcount-stitches-in-before-mult rowcount)]
@@ -1380,51 +1368,34 @@
          [sof (Rowcount-stitches-out-fix        rowcount)]
          [sov (Rowcount-stitches-out-var        rowcount)]
          [mf  (Rowcount-multiple-fix            rowcount)]
-         [mv  (Rowcount-multiple-var            rowcount)]
-         [castoff-repeat-multiple
-          (cond [(or (false? sbm)
-                     (false? sam)
-                     (false? mv))
-                 #f]
-                [(zero? mv)
-                 (+ sbm sam)]
-                [(false? sov)
-                 #f]
-                [else
-                 (+ sbm sam (* mv sov))])]
-         [castoff-repeat-addition
-          (cond [(or (false? sbf)
-                     (false? saf)
-                     (false? sof)
-                     (false? mf)
-                     (false? castoff-repeat-multiple))
-                 #f]
-                [(zero? mf)
-                 (- (+ sbf saf sof) castoff-repeat-multiple)]
-                [(false? sov)
-                 #f]
-                [else
-                 (- (+ sbf saf sof (* mf sov))
-                    castoff-repeat-multiple)])])
-    (values castoff-repeat-multiple castoff-repeat-addition saf sam)))
+         [mv  (Rowcount-multiple-var            rowcount)])
+    (assert (natural? sbf))
+    (assert (natural? sbm))
+    (assert (natural? saf))
+    (assert (natural? sam))
+    (assert (natural? sof))
+    (assert (natural? sov))
+    (assert (natural? mf))
+    (assert (natural? mv))
+         (let* ([castoff-repeat-multiple (+ sbm sam (* mv sov))]
+                [castoff-repeat-addition (- (+ sbf saf sof (* mf sov))
+                                            castoff-repeat-multiple)])
+      (assert (natural? castoff-repeat-multiple))
+      (assert (natural? castoff-repeat-addition))
+    (values castoff-repeat-multiple castoff-repeat-addition saf sam))))
 
 ;; end of row stitch count annotation
 (: rowcount-annotation : Rowcount -> String)
 (define (rowcount-annotation rowcount)
   (let-values ([(irm ira sbf sbm) (rowcount-caston-repeats  rowcount)]
                [(orm ora saf sam) (rowcount-castoff-repeats rowcount)])
-    (if (or (false? irm)
-            (false? ira)
-            (false? orm)
-            (false? ora))
-        ""
-        (if (= irm orm)
-            (if (= ira ora)
-                ""
-                (if (zero? orm)
-                    (sts->text ora)
-                    (more-or-less (- ora ira))))
-            (multiple->text orm ora)))))
+    (if (= irm orm)
+        (if (= ira ora)
+            ""
+            (if (zero? orm)
+                (sts->text ora)
+                (more-or-less (- ora ira))))
+        (multiple->text orm ora))))
 
 ;; is the pattern capable of repeating vertically between the specified rows?
 ;; FIXME knitspeak is slightly more liberal:
@@ -1432,8 +1403,6 @@
 ;; provided that these rows are of fixed length, i.e. no multiple length repeats.
 (: rowcounts-vertical-repeatable? : (Vectorof Rowcount) Positive-Integer Positive-Integer -> Boolean)
 (define (rowcounts-vertical-repeatable? rowcounts start-row end-row)
-  ;(println (format "caston row = ~a" start-row))
-  ;(println (format "castoff row = ~a" end-row))
   (let ([n-rows (vector-length rowcounts)])
     (if (or (zero? n-rows)
             (> start-row n-rows)
@@ -1446,26 +1415,17 @@
                  [end-rowcount   (vector-ref rowcounts (sub1 end-row))])
             (let-values ([(start-com start-coa start-sbf start-sbm) (rowcount-caston-repeats  start-rowcount)]
                          [(end-com   end-coa   end-saf   end-sam)   (rowcount-castoff-repeats end-rowcount)])
-              (if (or (false? start-com)
-                      (false? start-coa)
-                      (false? start-sbf)
-                      (false? start-sbm)
-                      (false? end-com)
-                      (false? end-coa)
-                      (false? end-saf)
-                      (false? end-sam))
-                  #f
-                  (and (= start-com end-com)
-                       (= start-sbf end-saf)
-                       (= start-sbm end-sam)
-                       (or
-                        ;; every repeat the same length
-                        (= start-coa end-coa)
-                        ;; repeats increase (or decrease) in length
-                        (and (not (zero? start-com))
-                             (> end-coa start-coa)
-                             (zero? (modulo (- end-coa start-coa)
-                                            start-com))))))))))))
+              (and (= start-com end-com)
+                   (= start-sbf end-saf)
+                   (= start-sbm end-sam)
+                   (or
+                    ;; every repeat the same length
+                    (= start-coa end-coa)
+                    ;; repeats increase (or decrease) in length
+                    (and (not (zero? start-com))
+                         (> end-coa start-coa)
+                         (zero? (modulo (- end-coa start-coa)
+                                        start-com)))))))))))
 
 (: rowcounts-set-consumed! : (Vectorof Rowcount) Natural (Option Natural) -> Void)
 (define (rowcounts-set-consumed! rowcounts index val)

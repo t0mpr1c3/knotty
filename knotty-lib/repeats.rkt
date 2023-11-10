@@ -28,15 +28,15 @@
 
 ;; Repeats struct definition
 (struct Repeats
-  ([caston-multiple : (Option Natural)]
-   [caston-addition : (Option Natural)]
+  ([caston-multiple : Natural]
+   [caston-addition : Natural]
    [first-repeat-row : (Option Positive-Integer)]
    [last-repeat-row : (Option Positive-Integer)])
   #:transparent)
 
 ;; dummy Repeats
 (define dummy-repeats : Repeats
-  (Repeats #f #f #f #f))
+  (Repeats 0 0 #f #f))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

@@ -1053,7 +1053,6 @@
              repeat-rows)])
     (let-values ([(caston-repeat-multiple caston-repeat-addition dummy1 dummy2)
                   (rowcount-caston-repeats (vector-ref rowcounts 0))])
-      (assert (natural? caston-repeat-addition))
       (if (false? repeat-rows~)
           (Repeats caston-repeat-multiple
                    caston-repeat-addition
