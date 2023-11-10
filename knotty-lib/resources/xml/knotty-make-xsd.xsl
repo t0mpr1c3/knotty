@@ -60,7 +60,7 @@
 </xsl:comment>
     <xsl:text>&#xa;</xsl:text>
     <xs:schema
-      xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+      xmlns:xs="http://www.w3.org/2001/XMLSchema"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       <xsl:text>&#xa;</xsl:text>
 
@@ -85,7 +85,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> optional attribution </xsl:comment> 
+      <xsl:comment> optional attribution </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="attribution-type">
         <xs:sequence>
@@ -94,7 +94,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for author information </xsl:comment> 
+      <xsl:comment> type for author information </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="author-type">
         <xs:sequence>
@@ -104,7 +104,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for optional keywords </xsl:comment> 
+      <xsl:comment> type for optional keywords </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="keywords-type">
         <xs:sequence>
@@ -113,7 +113,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for individual keyword </xsl:comment> 
+      <xsl:comment> type for individual keyword </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="keyword-type">
         <xs:restriction base="xs:token">
@@ -122,7 +122,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for pattern options </xsl:comment> 
+      <xsl:comment> type for pattern options </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="options-type">
         <xs:sequence>
@@ -134,20 +134,17 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> whether the piece is knit by "hand" or using a "machine" </xsl:comment> 
+      <xsl:comment> whether the piece is knit by "hand" or using a "machine" </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="technique-type">
         <xs:restriction base="xs:token">
           <xs:enumeration value="hand"/>
-          <xs:enumeration value="machine-texture"/>
-          <xs:enumeration value="machine-fair-isle"/>
-          <xs:enumeration value="machine-intarsia"/>
-          <xs:enumeration value="machine-jacquard"/>
+          <xs:enumeration value="machine"/>
         </xs:restriction>
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> whether the piece is worked "flat" or in the round ("circular") </xsl:comment> 
+      <xsl:comment> whether the piece is worked "flat" or in the round ("circular") </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="form-type">
         <xs:restriction base="xs:token">
@@ -157,8 +154,8 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> whether the first row is worked on the right side ("rs") or wrong 
-      side ("ws") of the piece </xsl:comment> 
+      <xsl:comment> whether the first row is worked on the right side ("rs") or wrong
+      side ("ws") of the piece </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="face-type">
         <xs:restriction base="xs:token">
@@ -168,7 +165,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> whether the first row is worked from the LHS or from the RHS </xsl:comment> 
+      <xsl:comment> whether the first row is worked from the LHS or from the RHS </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="side-type">
         <xs:restriction base="xs:token">
@@ -178,19 +175,21 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> required type for pattern dimensions </xsl:comment> 
+      <xsl:comment> required type for pattern dimensions </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="dimensions-type">
         <xs:sequence>
-          <xs:element name="row-count"                   type="natural"    minOccurs="1"/>
-          <xs:element name="first-row-stitches-in-count" type="natural"    minOccurs="1"/>
-          <xs:element name="last-row-stitches-out-count" type="natural"    minOccurs="1"/>
-          <xs:element name="gauge"                       type="gauge-type" minOccurs="0"/>
+          <xs:element name="row-count"        type="natural"          minOccurs="1"/>
+          <xs:element name="cast-on-count"    type="natural"          minOccurs="1"/>
+          <xs:element name="cast-on-repeat"   type="natural"          minOccurs="1"/>
+          <xs:element name="row-repeat-first" type="positive-integer" minOccurs="0"/>
+          <xs:element name="row-repeat-last"  type="positive-integer" minOccurs="0"/>
+          <xs:element name="gauge"            type="gauge-type"       minOccurs="0"/>
         </xs:sequence>
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for optional gauge specification </xsl:comment> 
+      <xsl:comment> type for optional gauge specification </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="gauge-type">
         <xs:sequence>
@@ -203,7 +202,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for measurement unit </xsl:comment> 
+      <xsl:comment> type for measurement unit </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="measurement-unit-type">
         <xs:union>
@@ -217,7 +216,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for optional yarn specification </xsl:comment> 
+      <xsl:comment> type for optional yarn specification </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="yarns-type">
         <xs:sequence>
@@ -226,9 +225,9 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for individual yarn </xsl:comment> 
-      <xsl:comment> default color is white </xsl:comment> 
-      <xsl:comment> FIXME could use a more structured type for yarn weight </xsl:comment> 
+      <xsl:comment> type for individual yarn </xsl:comment>
+      <xsl:comment> default color is white </xsl:comment>
+      <xsl:comment> FIXME could use a more structured type for yarn weight </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="yarn-type">
         <xs:sequence>
@@ -242,7 +241,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for yarn weight </xsl:comment> 
+      <xsl:comment> type for yarn weight </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="yarn-weight-type">
         <xs:union memberTypes="empty">
@@ -256,7 +255,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> default yarn number of 0 = MC </xsl:comment> 
+      <xsl:comment> default yarn number of 0 = MC </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="byte">
         <xs:restriction base="xs:integer">
@@ -266,16 +265,16 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> color encoded as 24-bit RGB, R is most significant byte </xsl:comment> 
+      <xsl:comment> color encoded as 24-bit RGB, R is most significant byte </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
-      <xs:simpleType name="color-type"> 
+      <xs:simpleType name="color-type">
         <xs:restriction base="xs:hexBinary">
           <xs:maxLength value="6" fixed="true"/>
         </xs:restriction>
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> required row data </xsl:comment> 
+      <xsl:comment> required row data </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="row-data-type">
         <xs:sequence>
@@ -284,7 +283,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> stitch and yarn information matching one or more row numbers </xsl:comment> 
+      <xsl:comment> stitch and yarn information matching one or more row numbers </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="rows-type">
         <xs:sequence>
@@ -297,7 +296,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for positive integer </xsl:comment> 
+      <xsl:comment> type for positive integer </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="positive-integer">
         <xs:restriction base="xs:integer">
@@ -313,7 +312,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> 0 = false, 1 = true </xsl:comment> 
+      <xsl:comment> 0 = false, 1 = true </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="boolean">
         <xs:restriction base="xs:integer">
@@ -323,7 +322,7 @@
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for stitches </xsl:comment> 
+      <xsl:comment> type for stitches </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="stitches-type">
         <xs:sequence>
@@ -332,7 +331,7 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> most general element type for encoding stitch information </xsl:comment> 
+      <xsl:comment> most general element type for encoding stitch information </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:group name="stitch-element-group">
         <xs:choice>
@@ -343,8 +342,8 @@
       <xsl:text>&#xa;</xsl:text>
 
       <xsl:comment> describes a sequence of one or more stitches of the same kind and
-      using the same yarn </xsl:comment> 
-      <xsl:comment> absent count or count = 0 means a variable repeat </xsl:comment> 
+      using the same yarn </xsl:comment>
+      <xsl:comment> absent count or count = 0 means a variable repeat </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="stitch-run-type">
         <xs:sequence>
@@ -355,8 +354,8 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> describes repeated element of more than one type or color of stitch </xsl:comment> 
-      <xsl:comment> absent count or count = 0 means a variable repeat </xsl:comment> 
+      <xsl:comment> describes repeated element of more than one type or color of stitch </xsl:comment>
+      <xsl:comment> absent count or count = 0 means a variable repeat </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:complexType name="stitch-seq-type">
         <xs:sequence>
@@ -366,21 +365,21 @@
       </xs:complexType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> type for non-negative integers </xsl:comment> 
+      <xsl:comment> type for non-negative integers </xsl:comment>
       <xs:simpleType name="natural">
         <xs:restriction base="xs:integer">
           <xs:minInclusive value="0"/>
         </xs:restriction>
       </xs:simpleType>
 
-      <xsl:comment> stitch identifier </xsl:comment> 
+      <xsl:comment> stitch identifier </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="stitch-id-type">
         <xs:union memberTypes="stitch-id-enum-type stitch-id-string-type"/>
       </xs:simpleType>
       <xsl:text>&#xa;</xsl:text>
 
-      <xsl:comment> FIXME incomplete list of stitches </xsl:comment>
+      <xsl:comment> list of stitches </xsl:comment>
       <xsl:text>&#xa;</xsl:text>
       <xs:simpleType name="stitch-id-enum-type">
         <xs:restriction base="xs:token">

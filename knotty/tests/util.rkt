@@ -189,15 +189,27 @@
    (remove-tags "<html>ok</html>")
    "ok")
 
-  (check-equal? (string->posint "") #f)
-  (check-equal? (string->posint "x") #f)
-  (check-equal? (string->posint "+nan.f") #f)
-  (check-equal? (string->posint "-inf.0") #f)
-  (check-equal? (string->posint "+inf.f") #f)
-  (check-equal? (string->posint "-1+i") #f)
-  (check-equal? (string->posint "-1.2") #f)
-  (check-equal? (string->posint "0") #f)
-  (check-equal? (string->posint "1") 1)
+  (check-equal? (string->natural "") #f)
+  (check-equal? (string->natural "x") #f)
+  (check-equal? (string->natural "+nan.f") #f)
+  (check-equal? (string->natural "-inf.0") #f)
+  (check-equal? (string->natural "+inf.f") #f)
+  (check-equal? (string->natural "-1+i") #f)
+  (check-equal? (string->natural "-1.2") #f)
+  (check-equal? (string->natural "0") 0)
+  (check-equal? (string->natural "1") 1)
+
+  (check-equal? (string->positive-integer "") #f)
+  (check-equal? (string->positive-integer "0") #f)
+  (check-equal? (string->positive-integer "1") 1)
+
+  (check-equal? (string->byte "") #f)
+  (check-equal? (string->byte "0") 0)
+  (check-equal? (string->byte "256") #f)
+
+  (check-equal? (string->boolean "") #f)
+  (check-equal? (string->boolean "0") #f)
+  (check-equal? (string->boolean "1") #t)
 
   )
 ;; end

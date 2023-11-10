@@ -184,7 +184,7 @@
 
    ;; NB Brioche stitches in Stitchmastery fonts:
    ;;
-   ;(Stitchtype 'yfsyo                                      1 #f #"\303\244"     #""             #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yfsl1yo
+   ;(Stitchtype 'yfsyo                                      1 #f #"\303\244"     #""             #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yfsl1yo aka "brSl"
    ;(Stitchtype 'brk       'brp       'brp       'brk       1 #f #"\303\243"     #"\303\242"     #f   #f   1 1  0 #f #f #t #f "brioche knit")
    ;(Stitchtype 'brp       'brk       'brk       'brp       1 #f #"\303\242"     #"\303\243"     #f   #f   1 1  0 #f #f #t #f "brioche purl")
    ;(Stitchtype 'brktbl    'brptbl    'brptbl    'brktbl    1 #f #"\303\263"     #"\303\264"     #f   #f   1 1  0 #f #f #t #f "brioche knit through back loop")
@@ -199,6 +199,7 @@
    ;(Stitchtype 'brsssp                                     1 #f #"\303\254"     #""             #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip purl")
    ;; brkyobrk
    ;; brkbrpbrk into 1 st
+   ;; brpbrkbrp into 1 st
 
    ;; cable stitches (left - front, right - back)
    ;; https://stitch-maps.com/about/key/

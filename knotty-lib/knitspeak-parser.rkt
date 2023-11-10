@@ -57,15 +57,14 @@
            #:form (quote ,form)
            #:face (quote ,face)
            #:side (quote ,side))
-        (if (null? repeat-rows)
+        (if (or (null? repeat-rows)
+                (false? (first repeat-rows))
+                (false? (second repeat-rows))
+                (not (= 2 (length repeat-rows))))
             null
-            `(#:repeat-rows ,(if (and (= 2  (length repeat-rows))
-                                      (not (false? (first repeat-rows)))
-                                      (not (false? (second repeat-rows))))
-                                 (append '(list)
-                                         (list (first repeat-rows))
-                                         (list (second repeat-rows)))
-                                 #f)))
+            `(#:repeat-rows ,(append '(list)
+                                     (list (first repeat-rows))
+                                     (list (second repeat-rows)))))
         (for/list ([statement-stx (syntax->list #'(statement-stxs ...))]
                    #:do [(define res (interpret-statement statement-stx))]
                    #:when (not (void? res)))
@@ -308,7 +307,6 @@
       `(run
         (stitch (quote ,(string->symbol (string-downcase (syntax->datum #'repeated-stitch-stx)))))
         (count  ,(syntax->datum #'count-stx))))]
-    |#
     [({~literal modified-stitch} modified-stitch-stx stitch-modifier-stx)
      (interpret-run
       `(run
@@ -317,7 +315,23 @@
                    (string-append
                     (string-downcase (syntax->datum #'modified-stitch-stx)) "-"
                     (string-downcase (symbol->string (cadr (syntax->datum #'stitch-modifier-stx))))))))
-        (count  1)))]))
+        (count  1)))]
+    |#
+    [({~literal modified-stitch} modified-stitch-stx stitch-modifier-stx)
+     (let ([s (syntax->datum #'modified-stitch-stx)])
+     (interpret-run
+      `(run
+        (stitch (quote
+                 ,(string->symbol
+                   (string-append
+                    (string-downcase s)
+                    (cond [(eq? 'TBL (cadr (syntax->datum #'stitch-modifier-stx)))
+                          "-tbl"]
+                          ;; aliases for twisted stitches
+                          [(equal? "cdd"  s) ""]
+                          [(equal? "cddp" s) ""]
+                          [else              "-tbl"])))))
+        (count  1))))]))
 
 (define (interpret-stitch-run2 static-stitch-statement-child-stx)
   (syntax-parse static-stitch-statement-child-stx
@@ -485,7 +499,7 @@
           (if (eq? 'circular form)
               (hash-set! face-hash face #t)
               (begin
-                (for ([row (car f)]) ;; FIXME apparently this is not how face specification works in knitspeak e.g. https://stitch-maps.com/patterns/display/diamonds-in-moss/
+                (for ([row (car f)]) ;; FIXME this is not actually how face specification works in knitspeak e.g. https://stitch-maps.com/patterns/display/diamonds-in-moss/
                   (hash-set! face-hash
                              (if (odd? row)
                                  face

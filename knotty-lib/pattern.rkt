@@ -1051,11 +1051,11 @@
          (if (positive-integer? repeat-rows)
              (list repeat-rows repeat-rows)
              repeat-rows)])
-    (let-values ([(caston-repeat-multiple caston-repeat-addition dummy1 dummy2)
+    (let-values ([(caston-repeat caston-count dummy1 dummy2)
                   (rowcount-caston-repeats (vector-ref rowcounts 0))])
       (if (false? repeat-rows~)
-          (Repeats caston-repeat-multiple
-                   caston-repeat-addition
+          (Repeats caston-count
+                   caston-repeat
                    #f
                    #f)
           ;; check validity of row repeats
@@ -1085,16 +1085,17 @@
               (when (not repeatable?)
                 (err SAFE "pattern is not repeatable over the range of rows specified"))
               ;; return result
-              (Repeats caston-repeat-multiple
-                       caston-repeat-addition
+              (Repeats caston-count
+                       caston-repeat
                        first-repeat-row
                        last-repeat-row)))))))
 
 (: nohrep? : Pattern -> Boolean)
 (define (nohrep? p)
-  (let* ([repeats (Pattern-repeats p)]
-         [com (Repeats-caston-multiple repeats)])
-    (or (false? com) (zero? com))))
+  (~> p
+      Pattern-repeats
+      Repeats-caston-repeat
+      zero?))
 
 (: novrep? : Pattern -> Boolean)
 (define (novrep? p)

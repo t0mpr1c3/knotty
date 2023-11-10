@@ -86,10 +86,7 @@
    <xs:simpleType name="technique-type">
       <xs:restriction base="xs:token">
          <xs:enumeration value="hand"/>
-         <xs:enumeration value="machine-texture"/>
-         <xs:enumeration value="machine-fair-isle"/>
-         <xs:enumeration value="machine-intarsia"/>
-         <xs:enumeration value="machine-jacquard"/>
+         <xs:enumeration value="machine"/>
       </xs:restriction>
    </xs:simpleType>
    <!-- whether the piece is worked "flat" or in the round ("circular") -->
@@ -99,7 +96,7 @@
          <xs:enumeration value="circular"/>
       </xs:restriction>
    </xs:simpleType>
-   <!-- whether the first row is worked on the right side ("rs") or wrong 
+   <!-- whether the first row is worked on the right side ("rs") or wrong
       side ("ws") of the piece -->
    <xs:simpleType name="face-type">
       <xs:restriction base="xs:token">
@@ -118,8 +115,10 @@
    <xs:complexType name="dimensions-type">
       <xs:sequence>
          <xs:element name="row-count" type="natural" minOccurs="1"/>
-         <xs:element name="first-row-stitches-in-count" type="natural" minOccurs="1"/>
-         <xs:element name="last-row-stitches-out-count" type="natural" minOccurs="1"/>
+         <xs:element name="cast-on-count" type="natural" minOccurs="1"/>
+         <xs:element name="cast-on-repeat" type="natural" minOccurs="1"/>
+         <xs:element name="row-repeat-first" type="positive-integer" minOccurs="0"/>
+         <xs:element name="row-repeat-last" type="positive-integer" minOccurs="0"/>
          <xs:element name="gauge" type="gauge-type" minOccurs="0"/>
       </xs:sequence>
    </xs:complexType>
@@ -267,7 +266,7 @@
    <xs:simpleType name="stitch-id-type">
       <xs:union memberTypes="stitch-id-enum-type stitch-id-string-type"/>
    </xs:simpleType>
-   <!-- FIXME incomplete list of stitches -->
+   <!-- list of stitches -->
    <xs:simpleType name="stitch-id-enum-type">
       <xs:restriction base="xs:token">
          <xs:enumeration value="bebd"/>

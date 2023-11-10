@@ -27,8 +27,8 @@
 (require/typed sxml/sxpath
                [sxpath         (->* (Any) (Any) ((U Sexp (Listof Sexp)) -> (Listof Sexp)))])
 (require threading)
-(require "logger.rkt"
-         "global.rkt"
+(require "global.rkt"
+         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "stitch-instructions.rkt"
@@ -40,9 +40,8 @@
          "rowmap.rkt"
          "gauge.rkt"
          "options.rkt"
+         "repeats.rkt"
          "pattern.rkt")
-
-(log-message knotty-logger 'debug "start of xml.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -70,14 +69,17 @@
     #:face        (sxml->face sxml)
     #:side        (sxml->side sxml)
     #:gauge       (sxml->gauge sxml)
+    #:repeat-rows (sxml->repeat-rows sxml)
     (sxml->yarns sxml)
     (sxml->rows  sxml)))
 
 (: sxml->string : Sexp -> String)
 (define (sxml->string sxml)
-  (if (null? sxml)
-      ""
-      (car (cast sxml (Listof String)))))
+  (cond [(null? sxml)   ""]
+        [(string? sxml) sxml]
+        [(pair? sxml)   (string-append (sxml->string (car sxml))
+                                       (sxml->string (cdr sxml)))]
+        [else           (~a sxml)]))
 
 (: sxml->symbol : Sexp -> Symbol)
 (define (sxml->symbol sxml)
@@ -166,22 +168,22 @@
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/stitch-count/text()") _)
                  sxml->string
-                 string->number)]
+                 string->positive-integer)]
             [stitch-measurement
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/stitch-measurement/text()") _)
                  sxml->string
-                 string->number)]
+                 string->positive-integer)]
             [row-count
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/row-count/text()") _)
                  sxml->string
-                 string->number)]
+                 string->positive-integer)]
             [row-measurement
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/row-measurement/text()") _)
                  sxml->string
-                 string->number)]
+                 string->positive-integer)]
             [measurement-unit
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/measurement-unit/text()") _)
@@ -197,6 +199,28 @@
          row-count
          row-measurement
          measurement-unit))))
+
+(: sxml->repeat-rows : Sexp -> (Option (List Positive-Integer Positive-Integer)))
+(define (sxml->repeat-rows sxml)
+  (let ([frr
+         (if (null? ((sxpath "/pattern/dimensions/row-repeat-first") sxml))
+             #f
+             (~> ((sxpath "/pattern/dimensions/row-repeat-first/text()") sxml)
+                 sxml->string
+                 string->positive-integer))]
+        [lrr
+         (if (null? ((sxpath "/pattern/dimensions/row-repeat-last") sxml))
+             #f
+             (~> ((sxpath "/pattern/dimensions/row-repeat-last/text()") sxml)
+                 sxml->string
+                 string->positive-integer))])
+    (if (false? frr)
+        #f
+        (if (false? lrr)
+            (list frr frr)
+            (if (> frr lrr)
+                #f
+                (list frr lrr))))))
 
 (: sxml->yarns : Sexp -> (Listof Yarn))
 (define (sxml->yarns sxml)
@@ -219,27 +243,22 @@
   (let* ([sxml~ (cons '*TOP* `(,sxml))]
          [num (~> sxml~ ((sxpath "/yarn/number/text()") _)
                   sxml->string
-                  string->number)]
+                  string->byte)]
          [color (~> sxml~ ((sxpath "/yarn/color/text()") _)
                     sxml->string
                     (string->number _ 16)
                     (cast _ Nonnegative-Fixnum))]
          [weight (~> sxml~ ((sxpath "/yarn/weight/text()") _)
-                     sxml->string)]
-         [weight~ (if (zero? (string-length weight))
-                      #f
-                      (~> weight
-                          string->number))])
+                     sxml->string
+                     string->byte)])
     (assert (byte? num))
     (assert (and (>= color 0)
                  (<  color #x1000000)))
-    (assert (or (false? weight~)
-                (byte?  weight~)))
     ((inst cons Byte Yarn)
      num
      (Yarn color
            (sxml->string ((sxpath "/yarn/name/text()")   sxml~))
-           weight~
+           (if (or (false? weight) (> weight 7)) #f weight)
            (sxml->string ((sxpath "/yarn/fiber/text()")  sxml~))
            (sxml->string ((sxpath "/yarn/brand/text()")  sxml~))))))
 
@@ -262,18 +281,11 @@
 
 (: sxml->row-numbers : Sexp -> (Listof Positive-Integer))
 (define (sxml->row-numbers sxml)
-  ((inst map Positive-Integer Number)
-   (λ ([x : Number])
-     (assert (exact-positive-integer? x))
-     x)
-   (filter
-    number?
-    (map
-     (λ ([str : String])
-       (string->number str))
-     (cast
-      ((sxpath "/rows/row-number/text()") sxml)
-      (Listof String))))))
+  (let ([xs (filter (λ ([x : (Option Positive-Integer)]) (and (integer? x) (positive? x)))
+                 (map (compose string->positive-integer sxml->string)
+                      ((sxpath "/rows/row-number/text()") sxml)))])
+    (assert (not (zero? (length xs))))
+    xs))
 
 (: sxml->memo : Sexp -> String)
 (define (sxml->memo sxml)
@@ -282,22 +294,16 @@
 
 (: sxml->default-yarn : Sexp -> Byte)
 (define (sxml->default-yarn sxml)
-  (let ([y
-         : (Option Number)
-         (string->number
-          (sxml->string
-           ((sxpath "/rows/default-yarn/text()") sxml)))])
-    (if (false? y)
-        0
-        (cast y Byte))))
+  (or (string->byte
+       (sxml->string
+        ((sxpath "/rows/default-yarn/text()") sxml)))
+      0)) ;; default
 
 (: sxml->short-row? : Sexp -> Boolean)
 (define (sxml->short-row? sxml)
-  (if (equal? "1"
-              (sxml->string
-               ((sxpath "/rows/short-row/text()") sxml)))
-      #t
-      #f))
+  (string->boolean
+   (sxml->string
+    ((sxpath "/rows/short-row/text()") sxml))))
 
 (: sxml->stitches : Sexp -> Tree)
 (define (sxml->stitches sxml)
@@ -311,10 +317,11 @@
     (map (λ ([x : (U Leaf Node False)]) (cast x (U Leaf Node)))
          (filter (λ ([x : (U Leaf Node False)]) (not (false? x)))
                  (for/list ([el : (Listof Sexp) sxml~]) : (Listof (U Leaf Node False))
-                   (let ([head (cast (car el) Symbol)])
-                     (cond [(eq? 'run head) (sxml->leaf el)]
-                           [(eq? 'seq head) (sxml->node el)]
-                           [else #f])))))))
+                   (let ([head (car el)])
+                     (cond [(not (symbol? head)) #f]
+                           [(eq? 'run head)    (sxml->leaf el)]
+                           [(eq? 'seq head)    (sxml->node el)]
+                           [else               #f])))))))
 
 (: sxml->leaf : Sexp -> Leaf)
 (define (sxml->leaf sxml)
@@ -327,14 +334,13 @@
 
 (: sxml->count : Sexp -> Natural)
 (define (sxml->count sxml)
-  (let ([n
-         : (Option Number)
-         (string->number
-          (sxml->string
-           ((sxpath "/run/count/text() | /seq/count/text()") sxml)))])
-    (if (false? n)
+  (let ([s (sxml->string
+            ((sxpath "/run/count/text() | /seq/count/text()") sxml))])
+    (if (zero? (string-length s))
         0
-        (cast n Natural))))
+        (let ([n (string->natural s)])
+          (assert (natural? n))
+          n))))
 
 (: sxml->stitchtype : Sexp -> (Option Symbol))
 (define (sxml->stitchtype sxml)
@@ -351,14 +357,9 @@
 
 (: sxml->yarnindex : Sexp -> (Option Byte))
 (define (sxml->yarnindex sxml)
-  (let ([y
-         : (Option Number)
-         (string->number
-          (sxml->string
-           ((sxpath "/run/yarn/text()") sxml)))])
-    (if (false? y)
-        #f
-        (cast y Byte))))
+  (string->byte
+   (sxml->string
+    ((sxpath "/run/yarn/text()") sxml))))
 
 (: sxml->node : (Sexp -> Node))
 (define (sxml->node sxml)
@@ -399,11 +400,19 @@
             (face      ,(symbol->string (Options-face options)))
             (side      ,(symbol->string (Options-side options))))]
          [pattern-dimensions
-          (let ([gauge   (Options-gauge options)])
+          (let* ([gauge   (Options-gauge options)]
+                 [repeats (Pattern-repeats p)]
+                 [frr     (Repeats-first-repeat-row repeats)]
+                 [lrr     (Repeats-last-repeat-row repeats)])
             `(dimensions
-              (nrows ,(Pattern-nrows p))
-              ; FIXME (first-row-stitches-in-count ,(Rowdata-first-row-stitches-in-count rowdata))
-              ; FIXME (last-row-stitches-out-count ,(Rowdata-last-row-stitches-out-count rowdata))
+              (rows ,(Pattern-nrows p))
+              (cast-on-count  ,(Repeats-caston-count  repeats))
+              (cast-on-repeat ,(Repeats-caston-repeat repeats))
+              ,@(if (or (false? frr)
+                        (false? lrr))
+                    null
+                    `((row-repeat-first ,frr)
+                      (row-repeat-last  ,lrr)))
               ,@(if (false? gauge)
                     null
                     `((gauge
@@ -414,9 +423,9 @@
                        (measurement-unit   ,(symbol->string (Gauge-measurement-unit   gauge))))))))]
          [pattern-yarns
           `(yarns
-            ,@(for/list ([i (in-range (vector-length (Pattern-yarns p)))]) : (Listof Sexp)
-                (let ([y : (Option Yarn) (vector-ref (Pattern-yarns p) i)])
-                  (yarn->sxml (cast i Byte) y))))]
+            ,@(for/list ([i : Natural (in-range (vector-length (Pattern-yarns p)))]) : (Listof Sexp)
+                (let ([y : Yarn (vector-ref (Pattern-yarns p) i)])
+                  (yarn->sxml (bitwise-and i #xFF) y))))]
          [hand? (eq? (Options-technique options) 'hand)]
          [pattern-stitch-instructions
           `(stitch-instructions
@@ -553,5 +562,4 @@
 (save demo "demo2.xml")
 |#
 
-(log-message knotty-logger 'debug "end of xml.rkt" #f)
 ;; end

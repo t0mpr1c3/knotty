@@ -523,10 +523,10 @@
 
 ;; caston row
 (define (caston repeats flat?)
-  (let* ([com (Repeats-caston-multiple repeats)]
-         [coa (Repeats-caston-addition repeats)])
-    (if (or (false? com)
-            (false? coa))
+  (let* ([coa (Repeats-caston-count  repeats)]
+         [com (Repeats-caston-repeat repeats)])
+    (if (or (false? coa)
+            (false? com))
         null
         `((p (@ [class "instructions"])
              ,(string-append
@@ -541,8 +541,8 @@
          [rowmap (Pattern-rowmap p)]
          [n (vector-length rowspecs)]
          [repeats (Pattern-repeats p)]
-         [com (Repeats-caston-multiple repeats)]
-         [coa (Repeats-caston-addition repeats)])
+         [coa (Repeats-caston-count  repeats)]
+         [com (Repeats-caston-repeat repeats)])
     ;; loop over rowspecs
     (let loop ([i   0]
                [acc null])

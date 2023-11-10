@@ -145,7 +145,7 @@
      (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (Rowmap '#(#(1 3) #(2 4)) '#(1 0 1 0))
     (make-vector 4 (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 1 4) 1 default-yarns)
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 1 4) 1 default-yarns)
    (Pattern
     "" "" null null
     (vector
@@ -153,7 +153,7 @@
      (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (Rowmap '#(#(1 3) #(2 4)) '#(0 1 0 1))
     (make-vector 4 (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 1 4) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 1 4) 1 default-yarns))
 
   (check-equal?
    (call-with-values
@@ -182,7 +182,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "test of `pattern` constructor" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'ws 'left #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'ws 'left #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; hand knits start on WS, LHS
@@ -297,7 +297,7 @@
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 2 0 1 1 1 1 0 1)
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; variable repeat leaf nested in node
@@ -379,7 +379,7 @@
      (make-vector 3 (Rowcount 0 0 0 0 0 8 8 2 2 2 2 3 0 1))
      (vector (Rowcount 0 0 0 0 0 8 8 8 8 0 0 0 0 0))
      (vector (Rowcount 0 0 0 0 0 8 0 0 0 1 0 8 0 1)))
-    9 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 8 #f #f) 1
+    9 (Options 'hand 'flat 'rs 'right #f) (Repeats 8 0 #f #f) 1
     default-yarns))
 
   ;; constrained by stitches out
@@ -396,7 +396,7 @@
     (vector
      (Rowcount 0 0 0 0 0 1 2 0 1 1 1 1 0 1)
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; constrained by stitches in
@@ -413,7 +413,7 @@
     (vector
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 2 0 1 1 1 1 0 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 2 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 0 #f #f) 1
     default-yarns))
 
   ;; constrained by both stitches in and stitches out
@@ -433,7 +433,7 @@
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 2 0 1 1 1 1 0 1)
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0))
-    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 2 #f #f) 1
+    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 0 #f #f) 1
     default-yarns))
 
   ;; non-conformable consecutive rows
@@ -474,7 +474,7 @@
     (vector
      (Rowcount 0 0 0 0 0 4 4 0 0 1 1 4 0 1)
      (Rowcount 0 0 0 0 0 4 5 4 4 0 1 1 0 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 4 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 0 #f #f) 1
     default-yarns))
 
   ;; variable repeat consumes no stitches
@@ -491,7 +491,7 @@
     (vector
      (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 4 5 4 4 0 1 1 0 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 4 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 0 #f #f) 1
     default-yarns))
 
   ;; variable repeat evaluates to zero
@@ -508,7 +508,7 @@
     (vector
      (Rowcount 0 0 0 0 0 1 1 1 1 1 1 0 0 1)
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; variable repeat (single row)
@@ -519,7 +519,7 @@
     (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
     default-yarns))
 
   ;; multiple of 2 * fixed 1 (nonconformable)
@@ -552,7 +552,7 @@
     (vector
      (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1)
      (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
     default-yarns))
 
   ;; multiple of 1 * multiple of 1 + 1
@@ -586,7 +586,7 @@
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 3 1)
      (Rowcount 0 0 0 0 0 6 6 0 0 3 3 2 2 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 0 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 6 #f #f) 1
     default-yarns))
 
   ;; multiple of 2 * multiple of 3
@@ -603,7 +603,7 @@
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 3 1)
      (Rowcount 0 0 0 0 0 6 6 3 3 3 3 1 2 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 0 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 6 #f #f) 1
     default-yarns))
 
   ;; multiple of 3 * multiple of 1 + 1
@@ -620,7 +620,7 @@
     (vector
      (Rowcount 0 0 0 0 0 3 3 0 0 3 3 1 1 1)
      (Rowcount 0 0 0 0 0 3 3 1 1 1 1 2 3 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 0 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 3 #f #f) 1
     default-yarns))
 
   ;; multiple of 2 * multiple of 3 + 1
@@ -637,7 +637,7 @@
     (vector
      (Rowcount 0 0 0 0 0 10 10 0 0 2 2 5 3 1)
      (Rowcount 0 0 0 0 0 10 10 1 1 3 3 3 2 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 4 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 6 #f #f) 1
     default-yarns))
 
   ;; multiple of 2 * multiple of 3 + 1
@@ -654,7 +654,7 @@
     (vector
      (Rowcount 0 0 0 0 0 10 10 0 0 2 2 5 3 1)
      (Rowcount 0 0 0 0 0 10 10 1 1 3 3 3 2 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 4 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 6 #f #f) 1
     default-yarns))
 
   ;; multiple of 2 * multiple of 3(2) + 1 * multiple of 3 + 1
@@ -682,7 +682,7 @@
      (Rowcount 0 0 0 0 0 28 28 0 0 2 2 14 9 1)
      (Rowcount 0 0 0 0 0 28 19 1 1 3 2  9 6 1)
      (Rowcount 0 0 0 0 0 19 19 1 1 3 3  6 4 1))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 18 10 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 10 18 #f #f) 1
     default-yarns))
 
   ;; turns, no variable repeats
@@ -705,7 +705,7 @@
      (Rowcount 0 0 0 1 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 1 0 1 0 3 3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0 4 4 4 4 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 5 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 5 0 #f #f) 1
     default-yarns))
 
   ;; turn consumes 0 stitches
@@ -722,7 +722,7 @@
     (vector
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; w&t consumes 1 stitch
@@ -781,7 +781,7 @@
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)
      (Rowcount 0 0 0 2 2 4 4 4 4 0 0 0 0 0))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 4 #f #f) 1
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 2 #f #f) 1
     default-yarns))
 
   ;; turns after variable repeat (sequence of 2 short rows)
@@ -807,7 +807,7 @@
      (Rowcount 0 0 0 6 0  4  4 4 4 0 0 0 0 0)
      (Rowcount 0 6 0 1 0  3  3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0  9  9 9 9 0 0 0 0 0))
-    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 10 #f #f) 1
+    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 10 0 #f #f) 1
     default-yarns))
 
   ;; turns after variable repeat (sequence of 1 short row)
@@ -830,7 +830,7 @@
      (Rowcount 0 0 0 0 0 10 10 1 1 3 3 3 2 1)
      (Rowcount 0 0 0 6 6  4  4 4 4 0 0 0 0 0)
      (Rowcount 0 6 6 0 0  4  4 4 4 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 4 #f #f) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 6 #f #f) 1 default-yarns))
 
   ;; turns after variable repeat
   (check-equal?
@@ -849,7 +849,7 @@
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)
      (Rowcount 0 0 0 2 2 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 2 2 1 0 3 3 3 3 0 0 0 0 0))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 4 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 2 #f #f) 1
     default-yarns))
 
   ;; turns after variable repeat
@@ -872,7 +872,7 @@
      (Rowcount 0 0 0 4 6 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 4 6 1 0 3 3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0 7 7 1 1 3 3 2 2 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 2 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 6 #f #f) 1
     default-yarns))
 
   ;; turns followed by fixed number of stitches
@@ -898,7 +898,7 @@
      (Rowcount 0 0 0 6 0  4  4 4 4 0 0 0 0 0)
      (Rowcount 0 6 0 1 0  3  3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0  9  9 9 9 0 0 0 0 0))
-    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 10 #f #f) 1
+    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 10 0 #f #f) 1
     default-yarns))
 
   ;; turns followed by variable repeat
@@ -924,7 +924,7 @@
      (Rowcount 0 0 0 6 6  4  4 4 4 0 0 0 0 0)
      (Rowcount 0 6 6 1 0  3  3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0  9  9 0 0 3 3 3 2 1))
-    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 4 #f #f) 1
+    5 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 6 #f #f) 1
     default-yarns))
 
   ;; short row too long
@@ -977,7 +977,7 @@
      (Rowcount 0 0 0 2 2 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 2 2 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 2 2 4 4 4 4 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 4 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 2 #f #f) 1
     default-yarns))
 
   ;; extend short row footprint, with decrease in short row
@@ -1000,7 +1000,7 @@
      (Rowcount  0 0 0 2 2 4 4 4 4 0 0 0 0 0)
      (Rowcount  0 2 2 0 0 4 3 4 3 0 0 0 0 0)
      (Rowcount -1 0 0 2 2 3 3 3 3 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 4 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 2 #f #f) 1
     default-yarns))
 
   ;; extend short row footprint, with increase in short row
@@ -1055,7 +1055,7 @@
      (Rowcount 0  0 0  6 6  8  8 8 8 0 0  0 0 0)
      (Rowcount 0  6 6  0 0  8  8 8 8 0 0  0 0 0)
      (Rowcount 0  0 0  0 0 14 14 0 0 1 1 14 6 1))
-    7 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 8 #f #f) 1
+    7 (Options 'hand 'flat 'rs 'right #f) (Repeats 8 6 #f #f) 1
     default-yarns))
 
   ;; two sets of turns with variable and fixed rows
@@ -1087,7 +1087,7 @@
      (Rowcount 0  0 0  6 0  8  8  8  8 0 0  0 0 0)
      (Rowcount 0  6 0  0 0  8  8  8  8 0 0  0 0 0)
      (Rowcount 0  0 0  0 0 14 14  0  0 1 1 14 0 0))
-    7 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 14 #f #f) 1
+    7 (Options 'hand 'flat 'rs 'right #f) (Repeats 14 0 #f #f) 1
     default-yarns))
 
   ;; unconstrained repeat evaluated at 1 after odd number of short rows
@@ -1107,7 +1107,7 @@
      (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 4 5 4 4 0 1 1 0 1))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 4 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 0 #f #f) 1
     default-yarns))
 
   ;; unconstrained repeat evaluated at 1 after odd number of short rows
@@ -1127,7 +1127,7 @@
      (Rowcount 0 0 0 0 0 4 4 0 0 1 1 4 1 1)
      (Rowcount 0 0 0 0 1 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 1 0 0 4 5 4 4 0 1 1 0 1))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1
     default-yarns))
 
   ;; similar to above, but last row fixed
@@ -1147,7 +1147,7 @@
      (Rowcount 0 0 0 0 0 4 4 0 0 1 1 4 1 1)
      (Rowcount 0 0 0 0 1 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 1 0 0 4 5 4 5 0 0 0 0 0))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1
     default-yarns))
 
   ;; repeat constrained by end of row
@@ -1167,7 +1167,7 @@
      (Rowcount 0 0 0 0 0 4 4 0 0 1 1 4 1 1)
      (Rowcount 0 0 0 0 1 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 1 0 0 4 4 0 0 1 1 4 0 1))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1
     default-yarns))
 
   ;; similar to above, but can't constrain repeat
@@ -1196,7 +1196,7 @@
      (Rowcount 0 0 0 0 0 4 4 0 0 1 1 4 1 1)
      (Rowcount 0 0 0 0 1 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 1 0 0 4 4 4 4 0 0 0 0 0))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1
     default-yarns))
 
   ;; unconstrained repeat evaluated at 1 after even number of short rows
@@ -1219,7 +1219,7 @@
      (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 1 0 3 3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0 3 4 3 3 0 1 1 0 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 4 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 0 #f #f) 1
     default-yarns))
 
   ;; unconstrained repeat evaluated at 1 after even number of short rows
@@ -1242,7 +1242,7 @@
      (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 0 1 0 3 3 3 3 0 0 0 0 0)
      (Rowcount 0 1 0 0 0 3 4 3 3 0 1 1 0 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 4 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 0 #f #f) 1
     default-yarns))
 
   ;; single short row with variable repeats
@@ -1265,7 +1265,7 @@
      (Rowcount 0 0 0 0 1 4 4 4 4 0 0 0 0 0)
      (Rowcount 0 0 1 0 0 4 5 0 1 2 2 2 0 1)
      (Rowcount 1 0 0 0 0 5 0 0 0 1 0 5 1 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1
     default-yarns))
 
   ;; turns followed by variable repeat, decrease in turn
@@ -1289,7 +1289,7 @@
      (Rowcount  0 0 0 2 6 4 4 4 4 0 0 0 0 0)
      (Rowcount  0 2 6 1 0 3 2 3 2 0 0 0 0 0)
      (Rowcount -1 1 0 0 0 4 4 1 1 3 3 1 2 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 0 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 6 #f #f) 1
     default-yarns))
 
   ;; short row and variable number repeat
@@ -1322,7 +1322,7 @@
      (Rowcount 0 0 0 0 0 2 2 0 0 2 2 1 1 1)
      (Rowcount 0 0 0 0 0 2 2 0 0 2 2 1 1 1)
      (Rowcount 0 0 0 0 0 2 2 0 0 1 1 2 2 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 0 2 3) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 2 2 3) 1 default-yarns))
 
   (check-equal?
    (pattern
@@ -1343,7 +1343,7 @@
      (Rowcount 0 0 0 0 0 7 6 6 5 1 1 1 1 1)
      (Rowcount 0 0 0 4 1 2 3 2 3 0 0 0 0 0)
      (Rowcount 1 4 1 0 0 3 3 3 3 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 6 #f #f) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 6 1 #f #f) 1 default-yarns))
 
   ;; row repeat, increasing in length
   (check-equal?
@@ -1359,7 +1359,7 @@
     (vector
      (Rowcount 0 0 0 0 0 3 5 2 4 1 1 1 1 1)
      (Rowcount 0 0 0 0 0 5 4 2 1 1 1 3 1 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 2 #f #f) 1 default-yarns))
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 1 #f #f) 1 default-yarns))
 
   ;; row repeat with increasing row length
   ;; https://stitch-maps.com/patterns/display/shawl-shape/
@@ -1381,7 +1381,7 @@
      (Rowcount 0 0 0 0 0 5 4 2 1 1 1 3 0 1)
      (Rowcount 0 0 0 0 0 4 6 2 4 1 1 2 0 1)
      (Rowcount 0 0 0 0 0 6 5 2 1 1 1 4 0 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 3 3 4) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 0 3 4) 1 default-yarns))
 
   ;; row repeat, increasing in length with short row
   (check-equal?
@@ -1401,7 +1401,7 @@
      (Rowcount 0 0 0 0 0 6 6 0 0 1 1 6 1 1)
      (Rowcount 0 0 0 4 1 2 1 2 1 0 0 0 0 0)
      (Rowcount -1 4 1 0 0 1 1 0 0 1 1 1 0 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 #f #f) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 #f #f) 1 default-yarns))
 
   ;; rows decreasing in length, no repeat
   (check-equal?
@@ -1417,7 +1417,7 @@
     (vector
      (Rowcount 0 0 0 0 0 12 11 11 10 1 1 1 1 1)
      (Rowcount 0 0 0 0 0 11 11 0 0 1 1 11 1 1))
-    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 11 #f #f) 1 default-yarns))
+    2 (Options 'hand 'flat 'rs 'right #f) (Repeats 11 1 #f #f) 1 default-yarns))
 
   ;; https://stitch-maps.com/patterns/display/smooth-shoulder-shaping/
   (check-equal?
@@ -1454,7 +1454,7 @@
      (Rowcount 0 20 0 0 0 5 5 1 1 1 1 4 0 1)
      (Rowcount 0 0 0 0 0 25 25 0 0 1 1 25 0 0)
      (Rowcount 0 0 0 0 0 25 0 0 0 1 0 25 0 1))
-    11 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 25 #f #f) 1
+    11 (Options 'hand 'flat 'rs 'right #f) (Repeats 25 0 #f #f) 1
     default-yarns))
 
   ;; as above but with variable length rows
@@ -1492,7 +1492,7 @@
      (Rowcount 0 16 0  0 0  5  5  1  1 1 1  4 0 1)
      (Rowcount 0  0 0  0 0 21 21  0  0 1 1 21 1 1)
      (Rowcount 0  0 0  0 0 21  0  0  0 1 0 21 1 1))
-    11 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 20 #f #f) 1
+    11 (Options 'hand 'flat 'rs 'right #f) (Repeats 20 1 #f #f) 1
     default-yarns))
 
   ;; https://stitch-maps.com/patterns/display/sample-heel-turn/
@@ -1548,7 +1548,7 @@
      (Rowcount -9 2 0 2 0 17 16 17 16 0 0 0 0 0)
      (Rowcount -10 2 0 0 0 18 17 18 17 0 0 0 0 0)
      (Rowcount -11 0 0 0 0 19 18 19 18 0 0 0 0 0))
-    14 (Options 'hand 'flat 'ws 'left #f) (Repeats 0 30 1 2) 1
+    14 (Options 'hand 'flat 'ws 'left #f) (Repeats 30 0 1 2) 1
     default-yarns))
 
   ;; as above but with variable repeat in first row
@@ -1604,7 +1604,7 @@
      (Rowcount  -9  2 2  2 0 17 16 17 16 0 0  0 0 0)
      (Rowcount -10  2 0  0 2 18 17 18 17 0 0  0 0 0)
      (Rowcount -11  0 2  0 0 19 18 19 18 0 0  0 0 0))
-    14 (Options 'hand 'flat 'ws 'left #f) (Repeats 2 28 1 2) 1
+    14 (Options 'hand 'flat 'ws 'left #f) (Repeats 28 2 1 2) 1
     default-yarns))
 
   ;; https://stitch-maps.com/patterns/display/radial-short-rows-v5/
@@ -1734,7 +1734,7 @@
      (Rowcount 10 0 0 26 0 2 2 2 2 0 0 0 0 0)
      (Rowcount 10 26 0 0 0 2 2 2 2 0 0 0 0 0)
      (Rowcount 10 0 0 0 0 28 18 28 18 0 0 0 0 0))
-    39 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 18 2 39) 1 default-yarns))
+    39 (Options 'hand 'flat 'rs 'right #f) (Repeats 18 0 2 39) 1 default-yarns))
 
   ;; https://stitch-maps.com/patterns/display/loop-edging/
   (check-equal?
@@ -1773,7 +1773,7 @@
      (Rowcount 0 0 0 0 0 15 15 15 15 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 15 15 15 15 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 15 11 11 11 1 0 4 0 1))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 11 #f #f) 1
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 11 0 #f #f) 1
     default-yarns))
 
   ;; https://stitch-maps.com/patterns/display/two-pretty-fringes-for-chair-covers/
@@ -1792,7 +1792,7 @@
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)
      (Rowcount 0 0 0 0 0 6 1 4 1 1 0 2 2 1))
-    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 4 1 2) 1
+    3 (Options 'hand 'flat 'rs 'right #f) (Repeats 4 2 1 2) 1
     default-yarns))
 
   ;; test of `pattern-rs<->ws` function
@@ -1854,7 +1854,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1866,7 +1866,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1878,7 +1878,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1890,7 +1890,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1902,7 +1902,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1916,7 +1916,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -1928,7 +1928,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'machine 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'machine 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; incompatible stitch
@@ -2008,7 +2008,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   (check-equal?
@@ -2020,7 +2020,7 @@
     (vector (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right (Gauge 6 4 6 4 'inch)) (Repeats 0 1 #f #f) 1
+    1 (Options 'hand 'flat 'rs 'right (Gauge 6 4 6 4 'inch)) (Repeats 1 0 #f #f) 1
     default-yarns))
 
   ;; test of `pattern-promote-stitch-patterns` guard function
@@ -2135,7 +2135,7 @@
      (Rowspec '((2 . #s(Stitch k 0)) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 2 #f #f) 1 default-yarns))
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 1 #f #f) 1 default-yarns))
 
   ;; expand vertical repeats
   (check-equal?
@@ -2156,7 +2156,7 @@
      (Rowspec '((2 . #s(Stitch k 0)) (1 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4) #(5) #(6)))
     (make-vector 6 (Rowcount 0 0 0 0 0 3 3 3 3 0 0 0 0 0))
-    6 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 3 1 3) 1 default-yarns))
+    6 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 0 1 3) 1 default-yarns))
 
   ;; expand horizontal and vertical repeats
   (check-equal?
@@ -2172,7 +2172,7 @@
      (Rowspec '((2 . #s(Stitch k 0)) (3 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2)))
     (make-vector 2 (Rowcount 0 0 0 0 0 5 5 5 5 0 0 0 0 0))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 3 1 1) 1 default-yarns))
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 1 1) 1 default-yarns))
 
   ;; single horizontal and vertical repeat
   (check-equal?
@@ -2191,7 +2191,7 @@
      (Rowspec '((3 . #s(Stitch k 0)) (8 . #s(Stitch p 0)) (6 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (make-vector 4 (Rowcount 0 0 0 0 0 17 17 17 17 0 0 0 0 0))
-    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 17 #f #f) 1 default-yarns))
+    4 (Options 'hand 'flat 'rs 'right #f) (Repeats 17 0 #f #f) 1 default-yarns))
 
   ;; nohrep?
   (check-equal?
@@ -2290,7 +2290,7 @@
     (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+    1 (Options 'hand 'flat 'rs 'right #f) (Repeats 0 1 1 1) 1 default-yarns))
 
   ;; pattern-substitute-stitches
   (check-equal?
@@ -2303,7 +2303,7 @@
     (vector (Rowspec '((0 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 0 1 1 1) 1 default-yarns))
 
   ;; pattern-substitute-stitches
   (check-equal?
@@ -2316,7 +2316,7 @@
     (vector (Rowspec '((0 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1)))
     (vector (Rowcount 0 0 0 0 0 1 1 0 0 1 1 1 1 1))
-    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 1 0 1 1) 1 default-yarns))
+    1 (Options 'hand 'circular 'rs 'right #f) (Repeats 0 1 1 1) 1 default-yarns))
 
   ;; pattern-substitute-stitches
   (check-exn
@@ -2342,7 +2342,6 @@
      (pattern
        #:repeat-rows 1
        ((rows 1) rss))))
-
   )
 ;; end
 

@@ -124,9 +124,9 @@
         (reverse acc)
         (loop (+ x step) (cons x acc)))))
 
-;; string to positive integer
-(: string->posint : String -> (Option Positive-Integer))
-(define (string->posint x)
+;; string to natural
+(: string->natural : String -> (Option Natural))
+(define (string->natural x)
   (let ([n (string->number x)])
     (if (or (false? n)
             (not (real? n))
@@ -136,10 +136,35 @@
         #f
         (let ([i (inexact->exact (truncate n))])
           (if (or (not (integer? i))
-                  (not (positive? i)))
+                  (negative? i))
               #f
               i)))))
 
+;; string to positive integer
+(: string->positive-integer : String -> (Option Positive-Integer))
+(define (string->positive-integer x)
+  (let ([n (string->natural x)])
+    (if (or (false? n)
+            (zero? n))
+        #f
+        n)))
+
+;; string to bytes
+(: string->byte : String -> (Option Byte))
+(define (string->byte x)
+  (let ([n (string->natural x)])
+    (if (or (false? n)
+            (> n #xFF))
+        #f
+        n)))
+
+;; string to boolean
+(: string->boolean : String -> Boolean)
+(define (string->boolean x)
+  (if (or (equal? "" x)
+          (equal? "0" x))
+      #f
+      #t))
 
 ;; functions over Bytes
 

@@ -317,8 +317,8 @@
    [("-r" "--repeats")
     hreps vreps ;; arguments for flag
     "Specify number of horizontal and vertical repeats in HTML output"
-    `(repeats ,(string->posint hreps)
-              ,(string->posint vreps))]
+    `(repeats ,(string->positive-integer hreps)
+              ,(string->positive-integer vreps))]
    [("-u" "--unsafe")
     "Override error messages"
     `(unsafe? #t)]

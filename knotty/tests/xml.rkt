@@ -80,7 +80,9 @@
        "    <side>right</side>"
        "  </options>"
        "  <dimensions>"
-       "    <nrows>5</nrows>"
+       "    <rows>5</rows>"
+       "    <cast-on-count>8</cast-on-count>"
+       "    <cast-on-repeat>0</cast-on-repeat>"
        "    <gauge>"
        "      <stitch-count>10</stitch-count>"
        "      <stitch-measurement>4</stitch-measurement>"
@@ -223,9 +225,22 @@
    test-pattern)
 
   (check-equal?
+   (sxml->string null)
+   "")
+  (check-equal?
+   (sxml->string "a")
+   "a")
+  (check-equal?
+   (sxml->string '("a" "b"))
+   "ab")
+  (check-equal?
+   (sxml->string 'a)
+   "a")
+
+  (check-equal?
    (sxml->author '(author (name "me") (url "my url")))
    '#s(Author "me" "my url"))
-
+  
   (check-equal?
    (sxml->keyword '(keyword "cool stuff"))
    "cool stuff")
@@ -234,7 +249,41 @@
    (sxml->yarn '(yarn (number "0") (color "0") (weight "")))
    (cons 0 (Yarn 0 "" #f "" "")))
 
-  ;; FIXME test sxml->row
+  (check-equal?
+   (sxml->default-yarn '(*TOP* (rows (default-yarn ""))))
+   0)
+  (check-equal?
+   (sxml->default-yarn '(*TOP* (rows (default-yarn "1"))))
+   1)
+  
+  (check-equal?
+   (sxml->gauge '(*TOP* (pattern (dimensions null))))
+   #f)
+
+  (check-equal?
+   (sxml->repeat-rows '(*TOP* (pattern (dimensions null))))
+   #f)
+  (check-equal?
+   (sxml->repeat-rows '(*TOP* (pattern (dimensions (row-repeat-first "1")))))
+   '(1 1))
+  (check-equal?
+   (sxml->repeat-rows '(*TOP* (pattern (dimensions (row-repeat-first "2")
+                                                   (row-repeat-last  "1")))))
+   #f)
+  (check-equal?
+   (sxml->repeat-rows '(*TOP* (pattern (dimensions (row-repeat-first "1")
+                                                   (row-repeat-last  "2")))))
+   '(1 2))
+
+  (check-equal?
+   (sxml->short-row? '(*TOP* (rows null)))
+   #f)
+  (check-equal?
+   (sxml->short-row? '(*TOP* (rows (short-row "0"))))
+   #f)
+  (check-equal?
+   (sxml->short-row? '(*TOP* (rows (short-row "1"))))
+   #t)
 
   ;; invalid row number
   (check-exn
@@ -273,6 +322,10 @@
   (check-equal?
    (sxml->node '(seq (stitches (count "") (run (count "1") (stitch "p")))))
    '(0 (1 . #s(Stitch p #f))))
+
+  (check-equal?
+   (yarn->sxml 0 #f)
+   #f)
 
   ;; FIXME need to validate XML produced against schema
   )
