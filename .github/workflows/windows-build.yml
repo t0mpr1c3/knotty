@@ -6,7 +6,7 @@ on:
       - 'test*'
 jobs:
   create-release:
-    name: Create, release, and upload Windows asset
+    name: Create Windows asset
     runs-on: windows-latest
     defaults:
       run:
@@ -78,8 +78,43 @@ jobs:
         run:   |
           Set-Variable dir "knotty-${{ steps.vars.outputs.tag }}-win"
           Set-Variable zip "$dir.zip"
-          Compress-Archive -Path build/windows/$dir -DestinationPath $zip
-          Get-ChildItem
+          Compress-Archive -Path build/windows/$dir -DestinationPath build/windows/$zip
+      - name: Archive asset
+        uses: actions/upload-artifact@v3
+        with:
+          name: windows-build
+          path: build/windows/knotty-${{ steps.vars.outputs.tag }}-win.zip
+
+  upload-release:
+    name: Upload Windows asset
+    needs: create-release
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.11
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          version: 'stable'
+      - name: Set variables
+        id: vars
+        shell: bash
+        run: |
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
+          echo "tag=$(git describe --tags)" >> $GITHUB_OUTPUT
+          echo "draft=$(git describe --tags | sed -e 's/^test.*/true/;s/^v.*/false/')" >> $GITHUB_OUTPUT
+      - name: Download asset
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-build
       - name: Upload asset
         uses: ncipollo/release-action@v1
         with:

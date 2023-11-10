@@ -4,9 +4,10 @@ on:
     tags:
       - 'v*'
       - 'test*'
+
 jobs:
   create-release:
-    name: Create, release, and upload Ubuntu asset
+    name: Create Ubuntu asset
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -80,6 +81,38 @@ jobs:
           #          arch: 'amd64'
           #          depends: 'libc6 (>= 2.2.1), git'
           #          desc: 'Utility for converting knitting patterns between different formats. See https://github.com/t0mpr1c3/knotty'
+      - name: Archive asset
+        uses: actions/upload-artifact@v3
+        with:
+          name: ubuntu-build
+          path: build/linux/knotty-${{ steps.vars.outputs.tag }}-amd64.tgz
+
+  upload-release:
+    name: Upload Ubuntu asset
+    needs: create-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+      - name: Install Racket
+        uses: Bogdanp/setup-racket@v1.11
+        with:
+          architecture: 'x64'
+          distribution: 'full'
+          version: 'stable'
+      - name: Set variables
+        id: vars
+        run: |
+          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "racket-version=$(racket --version)" >> $GITHUB_OUTPUT
+          echo "tag=$(git describe --tags)" >> $GITHUB_OUTPUT
+          echo "draft=$(git describe --tags | sed -e 's/^test.*/true/;s/^v.*/false/')" >> $GITHUB_OUTPUT
+      - name: Download asset
+        uses: actions/download-artifact@v3
+        with:
+          name: ubuntu-build
       - name: Upload asset
         uses: ncipollo/release-action@v1
         with:
@@ -89,6 +122,6 @@ jobs:
           draft: ${{ steps.vars.outputs.draft }}
           prerelease: false
           allowUpdates: true
-          artifacts: build/linux/knotty-${{ steps.vars.outputs.tag }}-amd64.tgz
+          artifacts: knotty-${{ steps.vars.outputs.tag }}-amd64.tgz
           artifactContentType: executable
           replacesArtifacts: true

@@ -381,10 +381,14 @@
     (formlet
      (div ([class "form"])
           (span ([class "repeats"])
-                (div ([class "repeats"])
+                (div ([class ,(string-append
+                               "repeats"
+                               (if s? " hidden" ""))])
                      ,{(selector h s? "Horizontal repeats") . => . hreps}
                      ,{(selector v s? "Vertical repeats")   . => . vreps}))
-          (span ([class "slider"])
+          (span ([class ,(string-append
+                               "slider"
+                               (if s? " lower" ""))])
                 ,{(slider z) . => . zoom})
           (span ([id "float-span"]
                  [class ,(string-append

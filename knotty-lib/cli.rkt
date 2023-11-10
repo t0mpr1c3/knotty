@@ -168,10 +168,13 @@
                   (copy-file (build-path resources-path "css" "knotty.css")
                              (build-path css-dest-dir-path "knotty.css")
                              #:exists-ok? #t)
+                  (copy-file (build-path resources-path "css" "knotty-manual.css")
+                             (build-path css-dest-dir-path "knotty-manual.css")
+                             #:exists-ok? #t)
                   (unless (directory-exists? js-dest-dir-path)
                     (make-directory js-dest-dir-path))
                   (copy-file (build-path resources-path "js" "knotty.js")
-                             (build-path css-dest-dir-path "knotty.js")
+                             (build-path js-dest-dir-path "knotty.js")
                              #:exists-ok? #t))))
             (when export-ks?
               (let ([out-file-path (path-replace-extension filestem #".ks")])
@@ -292,7 +295,7 @@
    [("-v" "--verbose")
     "Show detailed messages"
     `(verbose? #t)]
-   [("-V" "--vv")
+   [("-z" "--debug")
     "Show very verbose messages"
     `(very-verbose? #t)]
    
@@ -304,7 +307,7 @@
    [("-g" "--generic-matches")
     "Allow generic stitch matches when converting Designaknit .stp files"
     `(generic-matches? #t)]
-   [("-U" "--unsafe")
+   [("-u" "--unsafe")
     "Override error messages"
     `(unsafe? #t)]
    [("-W" "--web")

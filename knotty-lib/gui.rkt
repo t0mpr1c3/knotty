@@ -64,7 +64,8 @@
             (float . 0)
             (notes . 0)
             (yarn  . 0)
-            (instr . 0)))]
+            (instr . 0)
+            (size  . 400)))]
         [out (open-output-file filename)])
     (pattern-template out p inputs)
     (close-output-port out)))
