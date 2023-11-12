@@ -776,11 +776,11 @@
   ;; check that all stitches are compatible with hand knitting
   (for ([s (pattern-symbols p)])
     (when (~> s
-              get-stitch
+              get-stitchtype
               Stitchtype-hand-compatible?
               false?)
       (err SAFE (format "stitch ~s is not compatible with hand knitting"
-                        (Stitchtype-rs-symbol (get-stitch s))))))
+                        (Stitchtype-rs-symbol (get-stitchtype s))))))
   (let ([options~ (struct-copy Options (Pattern-options p)
                                [technique 'hand])])
     (struct-copy Pattern p
@@ -792,11 +792,11 @@
   ;; check that all stitches are compatible with machine knitting
   (for ([s (pattern-symbols p)])
     (when (~> s
-              get-stitch
+              get-stitchtype
               Stitchtype-machine-compatible?
               false?)
       (err SAFE (format "stitch ~s is not compatible with machine knitting"
-                        (Stitchtype-rs-symbol (get-stitch s))))))
+                        (Stitchtype-rs-symbol (get-stitchtype s))))))
   ;; check that number of colors is compatible with specified technique
   (let ([max-colors (Pattern-max-colors p)])
     #|

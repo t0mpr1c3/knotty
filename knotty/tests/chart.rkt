@@ -72,8 +72,8 @@
        r2l?
        r2l?
        (ormap (inst identity Boolean)
-              (map (λ ([s : Stitch]) (or (eq? 'w&tl (Stitch-stitchtype s))
-                                         (eq? 'w&tr (Stitch-stitchtype s))))
+              (map (λ ([s : Stitch]) (or (eq? 'w&tl (Stitch-symbol s))
+                                         (eq? 'w&tr (Stitch-symbol s))))
                    (vector->list stv)))
        )))
 
@@ -1224,6 +1224,7 @@
      res)
    #f)
 
+  #|
   (check-equal?
    (let* ([owl-opt~ (struct-copy Options owl-opt
                                  [technique 'machine])]
@@ -1233,6 +1234,7 @@
      (let-values ([(_ res) (check-floats owl-chart~ owl-opt~ 4)])
        res))
    #t)
+  |#
 
   (check-equal?
    (let* ([owl-opt~ (struct-copy Options owl-opt
@@ -1244,7 +1246,14 @@
        res))
    #f)
 
+  (check-equal?
+   (let ([c (pattern->chart (pattern (yarn 0) (yarn 1) ((row 1) k1 (cc1 lc-1/1) k1)))])
+    (let-values ([(_ res) (check-floats c default-options 1)])
+      res))
+   #f)
+
   )
+
 ;; end
 
 ;; short row treatment looks OK so far

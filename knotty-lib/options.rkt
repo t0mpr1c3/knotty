@@ -69,7 +69,7 @@
     (values technique form face side gauge))
 
 ;; dummy Options
-(define dummy-options : Options
+(define default-options : Options
   (Options
    default-pattern-technique
    default-pattern-form

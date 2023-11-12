@@ -62,7 +62,7 @@
 
 (: leaf-stitchtype : Leaf -> Symbol)
 (define (leaf-stitchtype leaf)
-  (Stitch-stitchtype (leaf-stitch leaf)))
+  (Stitch-symbol (leaf-stitch leaf)))
 
 (: leaf-yarn : Leaf -> (Option Byte))
 (define (leaf-yarn leaf)
@@ -80,7 +80,7 @@
   (* (leaf-count leaf)
      (~> leaf
          leaf-stitchtype
-         get-stitch
+         get-stitchtype
          Stitchtype-stitches-in)))
 
 ;; count stitches produced by leaf (excluding variable repeats)
@@ -89,7 +89,7 @@
   (* (leaf-count leaf)
      (~> leaf
          leaf-stitchtype
-         get-stitch
+         get-stitchtype
          Stitchtype-stitches-out)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -213,7 +213,7 @@
             ;; bind off sequence to finish piece
             (let ([ct (leaf-count x)])
               (* (if (zero? ct) factor ct)
-                 (func (get-stitch 'bo))))
+                 (func (get-stitchtype 'bo))))
             ;; otherwise
             (foldl (λ ([x : (U Leaf Node)]
                        [acc : Natural])
@@ -223,7 +223,7 @@
                                [st (leaf-stitchtype x)])
                            (+ acc
                               (* (if (zero? ct) factor ct)
-                                 (func (get-stitch st)))
+                                 (func (get-stitchtype st)))
                               (if (eq? 'bo st) 1 0)))
                          ;; node
                          (let ([ct (node-count x)])
@@ -399,7 +399,7 @@
 
 (: trim-ns : (Vectorof Stitch) -> (Vectorof Stitch))
 (define (trim-ns v)
-  (let* ([not-ns (λ ([x : Stitch]) (not (eq? 'ns (Stitch-stitchtype x))))]
+  (let* ([not-ns (λ ([x : Stitch]) (not (eq? 'ns (Stitch-symbol x))))]
          [xs (vector->list v)]
          [trimmed-front (memf not-ns xs)]
          [trimmed (if (false? trimmed-front)
@@ -421,7 +421,7 @@
         (if (Leaf? next)
             (~> next
                 leaf-stitchtype
-                get-stitch
+                get-stitchtype
                 test-function
                 (and (tree-stitches-compatible? (cdr tree) test-function)))
             (and (tree-stitches-compatible? (node-tree next) test-function)

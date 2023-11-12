@@ -52,7 +52,7 @@
 (define (chart-row-width cr)
   (for/fold ([w  : Natural 0])
             ([st : Stitch (vector->list (Chart-row-stitches cr))])
-     (+ w (Stitchtype-width (get-stitch (Stitch-stitchtype st))))))
+     (+ w (Stitchtype-width (get-stitchtype (Stitch-symbol st))))))
 
 ;; colors as byte string
 (: chart-row-colors : Chart-row -> Bytes)
@@ -73,7 +73,7 @@
      (for/list ([i (in-range (vector-length v))])
        (~> v
            (vector-ref i)
-           Stitch-stitchtype))));;)
+           Stitch-symbol))));;)
 
 (log-message knotty-logger 'info "end of chart-row.rkt" #f)
 ;end

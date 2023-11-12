@@ -56,5 +56,12 @@
     (Repeats 0 0 3 3) 3 4)
     2)
 
+  #| FIXME
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 2 3) 4 6)
+    3)
+  |#
+
   )
 ;; end

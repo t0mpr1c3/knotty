@@ -163,13 +163,13 @@
           (vector-map
            ;(λ ([s : Stitch])
            (λ (s)
-             (or (Stitch-stitchtype s) 0)) ;; blank stitch = 0
+             (or (Stitch-symbol s) 'na))
            sts-r)]
          [ys ;: (Vectorof (Option Byte))
           (vector-map
            ;(λ ([s : Stitch])
            (λ (s)
-             (if (false? (Stitch-stitchtype s))
+             (if (false? (Stitch-symbol s))
                  #f
                  (Stitch-yarn s)))
            sts-r)]
@@ -195,9 +195,9 @@
                    ,@(if rhs? rownumber null))))))
 
 (define (stitch-sxml symbols ys colors hand? x)
-  (let* ([sx (get-stitch (vector-ref symbols x))]
-         [s (Stitchtype-rs-symbol sx)]
-         [blank? (false? s)]
+  (let* ([s (vector-ref symbols x)]
+         [st (get-stitchtype s)]
+         [blank? (eq? 'na s)]
          [ns? (eq? 'ns s)]
          [y (vector-ref ys x)]
          [instr (get-stitch-instructions s hand?)]
@@ -215,19 +215,19 @@
             ,@(if (or blank? ns?)
                   null
                   `([bgcolor ,(string-append "#" cx)]))
-            ,@(if (Stitchtype-cable? sx)
-                  `((colspan ,(~a (Stitchtype-stitches-out sx))))
+            ,@(if (Stitchtype-cable? st)
+                  `((colspan ,(~a (Stitchtype-stitches-out st))))
                   null))
          (span (@ [class ,(string-append
                            "figure symbol"
-                           (if (Stitchtype-cable? sx) " cable" "")
+                           (if (Stitchtype-cable? st) " cable" "")
                            (if blank? " blank" "")
                            (if ns? " nostitch" ""))]
                   [title ,title]
                   ,@(if (or blank? ns?)
                         null
                         `([style ,(string-append "color: " (contrast-color-hex cx))])))
-               ,(bytes->string/utf-8 (Stitchtype-rs-string sx))
+               ,(bytes->string/utf-8 (Stitchtype-rs-string st))
                ,@(if blank?
                      '((div (@ [class "strikethrough"])))
                      null)))))
@@ -328,8 +328,7 @@
   (formlet
    (div ([class ,(string-append
                   "float"
-                  (if (or hidden?
-                          (negative? f)) " hidden" ""))])
+                  (if (or hidden? (negative? f)) " hidden" ""))])
         (button ([type "button"]
                  [id "button"]
                  ,@(if (zero? f) null '([disabled "true"]))
@@ -608,7 +607,7 @@
          (let ([head (car tail)])
            (if (Leaf? head)
                ;; leaf
-               (let ([s (get-stitch (leaf-stitchtype head))]
+               (let ([s (get-stitchtype (leaf-stitchtype head))]
                      [n (leaf-count head)]
                      [y (leaf-yarn head)]
                      [rest (cdr tail)])
@@ -727,8 +726,10 @@
          op p inputs
          [to-text? #f])
   (let* ([technique (Options-technique (Pattern-options p))]
+         #|
          [hide-float? (not (or (eq? 'hand technique)
                                (eq? 'machine-fair-isle technique)))]
+         |#
          [h  (max 1 (hash-ref inputs 'hreps))]
          [v  (max 1 (hash-ref inputs 'vreps))]
          [f  (hash-ref inputs 'float)]
@@ -736,8 +737,10 @@
          [y? (int->bool (hash-ref inputs 'yarn))]
          [i? (int->bool (hash-ref inputs 'instr))]
          [s  (hash-ref inputs 'size)])
+    #|
     (when hide-float?
       (hash-set! inputs 'float -1))
+    |#
     (html-template
      #:port op
      (html

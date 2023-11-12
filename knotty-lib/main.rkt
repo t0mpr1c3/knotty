@@ -103,7 +103,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
       (append
        '(stitches)
        (for/list ([id (filter (compose not false?) (hash-keys stitch-hash))])
-         (let* ([st      (get-stitch id)]
+         (let* ([st      (get-stitchtype id)]
                 [rs-sym  (~a id)]
                 [ws-sym  (~a (Stitchtype-ws-symbol st))]
                 [h-instr (get-stitch-instructions id #t)]

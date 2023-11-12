@@ -204,51 +204,51 @@
 (define (pattern->chart p [h-repeats 1] [v-repeats 1])
   (log-message knotty-logger 'debug "in function `pattern->chart`" #f)
   (let* ([name (Pattern-name p)]
-           [options (Pattern-options p)]
+         [options (Pattern-options p)]
          [yarns (Pattern-yarns p)]
          [p~ (pattern-expand-repeats p h-repeats v-repeats)]
-           [rowspecs (Pattern-rowspecs p~)]
-           [rowmap (Pattern-rowmap p~)]
-           [height (Pattern-nrows p~)]
-           [stv ((inst vector-map (Vectorof Stitch) Rowspec)
-                 (λ ([rowspec : Rowspec])
-                   (~> rowspec
-                       Rowspec-stitches
-                       tree-flatten
-                       trimmed-stitchvector))
-                 rowspecs)]
-           [chart-rows
-            (for/vector #:length height ([j : Natural (in-range height)]) : Chart-row
-              (let* ([r (add1 j)]
-                     [rs? (options-row-rs? options r)]
-                     [r2l? (options-row-r2l? options r)]
-                     [i (rowmap-find rowmap r)])
-                (let* ([rowspec-i (vector-ref rowspecs i)]
-                       [row-i (vector-ref stv i)]
-                       [face-i (if rs?
-                                   row-i
-                                   (vector-map stitch-rs<->ws row-i))]
-                       [side-i (if r2l?
-                                   (vector-reverse face-i)
-                                   face-i)]
-                       [yarn-i (~> rowspec-i
-                                   Rowspec-default-yarn)]
-                       [short-row-i (~> rowspec-i
-                                        rowspec-short-row?)])
-                  (Chart-row
-                   side-i
-                   yarn-i
-                   rs?
-                   r2l?
-                   short-row-i))))])
-      ;; return finished chart
-      (chart-align-rows (Chart chart-rows
-                               1 ;; width will be set in `chart-align-rows` function
-                               height
-                               h-repeats
-                               v-repeats
-                               name
-                               yarns))))
+         [rowspecs (Pattern-rowspecs p~)]
+         [rowmap (Pattern-rowmap p~)]
+         [height (Pattern-nrows p~)]
+         [stv ((inst vector-map (Vectorof Stitch) Rowspec)
+               (λ ([rowspec : Rowspec])
+                 (~> rowspec
+                     Rowspec-stitches
+                     tree-flatten
+                     trimmed-stitchvector))
+               rowspecs)]
+         [chart-rows
+          (for/vector #:length height ([j : Natural (in-range height)]) : Chart-row
+            (let* ([r (add1 j)]
+                   [rs? (options-row-rs? options r)]
+                   [r2l? (options-row-r2l? options r)]
+                   [i (rowmap-find rowmap r)])
+              (let* ([rowspec-i (vector-ref rowspecs i)]
+                     [row-i (vector-ref stv i)]
+                     [face-i (if rs?
+                                 row-i
+                                 (vector-map stitch-rs<->ws row-i))]
+                     [side-i (if r2l?
+                                 (vector-reverse face-i)
+                                 face-i)]
+                     [yarn-i (~> rowspec-i
+                                 Rowspec-default-yarn)]
+                     [short-row-i (~> rowspec-i
+                                      rowspec-short-row?)])
+                (Chart-row
+                 side-i
+                 yarn-i
+                 rs?
+                 r2l?
+                 short-row-i))))])
+    ;; return finished chart
+    (chart-align-rows (Chart chart-rows
+                             1 ;; width will be set in `chart-align-rows` function
+                             height
+                             h-repeats
+                             v-repeats
+                             name
+                             yarns))))
 
 ;; method to align chart rows
 ;; short rows can be considered a partition of the row
@@ -493,7 +493,7 @@
             |#
             ([x : Stitch (vector->list xs)])
     : (values Natural (Vectorof Integer))
-    (let* ([st    (get-stitch (Stitch-stitchtype x))]
+    (let* ([st    (get-stitchtype (Stitch-symbol x))]
            [width (Stitchtype-width        st)]
            [in    (Stitchtype-stitches-in  st)]
            [out   (Stitchtype-stitches-out st)]
@@ -548,7 +548,7 @@
                (reverse acc-splice-out))))
             ([x : Stitch (vector->list xs)])
     : (values Natural (Vectorof Integer))
-    (let* ([st     (get-stitch (Stitch-stitchtype x))]
+    (let* ([st     (get-stitchtype (Stitch-symbol x))]
            [width  (Stitchtype-width        st)]
            [in     (Stitchtype-stitches-in  st)]
            [out    (Stitchtype-stitches-out st)]
@@ -598,7 +598,7 @@
         [rows (Chart-rows c)])
     (for ([r : Chart-row rows])
       (let ([row-data : (Listof (Option Symbol))
-                      (map (λ ([s : Stitch]) (Stitch-stitchtype s))
+                      (map (λ ([s : Stitch]) (Stitch-symbol s))
                            (vector->list (Chart-row-stitches r)))])
         (for ([datum row-data])
           (unless (false? datum)
@@ -622,17 +622,16 @@
 (: check-floats : Chart Options Positive-Integer -> (values Chart Boolean))
 (define (check-floats c options max-length)
   (let ([technique (Options-technique options)])
-    (if (or (eq? 'hand technique)
-            (eq? 'machine-fair-isle technique))
-        (if (eq? (Options-form options) 'flat)
-            (flat-check-floats c max-length)
-            (circular-check-floats c max-length))
-        (values c #t))))
+    ;(if (or (eq? 'hand technique)
+    ;        (eq? 'machine-fair-isle technique))
+    (if (eq? (Options-form options) 'flat)
+        (flat-check-floats c max-length)
+        (circular-check-floats c max-length))))
+;(values c #t)))
 
 (: flat-check-floats : Chart Positive-Integer -> (values Chart Boolean))
 (define (flat-check-floats c max-length)
-  (let* ([w (Chart-width c)]
-         [h (Chart-height c)]
+  (let* ([h (Chart-height c)]
          [chart-rows (Chart-rows c)]
          [row-ok : (Listof Boolean)
                  (for/list ([i (in-range h)]) ;; row i
@@ -642,6 +641,7 @@
                      (if (eq? n 1)
                          #t
                          (let* ([sts (Chart-row-stitches cr)]
+                                [w (vector-length sts)]
                                 [default (Chart-row-default-yarn cr)]
                                 [color-index (bytes-index colors-used)])
                            (let loop : Boolean ([floats : (Vectorof Natural) (make-vector n)]
@@ -649,8 +649,13 @@
                                                 [j : Integer (sub1 w)]) ;; stitch j
                              (if (negative? j)
                                  (>= max-length max-float)
-                                 (let ([y : Byte (or (Stitch-yarn (vector-ref sts j)) default)] ;; yarn color at stitch j
-                                       [floats~ : (Vectorof Natural) (vector-map add1 floats)])
+                                 (let* ([s (vector-ref sts j)]
+                                        [y (or (Stitch-yarn s) default)] ;; yarn color at stitch j  
+                                        [st (get-stitchtype (Stitch-symbol s))]
+                                        [so (if (false? st) 0 (Stitchtype-stitches-out st))]
+                                        [floats~ : (Vectorof Natural)
+                                                 (vector-map (λ ([x : Natural]) (+ so x))
+                                                             floats)])
                                    (vector-set! floats~ (bytes-ref color-index y) 0)
                                    (for ([k (in-range n)])
                                      (let ([f (vector-ref floats~ k)])

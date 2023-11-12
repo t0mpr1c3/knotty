@@ -431,7 +431,7 @@
           `(stitch-instructions
             ,@(for/list ([s (pattern-symbols p)]
                          #:when (not (false? s))) : (Listof Sexp)
-                (let* ([id (Stitchtype-rs-symbol (get-stitch s))]
+                (let* ([id (Stitchtype-rs-symbol (get-stitchtype s))]
                        [id-str (symbol->string id)]
                        [instr (get-stitch-instructions id hand?)]
                        [instr~ (if (false? instr) "" instr)])
@@ -518,7 +518,7 @@
                           (cons `(run
                                   (stitch ,(~> head
                                                leaf-stitchtype
-                                               get-stitch
+                                               get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
                                   (yarn   ,(leaf-yarn head)))
@@ -527,7 +527,7 @@
                                   (count  ,ct)
                                   (stitch ,(~> head
                                                leaf-stitchtype
-                                               get-stitch
+                                               get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
                                   (yarn   ,(leaf-yarn head)))

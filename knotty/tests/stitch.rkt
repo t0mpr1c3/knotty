@@ -26,17 +26,17 @@
   ;; tests of stitch functions
 
   (check-equal?
-   (get-stitch 'k)
+   (get-stitchtype 'k)
    '#s(Stitchtype k p p k 1 #f #"k" #"p" 32 46 1 1 0 #t #t #t #t "knit"))
 
   (check-equal?
-   (get-stitch 'na)
+   (get-stitchtype 'na)
    '#s(Stitchtype na na na na 1 #f #"" #"" #f #f 1 1 0 #t #t #t #t "blank"))
 
   (check-exn
    exn:fail?
    (λ ()
-     (get-stitch 'octopus)))
+     (get-stitchtype 'octopus)))
 
   (check-equal?
    (make-stitch 'k 0)
@@ -44,7 +44,7 @@
 
   #| gives warning
   (check-equal?
-   (parameterize ([SAFE #f]) (get-stitch 'octopus))
+   (parameterize ([SAFE #f]) (get-stitchtype 'octopus))
    '#s(Stitchtype ns ns ns ns 1 #f #"w" #"w" 44 44 0 0 0 #f #f #t #t "no stitch"))
   |#
 

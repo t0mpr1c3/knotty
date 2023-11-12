@@ -61,7 +61,7 @@
 
 ;; stitch struct
 (struct Stitch
-  ([stitchtype : Symbol]
+  ([symbol : Symbol]
    [yarn : (Option Byte)]) ;; #f = default yarn, which is 0 (MC) if not otherwise specified
   #:prefab)
 
@@ -457,21 +457,21 @@
 
 (define stitch-hash (make-stitch-hash stitch-list-with-aliases))
 
-(: get-stitch : Symbol -> Stitchtype)
-(define (get-stitch s)
+(: get-stitchtype : Symbol -> Stitchtype)
+(define (get-stitchtype s)
   (let ([result : (Option Stitchtype) (hash-ref stitch-hash s be-false)])
     (if (Stitchtype? result)
         result
         (begin
           (err SAFE (format "unknown stitch: ~a" s))
-          (get-stitch 'ns)))))
+          (get-stitchtype 'ns)))))
 
 ;; change stitch to its WS representation
 ;; NB some cable stitches do not have a WS equivalent
 ;; FIXME need tests that s = (stitch-rs<->ws (stitch-rs<->ws s))
 (: stitch-rs<->ws : Stitch -> Stitch)
 (define (stitch-rs<->ws s)
-  (Stitch (Stitchtype-ws-symbol (get-stitch (Stitch-stitchtype s)))
+  (Stitch (Stitchtype-ws-symbol (get-stitchtype (Stitch-symbol s)))
           (Stitch-yarn s)))
 
 (: turn? : Symbol -> Boolean)
