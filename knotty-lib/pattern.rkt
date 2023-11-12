@@ -995,23 +995,14 @@
                              (seq n-rows~))))]
               [rev?       (and (eq? 'hand (Options-technique options))
                                (eq? 'flat (Options-form options)))])
-          (for ([r (in-range n-rows~)])
-            (let* ([q (max 0
-                           (min v-repeats~
-                                (ceiling
-                                 (/ (- (add1 r) last-repeat-row~)
-                                    repeat-len))))]
-                   [r-inc (* q repeat-len)]
-                   [r~ (- r r-inc)])
-              (assert (natural? r~))
-              (let* ([rowspec~1  (vector-ref rowspecs
-                                             (rowmap-find0 rowmap r~))]
-                     [rowspec~2  (if (and rev?
-                                          (odd? r-inc))
+          (for ([r : Natural (in-range n-rows~)])
+            (let ([i (original-row-index repeats n-rows v-repeats~ (add1 r))])
+              (assert (natural? i))
+              (let* ([rowspec~1  (vector-ref rowspecs (rowmap-find0 rowmap i))]
+                     [rowspec~2  (if (and rev? (odd? (- r i)))
                                      (rowspec-rs<->ws rowspec~1)
                                      rowspec~1)]
-                     [rowcount~1 (vector-ref rowcounts
-                                             r~)])
+                     [rowcount~1 (vector-ref rowcounts i)])
                 (vector-set! rowspecs~  r rowspec~2)
                 (vector-set! rowcounts~ r rowcount~1))))
           ;; expand horizontal repeats in `rowspecs~`

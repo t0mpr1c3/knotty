@@ -141,7 +141,7 @@
                         [height "fit-content"])
                      (tbody
                       ,@(for/list ([r (reverse (range height))])
-                          (row-sxml p h-repeats rows yrns r2l? hand? r))
+                          (row-sxml p h-repeats v-repeats rows yrns r2l? hand? r))
                       ,(ruler width r2l?))))))))
 
 (define (ruler width r2l?)
@@ -155,7 +155,7 @@
                        "."))))
        (td (@ [class "figure"]))))
 
-(define (row-sxml p h-repeats rows yrns r2l? hand? r)
+(define (row-sxml p h-repeats v-repeats rows yrns r2l? hand? r)
   (let* ([row-r (vector-ref rows r)]
          [rhs? (boolean-xor r2l? (odd? r))]
          [sts-r (Chart-row-stitches row-r)]
@@ -183,7 +183,7 @@
                        #f
                        (hex-color (Yarn-color yrn))))))
            ys)]
-         [rownumber (rownumber-abbr p h-repeats (add1 r))])
+         [rownumber (rownumber-abbr p h-repeats v-repeats (add1 r))])
     `(tr (@ [class "figure"])
          (td (@ [class "figure rownumber"])
              (span (@ [class "figure rownumber"])
@@ -232,13 +232,13 @@
                      '((div (@ [class "strikethrough"])))
                      null)))))
 
-(define (rownumber-abbr p h-repeats n)
+(define (rownumber-abbr p h-repeats v-repeats n)
   (let* ([options (Pattern-options p)]
          [rs? (eq? 'rs (Options-face options))]
          [r2l? (eq? 'right (Options-side options))]
          [repeats (Pattern-repeats p)]
          [nrows (Pattern-nrows p)]
-         [r (original-row-index repeats nrows n)]
+         [r (original-row-index repeats nrows v-repeats n)]
          [partial (format "Row number ~a\n" n)]
          [result (string-append
                   partial

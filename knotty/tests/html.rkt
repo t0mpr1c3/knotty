@@ -49,9 +49,9 @@
                [pattern-template (->* (Output-Port Pattern (HashTable Symbol Integer)) (Boolean) Void)]
                [xexpr->sxml (Sexp -> Sexp)]
                [figure-sxml (->* (Pattern) (Positive-Integer Positive-Integer Natural) Sexp)]
-               [row-sxml (Pattern Positive-Integer (Vectorof Chart-row) (Vectorof Yarn) Boolean Boolean Natural -> Sexp)]
+               [row-sxml (Pattern Positive-Integer Positive-Integer (Vectorof Chart-row) (Vectorof Yarn) Boolean Boolean Natural -> Sexp)]
                [stitch-sxml ((Vectorof Symbol) (Vectorof (Option Byte)) (Vectorof (Option String)) Boolean Natural -> Sexp)]
-               [rownumber-abbr (Pattern Positive-Integer Positive-Integer -> (Listof Sexp))]
+               [rownumber-abbr (Pattern Positive-Integer Positive-Integer Positive-Integer -> (Listof Sexp))]
                [inyarn-abbr ((Option Byte) -> (Listof Sexp))]
                [sexp-chop-last ((Listof Sexp) -> (Listof Sexp))]
                [gauge-text (Gauge -> String)]
@@ -141,14 +141,14 @@
 
   ;; test `rownumber-abbr`
   (check-equal?
-   (rownumber-abbr test-pattern 1 2)
+   (rownumber-abbr test-pattern 1 1 2)
    '((abbr (@ [class "rownumber"]
               [title "Row number 2\nKnit left-to-right on wrong side\nStitches consumed: 8\nStitches produced: 8\n"])
            "2")))
 
   ;; test `rownumber-abbr`
   (check-equal?
-   (rownumber-abbr test-pattern 1 5)
+   (rownumber-abbr test-pattern 1 1 5)
    '((abbr (@ [class "rownumber"]
               [title "Row number 5\nKnit right-to-left on right side\nStitches consumed: 8\nStitches produced: 0\nMemo: last row!"])
            "5")))

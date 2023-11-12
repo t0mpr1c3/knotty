@@ -28,40 +28,53 @@
 
   (check-equal?
    (original-row-index
-    (Repeats 0 0 2 1) 2 1)
+    (Repeats 0 0 #f #f) 1 2 2)
     #f)
 
   (check-equal?
    (original-row-index
-    (Repeats 0 0 #f #f) 1 2)
+    (Repeats 0 0 #f 1) 1 2 1)
+    0)
+
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 1 #f) 1 2 1)
+    0)
+
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 2 1) 2 2 1)
+    0)
+
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 2 1) 2 2 3)
     #f)
 
   (check-equal?
    (original-row-index
-    (Repeats 0 0 #f 1) 1 1)
+    (Repeats 0 0 1 2) 2 2 3)
     0)
 
   (check-equal?
    (original-row-index
-    (Repeats 0 0 1 #f) 1 1)
-    0)
-
-  (check-equal?
-   (original-row-index
-    (Repeats 0 0 1 2) 2 3)
-    0)
-
-  (check-equal?
-   (original-row-index
-    (Repeats 0 0 3 3) 3 4)
+    (Repeats 0 0 3 3) 3 2 4)
     2)
 
-  #| FIXME
   (check-equal?
    (original-row-index
-    (Repeats 0 0 2 3) 4 6)
+    (Repeats 0 0 2 3) 4 2 1)
+    0)
+
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 2 3) 4 2 6)
     3)
-  |#
+
+  (check-equal?
+   (original-row-index
+    (Repeats 0 0 2 3) 4 2 7)
+    #f)
 
   )
 ;; end

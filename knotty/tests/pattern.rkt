@@ -2137,7 +2137,6 @@
     (vector (Rowcount 0 0 0 0 0 4 4 4 4 0 0 0 0 0))
     1 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 1 #f #f) 1 default-yarns))
 
-  #| FIXME
   ;; expand vertical repeats
   (check-equal?
    (pattern-expand-repeats
@@ -2156,7 +2155,7 @@
      (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec '((1 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
      (Rowspec '((1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
-     (Rowspec '((0 . #s(Stitch bo 0))) "" 0 (set 0) 'no-turn))
+     (Rowspec '((1 . #s(Stitch bo 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4) #(5) #(6)))
     (vector
      (Rowcount 0 0 0 0 0 2 1 2 1 0 0 0 0 0)
@@ -2164,9 +2163,8 @@
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0)
      (Rowcount 0 0 0 0 0 1 1 1 1 0 0 0 0 0)
-     (Rowcount 0 0 0 0 0 1 0 0 0 1 0 1 0 1))
+     (Rowcount 0 0 0 0 0 1 0 1 0 0 0 0 0 0))
     6 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 0 2 3) 1 default-yarns))
-  |#
 
   ;; expand horizontal and vertical repeats
   (check-equal?

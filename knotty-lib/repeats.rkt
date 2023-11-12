@@ -41,23 +41,33 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; return original 0-indexed rownumber from 1-indexed rownumber of expanded pattern
-(: original-row-index : Repeats Positive-Integer Positive-Integer -> (Option Natural))
-(define (original-row-index repeats nrows n)
-  (let ([frr (Repeats-first-repeat-row repeats)]
-        [lrr (Repeats-last-repeat-row repeats)])
-    (if (or (false? frr)
-            (false? lrr))
-        ;; no vertical repeats
-        (if (> n nrows)
-            #f ;; error
-            (sub1 n))
-        ;; vertical repeats
-        (let* ([fri : Natural (sub1 frr)]
-               [repeat-length (- lrr fri)])
-          (if (not (positive? repeat-length))
-              #f ;; error
-              (+ (modulo (sub1 n) repeat-length)
-                 fri))))))
+(: original-row-index : Repeats Positive-Integer Positive-Integer Positive-Integer -> (Option Natural))
+(define (original-row-index repeats nrows v-repeats n)
+  (let* ([frr (Repeats-first-repeat-row repeats)]
+         [lrr (Repeats-last-repeat-row repeats)]
+         [res
+          (if (or (false? frr)
+                  (false? lrr)
+                  (> frr lrr))
+              ;; no vertical repeats
+              (if (<= n nrows)
+                  n
+                  #f)
+              ;; vertical repeats
+              (if (<= n frr)
+                  n
+                  (let* ([repeat-length (- lrr frr -1)]
+                         [lrr~ (+ lrr (* (sub1 v-repeats) repeat-length))])
+                    (if (<= n lrr~)
+                        (+ (modulo (- n frr) repeat-length) frr)
+                        (if (<= (- n lrr~) (- nrows lrr))
+                            (+ (- n lrr~) lrr)
+                            #f)))))])
+    (if (false? res)
+        #f
+        (begin
+          (assert (positive-integer? res))
+          (sub1 res)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
