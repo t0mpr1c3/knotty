@@ -42,6 +42,7 @@
              [i (first (seventh vals))]
              [s (first (eighth vals))])
 
+        ;; update inputs
         (unless (or nohreps? (false? h))
           (hash-set! inputs 'hreps h))
         (unless (or novreps? (false? v))

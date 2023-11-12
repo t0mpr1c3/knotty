@@ -173,6 +173,23 @@
 (define-unrepeatable-stitch beyo-ws   (get-stitch 'beyo-ws))
 (define-unrepeatable-stitch bebyo-ws  (get-stitch 'bebyo-ws))
 
+;; brioche
+(define-unrepeatable-stitch brk       (get-stitch 'brk))
+(define-unrepeatable-stitch brp       (get-stitch 'brp))
+(define-unrepeatable-stitch brk-tbl   (get-stitch 'brk-tbl))
+(define-unrepeatable-stitch brp-tbl   (get-stitch 'brp-tbl))
+(define-unrepeatable-stitch brk2tog   (get-stitch 'brk2tog))
+(define-unrepeatable-stitch brp2tog   (get-stitch 'brp2tog))
+(define-unrepeatable-stitch brk3tog   (get-stitch 'brk3tog))
+(define-unrepeatable-stitch brp3tog   (get-stitch 'brp3tog))
+(define-unrepeatable-stitch ssbrk     (get-stitch 'ssbrk))
+(define-unrepeatable-stitch ssbrp     (get-stitch 'ssbrp))
+(define-unrepeatable-stitch sssbrk    (get-stitch 'sssbrk))
+(define-unrepeatable-stitch sssbrp    (get-stitch 'sssbrp))
+(define-unrepeatable-stitch yf-sl-yo  (get-stitch 'yf-sl-yo))
+(define-unrepeatable-stitch yf-sl-yo2 (get-stitch 'yf-sl-yo2))
+(define-unrepeatable-stitch yf-slk-yo (get-stitch 'yf-slk-yo))
+
 ;; cable stitches
 (define-unrepeatable-stitch rc-1/1    (get-stitch 'rc-1/1))
 (define-unrepeatable-stitch lc-1/1    (get-stitch 'lc-1/1))

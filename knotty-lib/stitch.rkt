@@ -99,10 +99,10 @@
    ;; repeatable
    (Stitchtype 'tl        'tl        'tl        'tl        1 #f #"\302\272"     #"\302\272"     #x33 #x33 1 1  0 #t #f #f #t "thread lace") ;; non-standard symbol
    ;(Stitchtype 'ms        'ms        'ms        'ms        1 #f #"\122"         #"\122"         #x34 #x34 1 1  0 #t #f #f #t "machine slip/miss") ;; non-standard symbol
-   (Stitchtype 'slwyib    'slwyif    'slwyif    'slwyib    1 #f #"\046"         #"\047"         #x7D #x5D 1 1  0 #t #f #t #t "slip purlwise wyib") ;; also machine slip
-   (Stitchtype 'slwyif    'slwyib    'slwyib    'slwyif    1 #f #"\047"         #"\046"         #x5D #x7D 1 1  0 #t #f #t #f "slip purlwise wyif")
-   (Stitchtype 'slkwyib   'slkwyif   'slkwyif   'slkwyib   1 #f #"\052"         #"\121"         #x5B #x7B 1 1  0 #t #f #t #f "slip knitwise wyib")
-   (Stitchtype 'slkwyif   'slkwyib   'slkwyib   'slkwyif   1 #f #"\121"         #"\052"         #x7B #x5B 1 1  0 #t #f #t #f "slip knitwise wyif")
+   (Stitchtype 'slwyib    'slwyif    'slwyif    'slwyib    1 #f #"\052"         #"\046"         #x7D #x5D 1 1  0 #t #f #t #t "slip purlwise wyib") ;; also machine slip
+   (Stitchtype 'slwyif    'slwyib    'slwyib    'slwyif    1 #f #"\046"         #"\052"         #x5D #x7D 1 1  0 #t #f #t #f "slip purlwise wyif")
+   (Stitchtype 'slkwyib   'slkwyif   'slkwyif   'slkwyib   1 #f #"\060"         #"\133"         #x5B #x7B 1 1  0 #t #f #t #f "slip knitwise wyib")
+   (Stitchtype 'slkwyif   'slkwyib   'slkwyib   'slkwyif   1 #f #"\133"         #"\060"         #x7B #x5B 1 1  0 #t #f #t #f "slip knitwise wyif")
    (Stitchtype 'kb        'pb        'pb        'kb        1 #f #"\041"         #"\045"         #x24 #xC2 1 1  0 #t #f #t #f "knit below")
    (Stitchtype 'pb        'kb        'kb        'pb        1 #f #"\045"         #"\041"         #xC2 #x24 1 1  0 #t #f #t #f "purl below")
    (Stitchtype 'pbk       'pbp       'pbp       'pbk       1 #f #"\303\270"     #"\303\271"     #xDF #xDF 1 1  0 #t #f #t #f "place bead and knit")
@@ -182,22 +182,28 @@
    (Stitchtype 'beyo-ws   'beyo      'beyo-ws   'beyo      3 #f #"\303\202\157\303\202" #"\302\256\157\302\257" #f   #f   3 3  0 #f #f #t #f "bunny ears decrease with center yarn over (WS)")
    (Stitchtype 'bebyo-ws  'bebyo     'bebyo-ws  'bebyo     3 #f #"\303\202\157\303\202" #"\302\257\157\302\256" #f   #f   3 3  0 #f #f #t #f "bunny ears back decrease with center yarn over (WS)")
 
-   ;; NB Brioche stitches in Stitchmastery fonts:
-   ;;
-   ;(Stitchtype 'yfsyo                                      1 #f #"\303\244"     #""             #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yfsl1yo aka "brSl"
-   ;(Stitchtype 'brk       'brp       'brp       'brk       1 #f #"\303\243"     #"\303\242"     #f   #f   1 1  0 #f #f #t #f "brioche knit")
-   ;(Stitchtype 'brp       'brk       'brk       'brp       1 #f #"\303\242"     #"\303\243"     #f   #f   1 1  0 #f #f #t #f "brioche purl")
-   ;(Stitchtype 'brktbl    'brptbl    'brptbl    'brktbl    1 #f #"\303\263"     #"\303\264"     #f   #f   1 1  0 #f #f #t #f "brioche knit through back loop")
-   ;(Stitchtype 'brptbl    'brktbl    'brptbl    'brptbl    1 #f #"\303\264"     #"\303\263"     #f   #f   1 1  0 #f #f #t #f "brioche purl through back loop")
-   ;(Stitchtype 'brk2tog                                    1 #f #"\303\251"     #""             #f   #f   3 1  2 #f #f #t #f "brioche knit 2 together")
-   ;(Stitchtype 'brk3tog                                    1 #f #"\303\252"     #""             #f   #f   3 1  2 #f #f #t #f "brioche knit 3 together")
-   ;(Stitchtype 'brssk                                      1 #f #"\303\247"     #""             #f   #f   3 1 -2 #f #f #t #f "brioche slip slip knit")
-   ;(Stitchtype 'brsssk                                     1 #f #"\303\250"     #""             #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip knit")
-   ;(Stitchtype 'brp2tog                                    1 #f #"\303\255"     #""             #f   #f   3 1  2 #f #f #t #f "brioche purl 2 together")
-   ;(Stitchtype 'brp3tog                                    1 #f #"\303\256"     #""             #f   #f   3 1  2 #f #f #t #f "brioche purl 3 together")
-   ;(Stitchtype 'brssp                                      1 #f #"\303\253"     #""             #f   #f   3 1 -2 #f #f #t #f "brioche slip slip purl")
-   ;(Stitchtype 'brsssp                                     1 #f #"\303\254"     #""             #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip purl")
+   ;; NB Brioche stitches in Stitchmastery fonts
+   (Stitchtype 'yf-sl-yo  'yf-sl-yo  'yf-sl-yo  'yf-sl-yo  1 #f #"\303\244"         #"\303\244"         #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yfsl1yo aka "brSl"
+   (Stitchtype 'yf-sl-yo2 'yf-sl-yo2 'yf-sl-yo2 'yf-sl-yo2 1 #f #"\303\244\141"     #"\303\244\141"     #f   #f   1 2  0 #f #f #t #f "yarn forward, slip 1, yarn over twice") ;; yfsl1yoyo
+   ;(Stitchtype 'yf-sl-yof                                  1 #f #"\303\245"         #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over, yarn forward") ;; yfsl1yof
+   ;(Stitchtype 'yf-sl-yof                                  1 #f #"\303\246"         #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over, yarn forward") ;; yfsl1yof
+   (Stitchtype 'yf-slk-yo 'yf-slk-yo 'yf-slk-yo 'yf-slk-yo 1 #f #"\303\244\302\260" #"\303\244\302\260" #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1 knitwise, yarn over") ;; yfsl1kyo
+   ;(Stitchtype 'yf-slk-yof                                 1 #f #"\303\245\302\260" #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1 knitwise, yarn over, yarn forward") ;; yfsl1kyof
+   ;(Stitchtype 'yf-slk-yof                                 1 #f #"\303\246\302\260" #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1 knitwise, yarn over, yarn forward") ;; yfsl1kyof
+   (Stitchtype 'brk       'brp       'brp       'brk       1 #f #"\303\243"         #"\303\242"         #f   #f   1 1  0 #f #f #t #f "brioche knit")
+   (Stitchtype 'brp       'brk       'brk       'brp       1 #f #"\303\242"         #"\303\243"         #f   #f   1 1  0 #f #f #t #f "brioche purl")
+   (Stitchtype 'brk-tbl   'brp-tbl   'brp-tbl   'brk-tbl   1 #f #"\303\263"         #"\303\264"         #f   #f   1 1  0 #f #f #t #f "brioche knit through back loop")
+   (Stitchtype 'brp-tbl   'brk-tbl   'brp-tbl   'brp-tbl   1 #f #"\303\264"         #"\303\263"         #f   #f   1 1  0 #f #f #t #f "brioche purl through back loop")
+   (Stitchtype 'brk2tog   'ssbrp     'brp2tog   'ssbrk     1 #f #"\303\251"         #"\303\253"         #f   #f   2 1  1 #f #f #t #f "brioche knit 2 together")
+   (Stitchtype 'ssbrp     'brk2tog   'ssbrk     'brp2tog   1 #f #"\303\253"         #"\303\251"         #f   #f   2 1 -1 #f #f #t #f "brioche slip slip purl")
+   (Stitchtype 'brp2tog   'ssbrk     'brk2tog   'ssbrp     1 #f #"\303\255"         #"\303\247"         #f   #f   2 1  1 #f #f #t #f "brioche purl 2 together")
+   (Stitchtype 'ssbrk     'brp2tog   'ssbrp     'brk2tog   1 #f #"\303\247"         #"\303\255"         #f   #f   2 1 -1 #f #f #t #f "brioche slip slip knit")
+   (Stitchtype 'brk3tog   'sssbrp    'brp3tog   'sssbrk    1 #f #"\303\252"         #"\303\254"         #f   #f   3 1  2 #f #f #t #f "brioche knit 3 together")
+   (Stitchtype 'sssbrp    'brk3tog   'sssbrk    'brp3tog   1 #f #"\303\254"         #"\303\252"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip purl")
+   (Stitchtype 'brp3tog   'sssbrk    'brk3tog   'sssbrp    1 #f #"\303\256"         #"\303\250"         #f   #f   3 1  2 #f #f #t #f "brioche purl 3 together")
+   (Stitchtype 'sssbrk    'brp3tog   'sssbrp    'brk3tog   1 #f #"\303\250"         #"\303\256"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip knit")
    ;; brkyobrk
+   ;; brpyobrp
    ;; brkbrpbrk into 1 st
    ;; brpbrkbrp into 1 st
 

@@ -459,7 +459,7 @@
     (for ([f forms])
       (when (and (not (void? f))
                  (not (eq? f res)))
-        (error "Knitspeak pattern uses both Row and Round course types"))) ;; FIXME this is allowed in knitspeak but not in knotty
+        (error "Knitspeak pattern uses both Row and Round course types"))) ;; this is allowed in knitspeak but not in knotty
     res))
 
 (define (interpret-statement-form statement-stx)

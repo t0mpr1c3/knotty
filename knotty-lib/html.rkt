@@ -175,18 +175,14 @@
            sts-r)]
          [colors ;: (Vectorof (Option String))
           (vector-map
-           ;(λ ([s : Stitch])
-           (λ (s)
-             (if (false? (Stitch-stitchtype s)) ;; blank = white
-                 "FFFFFF"
-                 (let ([y (Stitch-yarn s)])
-                   (if (false? y)
+           (λ (y)
+             (if (false? y)
+                 #f
+                 (let ([yrn (vector-ref yrns y)])
+                   (if (false? yrn)
                        #f
-                       (let ([yrn (vector-ref yrns y)])
-                         (if (false? yrn)
-                             #f
-                             (hex-color (Yarn-color yrn))))))))
-           sts-r)]
+                       (hex-color (Yarn-color yrn))))))
+           ys)]
          [rownumber (rownumber-abbr p h-repeats (add1 r))])
     `(tr (@ [class "figure"])
          (td (@ [class "figure rownumber"])
@@ -201,6 +197,8 @@
 (define (stitch-sxml symbols ys colors hand? x)
   (let* ([sx (get-stitch (vector-ref symbols x))]
          [s (Stitchtype-rs-symbol sx)]
+         [blank? (false? s)]
+         [ns? (eq? 'ns s)]
          [y (vector-ref ys x)]
          [instr (get-stitch-instructions s hand?)]
          [title
@@ -210,27 +208,28 @@
            (symbol->string s)
            ". "
            (if (false? instr) "" instr))]
-         [cx (vector-ref colors x)]
-         [bg (if (false? cx)
-                 "#FFFFFF" ;; blank
-                 (string-append "#" cx))]
-         [fg (if (false? cx)
-                 "#FF0000" ;; blank
-                 (contrast-color-hex cx))])
-    `(td (@ [class "figure symbol"]
-            [bgcolor ,bg]
+         [cx (vector-ref colors x)])
+    `(td (@ [class ,(string-append
+                     "figure symbol"
+                     (if ns? " nostitch" ""))]
+            ,@(if (or blank? ns?)
+                  null
+                  `([bgcolor ,(string-append "#" cx)]))
             ,@(if (Stitchtype-cable? sx)
                   `((colspan ,(~a (Stitchtype-stitches-out sx))))
                   null))
          (span (@ [class ,(string-append
                            "figure symbol"
                            (if (Stitchtype-cable? sx) " cable" "")
-                           (if (false? cx) " nostitch" ""))]
+                           (if blank? " blank" "")
+                           (if ns? " nostitch" ""))]
                   [title ,title]
-                  [style ,(string-append "color: " fg)])
+                  ,@(if (or blank? ns?)
+                        null
+                        `([style ,(string-append "color: " (contrast-color-hex cx))])))
                ,(bytes->string/utf-8 (Stitchtype-rs-string sx))
-               ,@(if (false? cx)
-                     '((div (@ [class "strikethrough"]))) ;; blank
+               ,@(if blank?
+                     '((div (@ [class "strikethrough"])))
                      null)))))
 
 (define (rownumber-abbr p h-repeats n)
@@ -322,29 +321,29 @@
    (list zoom)))
 
 ;; max float length input
-;; default < 0: hide button and text input
-;; default = 0: show buttpn, hide text input
-;; default > 0: disable button, show text input
-(define (float-input default hidden?)
+;; f < 0: hide button and text input
+;; f = 0: show button, hide text input
+;; f > 0: disable button, show text input
+(define (float-input f hidden?)
   (formlet
    (div ([class ,(string-append
                   "float"
                   (if (or hidden?
-                          (negative? default)) " hidden" ""))])
+                          (negative? f)) " hidden" ""))])
         (button ([type "button"]
                  [id "button"]
-                 ,@(if (zero? default) null '([disabled "true"]))
+                 ,@(if (zero? f) null '([disabled "true"]))
                  [onclick "javascript:inputFloat()"])
-                ,(if (positive? default)
+                ,(if (positive? f)
                      "Max float length"
                      "Check float lengths"))
         ,{(cross (pure binding->int)
-                 (text-input #:value (~a (max 0 default))
+                 (text-input #:value (~a (max 0 f))
                              #:attributes `([id "float"]
                                             [onkeydown "if (event.keyCode == 13) {submitForm(); return false;}"]
                                             [style ,(string-append
                                                      "display: "
-                                                     (if (positive? default)
+                                                     (if (positive? f)
                                                          "block;"
                                                          "none;"))]))) . => . float})
    (list float)))
@@ -387,8 +386,8 @@
                      ,{(selector h s? "Horizontal repeats") . => . hreps}
                      ,{(selector v s? "Vertical repeats")   . => . vreps}))
           (span ([class ,(string-append
-                               "slider"
-                               (if s? " lower" ""))])
+                          "slider"
+                          (if s? " lower" ""))])
                 ,{(slider z) . => . zoom})
           (span ([id "float-span"]
                  [class ,(string-append
