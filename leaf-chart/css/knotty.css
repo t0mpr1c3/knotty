@@ -251,22 +251,23 @@ td.figure:last-child {
   width: 4em;
   text-align: left;
   padding-left: 0.5em;
-  border-style: solid;
-  border-color: black;
-  border-width: 0 0 0 1px;
 }
 tr.figure:last-child > td:first-child,
 tr.figure:last-child > td:last-child {
   border-width: 0;
 }
-td.blank {
-  background-color: #FFFFFF;
-}
 td.nostitch {
   background-color: #EEEEEE;
 }
-td.nostitch > *{
+td.nostitch > * {
   color: #AAAAAA;
+}
+td.empty {
+  border-width: 0;
+}
+td.blank,
+td.empty {
+  background-color: #FFFFFF;
 }
 div.strikethrough {
   margin-top: 13px;
@@ -296,6 +297,24 @@ span.figure {
 }
 span.nostitch {
   color: #AAAAAA;
+}
+span.empty {
+  color: #FFFFFF;
+}
+td.borderTop,
+td.borderTopLeft,
+td.borderLeft {
+  border-color: black;
+  border-style: solid;
+}
+td.borderTop {
+  border-width: 1px 0 0 0;
+}
+td.borderLeft {
+  border-width: 0 0 0 1px;
+}
+td.borderTopLeft {
+  border-width: 1px 0 0 1px;
 }
 
 /* Default figure settings */
