@@ -191,7 +191,7 @@
          ,@(let-values ([(next-left next-right)
                          (if (= r (sub1 (vector-length rows)))
                              (values +inf.0
-                                     +inf.0)
+                                     0)
                              (values (~> r add1 (vector-ref rows _) Chart-row-align-left)
                                      (- (Chart-row-align-right row)
                                         (~> r add1 (vector-ref rows _) Chart-row-align-right))))])
@@ -639,7 +639,7 @@
          (let ([head (car tail)])
            (if (Leaf? head)
                ;; leaf
-               (let ([s (get-stitchtype (leaf-stitchtype head))]
+               (let ([s (get-stitchtype (leaf-symbol head))]
                      [n (leaf-count head)]
                      [y (leaf-yarn head)]
                      [rest (cdr tail)])

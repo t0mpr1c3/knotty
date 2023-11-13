@@ -320,16 +320,18 @@
                                  ;; check conformability of sequences
                                  (let-values ([(cons-sts-in cons-in)
                                                (splice-in cons-sts)])
-                                   ;(println (format "i ~a" i))
-                                   ;(println (format "pos ~a" pos))
-                                   ;(println (format "start ~a" start))
-                                   ;(println (format "prod-out ~a" prod-out))
-                                   ;(println (format "prod-avail ~a" prod-avail))
-                                   ;(println (format "prod-short? ~a" prod-short?))
-                                   ;(println (format "cons-st-in ~a" cons-sts-in))
-                                   ;(println (format "cons-in ~a" cons-in))
-                                   ;(println (format "acc-offset ~a" acc-offset))
-                                   ;(println (format "acc-adj ~a" acc-adj))
+                                   #|
+                                   (println (format "i ~a" i))
+                                   (println (format "pos ~a" pos))
+                                   (println (format "start ~a" start))
+                                   (println (format "prod-out ~a" prod-out))
+                                   (println (format "prod-avail ~a" prod-avail))
+                                   (println (format "prod-short? ~a" prod-short?))
+                                   (println (format "cons-st-in ~a" cons-sts-in))
+                                   (println (format "cons-in ~a" cons-in))
+                                   (println (format "acc-offset ~a" acc-offset))
+                                   (println (format "acc-adj ~a" acc-adj))
+                                   |#
                                    (when (> cons-sts-in prod-avail)
                                      (error (format "row ~a cannot be aligned as it consumes more stitches than are available" (add1 i))))
                                    (when (and (not (= cons-sts-in prod-avail))
@@ -374,16 +376,18 @@
                                                             (- end prepend)
                                                             (- start prepend))))]
                                             [acc-adj~ (cons adj acc-adj)])
-                                       ;(println (format "cons-short? ~a" cons-short?))
-                                       ;(println (format "cons-sts ~a" cons-sts))
-                                       ;(println (format "cons-in ~a" cons-in))
-                                       ;(println (format "cons-out ~a" cons-out))
-                                       ;(println (format "prod-before ~a" prod-before))
-                                       ;(println (format "prod-align ~a" prod-align))
-                                       ;(println (format "prod-after ~a" prod-after))
-                                       ;(println (format "offset ~a" offset))
-                                       ;(println (format "end ~a" end))
-                                       ;(println (format "start~~ ~a" start~))
+                                       #|
+                                       (println (format "cons-short? ~a" cons-short?))
+                                       (println (format "cons-sts ~a" cons-sts))
+                                       (println (format "cons-in ~a" cons-in))
+                                       (println (format "cons-out ~a" cons-out))
+                                       (println (format "prod-before ~a" prod-before))
+                                       (println (format "prod-align ~a" prod-align))
+                                       (println (format "prod-after ~a" prod-after))
+                                       (println (format "offset ~a" offset))
+                                       (println (format "end ~a" end))
+                                       (println (format "start~~ ~a" start~))
+                                       |#
                                        (if (not cons-short?)
                                            ;; not short row
                                            (dev-loop (add1 i)
@@ -520,10 +524,14 @@
                  acc-splice-in]
                 ;; single decrease
                 [(and (= 2 in)
-                      (= 1 out))
-                 (if (negative? off)
-                     (cons1 2 acc-splice-in) ;; ssk, ssp
-                     (cons (+ off 2) acc-splice-in))] ;; k2tog, p2tog
+                      (= 1 out)
+                      (negative? off))
+                 (cons1 2 acc-splice-in)] ;; ssk, ssp
+                ;; single decrease
+                [(and (= 2 in)
+                      (= 1 out)
+                      (positive? off))
+                 (cons (+ off 2) acc-splice-in)] ;; k2tog, p2tog
                 ;; double decrease
                 [(and (= 3 in)
                       (= 1 out))
@@ -568,7 +576,7 @@
                 [(and (= 0 in)
                       (= 0 out))
                  acc-splice-out]
-                ;; bo(1)
+                ;; bo
                 [(and (= 1 in)
                       (= 0 out)
                       (= 0 off))

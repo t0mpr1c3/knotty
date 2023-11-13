@@ -55,6 +55,7 @@
     (log-message knotty-logger 'debug "in `Rowspec` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     ((compose rowspec-guard-count-yarns-used
+              ;rowspec-guard-bo
               rowspec-guard-vars
               rowspec-guard-combine-stitches
               rowspec-guard-turns)
@@ -137,6 +138,22 @@
 (define (rowspec-guard-combine-stitches stitches memo default-yarn yarns-used short-row?)
   (values (tree-combine stitches) memo default-yarn yarns-used short-row?))
 
+#|
+;; composable function as part of `Rowspec` struct guard function
+(: rowspec-guard-bo (Tree
+                     String
+                     Byte
+                     (Setof Byte)
+                     Boolean
+                     -> (values Tree
+                                String
+                                Byte
+                                (Setof Byte)
+                                Boolean)))
+(define (rowspec-guard-bo stitches memo default-yarn yarns-used short-row?)
+  (values (tree-replace-bo stitches) memo default-yarn yarns-used short-row?))
+|#
+
 ;; composable function as part of `Rowspec` struct guard function
 (: rowspec-guard-count-yarns-used (Tree
                                    String
@@ -192,9 +209,9 @@
 (: rowspecs-yarns-used : Rowspecs -> (Setof Byte))
 (define (rowspecs-yarns-used rowspecs)
   (let ([h : (HashTable Byte Boolean) (make-hasheq)])
-   (for ([i (in-range (vector-length rowspecs))])
-     (set-for-each (Rowspec-yarns-used (vector-ref rowspecs i))
-                   (λ ([j : Byte]) (hash-set! h j #t))))
+    (for ([i (in-range (vector-length rowspecs))])
+      (set-for-each (Rowspec-yarns-used (vector-ref rowspecs i))
+                    (λ ([j : Byte]) (hash-set! h j #t))))
     (apply seteq (hash-keys h))))
 
 ;; change stitches, keep other variables
@@ -202,6 +219,11 @@
 (define (rowspec-set-stitches rowspec tree~)
   (struct-copy Rowspec rowspec
                [stitches tree~]))
+
+(: rowspec-add-bo* : Rowspec -> Rowspec)
+(define (rowspec-add-bo* rowspec)
+  (rowspec-set-stitches rowspec
+                        (tree-add-bo* (Rowspec-stitches rowspec))))
 
 ;; reverse elements in stitches and change Stitchtypes from RS to WS
 (: rowspec-rs<->ws : Rowspec -> Rowspec)

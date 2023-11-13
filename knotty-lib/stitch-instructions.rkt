@@ -52,6 +52,7 @@
 
       ;; these are the stitches for which we have symbols in the Stitchmastery fonts
     `((bo        . "Bind off")
+      (bo*       . "Stitch remaining on right needle after bind off")
       (cdd       . "Centered double decrease: Slip 2 stitches as if to knit 2 together, knit 1, pass 2 slipped stitches over") ;; = sl2-k1-p2sso
       (cddp      . "Centered double decrease purled: Slip 1 knitwise twice, then return stitches to left needle. Insert right needle from left to right into their back loops and slip together onto right needle. Purl 1 and pass the 2 slipped stitches over")
       (cdi       . "Centered double increase: Insert left needle from back to front under strand between needles, and knit into the front of this loop. Knit next stitch. Insert left needle from front to back under strand between needles, and knit into the back of this loop")

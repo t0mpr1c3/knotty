@@ -834,6 +834,8 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
    (make-style #f (list (hover-property (get-stitch-instructions 'pbp #t)))))
 @(define drop-style
    (make-style #f (list (hover-property (get-stitch-instructions 'drop-st #t)))))
+@(define bo-star-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'bo* #t)))))
 @(define mb-style
    (make-style #f (list (hover-property (get-stitch-instructions 'mb #t)))))
 @(define mb-ws-style
@@ -1045,7 +1047,10 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
        (list @element[dash ","]  @element[drop-style
                                           "Drop stitch"]                  @element[drop-style
                                                                                    "Drop stitch"]                  @racket[drop-st]     "✓"        "-")
-       (list @element[dash "w"]  "No stitch"                     "No stitch"                     @racket[ns]          "✓"        "✓")
+       (list @element[dash "w"]  "No stitch"                                       "No stitch"                     @racket[ns]          "✓"        "✓")
+       (list @element[dash ","]  @element[bo-star-style
+                                          "Remaining after bind off"]     @element[bo-star-style
+                                                                                   "Remaining after bind off"]     @racket[bo*]         "✓"        "✓")
        (list @element[dash "º"]  @element[tl-style
                                           "Thread lace"]                  @element[tl-style
                                                                                    "Thread lace"]            @elem[@racket[tl]"_"]      "-"         "✓")

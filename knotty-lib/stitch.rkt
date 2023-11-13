@@ -66,8 +66,8 @@
   #:prefab)
 
 (: make-stitch : Symbol (Option Byte) -> Stitch)
-(define (make-stitch stitchtype yarn)
-  (Stitch stitchtype yarn))
+(define (make-stitch sym yrn)
+  (Stitch sym yrn))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -164,6 +164,7 @@
    (Stitchtype 'sp        'sp        'sp        'sp        1 #f #"\302\277"     #"\302\277"     #x2A #x2A 1 1  0 #f #f #t #t "special stitch") ;; custom stitch (provide details)
    (Stitchtype 'drop-st   'drop-st   'drop-st   'drop-st   1 #f #"\054"         #"\054"         #f   #f   1 0  0 #f #f #t #f "drop stitch") ;; non-standard symbol
    (Stitchtype 'ns        'ns        'ns        'ns        1 #f #"\167"         #"\167"         #x2C #x2C 0 0  0 #f #f #t #t "no stitch")
+   (Stitchtype 'bo*       'bo*       'bo*       'bo*       1 #f #"\053"         #"\053"         #f   #f   1 1  0 #f #f #t #t "stitch remaining on right needle after bind off")
 
    (Stitchtype 'turnl     'turnl     'turnr     'turnr     1 #f #"\117"         #"\120"         #x3C #x3C 0 0  0 #f #f #t #t "turn left") ;; short row
    (Stitchtype 'turnr     'turnr     'turnl     'turnl     1 #f #"\120"         #"\117"         #x3E #x3E 0 0  0 #f #f #t #t "turn right") ;; short row

@@ -127,7 +127,29 @@
    '(((1 . #s(Stitch k 0))) . 1))
 
   (check-equal?
-   (tree-var-replace tree1 2)
+   (tree-add-bo*
+    '((0 . #s(Stitch bo 0))))
+   '((0 . #s(Stitch bo 0))))
+
+  (check-equal?
+   (tree-remove-bo*
+     '((2 . #s(Stitch bo 0))
+       (1 . #s(Stitch bo* 0))))
+    '((2 . #s(Stitch bo 0))))
+
+  (check-equal?
+   (tree-remove-bo*
+     '((1 . #s(Stitch bo* 0))))
+   null)
+
+  (check-equal?
+   (tree-remove-bo*
+    (tree-add-bo*
+     '((2 . #s(Stitch bo 0)))))
+    '((2 . #s(Stitch bo 0))))
+
+  (check-equal?
+   (tree-replace-var tree1 2)
    '((2 . #s(Stitch p 0))
      (2
       (1 . #s(Stitch yo 0))
@@ -136,12 +158,41 @@
      (3 . #s(Stitch slwyib 0))))
 
   (check-equal?
-   (tree-var-replace
+   (tree-replace-var
     '((3 (2 . #s(Stitch p 0)))
       (0 . #s(Stitch k 0)))
     9)
    '((3 (2 . #s(Stitch p 0)))
      (9 . #s(Stitch k 0))))
+
+  (check-equal?
+   (tree-replace-var
+    '((0 . #s(Stitch bo 0)))
+    4)
+   '((4 . #s(Stitch bo 0))))
+
+  (check-equal?
+   (tree-replace-var
+    '((1 . #s(Stitch k 0))
+      (0 . #s(Stitch bo 0)))
+    1)
+   '((1 . #s(Stitch k 0))
+     (1 . #s(Stitch bo 0))
+     (1 . #s(Stitch bo* 0))))
+
+  (check-equal?
+   (tree-replace-var
+    '((4 . #s(Stitch bo 0)))
+    1)
+   '((4 . #s(Stitch bo 0))
+     (1 . #s(Stitch bo* 0))))
+
+  (check-equal?
+   (tree-replace-var
+    '((1 . #s(Stitch bo 0)))
+    1)
+   '((1 . #s(Stitch bo 0))
+     (1 . #s(Stitch bo* 0))))
 
   (check-equal?
    (tree-count-var tree1)
@@ -380,7 +431,7 @@
    5)
 
   (check-equal?
-   (tree-swap-stitch (tree-var-replace tree1 2) 'k 'p)
+   (tree-swap-stitch (tree-replace-var tree1 2) 'k 'p)
    '((2 . #s(Stitch p 0))
      (2
       (1 . #s(Stitch yo 0))
@@ -389,7 +440,7 @@
      (3 . #s(Stitch slwyib 0))))
 
   (check-equal?
-   (tree-swap-stitch (tree-var-replace tree1 2) 'slwyib 'slwyif)
+   (tree-swap-stitch (tree-replace-var tree1 2) 'slwyib 'slwyif)
    '((2 . #s(Stitch p 0))
      (2
       (1 . #s(Stitch yo 0))
@@ -457,8 +508,8 @@
    (tree-first-yarn
     '((1
        (1
-         (1 . #s(Stitch k 0))
-         (1 . #s(Stitch k 1)))
+        (1 . #s(Stitch k 0))
+        (1 . #s(Stitch k 1)))
        (1 . #s(Stitch k 1)))))
    0)
 
@@ -466,8 +517,8 @@
    (tree-first-yarn
     '((1
        (1
-         (1 . #s(Stitch ns #f))
-         (1 . #s(Stitch ns #f)))
+        (1 . #s(Stitch ns #f))
+        (1 . #s(Stitch ns #f)))
        (1 . #s(Stitch k 0)))))
    0)
 

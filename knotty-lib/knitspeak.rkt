@@ -177,7 +177,7 @@
          (let ([head : (U Leaf Node) (car tail)])
            (if (Leaf? head)
                ;; leaf
-               (let* ([s  (get-stitchtype (leaf-stitchtype head))]
+               (let* ([s  (get-stitchtype (leaf-symbol head))]
                       [n  (leaf-count head)]
                       [s~ (ks-stitch (Stitchtype-rs-symbol s))])
                  (loop (cdr tail)

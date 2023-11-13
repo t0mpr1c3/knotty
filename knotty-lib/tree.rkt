@@ -60,8 +60,8 @@
 (define (leaf-stitch leaf)
   (cdr leaf))
 
-(: leaf-stitchtype : Leaf -> Symbol)
-(define (leaf-stitchtype leaf)
+(: leaf-symbol : Leaf -> Symbol)
+(define (leaf-symbol leaf)
   (Stitch-symbol (leaf-stitch leaf)))
 
 (: leaf-yarn : Leaf -> (Option Byte))
@@ -79,7 +79,7 @@
 (define (leaf-stitches-in leaf)
   (* (leaf-count leaf)
      (~> leaf
-         leaf-stitchtype
+         leaf-symbol
          get-stitchtype
          Stitchtype-stitches-in)))
 
@@ -88,7 +88,7 @@
 (define (leaf-stitches-out leaf)
   (* (leaf-count leaf)
      (~> leaf
-         leaf-stitchtype
+         leaf-symbol
          get-stitchtype
          Stitchtype-stitches-out)))
 
@@ -122,19 +122,20 @@
 ;; count (non-nested) variable repeats in tree
 (: tree-count-var : Tree -> Natural)
 (define (tree-count-var tree)
-  (foldl (λ ([x : (U Leaf Node)]
-             [acc : Natural])
-           (if (Leaf? x)
-               ;; leaf
-               (if (zero? (leaf-count x))
-                   (add1 acc)
-                   acc)
-               ;; node
-               (if (zero? (node-count x))
-                   (add1 acc)
-                   (+ acc (tree-count-var (node-tree x))))))
-         0
-         tree))
+  (foldl
+   (λ ([x : (U Leaf Node)]
+       [acc : Natural])
+     (if (Leaf? x)
+         ;; leaf
+         (if (zero? (leaf-count x))
+             (add1 acc)
+             acc)
+         ;; node
+         (if (zero? (node-count x))
+             (add1 acc)
+             (+ acc (tree-count-var (node-tree x))))))
+   0
+   tree))
 
 ;; obtain (leftmost non-nested) variable repeat from tree
 ;; or return #f if no variable repeat
@@ -155,29 +156,104 @@
               (tree-var (node-tree x)
                         (* multiplier (node-count x))))))))
 
-;; replace variable repeat(s) in tree with fixed integer value
-(: tree-var-replace : Tree Natural -> Tree)
-(define (tree-var-replace tree r)
+(: tree-remove-bo* : Tree -> Tree)
+(define (tree-remove-bo* tree)
   (reverse
-   (foldl (λ ([x : (U Leaf Node)]
-              [acc : Tree])
-            (if (Leaf? x)
-                ;; leaf
-                (if (zero? (leaf-count x))
-                    (cons (make-leaf r
-                                     (leaf-stitch x))
-                          acc)
-                    (cons x
-                          acc))
-                ;; node
-                (if (zero? (node-count x))
-                    (cons (make-node r
-                                     (node-tree x))
-                          acc)
-                    (cons x
-                          acc))))
-          null
-          tree)))
+   (foldl
+    (λ ([x : (U Leaf Node)]
+        [acc : Tree])
+      (if (Leaf? x)
+          ;; leaf
+          (if (eq? 'bo* (leaf-symbol x))
+              acc           
+              (cons x acc))
+          ;; node
+          (cons (make-node (node-count x)
+                           (tree-remove-bo* (node-tree x)))
+                acc)))
+    null
+    tree)))
+
+;; add bo* after last bo in run, except variable repeats
+;; idempotent
+(: tree-add-bo* : Tree -> Tree)
+(define (tree-add-bo* tree)
+  (reverse
+   (foldl
+    (λ ([x : (U Leaf Node)]
+        [acc : Tree])
+      (if (Leaf? x)
+          ;; leaf
+          (if (eq? 'bo (leaf-symbol x))
+              ;; bind off sequence
+              (tree-bo* acc x 0)
+              ;; not bind off sequence
+              (cons x acc))
+          ;; node
+          (cons (make-node (node-count x)
+                           (tree-add-bo* (node-tree x)))
+                acc)))
+    null
+    (tree-remove-bo* tree))))
+
+(: tree-bo* : Tree Leaf Natural -> Tree)
+(define (tree-bo* tree leaf reps)
+  (let* ([ct (leaf-count leaf)]
+         [bo* (make-leaf 1
+                         (make-stitch 'bo*
+                                      (Stitch-yarn (leaf-stitch leaf))))]
+         [n (if (zero? ct) reps ct)])
+    (if (zero? n)
+        (cons leaf
+              tree)
+        (cons bo*
+              (cons (make-leaf n
+                               (leaf-stitch leaf))
+                    tree)))))
+
+;; replace variable repeat(s) in tree with fixed integer value
+;; add bo* after last bo in run in variable repeats unless the sequence finishes the piece
+(: tree-replace-var : Tree Natural -> Tree)
+(define (tree-replace-var tree reps)
+  (if (= 1 (length tree))
+      (let ([head (car tree)])
+        (if (and (Leaf? head)
+                 (eq? 'bo (leaf-symbol head))
+                 (zero? (leaf-count head)))
+            ;; bind off sequence to finish piece
+            (list (make-leaf reps
+                             (leaf-stitch head)))
+            ;; otherwise do subroutine
+            (tree-replace-var-sub tree reps)))
+      (tree-replace-var-sub tree reps)))
+
+(: tree-replace-var-sub : Tree Natural -> Tree)
+(define (tree-replace-var-sub tree reps)
+  (reverse
+   (foldl
+    (λ ([x : (U Leaf Node)]
+        [acc : Tree])
+      (if (Leaf? x)
+          ;; leaf
+          (if (eq? 'bo (leaf-symbol x))
+              ;; bind off sequence
+              (tree-bo* acc x reps)
+              ;; not bind off sequence
+              (if (zero? (leaf-count x))
+                  (cons (make-leaf reps
+                                   (leaf-stitch x))
+                        acc)
+                  (cons x
+                        acc)))
+          ;; node
+          (if (zero? (node-count x))
+              (cons (make-node reps
+                               (node-tree x))
+                    acc)
+              (cons x
+                    acc))))
+    null
+    tree)))
 
 ;; check for variable repeat nested within node
 (: tree-nested-var? ( ->* (Tree) (Boolean) Boolean))
@@ -204,27 +280,28 @@
 ;; see https://stitch-maps.com/patterns/display/buttonhole/
 (: tree-sum-func : Tree (-> Stitchtype Natural) Natural -> Natural)
 (define (tree-sum-func tree func factor)
-  (if (zero? (length tree))
+  (if (null? tree)
       0
       (let ([x (car tree)])
         (if (and (Leaf? x)
-                 (eq? 'bo (leaf-stitchtype x))
+                 (eq? 'bo (leaf-symbol x))
+                 (zero? (leaf-count x))
                  (= 1 (length tree)))
             ;; bind off sequence to finish piece
-            (let ([ct (leaf-count x)])
-              (* (if (zero? ct) factor ct)
-                 (func (get-stitchtype 'bo))))
+            (* factor
+               (func (get-stitchtype 'bo)))
             ;; otherwise
             (foldl (λ ([x : (U Leaf Node)]
                        [acc : Natural])
                      (if (Leaf? x)
                          ;; leaf
                          (let ([ct (leaf-count x)]
-                               [st (leaf-stitchtype x)])
+                               [st (leaf-symbol x)])
                            (+ acc
                               (* (if (zero? ct) factor ct)
                                  (func (get-stitchtype st)))
-                              (if (eq? 'bo st) 1 0)))
+                              (if (and (eq? 'bo st)
+                                       (zero? ct)) 1 0)))
                          ;; node
                          (let ([ct (node-count x)])
                            (+ acc
@@ -246,108 +323,111 @@
 (: tree-combine-breadth : Tree -> Tree)
 (define (tree-combine-breadth xs)
   (reverse
-   (foldl (λ ([x : (U Leaf Node)]
-              [acc : Tree])
-            (if (Leaf? x)
-                ;; leaf
-                (let ([n (leaf-count x)])
-                  (if (zero? n)
-                      (cons x acc) ;; retained
-                      (if (null? acc)
+   (foldl
+    (λ ([x : (U Leaf Node)]
+        [acc : Tree])
+      (if (Leaf? x)
+          ;; leaf
+          (let ([n (leaf-count x)])
+            (if (zero? n)
+                (cons x acc) ;; retained
+                (if (null? acc)
+                    (cons x acc)
+                    (let ([h (car acc)])
+                      (if (not (Leaf? h))
                           (cons x acc)
-                          (let ([h (car acc)])
-                            (if (not (Leaf? h))
-                                (cons x acc)
-                                (let ([s (leaf-stitch x)])
-                                  (if (equal? s (leaf-stitch h))
-                                      (cons (make-leaf (+ n (leaf-count h))
-                                                       s)
-                                            (cdr acc))
-                                      (cons x
-                                            acc))))))))
-                ;; node
-                (let ([n (node-count x)])
-                  (cons (make-node n
-                                   (tree-combine-breadth (node-tree x))) ;; match only leaves, not nodes
-                        acc))))
-          null
-          xs)))
+                          (let ([s (leaf-stitch x)])
+                            (if (equal? s (leaf-stitch h))
+                                (cons (make-leaf (+ n (leaf-count h))
+                                                 s)
+                                      (cdr acc))
+                                (cons x
+                                      acc))))))))
+          ;; node
+          (let ([n (node-count x)])
+            (cons (make-node n
+                             (tree-combine-breadth (node-tree x))) ;; match only leaves, not nodes
+                  acc))))
+    null
+    xs)))
 
 ;; recursively combine singleton node/leaf nested node
 ;; retain zero counts
 (: tree-combine-depth : Tree -> Tree)
 (define (tree-combine-depth xs)
   (reverse
-   (foldl (λ ([x : (U Leaf Node)]
-              [acc : Tree])
-            (if (Leaf? x)
-                ;; leaf
-                (cons x acc)
-                ;; node
-                (let node-loop : Tree ([n : Natural (node-count x)]
-                                       [t (node-tree x)])
-                  (if (= 1 (length t))
-                      ;; singleton node
-                      (let ([x~ (car t)])
-                        (if (Leaf? x~)
-                            ;; leaf
-                            (let ([n~ (leaf-count x~)])
-                              (if (or (and (zero? n~)
-                                           (and (not (zero? n))
-                                                (not (= 1   n))))
-                                      (and (zero? n)
-                                           (and (not (zero? n~))
-                                                (not (= 1   n~)))))
-                                  ;; retain
-                                  (cons (make-node n
-                                                   (tree-combine-depth t))
-                                        acc)
-                                  ;; combine
-                                  (cons (make-leaf (* n n~)
-                                                   (leaf-stitch x~))
-                                        acc)))
-                            ;; node
-                            (let ([n~ (node-count x~)])
-                              (if (or (and (zero? n~)
-                                           (not (= 1 n)))
-                                      (and (zero? n)
-                                           (not (= 1 n~))))
-                                  ;; retain
-                                  (cons (make-node n
-                                                   (tree-combine-depth t))
-                                        acc)
-                                  ;; combine
-                                  (node-loop (* n n~)
-                                             (node-tree x~))))))
-                      ;; not singleton node
-                      (cons (make-node n
-                                       (tree-combine-depth t))
-                            acc)))))
-          null
-          xs)))
+   (foldl
+    (λ ([x : (U Leaf Node)]
+        [acc : Tree])
+      (if (Leaf? x)
+          ;; leaf
+          (cons x acc)
+          ;; node
+          (let node-loop : Tree ([n : Natural (node-count x)]
+                                 [t (node-tree x)])
+            (if (= 1 (length t))
+                ;; singleton node
+                (let ([x~ (car t)])
+                  (if (Leaf? x~)
+                      ;; leaf
+                      (let ([n~ (leaf-count x~)])
+                        (if (or (and (zero? n~)
+                                     (and (not (zero? n))
+                                          (not (= 1   n))))
+                                (and (zero? n)
+                                     (and (not (zero? n~))
+                                          (not (= 1   n~)))))
+                            ;; retain
+                            (cons (make-node n
+                                             (tree-combine-depth t))
+                                  acc)
+                            ;; combine
+                            (cons (make-leaf (* n n~)
+                                             (leaf-stitch x~))
+                                  acc)))
+                      ;; node
+                      (let ([n~ (node-count x~)])
+                        (if (or (and (zero? n~)
+                                     (not (= 1 n)))
+                                (and (zero? n)
+                                     (not (= 1 n~))))
+                            ;; retain
+                            (cons (make-node n
+                                             (tree-combine-depth t))
+                                  acc)
+                            ;; combine
+                            (node-loop (* n n~)
+                                       (node-tree x~))))))
+                ;; not singleton node
+                (cons (make-node n
+                                 (tree-combine-depth t))
+                      acc)))))
+    null
+    xs)))
 
 ;; recursively combine adjacent leaves with same stitch and yarn type into single leaf
 ;; eliminate zero number elements
 (: combine-leaves : (Listof Leaf) -> (Listof Leaf))
 (define (combine-leaves xs)
   (reverse
-   (foldl (λ ([x   : Leaf]
-              [acc : (Listof Leaf)])
-            (let ([n (leaf-count x)])
-              (if (zero? n)
-                  acc ; eliminated
-                  (if (null? acc)
-                      (cons x acc)
-                      (let ([h (car acc)]
-                            [s (leaf-stitch x)])
-                        (if (equal? s (leaf-stitch h))
-                            (cons (make-leaf (+ n (leaf-count h))
-                                             s)
-                                  (cdr acc))
-                            (cons x
-                                  acc)))))))
-          null
-          xs)))
+   (foldl
+    (λ ([x   : Leaf]
+        [acc : (Listof Leaf)])
+      (let ([n (leaf-count x)])
+        (if (zero? n)
+            acc ; eliminated
+            (if (null? acc)
+                (cons x acc)
+                (let ([h (car acc)]
+                      [s (leaf-stitch x)])
+                  (if (equal? s (leaf-stitch h))
+                      (cons (make-leaf (+ n (leaf-count h))
+                                       s)
+                            (cdr acc))
+                      (cons x
+                            acc)))))))
+    null
+    xs)))
 
 ;; flatten tree to a list of leaves
 ;; ignores variable repeats
@@ -359,18 +439,19 @@
 ;; ignores variable repeats
 (: tree-flatten-recurse : Tree -> (Listof Leaf))
 (define (tree-flatten-recurse tree)
-  (foldl (λ ([x : (U Leaf Node)]
-             [acc : (Listof Leaf)])
-           (if (Leaf? x)
-               ;; leaf
-               (cons x acc)
-               ;; node
-               (let ([t : (Listof Leaf) (tree-flatten-recurse (node-tree x))])
-                 (for/fold ([res : (Listof Leaf) acc])
-                           ([i (in-range (node-count x))])
-                   (append t res)))))
-         null
-         tree))
+  (foldl
+   (λ ([x : (U Leaf Node)]
+       [acc : (Listof Leaf)])
+     (if (Leaf? x)
+         ;; leaf
+         (cons x acc)
+         ;; node
+         (let ([t : (Listof Leaf) (tree-flatten-recurse (node-tree x))])
+           (for/fold ([res : (Listof Leaf) acc])
+                     ([i (in-range (node-count x))])
+             (append t res)))))
+   null
+   tree))
 
 ;; traverse stitch tree finding yarns used
 (: tree-yarns (->* (Tree) (Byte) (Setof Byte)))
@@ -420,7 +501,7 @@
       (let ([next (car tree)])
         (if (Leaf? next)
             (~> next
-                leaf-stitchtype
+                leaf-symbol
                 get-stitchtype
                 test-function
                 (and (tree-stitches-compatible? (cdr tree) test-function)))
@@ -464,9 +545,9 @@
       #f
       (let ([next (car tree)])
         (if (Leaf? next)
-            (let ([next-st (leaf-stitchtype next)])
+            (let ([next-sym (leaf-symbol next)])
               (or (for/or ([s sts]) : Boolean
-                    (eq? next-st s))
+                    (eq? next-sym s))
                   (tree-has-stitches? (cdr tree) sts)))
             (or (tree-has-stitches? (node-tree next) sts)
                 (tree-has-stitches? (cdr tree) sts))))))
@@ -481,7 +562,7 @@
          (reverse acc)
          (let ([next (car tail)])
            (if (Leaf? next)
-               (if (eq? (leaf-stitchtype next) swap-out)
+               (if (eq? (leaf-symbol next) swap-out)
                    (loop (cdr tail)
                          (cons (make-leaf (leaf-count next) (Stitch swap-in (leaf-yarn next)))
                                acc))
@@ -500,7 +581,7 @@
         #f
         (let ([next (car tail)])
           (if (Leaf? next)
-              (leaf-stitchtype next)
+              (leaf-symbol next)
               (loop (node-tree next)))))))
 
 ;; last stitchtype in tree
@@ -519,7 +600,7 @@
         (let ([next (car tail)])
           (if (Leaf? next)
               (loop (cdr tail)
-                    (cons (leaf-stitchtype next) acc))
+                    (cons (leaf-symbol next) acc))
               (loop (cdr tail)
                     (append (tree-stitchtype-list (node-tree next)) acc)))))))
 

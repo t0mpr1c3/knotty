@@ -1786,7 +1786,7 @@
     "" "" null null
     (vector
      (Rowspec '((0 (1 . #s(Stitch yo 0)) (1 . #s(Stitch p2tog 0)))) "" 0 (set 0) 'no-turn)
-     (Rowspec '((3 . #s(Stitch bo 0)) (0 . #s(Stitch drop-st 0))) "" 0 (set 0) 'no-turn))
+     (Rowspec '((3 . #s(Stitch bo 0)) (1 . #s(Stitch bo* 0)) (0 . #s(Stitch drop-st 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1 2) #(3)))
     (vector
      (Rowcount 0 0 0 0 0 6 6 0 0 2 2 3 1 1)
@@ -2042,7 +2042,7 @@
    (pattern-symbols
     (pattern
       ((row 1) k1 p1 yo bo1)))
-   '(bo k p yo))
+   '(bo bo* k p yo))
 
   ;; unspecified yarn used
   (check-exn

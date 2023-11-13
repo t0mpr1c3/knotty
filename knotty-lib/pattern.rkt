@@ -684,7 +684,7 @@
                           [else (err SAFE "type error in function `pattern`")]))])
       (let* ([rowspecs (list->vector
                         (map (λ ([x : Rows])
-                               (Rows-rowspec x))
+                               (rowspec-add-bo* (Rows-rowspec x)))
                              rs~))]
              [rowmap (make-rowmap
                       (list->vector
@@ -1006,7 +1006,7 @@
                 (vector-set! rowspecs~  r rowspec~2)
                 (vector-set! rowcounts~ r rowcount~1))))
           ;; expand horizontal repeats in `rowspecs~`
-          (for ([r : Natural (in-range (vector-length rowcounts~))])
+          (for ([r : Natural (in-range n-rows~)])
             (let ([rowcount~ (vector-ref rowcounts~ r)])
               (when (positive? (Rowcount-var-count rowcount~))
                 (let ([mult-fix (Rowcount-multiple-fix rowcount~)]
@@ -1016,10 +1016,9 @@
                   (let* ([i         (rowmap-find0 rowmap~ r)]
                          [rowspec~  (vector-ref rowspecs~ i)]
                          [stitches  (Rowspec-stitches rowspec~)]
-                         [stitches~ (tree-flatten
-                                     (tree-var-replace
+                         [stitches~ (tree-replace-var
                                       stitches
-                                      (+ mult-fix (* (sub1 h-repeats) mult-var))))])
+                                      (+ mult-fix (* (sub1 h-repeats) mult-var)))])
                     (vector-set! rowspecs~
                                  r
                                  (struct-copy
@@ -1298,12 +1297,12 @@
     ((row 2)  (cw "000111000"))
     ((row 1)  ss9)))
 
-(define edges
+(define sawtooth
   (pattern
-    ((row 1) k5 k2tog)
-    ((row 2) p4 p2tog)
-    ((row 3) k3 k2tog)
-    ((row 4) p4 mlp)
-    ((row 5) k5 ml)))
+    #:repeat-rows '(1 10)
+    ((row (seq 1 7 2)) k2 p2tog yo k (x2 yo k2tog) yo k2)
+    ((row (seq 2 8 2)) p ssk yo p2)
+    ((row 9) k2 p2tog yo k)
+    ((row 10) bo4 p7 yo ssp p2)))
 
 ;; end

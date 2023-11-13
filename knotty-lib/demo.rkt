@@ -156,8 +156,7 @@ Row numbers knit in the opposite direction are displayed on the right.
 A stitch may occupy one or more columns in the grid, depending on how many stitches
 it consumes and/or produces. Different symbols are used to represent the various
 types of stitch. The background color is determined by the color of the yarn used
-to knit each stitch. Empty spaces in the grid are denoted using a "no stitch" symbol
-on a grey background.
+to knit each stitch.
 
 Note that the same symbol is used for knit stitches on odd-numbered rows and purl
 stitches on even-numbered rows. This is because the default pattern is set up for

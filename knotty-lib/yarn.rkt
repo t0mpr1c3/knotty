@@ -110,7 +110,7 @@
                ;; leaf
                (if (or (false? n)
                        (false? (leaf-yarn x)))
-                   (cons (make-leaf (leaf-count x) (Stitch (leaf-stitchtype x) n))
+                   (cons (make-leaf (leaf-count x) (Stitch (leaf-symbol x) n))
                          acc)
                    (cons x acc))
                ;; node

@@ -54,9 +54,11 @@
                    (string-length (car ars)))]
            [b-trim (string->bytes/latin-1 (regexp-replace #rx"^w*(.*?)w*$" s-trim "\\1"))]
            [stv
-            (list->vector (map (λ ([x : Byte]) (cond [(= #x6B x) (Stitch 'k     0)]
-                                                     [(= #x70 x) (Stitch 'p     0)]
-                                                     [(= #x54 x) (Stitch 'bo    0)]
+            (list->vector (map (λ ([x : Byte]) (cond [(= #x6B x) (Stitch 'k     0)] ;; k
+                                                     [(= #x70 x) (Stitch 'p     0)] ;; p
+                                                     [(= #x6F x) (Stitch 'yo    0)] ;; o
+                                                     [(= #x54 x) (Stitch 'bo    0)] ;; T
+                                                     [(= #x53 x) (Stitch 'bo*   0)] ;; S
                                                      [(= #x55 x) (Stitch 'k2tog 0)]
                                                      [(= #x57 x) (Stitch 'p2tog 0)]
                                                      [(= #x56 x) (Stitch 'ssk   0)]
@@ -73,7 +75,7 @@
                                                      [(= #x25 x) (Stitch 'bed   0)]
                                                      [(= #x23 x) (Stitch 'w&tl  0)]
                                                      [(= #x24 x) (Stitch 'w&tr  0)]
-                                                     [else       (Stitch 'ns    #f)]))
+                                                     [else       (Stitch 'ns    #f)])) ;; w
                                (bytes->list b-trim)))])
 
       (Chart-row
@@ -110,6 +112,23 @@
    (Chart
     (vector (Chart-row #(#s(Stitch k 0)) 0 #t #t #f 0 0))
     1 1 1 1 "" default-yarns))
+
+  #|
+  ;; 1884 sawtooth edging
+  (check-equal?
+   (pattern->chart
+    (pattern
+      #:repeat-rows '(1 10)
+      ((row (seq 1 7 2)) k2 yo p2tog k (x2 yo k2tog) yo k2)
+      ((row (seq 2 8 2)) p yo ssk p2)
+      ((row 9) k2 yo p2tog k)
+      ((row 10) bo4 p7 yo ssk p2)))
+   (bytes->chart
+    '#(#"kkoWpppppppppppppppppp*"
+       #"wWppppppppppppppXw"
+       #"wppppppppppppppppw*"
+       #"wwwwwWppWppWppWppw")))
+  |#
 
   ;; tests of alignment
 
@@ -223,8 +242,6 @@
        #"wXXXXwwwwwwwwwwwww"
        #"wTTTTwwwwwwwwwwwww*")))
 
-  #|
-  ;; FIXME bo1 consumes 2 and produces 1
   (check-equal?
    (pattern->chart
     (pattern
@@ -235,20 +252,20 @@
       ((rows 1) p)
       ((rows 2) ssk k k2tog)
       ((rows 3) p)
-      ((rows 4) (x4 (bo 1) k2))
+      ((rows 4) (x4 bo1 k2))
       ((rows 5) p)
-      ((rows 6) (x4 (bo 1) k1))
+      ((rows 6) (x4 bo1 k1))
       ((rows 7) p)
-      ((rows 8) (x4 (bo 1)))))
+      ((rows 8) bo)))
    (bytes->chart
-    '#(#"pppppppppppppp*"
-       #"wWppppppppppXw"
-       #"wppppppppppppw*"
-       #"wTppTppTppTppw"
-       #"wwwppppppppwww*"
-       #"wwwTpTpTpTpwww"
-       #"wwwwwppppwwwww*"
-       #"wwwwwTTTTwwwww")))
+    '#(#"pppppppppppppppppp*"
+       #"wWppppppppppppppXw"
+       #"wppppppppppppppppw*"
+       #"wTSppTSppTSppTSppw"
+       #"wwwppppppppppppwww*"
+       #"wwwTSpTSpTSpTSpwww"
+       #"wwwwwppppppppwwwww*"
+       #"wwwwwTTTTTTTTwwwww")))
 
   (check-equal?
    (pattern->chart
@@ -260,20 +277,20 @@
       ((rows 1) p)
       ((rows 2) ssk k k2tog)
       ((rows 3) p)
-      ((rows 4) (x4 k2 (bo 1)))
+      ((rows 4) (x4 k2 bo1))
       ((rows 5) p)
-      ((rows 6) (x4 k1 (bo 1)))
+      ((rows 6) (x4 k1 bo1))
       ((rows 7) p)
-      ((rows 8) (x4 (bo 1)))))
+      ((rows 8) bo)))
    (bytes->chart
-    '#(#"pppppppppppppp*"
-       #"wWppppppppppXw"
-       #"wppppppppppppw*"
-       #"wppTppTppTppTw"
-       #"wwwppppppppwww*"
-       #"wwwpTpTpTpTwww"
-       #"wwwwwppppwwwww*"
-       #"wwwwwTTTTwwwww")))
+    '#(#"pppppppppppppppppp*"
+       #"wWppppppppppppppXw"
+       #"wppppppppppppppppw*"
+       #"wppTSppTSppTSppTSw"
+       #"wwwppppppppppppwww*"
+       #"wwwpTSpTSpTSpTSwww"
+       #"wwwwwppppppppwwwww*"
+       #"wwwwwTTTTTTTTwwwww")))
 
   ;; half steps
   (check-equal?
@@ -286,20 +303,20 @@
       ((rows 1) p)
       ((rows 2) ssk k k2tog)
       ((rows 3) p)
-      ((rows 4) (bo 1) k3)
+      ((rows 4) bo1 k3)
       ((rows 5) p)
-      ((rows 6) (bo 1) k2)
+      ((rows 6) bo1 k2)
       ((rows 7) p)
-      ((rows 8) (bo 1) k1)))
+      ((rows 8) bo1 k1)))
    (bytes->chart
-    '#(#"pppppp*"
-       #"wWppXw"
-       #"wppppw*"
-       #"wTpppw"
-       #"wwpppw*"
-       #"wwTppw"
-       #"wwppww*"
-       #"wwTpww")))
+    '#(#"ppppppp*"
+       #"wWpppXw"
+       #"wpppppw*"
+       #"wTSpppw"
+       #"wwppppw*"
+       #"wwTSppw"
+       #"wwpppww*"
+       #"wwTSpww")))
 
   ;; half steps
   (check-equal?
@@ -312,21 +329,20 @@
       ((rows 1) p)
       ((rows 2) ssk k k2tog)
       ((rows 3) p)
-      ((rows 4) k3 (bo 1))
+      ((rows 4) k3 bo1)
       ((rows 5) p)
-      ((rows 6) k2 (bo 1))
+      ((rows 6) k2 bo1)
       ((rows 7) p)
-      ((rows 8) k1 (bo 1))))
+      ((rows 8) k1 bo1)))
    (bytes->chart
-    '#(#"pppppp*"
-       #"wWppXw"
-       #"wppppw*"
-       #"wpppTw"
-       #"wwpppw*"
-       #"wwppTw"
-       #"wwppww*"
-       #"wwpTww")))
-  |#
+    '#(#"ppppppp*"
+       #"wWpppXw"
+       #"wpppppw*"
+       #"wpppTSw"
+       #"wwppppw*"
+       #"wwppTSw"
+       #"wwpppww*"
+       #"wwpTSww")))
 
   ;; double decreases
 
@@ -803,28 +819,6 @@
        #"kkpp*"
        #"kkkp")))
 
-  ;  (check-equal?
-  ;   (make-stitch-matrix
-  ;    (pattern #:technique 'hand #:form 'flat
-  ;             #:face 'rs #:side 'left
-  ;             rows(1)(p4)
-  ;             rows(2)(k3 p1)
-  ;             rows(3)(k2 p2)
-  ;             rows(4)(k1 p3)))
-  ;   (bytes->stitch-matrix
-  ;    '#(#"pppp" #"kppp" #"kkpp" #"kkkp")))
-
-  ;  (check-equal?
-  ;   (make-stitch-matrix
-  ;    (pattern #:technique 'hand #:form 'flat
-  ;             #:face 'ws #:side 'right
-  ;             rows(1)(k4)
-  ;             rows(2)(k1 p3)
-  ;             rows(3)(k2 p2)
-  ;             rows(4)(k3 p1)))
-  ;   (bytes->stitch-matrix
-  ;    '#(#"pppp" #"kppp" #"kkpp" #"kkkp")))
-
   (check-equal?
    (pattern->chart
     (pattern
@@ -1178,7 +1172,7 @@
        (pattern
          ((row 1) k1 p1 bo1 yo bebyo ns)))))
     #:key cdr <)
-   '((bebyo . 0) (bo . 1) (k . 2) (p . 3) (yo . 4))) ;; 'ns trimmed
+   '((bebyo . 0) (bo . 1) (bo* . 2) (k . 3) (p . 4) (yo . 5))) ;; 'ns trimmed
 
   (check-equal?
    (hash->list
@@ -1266,6 +1260,3 @@
   )
 
 ;; end
-
-;; short row treatment looks OK so far
-;; FIXME needs further testing

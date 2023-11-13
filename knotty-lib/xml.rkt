@@ -517,7 +517,7 @@
                 (loop (if (zero? ct)
                           (cons `(run
                                   (stitch ,(~> head
-                                               leaf-stitchtype
+                                               leaf-symbol
                                                get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
@@ -526,7 +526,7 @@
                           (cons `(run
                                   (count  ,ct)
                                   (stitch ,(~> head
-                                               leaf-stitchtype
+                                               leaf-symbol
                                                get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
