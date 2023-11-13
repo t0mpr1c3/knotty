@@ -156,15 +156,15 @@
        (td (@ [class "figure"]))))
 
 (define (row-sxml p h-repeats v-repeats rows yrns r2l? hand? r)
-  (let* ([row-r (vector-ref rows r)]
+  (let* ([row (vector-ref rows r)]
          [rhs? (boolean-xor r2l? (odd? r))]
-         [sts-r (Chart-row-stitches row-r)]
+         [sts (Chart-row-stitches row)]
          [symbols ;: (Vectorof Symbol)
           (vector-map
            ;(λ ([s : Stitch])
            (λ (s)
              (or (Stitch-symbol s) 'na))
-           sts-r)]
+           sts)]
          [ys ;: (Vectorof (Option Byte))
           (vector-map
            ;(λ ([s : Stitch])
@@ -172,7 +172,7 @@
              (if (false? (Stitch-symbol s))
                  #f
                  (Stitch-yarn s)))
-           sts-r)]
+           sts)]
          [colors ;: (Vectorof (Option String))
           (vector-map
            (λ (y)
@@ -188,18 +188,48 @@
          (td (@ [class "figure rownumber"])
              (span (@ [class "figure rownumber"])
                    ,@(if rhs? null rownumber)))
-         ,@(for/list ([x (in-range (vector-length sts-r))])
-             (stitch-sxml symbols ys colors hand? x))
-         (td (@ [class "figure rownumber"])
+         ,@(let-values ([(next-left next-right)
+                         (if (= r (sub1 (vector-length rows)))
+                             (values +inf.0
+                                     +inf.0)
+                             (values (~> r add1 (vector-ref rows _) Chart-row-align-left)
+                                     (- (Chart-row-align-right row)
+                                        (~> r add1 (vector-ref rows _) Chart-row-align-right))))])
+             (append
+              (for/list ([i (in-range (Chart-row-align-left row))])
+                (stitch-sxml hand?
+                             'ns
+                             #f
+                             "FFFFFF"
+                             (string-append
+                              " empty"
+                              (if (> (add1 i) next-left) " borderTop" ""))))
+              (for/list ([i (in-range (vector-length sts))])
+                (stitch-sxml hand?
+                             (vector-ref symbols i)
+                             (vector-ref ys i)
+                             (vector-ref colors i)
+                             ""))
+              (for/list ([i (in-range (Chart-row-align-right row))])
+                (stitch-sxml hand?
+                             'ns
+                             #f
+                             "FFFFFF"
+                             (string-append
+                              " empty"
+                              (if (zero? i)
+                                  (if (< 0 next-right) " borderTopLeft" " borderLeft")
+                                  (if (< i next-right) " borderTop" "")))))))
+         (td (@ [class ,(string-append
+                         "figure rownumber"
+                         (if (zero? (Chart-row-align-right row)) " borderLeft" ""))])
              (span (@ [class "figure rownumber"])
                    ,@(if rhs? rownumber null))))))
 
-(define (stitch-sxml symbols ys colors hand? x)
-  (let* ([s (vector-ref symbols x)]
-         [st (get-stitchtype s)]
+(define (stitch-sxml hand? s y c cls)
+  (let* ([st (get-stitchtype s)]
          [blank? (eq? 'na s)]
          [ns? (eq? 'ns s)]
-         [y (vector-ref ys x)]
          [instr (get-stitch-instructions s hand?)]
          [title
           (string-append
@@ -207,26 +237,28 @@
            "Stitch: "
            (symbol->string s)
            ". "
-           (if (false? instr) "" instr))]
-         [cx (vector-ref colors x)])
+           (if (false? instr) "" instr))])
     `(td (@ [class ,(string-append
                      "figure symbol"
+                     cls
+                     (if blank? " blank" "")
                      (if ns? " nostitch" ""))]
             ,@(if (or blank? ns?)
                   null
-                  `([bgcolor ,(string-append "#" cx)]))
+                  `([bgcolor ,(string-append "#" c)]))
             ,@(if (Stitchtype-cable? st)
                   `((colspan ,(~a (Stitchtype-stitches-out st))))
                   null))
          (span (@ [class ,(string-append
                            "figure symbol"
+                           cls
                            (if (Stitchtype-cable? st) " cable" "")
                            (if blank? " blank" "")
                            (if ns? " nostitch" ""))]
                   [title ,title]
                   ,@(if (or blank? ns?)
                         null
-                        `([style ,(string-append "color: " (contrast-color-hex cx))])))
+                        `([style ,(string-append "color: " (contrast-color-hex c))])))
                ,(bytes->string/utf-8 (Stitchtype-rs-string st))
                ,@(if blank?
                      '((div (@ [class "strikethrough"])))

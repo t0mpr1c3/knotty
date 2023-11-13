@@ -21,13 +21,10 @@
 (provide (all-defined-out))
 
 (require threading
-         racket/vector)   ; needed for `vector-map`
+         racket/vector) ;; needed for `vector-map`
 (require "global.rkt"
-         "logger.rkt"
          "stitch.rkt"
          "yarn.rkt")
-
-(log-message knotty-logger 'info "start of chart-row.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -38,8 +35,12 @@
    [default-yarn : Byte]
    [rs? : Boolean]
    [r2l? : Boolean]
-   [short? : Boolean])
+   [short? : Boolean]
+   [align-left : Natural]
+   [align-right : Natural])
   #:transparent)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; change stitches, keep other variables
 (: chart-row-set-stitches : Chart-row (Vectorof Stitch) -> Chart-row)
@@ -73,7 +74,6 @@
      (for/list ([i (in-range (vector-length v))])
        (~> v
            (vector-ref i)
-           Stitch-symbol))));;)
+           Stitch-symbol))))
 
-(log-message knotty-logger 'info "end of chart-row.rkt" #f)
-;end
+;; end

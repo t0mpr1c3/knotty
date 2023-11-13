@@ -76,3 +76,4 @@
 ;; demo
 ;(serve-pattern demo 2 2)
 ;(serve-pattern owl 1 1)
+;(serve-pattern edges 1 1)

@@ -1298,4 +1298,12 @@
     ((row 2)  (cw "000111000"))
     ((row 1)  ss9)))
 
+(define edges
+  (pattern
+    ((row 1) k5 k2tog)
+    ((row 2) p4 p2tog)
+    ((row 3) k3 k2tog)
+    ((row 4) p4 mlp)
+    ((row 5) k5 ml)))
+
 ;; end

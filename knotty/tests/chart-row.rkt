@@ -31,7 +31,7 @@
      '#(#s(Stitch k #f)
         #s(Stitch p 1)
         #s(Stitch yo 2))
-     0 #f #f #f))
+     0 #f #f #f 0 0))
 
   (check-equal?
    (chart-row-set-stitches
@@ -39,7 +39,7 @@
    '#(#s(Stitch p 1)))
     (Chart-row
      '#(#s(Stitch p 1))
-     0 #f #f #f))
+     0 #f #f #f 0 0))
 
   (check-equal?
    (chart-row-width cr1)

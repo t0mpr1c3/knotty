@@ -240,7 +240,8 @@
                  yarn-i
                  rs?
                  r2l?
-                 short-row-i))))])
+                 short-row-i
+                 0 0))))])
     ;; return finished chart
     (chart-align-rows (Chart chart-rows
                              1 ;; width will be set in `chart-align-rows` function
@@ -249,6 +250,8 @@
                              v-repeats
                              name
                              yarns))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; method to align chart rows
 ;; short rows can be considered a partition of the row
@@ -414,23 +417,26 @@
               ;(println (format "cum-offset ~a" cum-offset))
               ;(println (format "min-offset ~a" min-offset))
               ;(println (format "prepend ~a" prepend))
-              ;; align rows in chart by prepending no-stitches
-              (let* ([padded-rows (for/vector ([i (in-range height)]) : Chart-row
-                                    (let ([row-i (vector-ref rows i)])
-                                      (chart-row-set-stitches row-i
-                                                              (vector-append
-                                                               (make-vector (halve (vector-ref prepend i)) (Stitch 'ns #f))
-                                                               (Chart-row-stitches row-i)))))]
-                     ;; pad ends of rows with no-stitches
-                     [padded-row-lengths : (Vectorof Natural) (vector-map chart-row-width padded-rows)]
+              ;; set alignment in chart rows
+              (let* ([padded-rows
+                      (for/vector ([i (in-range height)]) : Chart-row
+                        (let ([pad (halve (vector-ref prepend i))])
+                          (assert (natural? pad))
+                        (struct-copy Chart-row (vector-ref rows i)
+                                     [align-left pad])))]
+                     [padded-row-lengths
+                      : (Vectorof Natural)
+                      (vector-map
+                       (λ ([cr : Chart-row])
+                         (+ (chart-row-width cr)
+                            (Chart-row-align-left cr)))
+                       padded-rows)]
                      [padded-width (vector-max padded-row-lengths)]
                      [final-rows (for/vector ([i (in-range height)]) : Chart-row
-                                   (let ([row (vector-ref padded-rows i)])
-                                     (chart-row-set-stitches row
-                                                             (vector-append
-                                                              (Chart-row-stitches row)
-                                                              (make-vector (- padded-width (vector-ref padded-row-lengths i))
-                                                                           (Stitch 'ns #f))))))])
+                                   (let ([pad (- padded-width (vector-ref padded-row-lengths i))])
+                                     (assert (natural? pad))
+                                   (struct-copy Chart-row (vector-ref padded-rows i)
+                                                [align-right pad])))])
                 ;; return aligned chart
                 (log-message knotty-logger 'debug "returning from function `chart-align-rows` with:" #f)
                 (log-message knotty-logger 'debug (format "final-rows=~a" final-rows) #f)

@@ -207,7 +207,9 @@ styles as well: for more information, see the @racket[sweet-exp]
   [default-yarn byte?]
   [rs? boolean?]
   [r2l? boolean?]
-  [short? boolean?])
+  [short? boolean?]
+  [align-left natural?]
+  [align-right natural?])
  #:transparent]{
  Structure type for a row of stitches in a knitting chart.}
 

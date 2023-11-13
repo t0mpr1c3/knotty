@@ -42,7 +42,17 @@
     (let* ([s (bytes->string/latin-1 b)]
            [r2l? (string-suffix? s "*")]
            [s-trim (string-replace s "*" "")]
-           [b-trim (string->bytes/latin-1 s-trim)]
+           [als (regexp-match #rx"^w*" s-trim)]
+           [al : Natural
+               (if (false? als)
+                   0
+                   (string-length (car als)))]
+           [ars (regexp-match #rx"w*$" s-trim)]
+           [ar : Natural
+               (if (false? ars)
+                   0
+                   (string-length (car ars)))]
+           [b-trim (string->bytes/latin-1 (regexp-replace #rx"^w*(.*?)w*$" s-trim "\\1"))]
            [stv
             (list->vector (map (λ ([x : Byte]) (cond [(= #x6B x) (Stitch 'k     0)]
                                                      [(= #x70 x) (Stitch 'p     0)]
@@ -75,7 +85,8 @@
               (map (λ ([s : Stitch]) (or (eq? 'w&tl (Stitch-symbol s))
                                          (eq? 'w&tr (Stitch-symbol s))))
                    (vector->list stv)))
-       )))
+       al
+       ar)))
 
   ;; tests of `make-stitch-matrix`
   ;; FIXME need new tests
@@ -97,7 +108,7 @@
     (pattern
       ((row 1) k1)))
    (Chart
-    (vector (Chart-row #(#s(Stitch k 0)) 0 #t #t #f))
+    (vector (Chart-row #(#s(Stitch k 0)) 0 #t #t #f 0 0))
     1 1 1 1 "" default-yarns))
 
   ;; tests of alignment
