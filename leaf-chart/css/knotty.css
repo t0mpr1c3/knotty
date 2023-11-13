@@ -259,9 +259,14 @@ tr.figure:last-child > td:first-child,
 tr.figure:last-child > td:last-child {
   border-width: 0;
 }
-td.nostitch {
+td.blank {
   background-color: #FFFFFF;
-  /* border-left-width: 0; */
+}
+td.nostitch {
+  background-color: #EEEEEE;
+}
+td.nostitch > *{
+  color: #AAAAAA;
 }
 div.strikethrough {
   margin-top: 13px;
