@@ -78,8 +78,7 @@
    ;; ⤫⤬⤱⤱⛌⭮⭯⯇⯈⯅⯆⭠⭢⭡⭣⭦⭨⭩⭧⮢⮣◤◢◣◥◦◎✱✽❋❖↤↦↥↧
 
    ;; NB a bind off sequence consumes and produces an extra stitch: https://stitch-maps.com/patterns/display/buttonhole/
-
-   ;; FIXME: need to define
+   (Stitchtype 'bo*       'bo*       'bo*       'bo*       1 #f #"\053"         #"\053"         #f   #f   1 1  0 #f #f #t #t "stitch remaining on right needle after bind off")
 
    ;; variable repeat stitches
    (Stitchtype 'bo         'bo        'bo        'bo       1 #f #"\124"         #"\124"         #xDE #xDE 1 0  0 #t #t #t #t "bind off")
@@ -164,8 +163,7 @@
    (Stitchtype 'sp        'sp        'sp        'sp        1 #f #"\302\277"     #"\302\277"     #x2A #x2A 1 1  0 #f #f #t #t "special stitch") ;; custom stitch (provide details)
    (Stitchtype 'drop-st   'drop-st   'drop-st   'drop-st   1 #f #"\054"         #"\054"         #f   #f   1 0  0 #f #f #t #f "drop stitch") ;; non-standard symbol
    (Stitchtype 'ns        'ns        'ns        'ns        1 #f #"\167"         #"\167"         #x2C #x2C 0 0  0 #f #f #t #t "no stitch")
-   (Stitchtype 'bo*       'bo*       'bo*       'bo*       1 #f #"\053"         #"\053"         #f   #f   1 1  0 #f #f #t #t "stitch remaining on right needle after bind off")
-
+   
    (Stitchtype 'turnl     'turnl     'turnr     'turnr     1 #f #"\117"         #"\120"         #x3C #x3C 0 0  0 #f #f #t #t "turn left") ;; short row
    (Stitchtype 'turnr     'turnr     'turnl     'turnl     1 #f #"\120"         #"\117"         #x3E #x3E 0 0  0 #f #f #t #t "turn right") ;; short row
    (Stitchtype 'turn      'turn      'turn      'turn      1 #f #"\303\260"     #"\303\260"     #f   #f   0 0  0 #f #f #t #t "turn") ;; short row
@@ -184,7 +182,7 @@
    (Stitchtype 'bebyo-ws  'bebyo     'bebyo-ws  'bebyo     3 #f #"\303\202\157\303\202" #"\302\257\157\302\256" #f   #f   3 3  0 #f #f #t #f "bunny ears back decrease with center yarn over (WS)")
 
    ;; NB Brioche stitches in Stitchmastery fonts
-   (Stitchtype 'yf-sl-yo  'yf-sl-yo  'yf-sl-yo  'yf-sl-yo  1 #f #"\303\244"         #"\303\244"         #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yfsl1yo aka "brSl"
+   (Stitchtype 'brsl      'brsl      'brsl      'brsl      1 #f #"\303\244"         #"\303\244"         #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over") ;; yf-sl1-yo
    (Stitchtype 'yf-sl-yo2 'yf-sl-yo2 'yf-sl-yo2 'yf-sl-yo2 1 #f #"\303\244\141"     #"\303\244\141"     #f   #f   1 2  0 #f #f #t #f "yarn forward, slip 1, yarn over twice") ;; yfsl1yoyo
    ;(Stitchtype 'yf-sl-yof                                  1 #f #"\303\245"         #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over, yarn forward") ;; yfsl1yof
    ;(Stitchtype 'yf-sl-yof                                  1 #f #"\303\246"         #""                 #f   #f   1 1  0 #f #f #t #f "yarn forward, slip 1, yarn over, yarn forward") ;; yfsl1yof
@@ -203,9 +201,9 @@
    (Stitchtype 'sssbrp    'brk3tog   'sssbrk    'brp3tog   1 #f #"\303\254"         #"\303\252"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip purl")
    (Stitchtype 'brp3tog   'sssbrk    'brk3tog   'sssbrp    1 #f #"\303\256"         #"\303\250"         #f   #f   3 1  2 #f #f #t #f "brioche purl 3 together")
    (Stitchtype 'sssbrk    'brp3tog   'sssbrp    'brk3tog   1 #f #"\303\250"         #"\303\256"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip knit")
-   ;; brkyobrk
+   ;; brkyobrk #"\303\261"
    ;; brpyobrp
-   ;; brkbrpbrk into 1 st
+   ;; brkbrpbrk into 1 st #"\303\262"
    ;; brpbrkbrp into 1 st
 
    ;; cable stitches (left - front, right - back)

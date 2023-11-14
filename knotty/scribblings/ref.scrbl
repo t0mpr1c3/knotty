@@ -888,16 +888,16 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
        (list @element[dash "%"]  @element[pb-style
                                           "Purl below"]                   @element[kb-style
                                                                                    "Knit below"]             @elem[@racket[pb]"_"]      "✓"        "-")
-       (list @element[dash "&"]  @element[slwyib-style
+       (list @element[dash "*"]  @element[slwyib-style
                                           "Slip purlwise wyib"]           @element[slwyif-style
                                                                                    "Slip purlwise wyif"]     @elem[@racket[slwyib]"_"]  "✓"        "✓")
-       (list @element[dash "'"]  @element[slwyif-style
+       (list @element[dash "&"]  @element[slwyif-style
                                           "Slip purlwise wyif"]           @element[slwyib-style
                                                                                    "Slip purlwise wyib"]     @elem[@racket[slwyif]"_"]  "✓"        "-")
-       (list @element[dash "*"]  @element[slkwyib-style
+       (list @element[dash "0"]  @element[slkwyib-style
                                           "Slip knitwise wyib"]           @element[slkwyif-style
                                                                                    "Slip knitwise wyif"]     @elem[@racket[slkwyib]"_"] "✓"        "-")
-       (list @element[dash "Q"]  @element[slkwyif-style
+       (list @element[dash "["]  @element[slkwyif-style
                                           "Slip knitwise wyif"]           @element[slkwyib-style
                                                                                    "Slip knitwise wyib"]     @elem[@racket[slkwyif]"_"] "✓"        "-")
        (list @element[dash "U"]  @element[k2tog-style
@@ -1047,10 +1047,10 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
        (list @element[dash ","]  @element[drop-style
                                           "Drop stitch"]                  @element[drop-style
                                                                                    "Drop stitch"]                  @racket[drop-st]     "✓"        "-")
-       (list @element[dash "w"]  "No stitch"                                       "No stitch"                     @racket[ns]          "✓"        "✓")
-       (list @element[dash ","]  @element[bo-star-style
+       (list @element[dash "+"]  @element[bo-star-style
                                           "Remaining after bind off"]     @element[bo-star-style
                                                                                    "Remaining after bind off"]     @racket[bo*]         "✓"        "✓")
+       (list @element[dash "w"]  "No stitch"                                       "No stitch"                     @racket[ns]          "✓"        "✓")
        (list @element[dash "º"]  @element[tl-style
                                           "Thread lace"]                  @element[tl-style
                                                                                    "Thread lace"]            @elem[@racket[tl]"_"]      "-"         "✓")
@@ -1102,11 +1102,87 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
           (list @subscript{@bold{†} Machine stitch requires manual intervention.}))]
 
 
+@subsection[#:tag "brioche stitches"]{Brioche Stitches}
+
+For hand knitting only. Symbols are provided for knitting the stitches
+on both the RS and the WS. Instructions are provided only for knitting
+them on the RS.
+
+@(define brsl-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'yf-sl-yo #t)))))
+@(define yf-slk-yo-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'yf-slk-yo #t)))))
+@(define yf-sl-yo2-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'yf-sl-yo2 #t)))))
+@(define brk-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brk #t)))))
+@(define brp-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brp #t)))))
+@(define brk-tbl-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brk-tbl #t)))))
+@(define brp-tbl-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brp-tbl #t)))))
+@(define brk2tog-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brk2tog #t)))))
+@(define brp2tog-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brp2tog #t)))))
+@(define ssbrk-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssbrk #t)))))
+@(define ssbrp-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'ssbrp #t)))))
+@(define brk3tog-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brk3tog #t)))))
+@(define brp3tog-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'brp3tog #t)))))
+@(define sssbrk-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssbrk #t)))))
+@(define sssbrp-style
+   (make-style #f (list (hover-property (get-stitch-instructions 'sssbrp #t)))))
+
+@tabular[
+ #:sep @hspace[1]
+ #:row-properties '(bottom-border ())
+ (list (list @bold{Symbol}          @bold{Stitch (RS)}                            @bold{Stitch (WS)}                       @bold{Macro})
+
+       (list @element[dash "ä"]     @element[brsl-style
+                                    "Brioche slip"]                               "Brioche slip"                           @racket[brsl])
+       (list @element[dash "ä°"]    @element[yf-slk-yo-style
+                                    "Yarn forward, slip knitwise, yarn over"]     "Yarn forward, slip knitwise, yarn over" @nonbreaking[@racket[yf-slk-yo]])
+       (list @element[dash "äa"]    @element[yf-sl-yo2-style
+                                    "Yarn forward, slip, yarn over twice"]        "Yarn forward, slip, yarn over twice"    @nonbreaking[@racket[yf-sl-yo2]])
+
+       (list @element[dash "ã"]     @element[brk-style
+                                    "Brioche knit"]                               "Brioche purl"                           @racket[brk])
+       (list @element[dash "â"]     @element[brp-style
+                                    "Brioche purl"]                               "Brioche knit"                           @racket[brp])
+       (list @element[dash "ó"]     @element[brk-tbl-style
+                                    "Brioche knit tbl"]                           "Brioche purl tbl"                       @nonbreaking[@racket[brk-tbl]])
+       (list @element[dash "ô"]     @element[brp-tbl-style
+                                    "Brioche purl tbl"]                           "Brioche knit tbl"                       @nonbreaking[@racket[brp-tbl]])
+       (list @element[dash "é"]     @element[brk2tog-style
+                                    "Brioche knit 2 together"]                    "Slip, slip, brioche purl"               @racket[brk2tog])
+       (list @element[dash "ë"]     @element[ssbrp-style
+                                    "Slip, slip, brioche purl"]                   "Brioche knit 2 together"                @racket[ssbrp])       
+       (list @element[dash "í"]     @element[brp2tog-style
+                                    "Brioche purl 2 together"]                    "Slip, slip, brioche knit"               @racket[brp2tog])
+       (list @element[dash "ç"]     @element[ssbrk-style
+                                    "Slip, slip, brioche knit"]                   "Brioche purl 2 together"                @racket[ssbrk])       
+       (list @element[dash "ê"]     @element[brk3tog-style
+                                    "Brioche knit 3 together"]                    "Slip, slip, slip, brioche purl"         @racket[brk3tog])
+       (list @element[dash "ì"]     @element[sssbrp-style
+                                    "Slip, slip, slip, brioche purl"]             "Brioche knit 3 together"                @racket[sssbrp])       
+       (list @element[dash "î"]     @element[brp3tog-style
+                                    "Brioche purl 3 together"]                    "Slip, slip, slip, brioche knit"         @racket[brp3tog])
+       (list @element[dash "è"]     @element[sssbrk-style
+                                    "Slip, slip, slip, brioche knit"]             "Brioche purl 3 together"                @racket[sssbrk])    
+       )]
+
+
 @subsection[#:tag "combo stitches"]{Combination Stitches}
 
 For hand knitting only. Symbols are provided for knitting the stitches
 on both the RS and the WS. Instructions are provided only for knitting
-them on the RS. Links are provided to some helpful blog posts.
+them on the RS. Links are provided to some explanatory blog posts.
 
 @(define bed-style
    (make-style #f (list (hover-property (get-stitch-instructions 'bed #t)))))

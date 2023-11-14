@@ -186,6 +186,7 @@
 (define-unrepeatable-stitch ssbrp     (get-stitchtype 'ssbrp))
 (define-unrepeatable-stitch sssbrk    (get-stitchtype 'sssbrk))
 (define-unrepeatable-stitch sssbrp    (get-stitchtype 'sssbrp))
+(define-unrepeatable-stitch brsl      (get-stitchtype 'yf-sl-yo))
 (define-unrepeatable-stitch yf-sl-yo  (get-stitchtype 'yf-sl-yo))
 (define-unrepeatable-stitch yf-sl-yo2 (get-stitchtype 'yf-sl-yo2))
 (define-unrepeatable-stitch yf-slk-yo (get-stitchtype 'yf-slk-yo))

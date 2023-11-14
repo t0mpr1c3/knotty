@@ -18,7 +18,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 |#
 
-;; FIXME add checks for lace
+;; FIXME add checks for lace, brioche
 ;; FIXME needles? machine spec?
 
 (provide (all-defined-out))
@@ -659,8 +659,8 @@
 (define (pattern
           #:name [name ""]
           #:url [url ""]
-          #:attribution [attribution dummy-attribution]
-          #:keywords [keywords dummy-keywords]
+          #:attribution [attribution default-attribution]
+          #:keywords [keywords default-keywords]
           #:technique [technique default-pattern-technique]
           #:form [form default-pattern-form]
           #:face [face default-pattern-face]
@@ -1240,7 +1240,7 @@
 ;; pattern attribution
 (define-type Attribution (Listof Author))
 
-(define dummy-attribution : Attribution null)
+(define default-attribution : Attribution null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1257,7 +1257,7 @@
 ;; limit of 30 characters each
 (define-type Keywords (Listof String))
 
-(define dummy-keywords : Keywords null)
+(define default-keywords : Keywords null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1303,6 +1303,6 @@
     ((row (seq 1 7 2)) k2 p2tog yo k (x2 yo k2tog) yo k2)
     ((row (seq 2 8 2)) p ssk yo p2)
     ((row 9) k2 p2tog yo k)
-    ((row 10) bo4 p7 yo ssp p2)))
+    ((row 10) bo4 p7 ssp yo p2)))
 
 ;; end
