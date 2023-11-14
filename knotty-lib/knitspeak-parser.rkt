@@ -307,28 +307,27 @@
       `(run
         (stitch (quote ,(string->symbol (string-downcase (syntax->datum #'repeated-stitch-stx)))))
         (count  ,(syntax->datum #'count-stx))))]
-    [({~literal modified-stitch} modified-stitch-stx stitch-modifier-stx)
-     (interpret-run
-      `(run
-        (stitch (quote
-                 ,(string->symbol
-                   (string-append
-                    (string-downcase (syntax->datum #'modified-stitch-stx)) "-"
-                    (string-downcase (symbol->string (cadr (syntax->datum #'stitch-modifier-stx))))))))
-        (count  1)))]
     |#
-    [({~literal modified-stitch} modified-stitch-stx stitch-modifier-stx)
+    [({~literal modified-stitch} modified-stitch-stx)
      (let ([s (syntax->datum #'modified-stitch-stx)])
+       (interpret-run
+        `(run
+          (stitch (quote
+                   ,(string->symbol
+                     (string-append
+                      (string-downcase s)
+                      "-tbl"))))
+          (count  1))))]
+    [({~literal twisted-stitch} twisted-stitch-stx)
+     (let ([s (syntax->datum #'twisted-stitch-stx)])
      (interpret-run
       `(run
         (stitch (quote
                  ,(string->symbol
                    (string-append
                     (string-downcase s)
-                    (cond [(eq? 'TBL (cadr (syntax->datum #'stitch-modifier-stx)))
-                          "-tbl"]
-                          ;; aliases for twisted stitches
-                          [(equal? "cdd"  s) ""]
+                    ;; aliases for twisted stitches
+                    (cond [(equal? "cdd"  s) ""]
                           [(equal? "cddp" s) ""]
                           [else              "-tbl"])))))
         (count  1))))]))
@@ -499,7 +498,9 @@
           (if (eq? 'circular form)
               (hash-set! face-hash face #t)
               (begin
-                (for ([row (car f)]) ;; FIXME this is not actually how face specification works in knitspeak e.g. https://stitch-maps.com/patterns/display/diamonds-in-moss/
+                ;; NB RS and WS rows can be combined in any sequence in stitch-maps.com
+                ;; e.g. https://stitch-maps.com/patterns/display/diamonds-in-moss/
+                (for ([row (car f)])
                   (hash-set! face-hash
                              (if (odd? row)
                                  face

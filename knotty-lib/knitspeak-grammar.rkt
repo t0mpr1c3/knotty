@@ -84,8 +84,8 @@ stitch-run: YO
           | ONE-TO INTEGER /SPACE INC
           | renamed-stitch
           ;| cluster-stitch
-          ;| repeated-stitch
           | modified-stitch
+          | twisted-stitch /SPACE /TWISTED
           | stitch
           | cable-head /SPACE cable-tail
 
@@ -100,6 +100,7 @@ renamed-stitch: BUNNY-EARS-DEC
               | M1LP
               | M1R
               | M1RP
+              | SKP
               | SL1-K2TOG-PSSO
               | SL2-K1-P2SSO
               | K1-P1-IN-NEXT-STITCH    ;; not implemented in knotty
@@ -128,14 +129,16 @@ renamed-stitch: BUNNY-EARS-DEC
 ;              | YO-P3-PYO
 
 
-stitch: IDENTIFIER
+stitch: IDENTIFIER ;; FIXME list stitches instead of using generic identified
 
-;repeated-stitch: IDENTIFIER INTEGER
+modified-stitch: IDENTIFIER /SPACE /TBL ;; FIXME k, p, k2tog, p2tog, k3tog, p3tog, brk, brp ? ssk, ssp, sssk, sssp
 
-modified-stitch: IDENTIFIER /SPACE stitch-modifier
-
-stitch-modifier: TBL
-               | TWISTED
+twisted-stitch: CDD
+              | CDDP
+              | K2TOG
+              | K3TOG
+              | P2TOG
+              | P3TOG
 
 cable-head: INTEGER /SLASH INTEGER [/SLASH INTEGER]
 

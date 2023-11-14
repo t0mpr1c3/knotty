@@ -132,14 +132,34 @@
       (brp2tog      . "Brioche purl 2 together: Insert right needle purlwise into the next 2 stitches and their yarn overs and purl them together")
       (brp3tog      . "Brioche purl 3 together: Insert right needle purlwise into the next 3 stitches and their yarn overs and purl them together")
       (brp2tog-tbl  . "Brioche purl 2 together tbl: Insert right needle purlwise into the next 2 stitches and their yarn overs through the back loops and purl them together")
-      (ssbrk        . "Slip, slip, brioche knit slipped stitches together: Slip next stitch, and corresponding yarn over, knitwise. Slip next stitch knitwise. Insert the point of the left-hand needle from behind into the 3 loops to hold them in place while you knit them together")
-      (sssbrk       . "Slip, slip, slip, brioche knit slipped stitches together: Slip next 3 stitches and their corresponding yarn overs knitwise, each individually. Slip stitches back to left needle and knit together through their back loops")
-      (ssbrp        . "Slip, slip, brioche purl slipped stitches together: Slip next stitch, and corresponding yarn over knitwise. Slip next stitch knitwise. Insert the right needle through their back loops, going into the second stitch, then the first, and purl them together")
-      (sssbrp       . "Slip, slip, slip, brioche purl slipped stitches together: Slip next 3 stitches and their corresponding yarn overs knitwise, each individually. Insert left needle from front through all 3 stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of all 3 stitches")
+      (ssbrk        . "Slip, slip, brioche knit slipped stitches together: Slip next stitch knitwise, with its corresponding yarn over. Slip next stitch knitwise. Insert the point of the left-hand needle from behind into the 3 loops to hold them in place while you knit them together")
+      (sssbrk       . "Slip, slip, slip, brioche knit slipped stitches together: Slip next 3 stitches knitwise, one at a time, together with their corresponding yarn overs. Slip stitches back to left needle and knit together through their back loops")
+      (ssbrp        . "Slip, slip, brioche purl slipped stitches together: Slip next 2 stitches knitwise, one at a time, with their corresponding yarn overs. Insert the right needle through their back loops, going into the second stitch, then the first, and purl them together")
+      (sssbrp       . "Slip, slip, slip, brioche purl slipped stitches together: Slip next 3 stitches knitwise, one at a time, and their corresponding yarn overs. Insert left needle from front through all 3 stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of all 3 stitches")
       (brk-brp-brk  . "Brioche knit, purl, knit: Brioche knit 1, brioche purl 1, brioche knit 1 into the same stitch")
+      (brp-brk-brp  . "Brioche purl, knit, purl: Brioche purl 1, brioche knit 1, brioche purl 1 into the same stitch")
       (brk-yo-brk   . "Brioche knit, yarn over, knit: Brioche knit 1, bring yarn forward under right needle then over needle to the back, then brioche knit into the same stitch")
       (brp-yo-brp   . "Brioche purl, yarn over, purl: Brioche purl 1, bring yarn over right needle to the back, then under to the front, then brioche purl into the same stitch")
       )
+
+    ;; brDecR: Brioche Right-Slanting Decrease.
+    ;; Slip next stitch knit-wise with yarn at back of work. Knit next stitch. Pass slipped stitch over just knit
+    ;; stitch and move stitch to left-hand needle. Pass second stitch on left-hand needle over first stitch.
+    ;; Move stitch to right hand needle. 2 stitches decreased.
+
+    ;; brDecL: Brioche Left-Slanting Decrease.
+    ;; Slip next 2 stitches onto the right needle, one at a time, together with their corresponding yarnovers.
+    ;; Brioche knit next stitch, then pass the two slipped stitches over. 2 stitches decreased.
+
+    ;; sl3-brk2tog-psso: Brioche Centered Decrease.
+    ;; Insert right needle knitwise into next 3 stitches as if to work a brk3tog. Slip all 3 stitches together onto
+    ;; right needle. Brk2tog, slip 3 stitches together over remaining stitch. 4 stitches decreased.
+
+    ;; brk-yo-brk-yo-brk: Brioche Centered Increase.
+    ;; Brk, yo, brk, yo, brk into same stitch. 4 stitches increased.
+
+    ;; brp-yo-brp-yo-brp: Brioche Centered Increase.
+    ;; Brp, yo, brp, yo, brp into same stitch. 4 stitches increased.
 
     (format-stitch "" "")
     (format-stitch "tbl"

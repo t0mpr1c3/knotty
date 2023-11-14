@@ -47,7 +47,7 @@
    [alt-rev-symbol : (Option Byte)]
    [stitches-in : Natural]
    [stitches-out : Natural]
-   [offset : Integer]
+   [offset : Integer] ;; + right-leaning, - left-leaning
    [repeatable? : Boolean]
    [variable-repeat? : Boolean]
    [hand-compatible? : Boolean]

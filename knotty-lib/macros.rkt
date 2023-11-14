@@ -109,6 +109,7 @@
 (define-unrepeatable-stitch dec5p     (get-stitchtype 'dec5p))
 
 ;; aliased decreases
+(define-unrepeatable-stitch skp            (get-stitchtype 'ssk))
 (define-unrepeatable-stitch sl1-k2tog-psso (get-stitchtype 'sssk))
 (define-unrepeatable-stitch sl2-k1-p2sso   (get-stitchtype 'cdd))
 

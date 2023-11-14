@@ -26,7 +26,8 @@
 
 (define-empty-tokens punct-tokens (COMMA HYPHEN COLON PERIOD LPAREN RPAREN LBRACKET RBRACKET STAR SLASH))
 (define-empty-tokens keyword-tokens (AND REPEAT FROM TO LAST STITCH STITCHES END ONCE TWICE TIMES MULTIPLE OF PLUS MORE FEWER))
-(define-empty-tokens stitch-tokens (KNIT PURL CO BO YO DROP DIP KFB PFB))
+(define-empty-tokens stitch-tokens (KNIT PURL CO BO YO DROP #| DIP |# KFB PFB))
+(define-empty-tokens twisted-stitch-tokens (CDD CDDP K2TOG K3TOG P2TOG P3TOG))
 #|
 (define-empty-tokens cluster-stitch-tokens (SL1-K1-YO-PSSO SL1-K2-PSSO SL1-P2-PSSO SL1-K1-YO-K1-PSSO SL1-K2-YO-PSSO
                                                            SL1-K3-PSSO SL1-P3-PSSO P2SO-YO-K1 P3SO-K1-YO-K1 P3SO-K1-YO-SSK
@@ -34,12 +35,6 @@
 |#
 (define-empty-tokens cable-tokens (LC LCC LPC LT LPT LSC LSAC RC RCC RPC RT RPT RSC RSAC))
 (define-empty-tokens stitch-tail-tokens (TBL BELOW TWISTED SLIP WYIB WYIF ONE-TO INC WRAPPING-YARN))
-(define-tokens renamed-stitch-tokens (BUNNY-EARS-BACK-DEC BUNNY-EARS-BACK-YO BUNNY-EARS-DEC BUNNY-EARS-YO
-                                                          CTR-DBL-INC M1 M1P M1L M1LP M1R M1RP
-                                                          K1-P1-IN-NEXT-STITCH P1-K1-IN-NEXT-STITCH
-                                                          K1-P1-K1-IN-NEXT-STITCH P1-K1-P1-IN-NEXT-STITCH
-                                                          K1-YO-K1-IN-NEXT-STITCH P1-YO-P1-IN-NEXT-STITCH
-                                                          SL1-K2TOG-PSSO SL2-K1-P2SSO))
 
 ;; assumes all input has been cast to lower case
 (define (tokenize ip)
@@ -128,6 +123,8 @@
       (token 'M1R "mr")]
      ["m1rp"
       (token 'M1RP "mrp")]
+     ["skp"
+      (token 'SKP "ssk")]
      ["sl1-k2tog-psso"
       (token 'SL1-K2TOG-PSSO "sssk")]
      ["sl2-k1-p2sso"
@@ -236,7 +233,7 @@
      ["wrapping yarn"
       (token-WRAPPING-YARN)]
      ;; generic stitch token
-     [(:seq alphabetic (:? (:seq (:* (union alphabetic numeric #\- #\_ #\& #\|)) alphabetic)))
+     [(:seq alphabetic (:? (:seq (:* (union alphabetic numeric #\- #\&)) alphabetic)))
       (token 'IDENTIFIER (string-downcase lexeme))]
      ;; punctuation
      [#\,
