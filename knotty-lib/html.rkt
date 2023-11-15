@@ -134,6 +134,7 @@
             [height (Chart-height c~)]
             [yrns (Chart-yarns c~)]
             [hand? (eq? 'hand (Options-technique options))]
+            [rs? (eq? 'rs (Options-face options))]
             [r2l? (eq? 'right (Options-side options))])
         `(div (@ [class "figure"])
               (table (@ [class "figure"]
@@ -141,7 +142,7 @@
                         [height "fit-content"])
                      (tbody
                       ,@(for/list ([r (reverse (range height))])
-                          (row-sxml p h-repeats v-repeats rows yrns r2l? hand? r))
+                          (row-sxml p h-repeats v-repeats rows yrns r2l? rs? hand? r))
                       ,(ruler width r2l?))))))))
 
 (define (ruler width r2l?)
@@ -155,8 +156,9 @@
                        "."))))
        (td (@ [class "figure"]))))
 
-(define (row-sxml p h-repeats v-repeats rows yrns r2l? hand? r)
+(define (row-sxml p h-repeats v-repeats rows yrns r2l? rs1? hand? r)
   (let* ([row (vector-ref rows r)]
+         [rs? (boolean-xor rs1? (odd? r))]
          [rhs? (boolean-xor r2l? (odd? r))]
          [sts (Chart-row-stitches row)]
          [symbols ;: (Vectorof Symbol)
@@ -198,6 +200,7 @@
              (append
               (for/list ([i (in-range (Chart-row-align-left row))])
                 (stitch-sxml hand?
+                             rs?
                              'ns
                              #f
                              "FFFFFF"
@@ -206,12 +209,14 @@
                               (if (> (add1 i) next-left) " borderTop" ""))))
               (for/list ([i (in-range (vector-length sts))])
                 (stitch-sxml hand?
+                             rs?
                              (vector-ref symbols i)
                              (vector-ref ys i)
                              (vector-ref colors i)
                              ""))
               (for/list ([i (in-range (Chart-row-align-right row))])
                 (stitch-sxml hand?
+                             rs?
                              'ns
                              #f
                              "FFFFFF"
@@ -226,17 +231,21 @@
              (span (@ [class "figure rownumber"])
                    ,@(if rhs? rownumber null))))))
 
-(define (stitch-sxml hand? s y c cls)
+(define (stitch-sxml hand? rs? s y c cls)
   (let* ([st (get-stitchtype s)]
+         [s~ (if rs? s (Stitchtype-ws-symbol st))]
+         [st~ (get-stitchtype s~)]
          [blank? (eq? 'na s)]
          [ns? (eq? 'ns s)]
-         [instr (get-stitch-instructions s hand?)]
+         [instr (get-stitch-instructions s~ hand?)]
          [title
           (string-append
            (if (false? y) "" (format "Yarn: ~a. " (yarn-id y)))
            "Stitch: "
-           (symbol->string s)
-           ". "
+           (symbol->string s~)
+           " ("
+           (if rs? "RS" "WS")
+           "). "
            (if (false? instr) "" instr))])
     `(td (@ [class ,(string-append
                      "figure symbol"

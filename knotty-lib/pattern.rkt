@@ -1305,6 +1305,24 @@
     ((row (seq 2 8 2)) p ssk yo p2)
     ((row 9) k2 p2tog yo k)
     ((row 10) bo4 p7 ssp yo p2)))
+
+(define lattice
+   (pattern
+     #:repeat-rows '(1 12)
+     (yarn #xFFFFFF "white")
+     (yarn #xDDBBFF "lavender")
+     ((row 1) (repeat slwyif4 k4))
+     ((row 2) (repeat p3 slwyib4 p1))
+     ((row 3) (repeat k2 slwyif4 k2))
+     ((row 4) (repeat p1 slwyib4 p3))
+     ((row 5) (repeat k4 slwyif4))
+     ((row 6) (repeat slwyib3 p4 slwyib1))
+     ((row 7) (cc1 (repeat k1 slwyif4 k3)))
+     ((row 8) (cc1 (repeat p4 slwyib4)))
+     ((row 9) (cc1 (repeat slwyif3 k4 slwyif1)))
+     ((row 10) (cc1 (repeat slwyib2 p4 slwyib2)))
+     ((row 11) (cc1 (repeat slwyif1 k4 slwyif3)))
+     ((row 12) (cc1 (repeat slwyib4 p4))))
 |#
 
 ;; end

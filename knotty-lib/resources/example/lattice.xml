@@ -44,6 +44,10 @@
       <text>Purl</text>
     </stitch-instruction>
     <stitch-instruction>
+      <stitch>slwyib</stitch>
+      <text>With yarn at back of work, slip stitch purlwise</text>
+    </stitch-instruction>
+    <stitch-instruction>
       <stitch>slwyif</stitch>
       <text>With yarn at front of work, slip stitch purlwise</text>
     </stitch-instruction>
@@ -86,7 +90,7 @@
             </run>
             <run>
               <count>4</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>0</yarn>
             </run>
             <run>
@@ -140,7 +144,7 @@
             </run>
             <run>
               <count>4</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>0</yarn>
             </run>
             <run>
@@ -184,7 +188,7 @@
           <stitches>
             <run>
               <count>3</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>0</yarn>
             </run>
             <run>
@@ -194,7 +198,7 @@
             </run>
             <run>
               <count>1</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>0</yarn>
             </run>
           </stitches>
@@ -243,7 +247,7 @@
             </run>
             <run>
               <count>4</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>1</yarn>
             </run>
           </stitches>
@@ -287,7 +291,7 @@
           <stitches>
             <run>
               <count>2</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>1</yarn>
             </run>
             <run>
@@ -297,7 +301,7 @@
             </run>
             <run>
               <count>2</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>1</yarn>
             </run>
           </stitches>
@@ -341,7 +345,7 @@
           <stitches>
             <run>
               <count>4</count>
-              <stitch>slwyif</stitch>
+              <stitch>slwyib</stitch>
               <yarn>1</yarn>
             </run>
             <run>
