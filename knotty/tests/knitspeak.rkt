@@ -135,28 +135,30 @@
      ((row 4) ptbl)
      ((row 5) (repeat kb1))
      ((row 6) (repeat pb1))))
-#| FIXME
+
   ;; increase test coverage in knitspeak-lexer.rkt
   (check-equal?
    (ks->pattern
     (string-append
-     "Row 1 (RS): k1 m1."
-     "Row 2: p2 m1p."
+     "Row 1 (RS): sssk, m1."
+     "Row 2: p2, m1p."
      "Row 3: bunny ears back yo, m1l."
-     "Row 4: bunny ears dec, p1 m1lp."
-     "Row 5: ctr dbl inc, k3 m1r."
-     "Row 6: (p1, yo, p1) in next st, p6 wrapping yarn twice, m1rp."
-     "Row 7: cdd twisted, cddp twisted, k.")
+     "Row 4: bunny ears dec, mb, m1lp."
+     "Row 5: ctr dbl inc, p3tog, m1r."
+     "Row 6: (p1, yo, p1) in next st, p4 wrapping yarn twice, m1rp."
+     "Row 7: cdd twisted, cddp twisted, ssp."
+     "Row 8: skp brsl.")
     knotty-ns)
    (pattern
-     ((row 1) k1 m)
+     ((row 1) sssk m)
      ((row 2) p2 mp)
      ((row 3) bebyo ml)
-     ((row 4) bed p1 mlp)
-     ((row 5) cdi k3 mr)
-     ((row 6) pyp (x6 p2w) mrp)
-     ((row 7) cdd cddp k)))
-|#
+     ((row 4) bed mb mlp)
+     ((row 5) cdi p3tog mr)
+     ((row 6) pyp (x4 p2w) mrp)
+     ((row 7) cdd cddp ssp)
+     ((row 8) ssk brsl)))
+
   (check-equal?
    (ks->pattern
     (string-append
@@ -538,7 +540,7 @@
    (pattern
      ((row 1) (repeat kb1 k1))
      ((row 2) (repeat pb1 p1))))
-#| FIXME
+
   ;; p2tog twisted
   ;; https://stitch-maps.com/patterns/display/athena-sleeve/
   (check-equal?
@@ -554,7 +556,7 @@
      ((row 2) p5 k2 p1 yo k4 p2tog p4 p2tog-twisted p4 yo p1 k2 p5)
      ((row 3) k5 p2 k2 yo k4 ssk k2 k2tog k4 yo k2 p2 k5)
      ((row 4) p5 k2 p3 yo p4 p2tog p2tog-twisted p4 yo p3 k2 p5)))
-|#
+
   #|
   ;; cdi, p3so-k1-yo-k1
   ;; https://stitch-maps.com/patterns/display/rekawiczki-probne/

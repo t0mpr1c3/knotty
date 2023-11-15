@@ -153,7 +153,9 @@
     [(_ seq-count-stx seq-stitch-list-stx)
      `(cons
        ,(interpret-run-count #'seq-count-stx)
-       ,(append '(list) (syntax->list #'seq-stitch-list-stx)))]))
+       ,(append
+         '(list)
+         (syntax->list #'seq-stitch-list-stx)))]))
 
 (define (interpret-stitch-statement-child stitch-statement-child-stx)
   (syntax-parse stitch-statement-child-stx
@@ -192,7 +194,10 @@
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    "k" (number->string (cadr (interpret-count #'count-stx))) "w"))))
+                    "k"
+                    (number->string
+                     (cadr (interpret-count #'count-stx)))
+                    "w"))))
         (count  1)))]
     [(_ {~literal PURL})
      (interpret-run '(run (stitch 'p)))]
@@ -206,7 +211,10 @@
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    "p" (number->string (cadr (interpret-count #'count-stx))) "w"))))
+                    "p"
+                    (number->string
+                     (cadr (interpret-count #'count-stx)))
+                    "w"))))
         (count  1)))]
     [(_ {~literal BO})
      (interpret-run '(run (stitch 'bo)))]
@@ -243,7 +251,10 @@
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    "k" (number->string (cadr (interpret-count #'wrap-count-stx))) "w"))))
+                    "k"
+                    (number->string
+                     (cadr (interpret-count #'wrap-count-stx)))
+                    "w"))))
         (count  ,#'st-count-stx)))]
     [(_ {~literal PURL} st-count-stx {~literal WRAPPING-YARN} wrap-count-stx)
      (interpret-run
@@ -251,7 +262,10 @@
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    "p" (number->string (cadr (interpret-count #'wrap-count-stx))) "w"))))
+                    "p"
+                    (number->string
+                     (cadr (interpret-count #'wrap-count-stx)))
+                    "w"))))
         (count  ,#'st-count-stx)))]))
 
 (define (interpret-count count-stx)
@@ -276,13 +290,10 @@
     [({~literal renamed-stitch} renamed-stitch-stx)
      (interpret-run
       `(run
-        (stitch (quote ,(string->symbol (syntax->datum #'renamed-stitch-stx))))
+        (stitch (quote
+                 ,(string->symbol
+                   (syntax->datum #'renamed-stitch-stx))))
         (count 1)))]
-    [({~literal stitch} stitch-stx)
-     (interpret-run
-      `(run
-        (stitch (quote ,(string->symbol (syntax->datum #'stitch-stx))))
-        (count  1)))]
     #|
     [({~literal cluster-stitch} cluster-stitch-stx)
      (interpret-run
@@ -308,29 +319,33 @@
         (stitch (quote ,(string->symbol (string-downcase (syntax->datum #'repeated-stitch-stx)))))
         (count  ,(syntax->datum #'count-stx))))]
     |#
-    [({~literal modified-stitch} modified-stitch-stx)
-     (let ([s (syntax->datum #'modified-stitch-stx)])
-       (interpret-run
-        `(run
-          (stitch (quote
-                   ,(string->symbol
-                     (string-append
-                      (string-downcase s)
-                      "-tbl"))))
-          (count  1))))]
-    [({~literal twisted-stitch} twisted-stitch-stx)
-     (let ([s (syntax->datum #'twisted-stitch-stx)])
+    [({~literal modifiable-stitch} modifiable-stitch-stx)
      (interpret-run
       `(run
         (stitch (quote
                  ,(string->symbol
-                   (string-append
-                    (string-downcase s)
-                    ;; aliases for twisted stitches
-                    (cond [(equal? "cdd"  s) ""]
-                          [(equal? "cddp" s) ""]
-                          [else              "-tbl"])))))
-        (count  1))))]))
+                   (string-downcase
+                    (symbol->string
+                     (syntax->datum #'modifiable-stitch-stx))))))
+        (count  1)))]
+    [({~literal twistable-stitch} twistable-stitch-stx)
+     (interpret-run
+      `(run
+        (stitch (quote
+                 ,(string->symbol
+                   (string-downcase
+                    (symbol->string
+                     (syntax->datum #'twistable-stitch-stx))))))
+        (count  1)))]
+    [({~literal stitch} stitch-stx)
+     (interpret-run
+      `(run
+        (stitch (quote
+                 ,(string->symbol
+                   (string-downcase
+                    (symbol->string
+                     (syntax->datum #'stitch-stx))))))
+        (count  1)))]))
 
 (define (interpret-stitch-run2 static-stitch-statement-child-stx)
   (syntax-parse static-stitch-statement-child-stx
@@ -376,15 +391,32 @@
       '(run
         (stitch 'drop-st)
         (count  1)))]
-    ;; cable stitch
-    [(_ cable-head-stx cable-tail-stx)
+    [(_ ({~literal modifiable-stitch} modifiable-stitch-stx) ({~literal stitch-modifier} _))
      (interpret-run
       `(run
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    (string-downcase (symbol->string (cadr (syntax->datum #'cable-tail-stx)))) "-"
-                    (string-join (map number->string (cdr (syntax->datum #'cable-head-stx))) "/")))))
+                    (string-downcase
+                     (symbol->string
+                      (syntax->datum #'modifiable-stitch-stx)))
+                    "-tbl"))))
+        (count  1)))]
+    ;; cable stitch
+    [(_ cable-head-stx ({~literal cable-tail} cable-tail-stx))
+     (interpret-run
+      `(run
+        (stitch (quote
+                 ,(string->symbol
+                   (string-append
+                    (string-downcase
+                     (symbol->string
+                      (syntax->datum #'cable-tail-stx)))
+                    "-"
+                    (string-join
+                     (map number->string
+                          (cdr (syntax->datum #'cable-head-stx)))
+                     "/")))))
         (count  1)))]))
 
 (define (interpret-stitch-run3 static-stitch-statement-child-stx)
@@ -415,7 +447,10 @@
         (stitch (quote
                  ,(string->symbol
                    (string-append
-                    "yo" (number->string (cadr (interpret-count #'count-stx))) "w"))))
+                    "yo"
+                    (number->string
+                     (cadr (interpret-count #'count-stx)))
+                    "w"))))
         (count  1)))]
     #|
     [(_ {~literal CO} count-stx {~literal STITCH})
@@ -447,7 +482,9 @@
                  ,(string->symbol
                    (string-append
                     "inc"
-                    (number->string (syntax->datum #'inc-stx)) "k"))))
+                    (number->string
+                     (syntax->datum #'inc-stx))
+                    "k"))))
         (count  1)))]))
 
 
@@ -536,8 +573,12 @@
      (void)]
     [(_ _ course-id-list-stx face-stx)
      (list
-      (flatten (list (interpret-course-id-list #'course-id-list-stx)))
-      (string->symbol (cadr (syntax->datum #'face-stx))))]))
+      (flatten
+       (list
+        (interpret-course-id-list #'course-id-list-stx)))
+      (string->symbol
+       (cadr
+        (syntax->datum #'face-stx))))]))
 
 
 (define (pattern-repeat-rows statement-stxs)

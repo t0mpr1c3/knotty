@@ -59,6 +59,17 @@
 ;;    with short rows. Knotty does allow such rows to repeat
 ;;    where the number of stitches produced by the final row
 ;;    equals the number of stitches consumed by the first row.
+;;
+;; 6. Stitch-maps assumes that patterns will repeat vertically
+;;    if the first and last rows are conformable. In Knotty,
+;;    pattern rows only repeat when specified explicitly.
+;;
+;; 7. Stitch-maps does not implement brioche stitches or any
+;;    stitches specific to machine knitting. Knotty does not
+;;    implement gathers, threaded stitches, wrapped stitches,
+;;    clusters, most beaded stitches, and some types of
+;;    cable stitch.
+
 
 
 ;; Notes on Knitspeak export
@@ -71,9 +82,8 @@
 ;; 3. The output is not intended to be identical to the
 ;;    Knitspeak output from Stitch-maps. Rather, it is
 ;;    intended to be valid input for Stitch-maps that will
-;;    parse to the same resulting pattern.
+;;    parse to the same pattern.
 
-(log-message knotty-logger 'debug "start of knitspeak.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -231,15 +241,28 @@
            (beyo           . bunny_ears_yo)
            (beyo-ws        . bunny_ears_yo)
            (bo             . BO)
+           (brk            . ERROR) ;; not implemented in Stitch-maps
+           (brk2tog        . ERROR) ;; not implemented in Stitch-maps
+           (brk3tog        . ERROR) ;; not implemented in Stitch-maps
+           ;(brk-brp-brk    . ERROR) ;; not implemented in Stitch-maps
+           (brk-tbl        . ERROR) ;; not implemented in Stitch-maps
+           ;(brk-yo-brk     . ERROR) ;; not implemented in Stitch-maps
+           (brp            . ERROR) ;; not implemented in Stitch-maps
+           (brp2tog        . ERROR) ;; not implemented in Stitch-maps
+           (brp3tog        . ERROR) ;; not implemented in Stitch-maps
+           ;(brp-brk-brp    . ERROR) ;; not implemented in Stitch-maps
+           (brp-tbl        . ERROR) ;; not implemented in Stitch-maps
+           ;(brp-yo-brp     . ERROR) ;; not implemented in Stitch-maps
+           (brsl           . brSl)
            (cdd            . sl2-k1-p2sso)
            (cdd-twisted    . cdd_twisted)
            (cddp-twisted   . cddp_twisted)
            (cdi            . ctr_dbl_inc)
            (co             . CO)
-           (dip-st         . dip_st)
+           ;(dip-st         . dip_st)
            (drop-st        . drop_st)
-           (en             . ERROR) ;; not implemented
-           (gs             . ERROR) ;; not implemented
+           (en             . ERROR) ;; not implemented in Stitch-maps
+           (gs             . ERROR) ;; not implemented in Stitch-maps
            (inc4k          . 1-to-4_inc)
            (inc4p          . 1-to-4_inc)
            (inc5k          . 1-to-5_inc)
@@ -254,18 +277,18 @@
            (kb             . k_below)
            (ktbl           . k_tbl)
            (kyk            . |(k1, yo, k1) in next st|)
-           (lt             . ERROR) ;; not implemented
+           (lt             . ERROR) ;; not implemented in Stitch-maps
            (m              . m1L)
            (mb             . MB)
            (ml             . m1L)
            (mlp            . m1Lp)
-           (mml            . ERROR) ;; not implemented
-           (mmr            . ERROR) ;; not implemented
+           (mml            . ERROR) ;; not implemented in Stitch-maps
+           (mmr            . ERROR) ;; not implemented in Stitch-maps
            (mp             . m1Lp)
            (mr             . m1R)
            (mrp            . m1Rp)
-           (na             . ERROR) ;; not implemented
-           (ns             . ERROR) ;; not implemented
+           (na             . ERROR) ;; not implemented in Stitch-maps
+           (ns             . ERROR) ;; not implemented in Stitch-maps
            (p2tog-tbl      . p2tog_tbl)
            (p2tog-twisted  . p2tog_twisted)
            (p2w            . p_wrapping_yarn_twice)
@@ -278,24 +301,30 @@
            (pbp            . PBp)
            (ptbl           . p_tbl)
            (pyp            . |(p1, yo, p1) in next st|)
-           (rss            . ERROR) ;; not implemented
-           (rt             . ERROR) ;; not implemented
+           (rss            . ERROR) ;; not implemented in Stitch-maps
+           (rt             . ERROR) ;; not implemented in Stitch-maps
            (slkwyib        . sl_wyib)
            (slkwyif        . sl_wyif)
            (slwyib         . sl_wyib)
            (slwyif         . sl_wyif)
-           (sp             . ERROR) ;; not implemented
-           (ss             . ERROR) ;; not implemented
+           (sp             . ERROR) ;; not implemented in Stitch-maps
+           (ss             . ERROR) ;; not implemented in Stitch-maps
+           (ssbrk          . ERROR) ;; not implemented in Stitch-maps
+           (ssbrp          . ERROR) ;; not implemented in Stitch-maps
            (ssk2tog        . ssk)
            (ssp2tog        . ssp)
+           (sssbrk         . ERROR) ;; not implemented in Stitch-maps
+           (sssbrp         . ERROR) ;; not implemented in Stitch-maps
            (sssk           . sl1-k2tog-psso)
            (sssk3tog       . sssk)
            (sssp3tog       . sssp)
-           (tuck           . ERROR) ;; not implemented
+           (tuck           . ERROR) ;; not implemented in Stitch-maps
            (turnl          . turn)
            (turnr          . turn)
            (w&tl           . w&t)
            (w&tr           . w&t)
+           (yf-slk-yo      . ERROR) ;; not implemented in Stitch-maps
+           (yf-sl-yo2      . ERROR) ;; not implemented in Stitch-maps
            (yo2w           . yo_wrapping_yarn_twice)
            (yo3w           . yo_wrapping_yarn_3_times)
            (yo4w           . yo_wrapping_yarn_4_times))])
@@ -319,5 +348,4 @@
                                                     (symbol->string s)
                                                     "\\2 \\1")))))
 
-(log-message knotty-logger 'debug "end of knitspeak.rkt" #f)
 ;; end

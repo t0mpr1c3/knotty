@@ -84,10 +84,10 @@ stitch-run: YO
           | ONE-TO INTEGER /SPACE INC
           | renamed-stitch
           ;| cluster-stitch
-          | modified-stitch
-          | twisted-stitch /SPACE /TWISTED
-          | stitch
+          | modifiable-stitch [/SPACE stitch-modifier]
+          | twistable-stitch [/SPACE /TWISTED]
           | cable-head /SPACE cable-tail
+          | stitch
 
 renamed-stitch: BUNNY-EARS-DEC
               | BUNNY-EARS-YO
@@ -128,17 +128,16 @@ renamed-stitch: BUNNY-EARS-DEC
 ;              | YO-K3-PYO
 ;              | YO-P3-PYO
 
+modifiable-stitch: K2TOG
+                 | K3TOG
+                 | P2TOG
+                 | P3TOG
 
-stitch: IDENTIFIER ;; FIXME list stitches instead of using generic identified
+stitch-modifier: TBL
+               | TWISTED
 
-modified-stitch: IDENTIFIER /SPACE /TBL ;; FIXME k, p, k2tog, p2tog, k3tog, p3tog, brk, brp ? ssk, ssp, sssk, sssp
-
-twisted-stitch: CDD
-              | CDDP
-              | K2TOG
-              | K3TOG
-              | P2TOG
-              | P3TOG
+twistable-stitch: CDD
+                | CDDP
 
 cable-head: INTEGER /SLASH INTEGER [/SLASH INTEGER]
 
@@ -156,6 +155,30 @@ cable-tail: LC
           | RPT
           | RSC  ;; not implemented in knotty
           | RSAC ;; not implemented in knotty
+
+;; FIXME add brioche stitches
+stitch: SSK      ;; decreases
+      ;| SSK2TOG
+      | SSP
+      ;| SSP2TOG
+      | SSSK
+      ;| SSSK3TOG
+      | SSSP
+      ;| SSSP3TOG
+
+      | TURN     ;; turns
+      ;| TURNL
+      ;| TURNR
+      | W&T
+      ;| W&TL
+      ;| W&TR
+
+      | MB       ;; other
+      | BRSL
+
+      ;| SS       ;; pattern stitches
+      ;| RSS
+      ;| GS
 
 
 

@@ -201,10 +201,10 @@
    (Stitchtype 'sssbrp    'brk3tog   'sssbrk    'brp3tog   1 #f #"\303\254"         #"\303\252"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip purl")
    (Stitchtype 'brp3tog   'sssbrk    'brk3tog   'sssbrp    1 #f #"\303\256"         #"\303\250"         #f   #f   3 1  2 #f #f #t #f "brioche purl 3 together")
    (Stitchtype 'sssbrk    'brp3tog   'sssbrp    'brk3tog   1 #f #"\303\250"         #"\303\256"         #f   #f   3 1 -2 #f #f #t #f "brioche slip slip slip knit")
-   ;; brkyobrk #"\303\261"
-   ;; brpyobrp
-   ;; brkbrpbrk into 1 st #"\303\262"
-   ;; brpbrkbrp into 1 st
+   ;; brk-yo-brk #"\303\261"
+   ;; brp-yo-brp
+   ;; brk-brp-brk into 1 st #"\303\262"
+   ;; brp-brk-brp into 1 st
 
    ;; cable stitches (left - front, right - back)
    ;; https://stitch-maps.com/about/key/

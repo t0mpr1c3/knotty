@@ -26,8 +26,11 @@
 
 (define-empty-tokens punct-tokens (COMMA HYPHEN COLON PERIOD LPAREN RPAREN LBRACKET RBRACKET STAR SLASH))
 (define-empty-tokens keyword-tokens (AND REPEAT FROM TO LAST STITCH STITCHES END ONCE TWICE TIMES MULTIPLE OF PLUS MORE FEWER))
-(define-empty-tokens stitch-tokens (KNIT PURL CO BO YO DROP #| DIP |# KFB PFB))
-(define-empty-tokens twisted-stitch-tokens (CDD CDDP K2TOG K3TOG P2TOG P3TOG))
+(define-empty-tokens stitch-tokens (KNIT PURL CO BO YO DROP #| DIP |# KFB PFB MB BRSL
+                                         SSK SSP SSSK SSSP #| SSK2TOG SSP2TOG SSSK3TOG SSSP3TOG |#
+                                         TURN #| TURNL TURNR |# W&T #| W&TL W&TR |#))
+(define-empty-tokens modifiable-stitch-tokens (K2TOG K3TOG P2TOG P3TOG))
+(define-empty-tokens twistable-stitch-tokens (CDD CDDP))
 #|
 (define-empty-tokens cluster-stitch-tokens (SL1-K1-YO-PSSO SL1-K2-PSSO SL1-P2-PSSO SL1-K1-YO-K1-PSSO SL1-K2-YO-PSSO
                                                            SL1-K3-PSSO SL1-P3-PSSO P2SO-YO-K1 P3SO-K1-YO-K1 P3SO-K1-YO-SSK
@@ -100,6 +103,58 @@
      ["dip"
       (token-DIP)]
      |#
+     ["mb"
+      (token-MB)]
+     ["brsl"
+      (token-BRSL)]
+     ["ssk"
+      (token-SSK)]
+     ["sssk"
+      (token-SSSK)]
+     ["ssp"
+      (token-SSP)]
+     ["sssp"
+      (token-SSSP)]
+     #|
+     ["ssk2tog"
+      (token-SSK2TOG)]
+     ["sssk3tog"
+      (token-SSSK3TOG)]
+     ["ssp2tog"
+      (token-SSP2TOG)]
+     ["sssp3tog"
+      (token-SSSP3TOG)]
+     |#
+     ["turn"
+      (token-TURN)]
+     #|
+     ["turnl"
+      (token-TURNL)]
+     ["turnr"
+      (token-TURNR)]
+     |#
+     ["w&t"
+      (token-W&T)]
+     #|
+     ["w&tl"
+      (token-W&TL)]
+     ["w&tr"
+      (token-W&TR)]
+     |#
+     ;; modifiable stitches
+     ["k2tog"
+      (token-K2TOG)]
+     ["k3tog"
+      (token-K3TOG)]
+     ["p2tog"
+      (token-P2TOG)]
+     ["p3tog"
+      (token-P3TOG)]
+     ;; twistable stitches     
+     ["cdd"
+      (token-CDD)]
+     ["cddp"
+      (token-CDDP)]
      ;; renamed stitches
      ["bunny ears back dec"
       (token 'BUNNY-EARS-BACK-DEC "bebd")]
@@ -232,9 +287,6 @@
       (token-INC)]
      ["wrapping yarn"
       (token-WRAPPING-YARN)]
-     ;; generic stitch token
-     [(:seq alphabetic (:? (:seq (:* (union alphabetic numeric #\- #\&)) alphabetic)))
-      (token 'IDENTIFIER (string-downcase lexeme))]
      ;; punctuation
      [#\,
       (token-COMMA)]
