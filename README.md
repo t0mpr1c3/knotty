@@ -32,8 +32,9 @@ one format to another.
 
 ## Getting Started
 
-Install the [Stitchmastery fonts](https://stitchmastery.com/fonts/). You may
-need to restart before you can see the new fonts.
+Install the [Stitchmastery fonts](https://stitchmastery.com/fonts/). It is also
+recommended to install [Georgia Pro](https://apps.microsoft.com/detail/georgia-pro/9N9DZG1XT2MB).
+You may need to restart your computer before you can see the new fonts.
 
 Download the latest version of [Racket](https://download.racket-lang.org/)
 for your operating system. It comes with the graphical application DrRacket.
