@@ -155,11 +155,13 @@ cd \Users\Tom\Documents\knotty-app\knotty-v0.1-win
 }|
 
 If that works, try using the application to convert the example pattern
-@elem[#:style typewriter]{leaf.xml} which you can find in the folder
+@elem[#:style typewriter]{lattice.xml} which you can find in the folder
 @elem[#:style typewriter]{knotty-lib/resources/example} of the knotty
 repository. (The pattern corresponds to the
-@hyperlink{https://t0mpr1c3.github.io/knotty/leaf-chart/index.html
-knitting chart on this webpage.)}
+@hyperlink{https://t0mpr1c3.github.io/knotty/example/index.html
+knitting chart on this webpage.} Click
+@hyperlink{https://t0mpr1c3.github.io/knotty/example/lattice.png
+here} to see a swatch.)
 
 You will need to select the import format -- in this case, option
 @elem[#:style typewriter]{-x} for XML -- and one or more export formats. So, for
@@ -170,18 +172,22 @@ repository.)
 @; NB whitespace indentation is required here
 @codeblock[#:keep-lang-line? #f]|{
 #lang scribble/text
-.\knotty.exe -xH ..\..\knotty\knotty-lib\resources\example\leaf
+.\knotty.exe -xH ..\..\knotty\knotty-lib\resources\example\lattice
 }|
 
 (Note that you don't need to supply the file extension for
-@elem[#:style typewriter]{leaf.xml} because it is implied by the
+@elem[#:style typewriter]{lattice.xml} because it is implied by the
 @elem[#:style typewriter]{-x} option.)
 
 Now if you look in the @elem[#:style typewriter]{example} folder you should see
-a new file called @elem[#:style typewriter]{leaf.html}. Open this file in a web
-browser to view the webpage. You will also find two folders called
-@elem[#:style typewriter]{css} and @elem[#:style typewriter]{js} that contain
-the associated stylesheets and javascript files, respectively.
+a new file called @elem[#:style typewriter]{lattice.html}. You will also find
+folders called @elem[#:style typewriter]{css}, @elem[#:style typewriter]{js}
+and @elem[#:style typewriter]{icon} that contain the associated files. Open the
+HTML file in a web browser to view the page. 
+
+By default, the application saves output files with the same filename stem as
+the input file. The @elem[#:style typewriter]{-o} option allows other
+filenames to be exported.
 
 
 @section[#:tag "stylesheets"]{Publishing to Webpages}

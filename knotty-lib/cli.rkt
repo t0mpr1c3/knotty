@@ -88,7 +88,11 @@
            [verbose?         (equal? '((verbose? #t))         ((sxpath "/verbose?")         flags~))]
            [very-verbose?    (equal? '((verbose? #t))         ((sxpath "/very-verbose?")    flags~))]
            [webserver?       (equal? '((webserver? #t))       ((sxpath "/webserver?")       flags~))]
-           [repeats                                           ((sxpath "/repeats")          flags~)])
+           [output                                            ((sxpath "/output")           flags~)]
+           [repeats                                           ((sxpath "/repeats")          flags~)]
+           [output-filestem (if (null? output)
+                                filestem
+                                (cadar output))])
 
       (parameterize ([SILENT  quiet?]
                      [VERBOSE verbose?]
@@ -105,7 +109,7 @@
           (let* ([in-suffix  (if import-stp? #".stp" #".dak")]
                  [out-suffix (if export-stp? #".stp" #".dak")]
                  [in-file-path  (path-replace-extension filestem in-suffix)]
-                 [out-file-path (path-replace-extension filestem out-suffix)]
+                 [out-file-path (path-replace-extension output-filestem out-suffix)]
                  [in  (open-input-file  in-file-path)]
                  [out (open-output-file out-file-path)]
                  [data (port->bytes in)])
@@ -149,19 +153,24 @@
                     [else (error invalid-input)])])
             #|
             (when export-dak?
-              (let ([out-file-path (path-replace-extension filestem #".dak")])
+              (let ([out-file-path (path-replace-extension output-filestem #".dak")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-stp p out-file-path))
                                         "dak")))
             |#
             (when export-html?
-              (let-values ([(base name dir?) (split-path filestem)])
-                (let* ([h (if (null? repeats) 1 (cadar repeats))]
+              (let-values ([(base name dir?) (split-path output-filestem)])
+                (when (symbol? name)
+                  (error 'knotty "invalid filename"))
+                (let* ([dir (cond [(eq? 'relative base) "."]
+                                  [(false? base) "/"]
+                                  [else base])]
+                       [h (if (null? repeats) 1 (cadar repeats))]
                        [v (if (null? repeats) 1 (caddar repeats))]
-                       [out-file-path (path-replace-extension filestem #".html")]
-                       [css-dest-dir-path (build-path base "css")]
-                       [js-dest-dir-path (build-path base "js")])
+                       [out-file-path (path-replace-extension output-filestem #".html")]
+                       [css-dest-dir-path (build-path dir "css")]
+                       [js-dest-dir-path (build-path dir "js")])
                   (replace-file-if-forced force?
                                           out-file-path
                                           (thunk (export-html p out-file-path h v))
@@ -180,21 +189,21 @@
                              (build-path js-dest-dir-path "knotty.js")
                              #:exists-ok? #t))))
             (when export-ks?
-              (let ([out-file-path (path-replace-extension filestem #".ks")])
+              (let ([out-file-path (path-replace-extension output-filestem #".ks")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-ks p out-file-path))
                                         "ks")))
             #|
             (when export-stp?
-              (let ([out-file-path (path-replace-extension filestem #".stp")])
+              (let ([out-file-path (path-replace-extension output-filestem #".stp")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-stp p out-file-path))
                                         "stp")))
             |#
             (when export-xml?
-              (let ([out-file-path (path-replace-extension filestem #".xml")])
+              (let ([out-file-path (path-replace-extension output-filestem #".xml")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-xml p out-file-path))
@@ -314,6 +323,10 @@
     "Allow generic stitch matches when converting Designaknit .stp files"
     `(generic-matches? #t)]
    |#
+   [("-o" "--output")
+    output-filestem
+    "Specify filename stem of exported files"
+    `(output ,output-filestem)]
    [("-r" "--repeats")
     hreps vreps ;; arguments for flag
     "Specify number of horizontal and vertical repeats in HTML output"

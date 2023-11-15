@@ -18,7 +18,7 @@ manual/
 **/scribblings/manual-*.css
 
 !knotty-lib/resources
-!knotty/scribblings/leaf-chart
+!knotty/scribblings/example
 
 knotty-lib/resources/backups
 *.xcf

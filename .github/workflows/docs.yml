@@ -55,12 +55,15 @@ jobs:
           fi
       - name: Build docs for hosting
         run:  |
-          mkdir -p manual/knotty/leaf-chart/css
-          mkdir -p manual/knotty/leaf-chart/icon
+          mkdir -p manual/knotty/example/css
+          mkdir -p manual/knotty/example/js
+          mkdir -p manual/knotty/example/icon
           scribble +m --redirect-main http://pkg-build.racket-lang.org/doc/ --htmls --dest manual knotty/scribblings/knotty.scrbl
-          cp -R knotty/scribblings/leaf-chart/index.html manual/knotty/leaf-chart/
-          cp -R knotty-lib/resources/css/knotty*.css manual/knotty/leaf-chart/css/
-          cp -R knotty-lib/resources/icon/favicon.ico manual/knotty/leaf-chart/icon/
+          cp knotty/scribblings/example/index.html manual/knotty/example/
+          cp knotty/scribblings/example/lattice.png manual/knotty/example/
+          cp knotty-lib/resources/css/knotty*.css manual/knotty/example/css/
+          cp knotty-lib/resources/js/knotty*.js manual/knotty/example/js/
+          cp knotty-lib/resources/icon/favicon.ico manual/knotty/example/icon/
           #cp -R knotty/scribblings/leaf-chart/ manual/knotty
           ls -R manual
       - name: Push to GitHub Pages

@@ -52,6 +52,23 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>brp-tbl</rs-symbol>
+    <ws-symbol>brk-tbl</ws-symbol>
+    <rs-string>Ã´</rs-string>
+    <ws-string>Ã³</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche purl tbl: Purl the stitch that was slipped in the previous row through its back loop together with the yarn over</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>bebd</rs-symbol>
     <ws-symbol>bebd-ws</ws-symbol>
     <rs-string>Â¯Â®</rs-string>
@@ -202,6 +219,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 3 stitches onto cable needle and hold at back, knit next 4 stitches from left hand needle, knit 3 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>yf-sl-yo2</rs-symbol>
+    <ws-symbol>yf-sl-yo2</ws-symbol>
+    <rs-string>Ã¤a</rs-string>
+    <ws-string>Ã¤a</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>2</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Yarn forward, slip 1, yarn over twice: Bring yarn forward and under right needle. Slip next stitch purlwise, then bring yarn over right needle to the back, then under to the front, then over the needle again to the back</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -460,6 +494,23 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>brp3tog</rs-symbol>
+    <ws-symbol>sssbrk</ws-symbol>
+    <rs-string>Ã®</rs-string>
+    <ws-string>Ã¨</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche purl 3 together: Insert right needle purlwise into the next 3 stitches and their yarn overs and purl them together</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rc-4/4</rs-symbol>
     <ws-symbol>rc-4/4-ws</ws-symbol>
     <rs-string>Ã</rs-string>
@@ -547,8 +598,8 @@
   <stitch>
     <rs-symbol>slkwyif</rs-symbol>
     <ws-symbol>slkwyib</ws-symbol>
-    <rs-string>Q</rs-string>
-    <ws-string>*</ws-string>
+    <rs-string>[</rs-string>
+    <ws-string>0</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -593,6 +644,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches onto cable needle and hold at front, knit next 2 stitches from left hand needle, knit 4 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brp</rs-symbol>
+    <ws-symbol>brk</ws-symbol>
+    <rs-string>Ã¢</rs-string>
+    <ws-string>Ã£</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche purl: Purl the stitch that was slipped in the previous row together with its yarn over</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -749,23 +817,6 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>lc-2/1/2-ws</rs-symbol>
-    <ws-symbol>lc-2/1/2</ws-symbol>
-    <rs-string>Ã´</rs-string>
-    <ws-string>c</ws-string>
-    <width>5</width>
-    <cable>1</cable>
-    <stitches-in>5</stitches-in>
-    <stitches-out>5</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next 2 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), purl next stitch from left hand needle, purl next 2 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lpc-4/1/4-ws</rs-symbol>
     <ws-symbol>lpc-4/1/4</ws-symbol>
     <rs-string>Ã¹</rs-string>
@@ -834,10 +885,44 @@
     <machine-instructions>Right-slanting increase purlwise</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>sssbrp</rs-symbol>
+    <ws-symbol>brk3tog</ws-symbol>
+    <rs-string>Ã¬</rs-string>
+    <ws-string>Ãª</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip, slip, slip, brioche purl slipped stitches together: Slip next 3 stitches knitwise, one at a time, and their corresponding yarn overs. Insert left needle from front through all 3 stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of all 3 stitches</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>lc-2/1/2-ws</rs-symbol>
+    <ws-symbol>lc-2/1/2</ws-symbol>
+    <rs-string>Ã´</rs-string>
+    <ws-string>c</ws-string>
+    <width>5</width>
+    <cable>1</cable>
+    <stitches-in>5</stitches-in>
+    <stitches-out>5</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 3 stitches to cable needle and hold in front (WS), purl next 2 stitches from left hand needle, slip next stitch from cable needle to left needle and move cable needle to back (RS), purl next stitch from left hand needle, purl next 2 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>slwyib</rs-symbol>
     <ws-symbol>slwyif</ws-symbol>
-    <rs-string>&amp;</rs-string>
-    <ws-string>'</ws-string>
+    <rs-string>*</rs-string>
+    <ws-string>&amp;</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -1242,23 +1327,6 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>inc4k</rs-symbol>
-    <ws-symbol>inc4p</ws-symbol>
-    <rs-string>*b</rs-string>
-    <ws-string>&amp;b</ws-string>
-    <width>1</width>
-    <cable>0</cable>
-    <stitches-in>1</stitches-in>
-    <stitches-out>4</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>1-to-4 increase: Knit into front and back of next stitch twice</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>rt-2/2</rs-symbol>
     <ws-symbol>rt-2/2-ws</ws-symbol>
     <rs-string>D</rs-string>
@@ -1341,6 +1409,40 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
     <hand-instructions>Purl 3 together through back of loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>inc4k</rs-symbol>
+    <ws-symbol>inc4p</ws-symbol>
+    <rs-string>*b</rs-string>
+    <ws-string>&amp;b</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>4</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>1-to-4 increase: Knit into front and back of next stitch twice</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>ssbrp</rs-symbol>
+    <ws-symbol>brk2tog</ws-symbol>
+    <rs-string>Ã«</rs-string>
+    <ws-string>Ã©</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip, slip, brioche purl slipped stitches together: Slip next stitch knitwise, with its corresponding yarn over. Slip next stitch knitwise. Insert the right needle through their back loops, going into the second stitch, then the first, and purl them together</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -1463,6 +1565,23 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>bo*</rs-symbol>
+    <ws-symbol>bo*</ws-symbol>
+    <rs-string>+</rs-string>
+    <ws-string>+</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>1</machine-compatible>
+    <hand-instructions>Stitch remaining on right needle after bind off</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>sssk</rs-symbol>
     <ws-symbol>p3tog</ws-symbol>
     <rs-string>t</rs-string>
@@ -1476,7 +1595,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip 1 knitwise 3 times. Insert left needle from back through all 3 stitches and knit 3 together</hand-instructions>
+    <hand-instructions>Slip, slip, slip, knit slipped stitches together: Slip 1 knitwise 3 times. Insert left needle from back through all 3 stitches and knit 3 together</hand-instructions>
     <machine-instructions>Left-slanting double decrease</machine-instructions>
   </stitch>
   <stitch>
@@ -1765,7 +1884,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
-    <hand-instructions>Knit, yarn forward and knit again into next stitch</hand-instructions>
+    <hand-instructions>Knit 1 stitch, bring yarn forward under right needle and over to the back, and knit again into the same stitch</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -1818,6 +1937,23 @@
     <machine-compatible>1</machine-compatible>
     <hand-instructions>Centered double decrease purled: Slip 1 knitwise twice, then return stitches to left needle. Insert right needle from left to right into their back loops and slip together onto right needle. Purl 1 and pass the 2 slipped stitches over</hand-instructions>
     <machine-instructions>Centered double decrease purlwise</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brk</rs-symbol>
+    <ws-symbol>brp</ws-symbol>
+    <rs-string>Ã£</rs-string>
+    <ws-string>Ã¢</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche knit: Knit the stitch that was slipped in the previous row together with its yarn over</hand-instructions>
+    <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
     <rs-symbol>lpc-1/3</rs-symbol>
@@ -1884,7 +2020,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip, slip, knit: Slip 1 knitwise twice. Insert left needle from left to right through the front of both stitches and knit together through the back loops</hand-instructions>
+    <hand-instructions>Slip, slip, knit slipped stitches together: Slip 1 knitwise twice. Insert left needle from left to right through the front of both stitches and knit together through the back loops</hand-instructions>
     <machine-instructions>Left-slanting decrease</machine-instructions>
   </stitch>
   <stitch>
@@ -2109,23 +2245,6 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
-    <rs-symbol>rpt-1/1-ws</rs-symbol>
-    <ws-symbol>rpt-1/1</ws-symbol>
-    <rs-string>Ã±</rs-string>
-    <ws-string>)</ws-string>
-    <width>2</width>
-    <cable>1</cable>
-    <stitches-in>2</stitches-in>
-    <stitches-out>2</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next stitch to cable needle and hold at back. Purl next stitch through the back loop from left hand needle, knit stitch from cable needle.</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
     <rs-symbol>lc-5/5-ws</rs-symbol>
     <ws-symbol>lc-5/5</ws-symbol>
     <rs-string>Ãº</rs-string>
@@ -2191,6 +2310,40 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches onto cable needle and hold at front, knit next stitch from left hand needle, purl 4 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>rpt-1/1-ws</rs-symbol>
+    <ws-symbol>rpt-1/1</ws-symbol>
+    <rs-string>Ã±</rs-string>
+    <ws-string>)</ws-string>
+    <width>2</width>
+    <cable>1</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>2</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next stitch to cable needle and hold at back. Purl next stitch through the back loop from left hand needle, knit stitch from cable needle.</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brp2tog</rs-symbol>
+    <ws-symbol>ssbrk</ws-symbol>
+    <rs-string>Ã­</rs-string>
+    <ws-string>Ã§</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche purl 2 together: Insert right needle purlwise into the next 2 stitches and their yarn overs and purl them together</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -2394,7 +2547,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip, slip, slip, purl: Slip 1 knitwise 3 times. Insert left needle from front through all 3 stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of all 3 stitches</hand-instructions>
+    <hand-instructions>Slip, slip, slip, purl slipped stitches together: Slip 1 knitwise 3 times. Insert left needle from front through all 3 stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of all 3 stitches</hand-instructions>
     <machine-instructions>Left-slanting double decrease purl</machine-instructions>
   </stitch>
   <stitch>
@@ -2683,7 +2836,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
-    <hand-instructions>Purl, yarn round needle and purl again into next stitch</hand-instructions>
+    <hand-instructions>Purl 1 stitch, bring yarn over right needle and under to the front, and purl again into the same stitch</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -2819,7 +2972,7 @@
     <variable-repeat>0</variable-repeat>
     <hand-compatible>1</hand-compatible>
     <machine-compatible>1</machine-compatible>
-    <hand-instructions>Slip, slip, purl: Slip 1 knitwise twice. Insert left needle from front through both stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of both stitches</hand-instructions>
+    <hand-instructions>Slip, slip, purl slipped stitches together: Slip 1 knitwise twice. Insert left needle from front through both stitches and slip back onto left needle. Purl together through back of loops by inserting right needle from left to right into backs of both stitches</hand-instructions>
     <machine-instructions>Left-slanting decrease purl</machine-instructions>
   </stitch>
   <stitch>
@@ -3194,6 +3347,23 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 2 stitches onto cable needle and hold at front, knit next 2 stitches from left hand needle, knit 2 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>yf-slk-yo</rs-symbol>
+    <ws-symbol>yf-slk-yo</ws-symbol>
+    <rs-string>Ã¤Â°</rs-string>
+    <ws-string>Ã¤Â°</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Yarn forward, slip 1 knitwise, yarn over: Bring yarn forward and under right needle. Slip next stitch knitwise, then bring yarn over right needle to back of work. On the following row, work these two loops together</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -4166,6 +4336,23 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>brk2tog</rs-symbol>
+    <ws-symbol>ssbrp</ws-symbol>
+    <rs-string>Ã©</rs-string>
+    <ws-string>Ã«</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche knit 2 together: Insert right needle knitwise into the next 2 stitches and their yarn overs and knit them together</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>sl1-k2tog-psso</rs-symbol>
     <ws-symbol>p3tog</ws-symbol>
     <rs-string>t</rs-string>
@@ -4440,8 +4627,8 @@
   <stitch>
     <rs-symbol>slkwyib</rs-symbol>
     <ws-symbol>slkwyif</ws-symbol>
-    <rs-string>*</rs-string>
-    <ws-string>Q</ws-string>
+    <rs-string>0</rs-string>
+    <ws-string>[</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -4537,6 +4724,40 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 2 stitches to cable needle and hold at back, knit next stitch from left hand needle, slip next stitch from cable needle to left needle and move cable needle to front, knit next stitch from left hand needle, knit next stitch from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brk3tog</rs-symbol>
+    <ws-symbol>sssbrp</ws-symbol>
+    <rs-string>Ãª</rs-string>
+    <ws-string>Ã¬</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche knit 3 together: Insert right needle knitwise into the next 3 stitches and their yarn overs and knit them together</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brk-tbl</rs-symbol>
+    <ws-symbol>brp-tbl</ws-symbol>
+    <rs-string>Ã³</rs-string>
+    <ws-string>Ã´</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Brioche knit tbl: Knit the stitch that was slipped in the previous row through its back loop together with the yarn over</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -4797,8 +5018,8 @@
   <stitch>
     <rs-symbol>slwyif</rs-symbol>
     <ws-symbol>slwyib</ws-symbol>
-    <rs-string>'</rs-string>
-    <ws-string>&amp;</ws-string>
+    <rs-string>&amp;</rs-string>
+    <ws-string>*</ws-string>
     <width>1</width>
     <cable>0</cable>
     <stitches-in>1</stitches-in>
@@ -4897,6 +5118,23 @@
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
+    <rs-symbol>ssbrk</rs-symbol>
+    <ws-symbol>brp2tog</ws-symbol>
+    <rs-string>Ã§</rs-string>
+    <ws-string>Ã­</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>2</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-1</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip, slip, brioche knit slipped stitches together: Slip next stitch knitwise, with its corresponding yarn over. Slip next stitch knitwise. Insert left needle from behind into the 3 loops to hold them in place while you knit them together</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
     <rs-symbol>rpc-2/2/2</rs-symbol>
     <ws-symbol>rpc-2/2/2-ws</ws-symbol>
     <rs-string>x</rs-string>
@@ -4911,23 +5149,6 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches to cable needle and hold at back, knit next 2 stitches from left hand needle, slip next 2 stitches from cable needle to left needle and move cable needle to front, purl next 2 stitches from left hand needle, knit next 2 stitches from cable needle</hand-instructions>
-    <machine-instructions>false</machine-instructions>
-  </stitch>
-  <stitch>
-    <rs-symbol>rpc-3/2/3-ws</rs-symbol>
-    <ws-symbol>rpc-3/2/3</ws-symbol>
-    <rs-string>Ã</rs-string>
-    <ws-string>Ã</ws-string>
-    <width>8</width>
-    <cable>1</cable>
-    <stitches-in>8</stitches-in>
-    <stitches-out>8</stitches-out>
-    <offset>0</offset>
-    <repeatable>0</repeatable>
-    <variable-repeat>0</variable-repeat>
-    <hand-compatible>1</hand-compatible>
-    <machine-compatible>0</machine-compatible>
-    <hand-instructions>Slip next 3 stitches to cable needle and hold at back (RS), slip next 2 stitches to second cable needle and hold at front (WS). Purl next 3 stitches from left hand needle, knit next 2 stitches from front cable needle, purl next 3 stitches from back cable needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>
@@ -5132,6 +5353,57 @@
     <hand-compatible>1</hand-compatible>
     <machine-compatible>0</machine-compatible>
     <hand-instructions>Slip next 4 stitches onto cable needle and hold at front (WS), purl next stitch from left hand needle, purl 4 stitches from cable needle</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>sssbrk</rs-symbol>
+    <ws-symbol>brp3tog</ws-symbol>
+    <rs-string>Ã¨</rs-string>
+    <ws-string>Ã®</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>3</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>-2</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip, slip, slip, brioche knit slipped stitches together: Slip next 3 stitches knitwise, one at a time, together with their corresponding yarn overs. Slip stitches back to left needle and knit together through their back loops</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>brsl</rs-symbol>
+    <ws-symbol>brsl</ws-symbol>
+    <rs-string>Ã¤</rs-string>
+    <ws-string>Ã¤</ws-string>
+    <width>1</width>
+    <cable>0</cable>
+    <stitches-in>1</stitches-in>
+    <stitches-out>1</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>false</hand-instructions>
+    <machine-instructions>false</machine-instructions>
+  </stitch>
+  <stitch>
+    <rs-symbol>rpc-3/2/3-ws</rs-symbol>
+    <ws-symbol>rpc-3/2/3</ws-symbol>
+    <rs-string>Ã</rs-string>
+    <ws-string>Ã</ws-string>
+    <width>8</width>
+    <cable>1</cable>
+    <stitches-in>8</stitches-in>
+    <stitches-out>8</stitches-out>
+    <offset>0</offset>
+    <repeatable>0</repeatable>
+    <variable-repeat>0</variable-repeat>
+    <hand-compatible>1</hand-compatible>
+    <machine-compatible>0</machine-compatible>
+    <hand-instructions>Slip next 3 stitches to cable needle and hold at back (RS), slip next 2 stitches to second cable needle and hold at front (WS). Purl next 3 stitches from left hand needle, knit next 2 stitches from front cable needle, purl next 3 stitches from back cable needle</hand-instructions>
     <machine-instructions>false</machine-instructions>
   </stitch>
   <stitch>

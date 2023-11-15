@@ -1261,6 +1261,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+#|
 ;; test patterns
 (define demo
   (pattern
@@ -1304,5 +1305,6 @@
     ((row (seq 2 8 2)) p ssk yo p2)
     ((row 9) k2 p2tog yo k)
     ((row 10) bo4 p7 ssp yo p2)))
+|#
 
 ;; end
