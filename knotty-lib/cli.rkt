@@ -170,7 +170,8 @@
                        [v (if (null? repeats) 1 (caddar repeats))]
                        [out-file-path (path-replace-extension output-filestem #".html")]
                        [css-dest-dir-path (build-path dir "css")]
-                       [js-dest-dir-path (build-path dir "js")])
+                       [js-dest-dir-path (build-path dir "js")]
+                       [icon-dest-dir-path (build-path dir "icon")])
                   (replace-file-if-forced force?
                                           out-file-path
                                           (thunk (export-html p out-file-path h v))
@@ -187,6 +188,11 @@
                     (make-directory js-dest-dir-path))
                   (copy-file (build-path resources-path "js" "knotty.js")
                              (build-path js-dest-dir-path "knotty.js")
+                             #:exists-ok? #t)
+                  (unless (directory-exists? icon-dest-dir-path)
+                    (make-directory icon-dest-dir-path))
+                  (copy-file (build-path resources-path "icon" "favicon.ico")
+                             (build-path icon-dest-dir-path "favicon.ico")
                              #:exists-ok? #t))))
             (when export-ks?
               (let ([out-file-path (path-replace-extension output-filestem #".ks")])
