@@ -890,7 +890,7 @@
                    #f)
           ;; check validity of row repeats
           (let ([first-repeat-row (first  repeat-rows~)]
-                [last-repeat-row  (second repeat-rows~)])            
+                [last-repeat-row  (second repeat-rows~)])
             (when (or (false? first-repeat-row)
                       (false? last-repeat-row))
               (err SAFE "pattern is not repeatable over the range of rows specified"))

@@ -95,7 +95,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   (require "global.rkt"
            "stitch.rkt"
            "stitch-instructions.rkt")
-  
+
   (define stitch-sxml
     (append
      '((*PI* (xml (version "1.0") (encoding "utf-8"))))

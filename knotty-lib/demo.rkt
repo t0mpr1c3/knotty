@@ -46,7 +46,7 @@ the following URL: https://github.com/t0mpr1c3/knotty
 
 ABOUT THIS DOCUMENT
 
-This document is a program written in Knotty. You can run it in DrRacket. 
+This document is a program written in Knotty. You can run it in DrRacket.
 It is also intended to be read by people who are learning to use Knotty.
 In this document you can find code examples that demonstrate some of the
 features implemented in Knotty.

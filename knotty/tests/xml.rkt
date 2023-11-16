@@ -240,10 +240,113 @@
   (check-equal?
    (sxml->author '(author (name "me") (url "my url")))
    '#s(Author "me" "my url"))
-  
+
   (check-equal?
    (sxml->keyword '(keyword "cool stuff"))
    "cool stuff")
+
+  ;; invalid option
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->technique '(*TOP* (pattern (options (technique "crochet")))))))
+
+  ;; invalid option
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->form '(*TOP* (pattern (options (form "spherical")))))))
+
+  ;; invalid option
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->face '(*TOP* (pattern (options (face "backside")))))))
+
+  ;; invalid option
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->side '(*TOP* (pattern (options (side "top")))))))
+
+  (check-equal?
+   (sxml->gauge '(*TOP* (pattern (dimensions null))))
+   #f)
+
+  ;; invalid gauge
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->gauge
+    '(*TOP*
+      (pattern
+        (dimensions
+         (gauge
+          (stitch-count "0")
+          (stitch-measurement "1")
+          (row-count "1")
+          (row-measurement "1")
+          (measurement-unit "cm"))))))))
+
+  ;; invalid gauge
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->gauge
+    '(*TOP*
+      (pattern
+        (dimensions
+         (gauge
+          (stitch-count "1")
+          (stitch-measurement "0")
+          (row-count "1")
+          (row-measurement "1")
+          (measurement-unit "cm"))))))))
+
+  ;; invalid gauge
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->gauge
+    '(*TOP*
+      (pattern
+        (dimensions
+         (gauge
+          (stitch-count "1")
+          (stitch-measurement "1")
+          (row-count "0")
+          (row-measurement "1")
+          (measurement-unit "cm"))))))))
+
+  ;; invalid gauge
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->gauge
+    '(*TOP*
+      (pattern
+        (dimensions
+         (gauge
+          (stitch-count "1")
+          (stitch-measurement "1")
+          (row-count "1")
+          (row-measurement "0")
+          (measurement-unit "cm"))))))))
+
+  ;; invalid gauge
+  (check-exn
+   exn:fail?
+   (λ ()
+   (sxml->gauge
+    '(*TOP*
+      (pattern
+        (dimensions
+         (gauge
+          (stitch-count "1")
+          (stitch-measurement "1")
+          (row-count "1")
+          (row-measurement "1")
+          (measurement-unit "yard"))))))))
 
   (check-equal?
    (sxml->yarn '(yarn (number "0") (color "0") (weight "")))
@@ -252,13 +355,22 @@
   (check-equal?
    (sxml->default-yarn '(*TOP* (rows (default-yarn ""))))
    0)
+
   (check-equal?
    (sxml->default-yarn '(*TOP* (rows (default-yarn "1"))))
    1)
-  
-  (check-equal?
-   (sxml->gauge '(*TOP* (pattern (dimensions null))))
-   #f)
+
+  ;; invalid yarn index
+  (check-exn
+   exn:fail?
+   (λ ()
+     (sxml->yarn '(yarn (number "-1") (color "0") (weight "")))))
+
+  ;; invalid yarn color
+  (check-exn
+   exn:fail?
+   (λ ()
+     (sxml->yarn '(yarn (number "0") (color "888888888") (weight "")))))
 
   (check-equal?
    (sxml->repeat-rows '(*TOP* (pattern (dimensions null))))
@@ -285,6 +397,12 @@
    (sxml->short-row? '(*TOP* (rows (short-row "1"))))
    #t)
 
+  ;; no row number
+  (check-exn
+   exn:fail?
+   (λ ()
+     (sxml->row-numbers '(*TOP* (rows (stitches))))))
+
   ;; invalid row number
   (check-exn
    exn:fail?
@@ -294,6 +412,12 @@
   (check-equal?
    (sxml->row-numbers '(*TOP* (rows (row-number "1" "2") (stitches))))
    '(1 2))
+
+  ;; invalid count
+  (check-exn
+   exn:fail?
+   (λ ()
+     (sxml->leaf '(run (count "-1") (stitch "p")))))
 
   (check-equal?
    (sxml->leaf '(run (count "1") (stitch "p")))

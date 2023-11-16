@@ -252,7 +252,7 @@
   (command-line
    #:program "knotty"
    #:usage-help
-   "Knotty version KNOTTY-VERSION." 
+   "Knotty version KNOTTY-VERSION."
    "Knitting pattern viewer and converter."
    "More than one output format can be specified."
 
@@ -319,7 +319,7 @@
    [("-z" "--debug")
     "Show very verbose messages"
     `(debug? #t)]
-   
+
    ;; other settings
    #:once-each
    [("-f" "--force")

@@ -150,7 +150,7 @@
       (token-P2TOG)]
      ["p3tog"
       (token-P3TOG)]
-     ;; twistable stitches     
+     ;; twistable stitches
      ["cdd"
       (token-CDD)]
      ["cddp"

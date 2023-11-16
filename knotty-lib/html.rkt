@@ -134,7 +134,6 @@
             [height (Chart-height c~)]
             [yrns (Chart-yarns c~)]
             [hand? (eq? 'hand (Options-technique options))]
-            [rs? (eq? 'rs (Options-face options))]
             [r2l? (eq? 'right (Options-side options))])
         `(div (@ [class "figure"])
               (table (@ [class "figure"]
@@ -142,7 +141,7 @@
                         [height "fit-content"])
                      (tbody
                       ,@(for/list ([r (reverse (range height))])
-                          (row-sxml p h-repeats v-repeats rows yrns r2l? rs? hand? r))
+                          (row-sxml p h-repeats v-repeats rows yrns hand? r))
                       ,(ruler width r2l?))))))))
 
 (define (ruler width r2l?)
@@ -156,10 +155,10 @@
                        "."))))
        (td (@ [class "figure"]))))
 
-(define (row-sxml p h-repeats v-repeats rows yrns r2l? rs1? hand? r)
+(define (row-sxml p h-repeats v-repeats rows yrns hand? r)
   (let* ([row (vector-ref rows r)]
-         [rs? (boolean-xor rs1? (odd? r))]
-         [rhs? (boolean-xor r2l? (odd? r))]
+         [rs? (Chart-row-rs? row)]
+         [r2l? (Chart-row-r2l? row)]
          [sts (Chart-row-stitches row)]
          [symbols ;: (Vectorof Symbol)
           (vector-map
@@ -189,7 +188,7 @@
     `(tr (@ [class "figure"])
          (td (@ [class "figure rownumber"])
              (span (@ [class "figure rownumber"])
-                   ,@(if rhs? null rownumber)))
+                   ,@(if r2l? null rownumber)))
          ,@(let-values ([(next-left next-right)
                          (if (= r (sub1 (vector-length rows)))
                              (values +inf.0
@@ -229,7 +228,7 @@
                          "figure rownumber"
                          (if (zero? (Chart-row-align-right row)) " borderLeft" ""))])
              (span (@ [class "figure rownumber"])
-                   ,@(if rhs? rownumber null))))))
+                   ,@(if r2l? rownumber null))))))
 
 (define (stitch-sxml hand? rs? s y c cls)
   (let* ([st (get-stitchtype s)]

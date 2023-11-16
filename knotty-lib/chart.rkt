@@ -664,7 +664,7 @@
                              (if (negative? j)
                                  (>= max-length max-float)
                                  (let* ([s (vector-ref sts j)]
-                                        [y (or (Stitch-yarn s) default)] ;; yarn color at stitch j  
+                                        [y (or (Stitch-yarn s) default)] ;; yarn color at stitch j
                                         [st (get-stitchtype (Stitch-symbol s))]
                                         [so (if (false? st) 0 (Stitchtype-stitches-out st))]
                                         [floats~ : (Vectorof Natural)

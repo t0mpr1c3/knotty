@@ -1162,19 +1162,19 @@ them on the RS.
        (list @element[dash "é"]     @element[brk2tog-style
                                     "Brioche knit 2 together"]                    "Slip, slip, brioche purl"               @racket[brk2tog])
        (list @element[dash "ë"]     @element[ssbrp-style
-                                    "Slip, slip, brioche purl"]                   "Brioche knit 2 together"                @racket[ssbrp])       
+                                    "Slip, slip, brioche purl"]                   "Brioche knit 2 together"                @racket[ssbrp])
        (list @element[dash "í"]     @element[brp2tog-style
                                     "Brioche purl 2 together"]                    "Slip, slip, brioche knit"               @racket[brp2tog])
        (list @element[dash "ç"]     @element[ssbrk-style
-                                    "Slip, slip, brioche knit"]                   "Brioche purl 2 together"                @racket[ssbrk])       
+                                    "Slip, slip, brioche knit"]                   "Brioche purl 2 together"                @racket[ssbrk])
        (list @element[dash "ê"]     @element[brk3tog-style
                                     "Brioche knit 3 together"]                    "Slip, slip, slip, brioche purl"         @racket[brk3tog])
        (list @element[dash "ì"]     @element[sssbrp-style
-                                    "Slip, slip, slip, brioche purl"]             "Brioche knit 3 together"                @racket[sssbrp])       
+                                    "Slip, slip, slip, brioche purl"]             "Brioche knit 3 together"                @racket[sssbrp])
        (list @element[dash "î"]     @element[brp3tog-style
                                     "Brioche purl 3 together"]                    "Slip, slip, slip, brioche knit"         @racket[brp3tog])
        (list @element[dash "è"]     @element[sssbrk-style
-                                    "Slip, slip, slip, brioche knit"]             "Brioche purl 3 together"                @racket[sssbrk])    
+                                    "Slip, slip, slip, brioche knit"]             "Brioche purl 3 together"                @racket[sssbrk])
        )]
 
 

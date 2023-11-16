@@ -165,7 +165,7 @@
       (if (Leaf? x)
           ;; leaf
           (if (eq? 'bo* (leaf-symbol x))
-              acc           
+              acc
               (cons x acc))
           ;; node
           (cons (make-node (node-count x)

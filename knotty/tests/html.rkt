@@ -49,7 +49,7 @@
                [pattern-template (->* (Output-Port Pattern (HashTable Symbol Integer)) (Boolean) Void)]
                [xexpr->sxml (Sexp -> Sexp)]
                [figure-sxml (->* (Pattern) (Positive-Integer Positive-Integer Natural) Sexp)]
-               [row-sxml (Pattern Positive-Integer Positive-Integer (Vectorof Chart-row) (Vectorof Yarn) Boolean Boolean Boolean Natural -> Sexp)]
+               [row-sxml (Pattern Positive-Integer Positive-Integer (Vectorof Chart-row) (Vectorof Yarn) Boolean Natural -> Sexp)]
                [stitch-sxml ((Vectorof Symbol) (Vectorof (Option Byte)) (Vectorof (Option String)) Boolean Boolean Natural -> Sexp)]
                [rownumber-abbr (Pattern Positive-Integer Positive-Integer Positive-Integer -> (Listof Sexp))]
                [inyarn-abbr ((Option Byte) -> (Listof Sexp))]
@@ -432,7 +432,7 @@
       (p "3" (input (@ (name "input_2") (type "text")))))))
 
   ;; binding->int
-  
+
   (check-equal?
    (binding->int #f)
    0)

@@ -325,7 +325,7 @@ show
 }|
 @image[#:scale 0.4 #:style shadowbox "knotty/scribblings/check.png"])
 
-(list "" 
+(list ""
 @image[#:scale 0.4 #:style shadowbox "knotty/scribblings/check-float.png"])
 
 @;{
@@ -355,5 +355,5 @@ check-floats owl 4
 
 }|
 @image{knotty/scribblings/owl.png})}
-  
+
 )]

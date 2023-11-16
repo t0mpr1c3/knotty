@@ -2229,7 +2229,7 @@
       #:repeat-rows 1
       ((rows 1) k)))
    #f)
-  
+
   ;; error in row repeats
   (check-exn
    exn:fail?
@@ -2237,7 +2237,7 @@
      (pattern
        #:repeat-rows 2
        ((rows 1) k))))
-  
+
   ;; error in row repeats
   (check-exn
    exn:fail?
