@@ -133,32 +133,44 @@
   (let ([res
          (sxml->symbol
           ((sxpath "/pattern/options/technique/text()") sxml))])
-    (assert (Technique? res))
-    res))
+    (if (Technique? res)
+        res
+        (begin
+          (err SAFE "invalid pattern technique")
+          default-pattern-technique))))
 
 (: sxml->form : Sexp -> Form)
 (define (sxml->form sxml)
   (let ([res
          (sxml->symbol
           ((sxpath "/pattern/options/form/text()") sxml))])
-    (assert (Form? res))
-    res))
+    (if (Form? res)
+        res
+        (begin
+          (err SAFE "invalid pattern form")
+          default-pattern-form))))
 
 (: sxml->face : Sexp -> Face)
 (define (sxml->face sxml)
   (let ([res
          (sxml->symbol
           ((sxpath "/pattern/options/face/text()") sxml))])
-    (assert (Face? res))
-    res))
+    (if (Face? res)
+        res
+        (begin
+          (err SAFE "invalid pattern face")
+          default-pattern-face))))
 
 (: sxml->side : Sexp -> Side)
 (define (sxml->side sxml)
   (let ([res
          (sxml->symbol
           ((sxpath "/pattern/options/side/text()") sxml))])
-    (assert (Side? res))
-    res))
+    (if (Side? res)
+        res
+        (begin
+          (err SAFE "invalid pattern side")
+          default-pattern-side))))
 
 (: sxml->gauge : Sexp -> (Option Gauge))
 (define (sxml->gauge sxml)
@@ -188,17 +200,29 @@
              (~> sxml
                  ((sxpath "/pattern/dimensions/gauge/measurement-unit/text()") _)
                  sxml->symbol)])
-        (assert (exact-positive-integer? stitch-count))
-        (assert (exact-positive-integer? stitch-measurement))
-        (assert (exact-positive-integer? row-count))
-        (assert (exact-positive-integer? row-measurement))
-        (assert (Measurement-Unit? measurement-unit))
-        (Gauge
-         stitch-count
-         stitch-measurement
-         row-count
-         row-measurement
-         measurement-unit))))
+        (if (and (exact-positive-integer? stitch-count)
+                 (exact-positive-integer? stitch-measurement)
+                 (exact-positive-integer? row-count)
+                 (exact-positive-integer? row-measurement)
+                 (Measurement-Unit? measurement-unit))
+            (Gauge
+             stitch-count
+             stitch-measurement
+             row-count
+             row-measurement
+             measurement-unit)
+            (begin
+              (unless (exact-positive-integer? stitch-count)
+                (err SAFE "invalid pattern gauge stitch count"))
+              (unless (exact-positive-integer? stitch-measurement)
+                (err SAFE "invalid pattern gauge stitch measurement"))
+              (unless (exact-positive-integer? row-count)
+                (err SAFE "invalid pattern gauge row count"))
+              (unless (exact-positive-integer? row-measurement)
+                (err SAFE "invalid pattern gauge row measurement"))
+              (unless (Measurement-Unit? measurement-unit)
+                (err SAFE "invalid pattern gauge measurement unit"))
+              #f)))))
 
 (: sxml->repeat-rows : Sexp -> (Option (List Positive-Integer Positive-Integer)))
 (define (sxml->repeat-rows sxml)
@@ -250,13 +274,21 @@
                     (cast _ Nonnegative-Fixnum))]
          [weight (~> sxml~ ((sxpath "/yarn/weight/text()") _)
                      sxml->string
-                     string->byte)])
-    (assert (byte? num))
-    (assert (and (>= color 0)
-                 (<  color #x1000000)))
+                     string->byte)]
+         [num~ (if (byte? num)
+                   num
+                   (begin
+                     (err SAFE "invalid yarn index")
+                     0))]
+         [color~ (if (and (>= color 0)
+                          (<  color #x1000000))
+                     color
+                     (begin
+                       (err SAFE "invalid yarn color")
+                       default-yarn-color))])
     ((inst cons Byte Yarn)
-     num
-     (Yarn color
+     num~
+     (Yarn color~
            (sxml->string ((sxpath "/yarn/name/text()")   sxml~))
            (if (or (false? weight) (> weight 7)) #f weight)
            (sxml->string ((sxpath "/yarn/fiber/text()")  sxml~))
@@ -282,9 +314,10 @@
 (: sxml->row-numbers : Sexp -> (Listof Positive-Integer))
 (define (sxml->row-numbers sxml)
   (let ([xs (filter (λ ([x : (Option Positive-Integer)]) (and (integer? x) (positive? x)))
-                 (map (compose string->positive-integer sxml->string)
-                      ((sxpath "/rows/row-number/text()") sxml)))])
-    (assert (not (zero? (length xs))))
+                    (map (compose string->positive-integer sxml->string)
+                         ((sxpath "/rows/row-number/text()") sxml)))])
+    (when (null? xs)
+      (error 'knotty "invalid row numbers"))
     xs))
 
 (: sxml->memo : Sexp -> String)
@@ -339,8 +372,11 @@
     (if (zero? (string-length s))
         0
         (let ([n (string->natural s)])
-          (assert (natural? n))
-          n))))
+          (if (natural? n)
+              n
+              (begin
+                (err SAFE "invalid stitch or stitch sequence count")
+                1))))))
 
 (: sxml->stitchtype : Sexp -> (Option Symbol))
 (define (sxml->stitchtype sxml)

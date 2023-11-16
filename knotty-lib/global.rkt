@@ -68,9 +68,6 @@
 (define default-pattern-form 'flat)
 (define default-pattern-face 'rs)
 (define default-pattern-side 'right)
-(define default-pattern-gauge #f)
-(define default-yarn-color #xFFFFFF)
-(define default-yarn-color-name "White")
 
 ;; run-time parameter
 ;; set to #f makes guard functions that protect against invalid

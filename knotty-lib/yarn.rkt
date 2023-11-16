@@ -134,6 +134,8 @@
       (string-append "in " (yarn-id y))))
 
 ;; default yarn
+(define default-yarn-color #xFFFFFF)
+(define default-yarn-color-name "White")
 (define default-yarn : Yarn
   (yarn default-yarn-color
         default-yarn-color-name))

@@ -39,6 +39,9 @@
    [measurement-unit   : Measurement-Unit])
   #:prefab)
 
+;; default
+(define default-pattern-gauge #f)
+
 (: gauge-unit : Gauge -> String)
 (define (gauge-unit g)
   (if (eq? 'cm (Gauge-measurement-unit g))
