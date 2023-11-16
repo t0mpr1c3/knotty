@@ -29,8 +29,6 @@
          "yarn.rkt"
          "macros.rkt")
 
-(log-message knotty-logger 'info "start of rowspec.rkt" #f)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; specification for one course
@@ -52,7 +50,7 @@
       yarns-used
       short-row?
       type-name)
-    (log-message knotty-logger 'debug "in `Rowspec` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Rowspec` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     ((compose rowspec-guard-count-yarns-used
               ;rowspec-guard-bo
@@ -256,6 +254,5 @@
        set->list
        symbol-sort))
 
-(log-message knotty-logger 'info "end of rowspec.rkt" #f)
 ;; end
 

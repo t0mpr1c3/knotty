@@ -40,7 +40,7 @@
    [index : (Vectorof Natural)])  ;; maps from row numbers to rowspec index
   #:guard
   (λ (numbers index type-name)
-    (log-message knotty-logger 'debug "in `Rowmap` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Rowmap` struct guard function" #f)
     (rowmap-guard numbers index))
   #:transparent)
 

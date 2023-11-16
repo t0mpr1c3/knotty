@@ -20,10 +20,9 @@
 
 (provide (all-defined-out))
 (require "global.rkt"
+         "logger.rkt"
          "util.rkt"
          "gauge.rkt")
-
-(log-message knotty-logger 'info "start of options.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -36,7 +35,7 @@
    [gauge : (Option Gauge)])
   #:guard
   (λ (technique form face side gauge type-name)
-    (log-message knotty-logger 'debug "in `Options` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Options` struct guard function" #f)
     (options-guard technique form face side gauge))
   #:transparent)
 

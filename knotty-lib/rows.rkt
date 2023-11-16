@@ -30,8 +30,6 @@
          "macros.rkt"
          "rowspec.rkt")
 
-(log-message knotty-logger 'info "start of rows.rkt" #f)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; row struct
@@ -40,7 +38,7 @@
    [rowspec : Rowspec])
   #:guard
   (λ (rownums rowspec type-name)
-    (log-message knotty-logger 'debug "in `Rows` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Rows` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     (rows-guard-rownums rownums rowspec))
   #:transparent)
@@ -136,5 +134,4 @@
 ;; alias
 (define seq sequence)
 
-(log-message knotty-logger 'info "end of rows.rkt" #f)
 ;; end

@@ -26,8 +26,8 @@
 (require racket/list   ;; for `range`
          racket/vector ;; for `vector-map`
          threading)
-(require "logger.rkt"
-         "global.rkt"
+(require "global.rkt"
+         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"
@@ -59,10 +59,9 @@
    [yarns : Yarns])
   #:guard
   (λ (name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns type-name)
-    (log-message knotty-logger 'debug "in `Pattern` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Pattern` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     ((compose pattern-guard-sort-rowmap
-              ;pattern-substitute-stitches
               pattern-guard-row-repeats
               ;pattern-guard-rows-conformable
               ;pattern-guard-max-colors
@@ -137,7 +136,7 @@
                                 Natural
                                 Yarns)))
 (define (pattern-guard-turns name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
-  (log-message knotty-logger 'debug "in `pattern-guard-turns` function" #f)
+  ;(log-message knotty-logger 'debug "in `pattern-guard-turns` function" #f)
   ;; disallow turns in first row
   (let ([first-row (rowmap-find rowmap 1)])
     (when (rowspec-short-row? (vector-ref rowspecs first-row))
@@ -435,165 +434,6 @@
       (err SAFE "error in row repeats"))
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
-#|
-;; composable function as part of Pattern struct guard function
-(: pattern-substitute-stitches (String
-                                String
-                                Attribution
-                                Keywords
-                                Rowspecs
-                                Rowmap
-                                Rowcounts
-                                Positive-Integer
-                                Options
-                                Repeats
-                                Natural
-                                Yarns ->
-                                (values String
-                                        String
-                                        Attribution
-                                        Keywords
-                                        Rowspecs
-                                        Rowmap
-                                        Rowcounts
-                                        Positive-Integer
-                                        Options
-                                        Repeats
-                                        Natural
-                                        Yarns)))
-(define (pattern-substitute-stitches name url attribution keywords rowspecs rowmap rowcounts n-rows options repeats max-colors yrns)
-  ;; gs   -> ss on 1st row observed and every 2nd row after, rss on other rows
-  ;; ss   -> k on RS, p on WS
-  ;; rss  -> p on RS, k on WS
-  ;; turn -> turnl if knitting l2r, turnr if knitting r2l
-  ;; w&t  -> w&tl if knitting l2r, w&tr if knitting r2l
-  (let* ([technique (Options-technique options)]
-         [form (Options-form options)]
-         [face (Options-face options)]
-         [side (Options-side options)]
-         [hand? : Boolean (eq? technique 'hand)]
-         [flat? : Boolean (eq? form 'flat)]
-         [rs?   : Boolean (eq? face 'rs)]
-         [r2l?  : Boolean (eq? side 'right)]
-         [index (Rowmap-index rowmap)]
-         [frr (Repeats-first-repeat-row repeats)]
-         [lrr (Repeats-last-repeat-row  repeats)]
-         [odd-row-repeat-length? (if (or (false? frr) (false? lrr) (odd? (- lrr frr))) #f #t)]
-         [odd-repeat-rows : (Listof Natural) (if odd-row-repeat-length? (range (sub1 frr) lrr) null)]
-         ;; if the row repeat length is odd and short row turns appear within the repeat sequence,
-         ;; then there is an error in the pattern specification.
-         [turn-sts (if (and hand? flat?)
-                       '(turn w&t)
-                       null)]
-         [with-turn-sts (for/list ([r : Natural odd-repeat-rows]
-                                   #:when (tree-has-stitches?
-                                           (~>> (vector-ref index r)
-                                                (vector-ref rowspecs)
-                                                Rowspec-stitches)
-                                           turn-sts))
-                          : (Listof Natural)
-                          r)])
-    (when (not (null? with-turn-sts))
-      (err SAFE "short row turns are not permitted within a repeating sequence that contains an odd number of rows"))
-    ;; if the row repeat length is odd and substitutable stitches appear within the repeat sequence,
-    ;; then there is an error in the pattern specification.
-    (let* ([pattern-sts (if (and hand? flat?)
-                            '(ss rss gs)
-                            '(gs))]
-           [with-pattern-sts (for/list ([r : Natural odd-repeat-rows]
-                                        #:when (tree-has-stitches?
-                                                (~>> (vector-ref index r)
-                                                     (vector-ref rowspecs)
-                                                     Rowspec-stitches)
-                                                pattern-sts))
-                               : (Listof Natural)
-                               r)])
-      (when (not (null? with-pattern-sts))
-        (err SAFE "impermissable stitch types inside a repeating sequence that contains an odd number of rows"))
-      ;; find indices that map to both odd & even row numbers
-      ;; look within this list to find rows that contain pattern stitches that vary on alternate rows
-      (let* ([odd&even (rowmap-odd&even rowmap)]
-             [problem-sts (if (and hand? flat?)
-                              '(ss rss gs)
-                              '(gs))]
-             [with-problem-sts (for/list ([r : Natural odd&even]
-                                          #:when (tree-has-stitches?
-                                                  (~>> (vector-ref index r)
-                                                       (vector-ref rowspecs)
-                                                       Rowspec-stitches)
-                                                  problem-sts))
-                                 : (Listof Natural)
-                                 r)])
-        ;; duplicate rowspec & split rowmap entry for indices in both lists
-        (let-values ([(maybe-split-rowspecs maybe-split-rowmap)
-                      (pattern-split-even rowspecs rowmap with-problem-sts)])
-          ;; find rows that contain garter stitch
-          (let* ([n-idx (vector-length maybe-split-rowspecs)]
-                 [with-garter-st (for/list ([i : Natural (in-range n-idx)]
-                                            #:when (tree-has-stitches?
-                                                    (Rowspec-stitches (vector-ref maybe-split-rowspecs i))
-                                                    '(gs)))
-                                   : (Listof Natural)
-                                   i)]
-                 ;; get first row (lowest row number) with garter stitch
-                 [maybe-split-rownums (Rowmap-numbers maybe-split-rowmap)]
-                 [garter-rows (map (λ ([i : Natural]) (rowmap-first maybe-split-rowmap i))
-                                   with-garter-st)]
-                 ;; swap garter stitch for stockinette (first row and every second subsequent row) or reverse stockinette
-                 [no-gs-rowspecs : Rowspecs
-                                 (if (null? garter-rows)
-                                     maybe-split-rowspecs
-                                     (for/vector ([i (in-range n-idx)]) : Rowspec
-                                       (let ([rowspec (vector-ref maybe-split-rowspecs i)]
-                                             [j (vector-ref (vector-ref maybe-split-rownums i) 0)])
-                                         (cond [(false? (memq j garter-rows)) rowspec] ;; no gs
-                                               [(= (modulo j 2)
-                                                   (modulo (apply min garter-rows) 2))
-                                                (rowspec-swap-stitch rowspec 'gs 'ss)]
-                                               [else
-                                                (rowspec-swap-stitch rowspec 'gs 'rss)]))))]
-                 ;; swap stockinette for knit in RS rows and purl in WS rows
-                 [no-ss-rowspecs : Rowspecs
-                                 (for/vector ([i (in-range n-idx)]) : Rowspec
-                                   (let ([ss? (tree-has-stitches? (Rowspec-stitches (vector-ref no-gs-rowspecs i)) '(ss))]
-                                         [rowspec (vector-ref no-gs-rowspecs i)])
-                                     (if (false? ss?)
-                                         rowspec
-                                         (let ([r (vector-ref (vector-ref maybe-split-rownums i) 0)])
-                                           (if (row-rs? hand? flat? rs? r)
-                                               (rowspec-swap-stitch rowspec 'ss 'k)
-                                               (rowspec-swap-stitch rowspec 'ss 'p))))))]
-                 ;; swap reverse stockinette for purl in RS rows and knit in WS rows
-                 [no-rss-rowspecs : Rowspecs
-                                  (for/vector ([i (in-range n-idx)]) : Rowspec
-                                    (let ([rss? (tree-has-stitches? (Rowspec-stitches (vector-ref no-ss-rowspecs i)) '(rss))]
-                                          [rowspec (vector-ref no-ss-rowspecs i)])
-                                      (if (false? rss?)
-                                          rowspec
-                                          (let ([r (vector-ref (vector-ref maybe-split-rownums i) 0)])
-                                            (if (row-rs? hand? flat? rs? r)
-                                                (rowspec-swap-stitch rowspec 'rss 'p)
-                                                (rowspec-swap-stitch rowspec 'rss 'k))))))]
-                 ;; swap turn/w&t for turnl/w&tl in l2r rows and turnr/w&tr in r2l rows
-                 [no-turn-rowspecs : Rowspecs
-                                   (for/vector ([i (in-range n-idx)]) : Rowspec
-                                     (let ([turn? (tree-has-stitches? (Rowspec-stitches (vector-ref no-gs-rowspecs i)) '(turn))]
-                                           [w&t?  (tree-has-stitches? (Rowspec-stitches (vector-ref no-gs-rowspecs i)) '(w&t))]
-                                           [rowspec (vector-ref no-rss-rowspecs i)])
-                                       (if (and (false? turn?)
-                                                (false? w&t?))
-                                           rowspec
-                                           (let ([r (vector-ref (vector-ref maybe-split-rownums i) 0)])
-                                             (if (row-r2l? hand? flat? r2l? r)
-                                                 (~> rowspec
-                                                     (rowspec-swap-stitch _ 'turn 'turnr)
-                                                     (rowspec-swap-stitch _ 'w&t  'w&tr))
-                                                 (~> rowspec
-                                                     (rowspec-swap-stitch _ 'turn 'turnl)
-                                                     (rowspec-swap-stitch _ 'w&t  'w&tl)))))))])
-            (values name url attribution keywords no-turn-rowspecs maybe-split-rowmap rowcounts n-rows options repeats max-colors yrns)))))))
-|#
-
 ;; composable function as part of Pattern struct guard function
 (: pattern-guard-sort-rowmap (String
                               String
@@ -620,7 +460,7 @@
                                       Natural
                                       Yarns)))
 (define (pattern-guard-sort-rowmap name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
-  (log-message knotty-logger 'debug "in `pattern-guard-sort-rowmap` function" #f)
+  ;(log-message knotty-logger 'debug "in `pattern-guard-sort-rowmap` function" #f)
   ;; sort rowmap and rowspec by lowest rownumber
   (let* ([row-numbers (Rowmap-numbers rowmap)]
          [n (vector-length row-numbers)]

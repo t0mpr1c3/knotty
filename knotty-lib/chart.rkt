@@ -60,7 +60,7 @@
       name
       yarns
       type-name)
-    (log-message knotty-logger 'debug "in `Chart` struct guard function" #f)
+    ;(log-message knotty-logger 'debug "in `Chart` struct guard function" #f)
     ;; NB composed functions are applied in reverse order
     ((compose chart-guard-null
               chart-guard-set-width

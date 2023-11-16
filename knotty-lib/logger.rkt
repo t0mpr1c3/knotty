@@ -18,28 +18,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 |#
 
-(provide (all-defined-out))
-
 (require "global.rkt")
 
-;; define log receiver
-(define knotty-receiver
-  (make-log-receiver knotty-logger 'debug))
-
-;; set up thread to print output from log receiver
-(void
- (thread
-  (λ () (let sync-loop ()
-          (when (not (SILENT))
-            (let* ([v : (Immutable-Vector Symbol String Any (Option Symbol))
-                      (sync knotty-receiver)]
-                   [level : Symbol (vector-ref v 0)]
-                   [msg   : String (vector-ref v 1)])
-              (when (or (DEBUG)
-                        (and (not (eq? 'debug level))
-                             (or (VERBOSE)
-                                 (not (eq? 'info level)))))
-                (printf "[~a] ~a\n" level msg))))
-          (sync-loop)))))
+;; default logger
+(setup-log-receiver 'warning)
 
 ;; end

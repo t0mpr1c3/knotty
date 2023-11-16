@@ -30,7 +30,6 @@
            syntax/parse/define  ;; for `define-syntax-parse-rule`
            sxml/sxpath)
   (require "global.rkt"
-           "logger.rkt"
            "util.rkt"
            "stitch.rkt"
            "tree.rkt"
@@ -48,10 +47,6 @@
            "knitspeak.rkt"
            "serv.rkt"
            "gui.rkt")
-
-  ;; we delay `(require "logger.rkt")`
-  ;; until we have the command line parameters
-  ;; that govern logging level
 
   ;; this function obtains the arguments from `command-line`
   ;; and runs the executable
@@ -86,7 +81,7 @@
            [safe?       (not (equal? '((unsafe? #t))          ((sxpath "/unsafe?")          flags~)))]
            [quiet?           (equal? '((quiet? #t))           ((sxpath "/quiet?")           flags~))]
            [verbose?         (equal? '((verbose? #t))         ((sxpath "/verbose?")         flags~))]
-           [very-verbose?    (equal? '((verbose? #t))         ((sxpath "/very-verbose?")    flags~))]
+           [debug?           (equal? '((debug? #t))           ((sxpath "/debug?")           flags~))]
            [webserver?       (equal? '((webserver? #t))       ((sxpath "/webserver?")       flags~))]
            [output                                            ((sxpath "/output")           flags~)]
            [repeats                                           ((sxpath "/repeats")          flags~)]
@@ -94,15 +89,21 @@
                                 filestem
                                 (cadar output))])
 
-      (parameterize ([SILENT  quiet?]
-                     [VERBOSE verbose?]
-                     [DEBUG   very-verbose?]
-                     [SAFE    safe?])
+      ;; set logging level
+      (setup-log-receiver
+        (cond [quiet? 'none]
+              [debug? 'debug]
+              [verbose? 'info]
+              [else 'warning]))
 
-        (log-message knotty-logger 'debug "in `cli-handler` with:")
-        (log-message knotty-logger 'debug (format "command line flags=~a" flags))
+      ;; set parameter value
+      (SAFE safe?)
 
-        #|
+      (log-message knotty-logger 'info (format "Knotty version ~a." knotty-version) #f)
+      (log-message knotty-logger 'debug "in `cli-handler` with:" #f)
+      (log-message knotty-logger 'debug (format "command line flags=~a" flags) #f)
+
+      #|
         ;; (de)obfuscate DAK files
         (when (or (and import-dak? export-stp?)
                   (and import-stp? export-dak?))
@@ -120,16 +121,16 @@
                                     (if export-stp? "stp" "dak"))))
         |#
 
-        ;; convert format / launch webserver
-        (when (or import-ks?
-                  import-png?
-                  (and import-xml?
-                       (or ;export-dak?
-                        export-html?
-                        ;export-stp?
-                        export-text?
-                        webserver?)))
-          #|
+      ;; convert format / launch webserver
+      (when (or import-ks?
+                import-png?
+                (and import-xml?
+                     (or ;export-dak?
+                      export-html?
+                      ;export-stp?
+                      export-text?
+                      webserver?)))
+        #|
                   (and (or import-dak?
                            import-stp?)
                        (or export-html?
@@ -137,21 +138,21 @@
                            export-xml?
                            webserver?)))
           |#
-          (let* ([input-filename
-                  (cond ;[import-dak? (path-replace-extension filestem #".dak")]
-                    [import-ks?  (path-replace-extension filestem #".ks")]
-                    [import-png? (path-replace-extension filestem #".png")]
-                    ;[import-stp? (path-replace-extension filestem #".stp")]
-                    [import-xml? (path-replace-extension filestem #".xml")]
-                    [else (error invalid-input)])]
-                 [p
-                  (cond ;[import-dak? (import-dak input-filename generic-matches? #f)]
-                    [import-ks?  (import-ks  input-filename)]
-                    [import-png? (import-png input-filename)]
-                    ;[import-stp? (import-stp input-filename generic-matches?)]
-                    [import-xml? (import-xml input-filename)]
-                    [else (error invalid-input)])])
-            #|
+        (let* ([input-filename
+                (cond ;[import-dak? (path-replace-extension filestem #".dak")]
+                  [import-ks?  (path-replace-extension filestem #".ks")]
+                  [import-png? (path-replace-extension filestem #".png")]
+                  ;[import-stp? (path-replace-extension filestem #".stp")]
+                  [import-xml? (path-replace-extension filestem #".xml")]
+                  [else (error invalid-input)])]
+               [p
+                (cond ;[import-dak? (import-dak input-filename generic-matches? #f)]
+                  [import-ks?  (import-ks  input-filename)]
+                  [import-png? (import-png input-filename)]
+                  ;[import-stp? (import-stp input-filename generic-matches?)]
+                  [import-xml? (import-xml input-filename)]
+                  [else (error invalid-input)])])
+          #|
             (when export-dak?
               (let ([out-file-path (path-replace-extension output-filestem #".dak")])
                 (replace-file-if-forced force?
@@ -159,48 +160,48 @@
                                         (thunk (export-stp p out-file-path))
                                         "dak")))
             |#
-            (when export-html?
-              (let-values ([(base name dir?) (split-path output-filestem)])
-                (when (symbol? name)
-                  (error 'knotty "invalid filename"))
-                (let* ([dir (cond [(eq? 'relative base) "."]
-                                  [(false? base) "/"]
-                                  [else base])]
-                       [h (if (null? repeats) 1 (cadar repeats))]
-                       [v (if (null? repeats) 1 (caddar repeats))]
-                       [out-file-path (path-replace-extension output-filestem #".html")]
-                       [css-dest-dir-path (build-path dir "css")]
-                       [js-dest-dir-path (build-path dir "js")]
-                       [icon-dest-dir-path (build-path dir "icon")])
-                  (replace-file-if-forced force?
-                                          out-file-path
-                                          (thunk (export-html p out-file-path h v))
-                                          "html")
-                  (unless (directory-exists? css-dest-dir-path)
-                    (make-directory css-dest-dir-path))
-                  (copy-file (build-path resources-path "css" "knotty.css")
-                             (build-path css-dest-dir-path "knotty.css")
-                             #:exists-ok? #t)
-                  (copy-file (build-path resources-path "css" "knotty-manual.css")
-                             (build-path css-dest-dir-path "knotty-manual.css")
-                             #:exists-ok? #t)
-                  (unless (directory-exists? js-dest-dir-path)
-                    (make-directory js-dest-dir-path))
-                  (copy-file (build-path resources-path "js" "knotty.js")
-                             (build-path js-dest-dir-path "knotty.js")
-                             #:exists-ok? #t)
-                  (unless (directory-exists? icon-dest-dir-path)
-                    (make-directory icon-dest-dir-path))
-                  (copy-file (build-path resources-path "icon" "favicon.ico")
-                             (build-path icon-dest-dir-path "favicon.ico")
-                             #:exists-ok? #t))))
-            (when export-ks?
-              (let ([out-file-path (path-replace-extension output-filestem #".ks")])
+          (when export-html?
+            (let-values ([(base name dir?) (split-path output-filestem)])
+              (when (symbol? name)
+                (error 'knotty "invalid filename"))
+              (let* ([dir (cond [(eq? 'relative base) "."]
+                                [(false? base) "/"]
+                                [else base])]
+                     [h (if (null? repeats) 1 (cadar repeats))]
+                     [v (if (null? repeats) 1 (caddar repeats))]
+                     [out-file-path (path-replace-extension output-filestem #".html")]
+                     [css-dest-dir-path (build-path dir "css")]
+                     [js-dest-dir-path (build-path dir "js")]
+                     [icon-dest-dir-path (build-path dir "icon")])
                 (replace-file-if-forced force?
                                         out-file-path
-                                        (thunk (export-ks p out-file-path))
-                                        "ks")))
-            #|
+                                        (thunk (export-html p out-file-path h v))
+                                        "html")
+                (unless (directory-exists? css-dest-dir-path)
+                  (make-directory css-dest-dir-path))
+                (copy-file (build-path resources-path "css" "knotty.css")
+                           (build-path css-dest-dir-path "knotty.css")
+                           #:exists-ok? #t)
+                (copy-file (build-path resources-path "css" "knotty-manual.css")
+                           (build-path css-dest-dir-path "knotty-manual.css")
+                           #:exists-ok? #t)
+                (unless (directory-exists? js-dest-dir-path)
+                  (make-directory js-dest-dir-path))
+                (copy-file (build-path resources-path "js" "knotty.js")
+                           (build-path js-dest-dir-path "knotty.js")
+                           #:exists-ok? #t)
+                (unless (directory-exists? icon-dest-dir-path)
+                  (make-directory icon-dest-dir-path))
+                (copy-file (build-path resources-path "icon" "favicon.ico")
+                           (build-path icon-dest-dir-path "favicon.ico")
+                           #:exists-ok? #t))))
+          (when export-ks?
+            (let ([out-file-path (path-replace-extension output-filestem #".ks")])
+              (replace-file-if-forced force?
+                                      out-file-path
+                                      (thunk (export-ks p out-file-path))
+                                      "ks")))
+          #|
             (when export-stp?
               (let ([out-file-path (path-replace-extension output-filestem #".stp")])
                 (replace-file-if-forced force?
@@ -208,16 +209,16 @@
                                         (thunk (export-stp p out-file-path))
                                         "stp")))
             |#
-            (when export-xml?
-              (let ([out-file-path (path-replace-extension output-filestem #".xml")])
-                (replace-file-if-forced force?
-                                        out-file-path
-                                        (thunk (export-xml p out-file-path))
-                                        "xml")))
-            (when webserver?
-              (let ([h (if (null? repeats) 2 (cadar repeats))]
-                    [v (if (null? repeats) 2 (caddar repeats))])
-                (serve-pattern p h v))))))))
+          (when export-xml?
+            (let ([out-file-path (path-replace-extension output-filestem #".xml")])
+              (replace-file-if-forced force?
+                                      out-file-path
+                                      (thunk (export-xml p out-file-path))
+                                      "xml")))
+          (when webserver?
+            (let ([h (if (null? repeats) 2 (cadar repeats))]
+                  [v (if (null? repeats) 2 (caddar repeats))])
+              (serve-pattern p h v)))))))
 
   ;; filesystem functions
 
@@ -251,7 +252,7 @@
   (command-line
    #:program "knotty"
    #:usage-help
-   "Knotty version KNOTTY-VERSION." ;; actual knotty version is substituted by github runner before executable is created
+   "Knotty version KNOTTY-VERSION." 
    "Knitting pattern viewer and converter."
    "More than one output format can be specified."
 
@@ -317,7 +318,7 @@
     `(verbose? #t)]
    [("-z" "--debug")
     "Show very verbose messages"
-    `(very-verbose? #t)]
+    `(debug? #t)]
    
    ;; other settings
    #:once-each

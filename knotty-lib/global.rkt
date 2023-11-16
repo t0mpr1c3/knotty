@@ -72,26 +72,48 @@
 (define default-yarn-color #xFFFFFF)
 (define default-yarn-color-name "White")
 
-;; run-time parameters
-
+;; run-time parameter
 ;; set to #f makes guard functions that protect against invalid
 ;; pattern settings return warnings instead of error messages
-(define SAFE : (Parameterof Boolean) (make-parameter #t))
+(define
+  SAFE : (Parameterof Boolean)
+  (make-parameter #t))
 
-;; set to #t to turn off messages
-(define SILENT : (Parameterof Boolean) (make-parameter #f))
-
-;; set to #t for detailed messages
-(define VERBOSE : (Parameterof Boolean) (make-parameter #f))
-
-;; set to #t for very verbose messages
-(define DEBUG : (Parameterof Boolean) (make-parameter #f))
-
+;; compile-time parameter
 ;; controls generation of stitch macros
-(define-for-syntax STITCH-MACRO-MAX-NUMBER (make-parameter 50))
+(define-for-syntax
+  STITCH-MACRO-MAX-NUMBER
+  (make-parameter 50))
 
-;; define knotty-logger for debugging purposes
-(define knotty-logger (make-logger 'knotty (current-logger)))
+;; define logger
+(define knotty-logger
+  (make-logger 'knotty (current-logger)))
+
+;; define log receiver
+(define knotty-receiver
+  (make-log-receiver knotty-logger 'debug))
+
+;; set up thread to print output from log receiver
+(define (setup-log-receiver log-level)
+  (void
+   (thread
+    (λ () (let sync-loop ()
+            (let* ([v (sync knotty-receiver)]
+                   [msg-level (vector-ref v 0)])
+              (when (and (not (eq? 'none log-level))
+                         (or (eq? 'fatal msg-level)
+                             (and (not (eq? 'fatal log-level))
+                                  (or (eq? 'error msg-level)
+                                      (and (not (eq? 'error log-level))
+                                           (or (eq? 'warning msg-level)
+                                               (and (not (eq? 'warning log-level))
+                                                    (or (eq? 'info msg-level)
+                                                        (eq? 'debug log-level)))))))))
+                (fprintf (current-error-port)
+                         "[~a] ~a\n"
+                         msg-level
+                         (vector-ref v 1)))
+              (sync-loop)))))))
 
 ;; raises parameterized error message
 (define-syntax (err stx)
