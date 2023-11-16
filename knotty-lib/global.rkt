@@ -109,8 +109,7 @@
                                                (and (not (eq? 'warning log-level))
                                                     (or (eq? 'info msg-level)
                                                         (eq? 'debug log-level)))))))))
-                (fprintf (current-error-port)
-                         "[~a] ~a\n"
+                (eprintf "[~a] ~a\n"
                          msg-level
                          (vector-ref v 1)))
               (sync-loop)))))))
