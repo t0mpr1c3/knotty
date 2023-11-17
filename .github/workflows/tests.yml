@@ -91,6 +91,8 @@ jobs:
         run:  |
           echo "installing dependencies"
           raco pkg install --auto --batch --no-docs --skip-installed \
+               sweet-exp-lib threading-lib brag-lib br-parser-tools \
+               sxml html-template html-parsing \
                cover-lib cover-coveralls
 #      - name: Run headless coverage report
 #        uses: coactions/setup-xvfb@v1.0.1

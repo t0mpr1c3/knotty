@@ -23,10 +23,7 @@
 (require racket/fixnum
          threading)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt")
-
-(log-message knotty-logger 'info "start of colors.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -4186,5 +4183,4 @@
     'Ivory
     'White))
 
-(log-message knotty-logger 'info "end of colors.rkt" #f)
 ;end

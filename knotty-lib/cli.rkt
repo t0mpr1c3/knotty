@@ -73,9 +73,7 @@
            [export-html?     (equal? '((export-html? #t))     ((sxpath "/export-html?")     flags~))]
            [export-ks?       (equal? '((export-ks? #t))       ((sxpath "/export-ks?")       flags~))]
            ;[export-stp?      (equal? '((export-stp? #t))      ((sxpath "/export-stp?")      flags~))]
-           [export-text?     (equal? '((export-text? #t))     ((sxpath "/export-text?")     flags~))]
            [export-xml?      (equal? '((export-xml? #t))      ((sxpath "/export-xml?")      flags~))]
-           ;[deobfuscate?     (equal? '((deobfuscate? #t))     ((sxpath "/deobfuscate?")     flags~))]
            [force?           (equal? '((force? #t))           ((sxpath "/force?")           flags~))]
            ;[generic-matches? (equal? '((generic-matches? #t)) ((sxpath "/generic-matches?") flags~))]
            [safe?       (not (equal? '((unsafe? #t))          ((sxpath "/unsafe?")          flags~)))]
@@ -91,18 +89,72 @@
 
       ;; set logging level
       (setup-log-receiver
-        (cond [quiet? 'none]
-              [debug? 'debug]
-              [verbose? 'info]
-              [else 'warning]))
+       (cond [quiet? 'none]
+             [debug? 'debug]
+             [verbose? 'info]
+             [else 'warning]))
 
       ;; set parameter value
       (SAFE safe?)
 
-      (log-message knotty-logger 'info (format "Knotty version ~a." knotty-version) #f)
-      (log-message knotty-logger 'debug "in `cli-handler` with:" #f)
-      (log-message knotty-logger 'debug (format "command line flags=~a" flags) #f)
-
+      (ilog (format "Knotty version ~a nvoked with options:" knotty-version))
+      (ilog (format "  filestem ~a" filestem))
+      #|
+      (when import-dak?
+        (ilog "  --import-dak"))
+      |#
+      (when import-ks?
+        (ilog "  --import-ks"))
+      (when import-png?
+        (ilog "  --import-png"))
+      #|
+      (when import-stp?
+        (ilog "  --import-stp"))
+      |#
+      (when import-xml?
+        (ilog "  --import-xml"))
+      #|
+      (when export-dak?
+        (ilog "  --export-dak"))
+      |#
+      (when export-html?
+        (ilog "  --export-html"))
+      (when export-ks?
+        (ilog "  --export-ks"))
+      #|
+      (when export-png?
+        (ilog "  --export-png"))
+      (when export-stp?
+        (ilog "  --export-stp"))
+      |#
+      (when export-xml?
+        (ilog "  --export-xml"))
+      (when quiet?
+        (ilog "  --quiet"))
+      (when verbose?
+        (ilog "  --verbose"))
+      (when debug?
+        (ilog "  --debug"))
+      (when force?
+        (ilog "  --force"))
+      (when (not (null? output))
+        (ilog (format "  --output ~a"
+                      output-filestem)))
+      (when (not (null? repeats))
+        (ilog (format "  --repeats ~a ~a"
+                      (cadar repeats)
+                      (caddar repeats))))
+      #|
+      (when generic-matches?
+        (ilog "  --generic-matches"))
+      |#
+      (unless safe?
+        (ilog "  --unsafe"))
+      (when webserver?
+        (ilog "  --web"))
+      (dlog "in `cli-handler` with:")
+      (dlog (format "command line flags=~a" flags))
+      
       #|
         ;; (de)obfuscate DAK files
         (when (or (and import-dak? export-stp?)
@@ -128,7 +180,6 @@
                      (or ;export-dak?
                       export-html?
                       ;export-stp?
-                      export-text?
                       webserver?)))
         #|
                   (and (or import-dak?
@@ -218,7 +269,9 @@
           (when webserver?
             (let ([h (if (null? repeats) 2 (cadar repeats))]
                   [v (if (null? repeats) 2 (caddar repeats))])
-              (serve-pattern p h v)))))))
+              (serve-pattern p h v))))))
+    
+    (sleep 1)) ;; delay to allow logger to finish before exiting
 
   ;; filesystem functions
 

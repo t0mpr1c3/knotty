@@ -22,11 +22,8 @@
 
 (require threading)
 (require "global.rkt"
-         "logger.rkt"
          "stitch.rkt"
          "util.rkt")
-
-(log-message knotty-logger 'info "start of tree.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -703,4 +700,4 @@
 (define nineteen (times 19))
 (define twenty (times 20))
 
-(log-message knotty-logger 'info "end of tree.rkt" #f)
+;; end

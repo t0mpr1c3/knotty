@@ -90,7 +90,21 @@
 (define knotty-receiver
   (make-log-receiver knotty-logger 'debug))
 
+(: wlog : String -> Void)
+(define (wlog msg)
+  (log-message knotty-logger 'warning msg #f))
+
+(: ilog : String -> Void)
+(define (ilog msg)
+  (log-message knotty-logger 'info msg #f))
+
+(: dlog : String -> Void)
+(define (dlog msg)
+  (log-message knotty-logger 'debug msg #f))
+
 ;; set up thread to print output from log receiver
+;; log receiver level set in cli.rkt
+;; default level is 'warning
 (define (setup-log-receiver log-level)
   (void
    (thread

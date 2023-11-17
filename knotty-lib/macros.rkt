@@ -24,13 +24,10 @@
          racket/list          ;; for `flatten` `range`
          syntax/parse/define) ;; for `define-syntax-parse-rule`
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"
          "yarn.rkt")
-
-(log-message knotty-logger 'info "start of macros.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -570,5 +567,4 @@
                               (do^ e1 e2 ...))))))
 |#
 
-(log-message knotty-logger 'info "end of macros.rkt" #f)
 ;; end

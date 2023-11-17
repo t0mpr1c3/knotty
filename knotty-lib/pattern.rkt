@@ -27,7 +27,6 @@
          racket/vector ;; for `vector-map`
          threading)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"
@@ -59,7 +58,7 @@
    [yarns : Yarns])
   #:guard
   (λ (name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns type-name)
-    ;(log-message knotty-logger 'debug "in `Pattern` struct guard function" #f)
+    ;(dlog "in `Pattern` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose pattern-guard-sort-rowmap
               pattern-guard-row-repeats
@@ -136,7 +135,7 @@
                                 Natural
                                 Yarns)))
 (define (pattern-guard-turns name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
-  ;(log-message knotty-logger 'debug "in `pattern-guard-turns` function" #f)
+  ;(dlog "in `pattern-guard-turns` function")
   ;; disallow turns in first row
   (let ([first-row (rowmap-find rowmap 1)])
     (when (rowspec-short-row? (vector-ref rowspecs first-row))
@@ -210,7 +209,7 @@
                       (and (= 6 w) (or (> stitches-per-4-inches 12.0)
                                        (< stitches-per-4-inches 6.0)))
                       (and (= 7 w)     (> stitches-per-4-inches 7.0)))))
-          (log-message knotty-logger 'warning "check your pattern information: yarn weight may be incompatible with pattern gauge" #f))))
+          (wlog "check your pattern information: yarn weight may be incompatible with pattern gauge"))))
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 ;; check that stitches are compatible with machine/hand knitting
@@ -460,7 +459,7 @@
                                       Natural
                                       Yarns)))
 (define (pattern-guard-sort-rowmap name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
-  ;(log-message knotty-logger 'debug "in `pattern-guard-sort-rowmap` function" #f)
+  ;(dlog "in `pattern-guard-sort-rowmap` function")
   ;; sort rowmap and rowspec by lowest rownumber
   (let* ([row-numbers (Rowmap-numbers rowmap)]
          [n (vector-length row-numbers)]
@@ -508,7 +507,7 @@
           #:gauge [gauge default-pattern-gauge]
           #:repeat-rows [repeat-rows #f]
           . rows-yarns)
-  (log-message knotty-logger 'debug "in `pattern` constructor" #f)
+  ;(dlog "in `pattern` constructor")
   (let ([flat-rows-yarns : (Listof (U Rows Yarn))
                          (for/fold ([rys : (Listof (U Rows Yarn)) null])
                                    ([ry rows-yarns])

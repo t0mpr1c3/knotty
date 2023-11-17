@@ -6,3 +6,6 @@ v1.0.1
 
 v1.0.2
 * Use SAFE version of assert for importing XML #13
+
+v1.0.3
+* Add CLI info messages #12

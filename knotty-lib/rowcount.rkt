@@ -23,7 +23,6 @@
 (require threading
          racket/vector) ;; needed for `vector-map`
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "diophantine.rkt"
          "stitch.rkt"
@@ -33,8 +32,6 @@
          "rows.rkt"
          "rowspec.rkt"
          "rowmap.rkt")
-
-(log-message knotty-logger 'info "start of rowcount.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1488,5 +1485,4 @@
   (for ([i (in-range (vector-length rowcounts))])
     (vector-set! rowcounts i (rowcount-full-row (vector-ref rowcounts i)))))
 
-(log-message knotty-logger 'info "end of rowcount.rkt" #f)
 ;; end

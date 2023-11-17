@@ -20,12 +20,9 @@
 
 (provide (all-defined-out))
 
-(require "logger.rkt"
-         "global.rkt"
+(require "global.rkt"
          "stitch.rkt"
          "tree.rkt")
-
-(log-message knotty-logger 'info "start of yarn.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -38,7 +35,7 @@
    [brand : String])
   #:guard
   (λ (color name weight fiber brand type-name)
-    ;;(log-message knotty-logger 'debug "in `yarntype` struct guard function" #f)
+    ;(dlog "in `yarntype` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose yarn-guard-weight
               yarn-guard-color)
@@ -144,5 +141,4 @@
 (define default-yarns : Yarns
   (yarns default-yarn))
 
-(log-message knotty-logger 'info "end of yarn.rkt" #f)
 ;; end

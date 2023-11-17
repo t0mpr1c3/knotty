@@ -23,7 +23,6 @@
 (require typed/racket/draw
          racket/fixnum)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "colors.rkt"
          "stitch.rkt"

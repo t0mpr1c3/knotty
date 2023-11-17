@@ -27,8 +27,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ;; To view documentation:
 ;;   $ raco docs knotty-lib
 
-(provide (all-from-out "logger.rkt")
-         (all-from-out "global.rkt")
+(provide (all-from-out "global.rkt")
          (all-from-out "stitch.rkt")
          (all-from-out "stitch-instructions.rkt")
          (all-from-out "tree.rkt")
@@ -53,7 +52,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
          (all-from-out named-arguments/square-brackets))
 
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "stitch-instructions.rkt"

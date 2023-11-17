@@ -21,7 +21,6 @@
 (provide (all-defined-out))
 
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

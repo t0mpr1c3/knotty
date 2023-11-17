@@ -23,7 +23,6 @@
 
 (require racket/fixnum)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"

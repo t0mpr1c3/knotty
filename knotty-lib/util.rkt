@@ -23,11 +23,10 @@
 (require racket/list   ;; for `range`
          racket/fixnum
          threading)
-(require "global.rkt"
-         "logger.rkt")
+(require "global.rkt")
 
 ;; NB there must be no dependencies on other parts of the module except
-;; `global.rkt` and `logger.rkt`
+;; `global.rkt`
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

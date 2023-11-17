@@ -7,8 +7,7 @@
          ks-stitch
          knotty-ns)
 
-(require "logger.rkt"
-         "global.rkt"
+(require "global.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"
@@ -114,8 +113,8 @@
 ;; import pattern from Knitspeak .ks file
 (: import-ks : Path-String -> Pattern)
 (define (import-ks filename)
-  (log-message knotty-logger 'debug "in `import-ks` with:" #f)
-  (log-message knotty-logger 'debug (format "filename=~a" filename) #f)
+  (dlog "in `import-ks` with:")
+  (dlog (format "filename=~a" filename))
   (ks->pattern (port->string (open-input-file filename)) knotty-ns))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -123,8 +122,8 @@
 ;; export pattern as Knitspeak .ks file
 (: export-ks : Pattern Path-String -> Void)
 (define (export-ks p filename)
-  (log-message knotty-logger 'debug "in `export-ks` with:" #f)
-  (log-message knotty-logger 'debug (format "filename=~a" filename) #f)
+  (dlog "in `export-ks` with:")
+  (dlog (format "filename=~a" filename))
   (let ([ks (pattern->ks p)]
         [out (open-output-file filename)])
     (write-bytes (string->bytes/latin-1 ks) out)

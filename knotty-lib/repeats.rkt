@@ -20,9 +20,7 @@
 
 (provide (all-defined-out))
 
-(require "logger.rkt"
-         "global.rkt")
-(log-message knotty-logger 'info "start of repeats.rkt" #f)
+(require "global.rkt")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -71,5 +69,4 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(log-message knotty-logger 'info "end of repeats.rkt" #f)
 ;; end

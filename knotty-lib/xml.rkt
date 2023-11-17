@@ -28,7 +28,6 @@
                [sxpath         (->* (Any) (Any) ((U Sexp (Listof Sexp)) -> (Listof Sexp)))])
 (require threading)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "stitch-instructions.rkt"
@@ -48,8 +47,8 @@
 ;; import pattern from XML file
 (: import-xml : Path-String -> Pattern)
 (define (import-xml filename)
-  (log-message knotty-logger 'debug "in `import-xml` with:" #f)
-  (log-message knotty-logger 'debug (format "filename=~a" filename) #f)
+  (dlog "in `import-xml` with:")
+  (dlog (format "filename=~a" filename))
   (sxml->pattern (file->sxml filename)))
 
 (: file->sxml : Path-String -> Sexp)
@@ -409,8 +408,8 @@
 ;; export pattern as XML file
 (: export-xml : Pattern Path-String -> Void)
 (define (export-xml p filename)
-  (log-message knotty-logger 'debug "in `export-xml` with:" #f)
-  (log-message knotty-logger 'debug (format "filename=~a" filename) #f)
+  (dlog "in `export-xml` with:")
+  (dlog (format "filename=~a" filename))
   (let ([sxml (pattern->sxml p)]
         [out (open-output-file filename)])
     (write-bytes (string->bytes/latin-1 (srl:sxml->xml sxml)) out)

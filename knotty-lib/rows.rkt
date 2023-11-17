@@ -22,7 +22,6 @@
 
 (require typed/racket)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"

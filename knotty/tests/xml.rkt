@@ -18,28 +18,28 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 |#
 
-(module+ test
-  (require typed/rackunit)
-  (require       sxml
-                 threading)
-  (require/typed sxml
-                 [srl:sxml->xml  (Sexp -> String)]
-                 [ssax:xml->sxml (Input-Port (Listof (U Symbol String)) -> Sexp)])
-  (require/typed sxml/sxpath
-                 [sxpath         (->* (Any) (Any) ((U Sexp (Listof Sexp)) -> (Listof Sexp)))])
-  (require "../../knotty-lib/util.rkt"
-           "../../knotty-lib/stitch.rkt"
-           "../../knotty-lib/stitch-instructions.rkt"
-           "../../knotty-lib/tree.rkt"
-           "../../knotty-lib/yarn.rkt"
-           "../../knotty-lib/macros.rkt"
-           "../../knotty-lib/rows.rkt"
-           "../../knotty-lib/rowspec.rkt"
-           "../../knotty-lib/rowmap.rkt"
-           "../../knotty-lib/gauge.rkt"
-           "../../knotty-lib/pattern.rkt"
-           "../../knotty-lib/xml.rkt")
+(require typed/rackunit)
+(require       sxml
+               threading)
+(require/typed sxml
+               [srl:sxml->xml  (Sexp -> String)]
+               [ssax:xml->sxml (Input-Port (Listof (U Symbol String)) -> Sexp)])
+(require/typed sxml/sxpath
+               [sxpath         (->* (Any) (Any) ((U Sexp (Listof Sexp)) -> (Listof Sexp)))])
+(require "../../knotty-lib/util.rkt"
+         "../../knotty-lib/stitch.rkt"
+         "../../knotty-lib/stitch-instructions.rkt"
+         "../../knotty-lib/tree.rkt"
+         "../../knotty-lib/yarn.rkt"
+         "../../knotty-lib/macros.rkt"
+         "../../knotty-lib/rows.rkt"
+         "../../knotty-lib/rowspec.rkt"
+         "../../knotty-lib/rowmap.rkt"
+         "../../knotty-lib/gauge.rkt"
+         "../../knotty-lib/pattern.rkt"
+         "../../knotty-lib/xml.rkt")
 
+(module+ test
   ;; tests of xml functions
 
   (define
@@ -249,25 +249,25 @@
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->technique '(*TOP* (pattern (options (technique "crochet")))))))
+     (sxml->technique '(*TOP* (pattern (options (technique "crochet")))))))
 
   ;; invalid option
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->form '(*TOP* (pattern (options (form "spherical")))))))
+     (sxml->form '(*TOP* (pattern (options (form "spherical")))))))
 
   ;; invalid option
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->face '(*TOP* (pattern (options (face "backside")))))))
+     (sxml->face '(*TOP* (pattern (options (face "backside")))))))
 
   ;; invalid option
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->side '(*TOP* (pattern (options (side "top")))))))
+     (sxml->side '(*TOP* (pattern (options (side "top")))))))
 
   (check-equal?
    (sxml->gauge '(*TOP* (pattern (dimensions null))))
@@ -277,76 +277,76 @@
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->gauge
-    '(*TOP*
-      (pattern
-        (dimensions
-         (gauge
-          (stitch-count "0")
-          (stitch-measurement "1")
-          (row-count "1")
-          (row-measurement "1")
-          (measurement-unit "cm"))))))))
+     (sxml->gauge
+      '(*TOP*
+        (pattern
+          (dimensions
+           (gauge
+            (stitch-count "0")
+            (stitch-measurement "1")
+            (row-count "1")
+            (row-measurement "1")
+            (measurement-unit "cm"))))))))
 
   ;; invalid gauge
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->gauge
-    '(*TOP*
-      (pattern
-        (dimensions
-         (gauge
-          (stitch-count "1")
-          (stitch-measurement "0")
-          (row-count "1")
-          (row-measurement "1")
-          (measurement-unit "cm"))))))))
+     (sxml->gauge
+      '(*TOP*
+        (pattern
+          (dimensions
+           (gauge
+            (stitch-count "1")
+            (stitch-measurement "0")
+            (row-count "1")
+            (row-measurement "1")
+            (measurement-unit "cm"))))))))
 
   ;; invalid gauge
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->gauge
-    '(*TOP*
-      (pattern
-        (dimensions
-         (gauge
-          (stitch-count "1")
-          (stitch-measurement "1")
-          (row-count "0")
-          (row-measurement "1")
-          (measurement-unit "cm"))))))))
+     (sxml->gauge
+      '(*TOP*
+        (pattern
+          (dimensions
+           (gauge
+            (stitch-count "1")
+            (stitch-measurement "1")
+            (row-count "0")
+            (row-measurement "1")
+            (measurement-unit "cm"))))))))
 
   ;; invalid gauge
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->gauge
-    '(*TOP*
-      (pattern
-        (dimensions
-         (gauge
-          (stitch-count "1")
-          (stitch-measurement "1")
-          (row-count "1")
-          (row-measurement "0")
-          (measurement-unit "cm"))))))))
+     (sxml->gauge
+      '(*TOP*
+        (pattern
+          (dimensions
+           (gauge
+            (stitch-count "1")
+            (stitch-measurement "1")
+            (row-count "1")
+            (row-measurement "0")
+            (measurement-unit "cm"))))))))
 
   ;; invalid gauge
   (check-exn
    exn:fail?
    (λ ()
-   (sxml->gauge
-    '(*TOP*
-      (pattern
-        (dimensions
-         (gauge
-          (stitch-count "1")
-          (stitch-measurement "1")
-          (row-count "1")
-          (row-measurement "1")
-          (measurement-unit "yard"))))))))
+     (sxml->gauge
+      '(*TOP*
+        (pattern
+          (dimensions
+           (gauge
+            (stitch-count "1")
+            (stitch-measurement "1")
+            (row-count "1")
+            (row-measurement "1")
+            (measurement-unit "yard"))))))))
 
   (check-equal?
    (sxml->yarn '(yarn (number "0") (color "0") (weight "")))
@@ -371,6 +371,11 @@
    exn:fail?
    (λ ()
      (sxml->yarn '(yarn (number "0") (color "888888888") (weight "")))))
+
+  ;; invalid yarn weight
+  (check-equal?
+   (sxml->yarn '(yarn (number "0") (color "0") (weight "8")))
+   (cons 0 (Yarn 0 "" #f "" "")))
 
   (check-equal?
    (sxml->repeat-rows '(*TOP* (pattern (dimensions null))))

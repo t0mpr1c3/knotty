@@ -60,7 +60,7 @@
       name
       yarns
       type-name)
-    ;(log-message knotty-logger 'debug "in `Chart` struct guard function" #f)
+    ;(dlog "in `Chart` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose chart-guard-null
               chart-guard-set-width
@@ -202,7 +202,7 @@
 ;;    * in machine knitting, rows are all on the same face but (usually) alternate sides (FIXME)
 (: pattern->chart (->* (Pattern) (Positive-Integer Positive-Integer) Chart))
 (define (pattern->chart p [h-repeats 1] [v-repeats 1])
-  (log-message knotty-logger 'debug "in function `pattern->chart`" #f)
+  (dlog "in function `pattern->chart`")
   (let* ([name (Pattern-name p)]
          [options (Pattern-options p)]
          [yarns (Pattern-yarns p)]
@@ -259,7 +259,7 @@
 ;; possibly of length zero, which are not aligned
 (: chart-align-rows : Chart -> Chart)
 (define (chart-align-rows c)
-  (log-message knotty-logger 'debug "in function `chart-align-rows`" #f)
+  (dlog "in function `chart-align-rows`")
   (let* ([rows (Chart-rows c)]
          [height (Chart-height c)]
          [h-repeats (Chart-h-repeats c)]
@@ -288,7 +288,7 @@
                [start1 (if (Chart-row-r2l? (vector-ref rows 1))
                            (sub1 (chart-row-width row0))
                            0)])
-          (log-message knotty-logger 'debug (format "in function `chart-align-rows`, width=~a" width) #f)
+          (dlog (format "in function `chart-align-rows`, width=~a" width))
           (let*-values ([(stitches-out0 splice-out0)
                          (splice-out    producer0)]
                         ;; calculate offsets for each row in half-stitch units
@@ -442,9 +442,9 @@
                                    (struct-copy Chart-row (vector-ref padded-rows i)
                                                 [align-right pad])))])
                 ;; return aligned chart
-                (log-message knotty-logger 'debug "returning from function `chart-align-rows` with:" #f)
-                (log-message knotty-logger 'debug (format "final-rows=~a" final-rows) #f)
-                (log-message knotty-logger 'debug (format "padded-width=~a" padded-width) #f)
+                (dlog "returning from function `chart-align-rows` with:")
+                (dlog (format "final-rows=~a" final-rows))
+                (dlog (format "padded-width=~a" padded-width))
                 (Chart final-rows
                        padded-width
                        height

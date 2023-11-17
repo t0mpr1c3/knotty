@@ -22,15 +22,12 @@
 
 (require typed/racket)
 (require "global.rkt"
-         "logger.rkt"
          "util.rkt"
          "stitch.rkt"
          "tree.rkt"
          "yarn.rkt"
          "macros.rkt"
          "rows.rkt")
-
-(log-message knotty-logger 'info "start of rowmap.rkt" #f)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -40,7 +37,7 @@
    [index : (Vectorof Natural)])  ;; maps from row numbers to rowspec index
   #:guard
   (λ (numbers index type-name)
-    ;(log-message knotty-logger 'debug "in `Rowmap` struct guard function" #f)
+    ;(dlog "in `Rowmap` struct guard function")
     (rowmap-guard numbers index))
   #:transparent)
 
@@ -118,5 +115,4 @@
    '#(#(1))
    '#(1)))
 
-(log-message knotty-logger 'info "end of rowmap.rkt" #f)
 ;; end
