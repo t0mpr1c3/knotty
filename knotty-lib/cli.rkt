@@ -88,16 +88,17 @@
                                 (cadar output))])
 
       ;; set logging level
-      (setup-log-receiver
-       (cond [quiet? 'none]
-             [debug? 'debug]
-             [verbose? 'info]
-             [else 'warning]))
+      (define log-receiver-thread
+        ((setup-log-receiver
+         (cond [quiet? 'none]
+               [debug? 'debug]
+               [verbose? 'info]
+               [else 'warning]))))
 
       ;; set parameter value
       (SAFE safe?)
 
-      (ilog (format "Knotty version ~a nvoked with options:" knotty-version))
+      (ilog (format "Knotty version ~a run with options:" knotty-version))
       (ilog (format "  filestem ~a" filestem))
       #|
       (when import-dak?
@@ -269,9 +270,10 @@
           (when webserver?
             (let ([h (if (null? repeats) 2 (cadar repeats))]
                   [v (if (null? repeats) 2 (caddar repeats))])
-              (serve-pattern p h v))))))
+              (serve-pattern p h v)))))
     
-    (sleep 1)) ;; delay to allow logger to finish before exiting
+    (thread-send log-receiver-thread 'time-to-stop) ;; send message to log receiver thread
+    (thread-wait log-receiver-thread))) ;; wait for log receiver to finish before exiting
 
   ;; filesystem functions
 

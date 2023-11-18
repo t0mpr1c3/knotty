@@ -22,16 +22,18 @@
          (for-syntax STITCH-MACRO-MAX-NUMBER))
 
 (require syntax/parse/define ;; for `define-syntax-parse-rule`
-	 racket/runtime-path)
+         racket/runtime-path)
 
-;; global constants
+;; Define global constants
+
+;; Version
 (define knotty-version : String "KNOTTY-VERSION")
 
-;; file path to resources
+;; File path to resources
 (define-runtime-path resources-path
   "resources")
 
-;; file path to saxon jar file
+;; File path to saxon jar file
 (define-runtime-path saxon-path
   (build-path "resources" "SaxonHE11-5J" "saxon-he-11.5.jar"))
 
@@ -57,36 +59,36 @@
   (U 'left 'right))
 (define-predicate Side? Side)
 
-;; short row Turn enum type
+;; Short row Turn enum type
 (define-type
   Turn
   (U 'no-turn 'turn 'w&t))
 (define-predicate Turn? Turn)
 
-;; defaults
+;;Ddefaults
 (define default-pattern-technique 'hand)
 (define default-pattern-form 'flat)
 (define default-pattern-face 'rs)
 (define default-pattern-side 'right)
 
-;; run-time parameter
-;; set to #f makes guard functions that protect against invalid
-;; pattern settings return warnings instead of error messages
+;; Run-time parameter.
+;; Set to #f makes guard functions that protect against invalid
+;; pattern settings return warnings instead of error messages.
 (define
   SAFE : (Parameterof Boolean)
   (make-parameter #t))
 
-;; compile-time parameter
-;; controls generation of stitch macros
+;; Compile-time parameter.
+;; Controls generation of stitch macros.
 (define-for-syntax
   STITCH-MACRO-MAX-NUMBER
   (make-parameter 50))
 
-;; define logger
+;; logger
 (define knotty-logger
   (make-logger 'knotty (current-logger)))
 
-;; define log receiver
+;; log receiver
 (define knotty-receiver
   (make-log-receiver knotty-logger 'debug))
 
@@ -102,33 +104,36 @@
 (define (dlog msg)
   (log-message knotty-logger 'debug msg #f))
 
-;; set up thread to print output from log receiver
-;; log receiver level set in cli.rkt
-;; default level is 'warning
+;; Sets up thread to print output from log receiver.
+;; Log receiver level set in cli.rkt
+;; Default level is 'warning
 (define (setup-log-receiver log-level)
-  (void
+  (thunk
    (thread
-    (λ () (let sync-loop ()
-            (let* ([v (sync knotty-receiver)]
-                   [msg-level (vector-ref v 0)])
-              (when (and (not (eq? 'none log-level))
-                         (or (eq? 'fatal msg-level)
-                             (and (not (eq? 'fatal log-level))
-                                  (or (eq? 'error msg-level)
-                                      (and (not (eq? 'error log-level))
-                                           (or (eq? 'warning msg-level)
-                                               (and (not (eq? 'warning log-level))
-                                                    (or (eq? 'info msg-level)
-                                                        (eq? 'debug log-level)))))))))
-                (eprintf "[~a] ~a\n"
-                         msg-level
-                         (vector-ref v 1)))
-              (sync-loop)))))))
+    (thunk
+     (let sync-loop ()
+       (let* ([v (sync knotty-receiver)]
+              [msg-level (vector-ref v 0)])
+         (when (and (not (eq? 'none log-level))
+                    (or (eq? 'fatal msg-level)
+                        (and (not (eq? 'fatal log-level))
+                             (or (eq? 'error msg-level)
+                                 (and (not (eq? 'error log-level))
+                                      (or (eq? 'warning msg-level)
+                                          (and (not (eq? 'warning log-level))
+                                               (or (eq? 'info msg-level)
+                                                   (eq? 'debug log-level)))))))))
+           (eprintf "[~a] ~a\n"
+                    msg-level
+                    (vector-ref v 1)))
+         (when (thread-try-receive)
+           (kill-thread (current-thread)))
+         (sync-loop)))))))
 
-;; raises parameterized error message
+;; Raises parameterized error message.
 (define-syntax (err stx)
   (syntax-parse stx
     [(err param:id msg)
      #`(if (param)
-         #,(syntax/loc stx (error msg))
-         (log-message knotty-logger 'error msg #f))]))
+           #,(syntax/loc stx (error msg))
+           (log-message knotty-logger 'error msg #f))]))

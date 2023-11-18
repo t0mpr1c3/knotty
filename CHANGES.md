@@ -9,3 +9,6 @@ v1.0.2
 
 v1.0.3
 * Add CLI info messages #12
+
+v1.0.4
+* Message log receiver thread to ensure everything has been logged before exiting
