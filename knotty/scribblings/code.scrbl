@@ -59,18 +59,14 @@ show
 #lang sweet-exp typed/racket
 show
   pattern
-    [face ws]
-    [side left]
-    row(1)  k4 (x2 yo k2tog) yo k2
-    row(3)  k5 (x2 yo k2tog) yo k2
-    row(5)  k6 (x2 yo k2tog) yo k2
-    row(7)  k4 (x3 ssk yo) ssk k1
-    row(9)  k3 (x3 ssk yo) ssk k1
-    row(11) k2 (x3 ssk yo) ssk k1
-    row(seq(2 12 2)) p
+    row(1)   gs12
+    row(2)   gs9 w&t
+    row(3)   gs6 w&t
+    row(4)   gs3 w&t
+    row(5 6) gs
 
 }|
-@image[#:scale 0.5 "knotty/scribblings/sawtooth.png"])
+@image[#:scale 0.5 "knotty/scribblings/short-rows.png"])
 
 (list
 @; NB whitespace indentation is required here
