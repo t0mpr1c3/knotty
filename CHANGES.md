@@ -12,3 +12,7 @@ v1.0.3
 
 v1.0.4
 * Message log receiver thread to ensure everything has been logged before exiting
+
+v1.0.5
+* Replace edging in code example #22
+* Fix charts for short rows

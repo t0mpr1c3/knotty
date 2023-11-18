@@ -1753,7 +1753,9 @@
         (1 . #s(Stitch k 0))
         (2 . #s(Stitch yo 0))
         (1 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
-     (Rowspec '((4 (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0))) (3 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
+     (Rowspec
+      '((4 (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0)))
+        (3 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
       '((1 . #s(Stitch slwyif 0))
         (2 . #s(Stitch k 0))
@@ -1764,8 +1766,13 @@
         (1 . #s(Stitch ssk 0))
         (7 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn)
      (Rowspec
-      '((0 . #s(Stitch bo 0)) (3 . #s(Stitch k 0)) (1 . #s(Stitch p 0)) (2 . #s(Stitch k 0)) (1 . #s(Stitch p 0)) (3 . #s(Stitch k 0)))
-      "" 0 (set 0) 'no-turn))
+      '((0 . #s(Stitch bo 0))
+        (1 . #s(Stitch bo* 0))
+        (3 . #s(Stitch k 0))
+        (1 . #s(Stitch p 0))
+        (2 . #s(Stitch k 0))
+        (1 . #s(Stitch p 0))
+        (3 . #s(Stitch k 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2) #(3) #(4)))
     (vector
      (Rowcount 0 0 0 0 0 11 15 11 15 0 0 0 0 0)
@@ -2165,6 +2172,35 @@
      (Rowcount 0 0 0 0 0 1 0 1 0 0 0 0 0 0))
     6 (Options 'hand 'flat 'rs 'right #f) (Repeats 2 0 2 3) 1 default-yarns))
 
+  ;; expand pattern with short rows
+  (check-equal?
+   (pattern-expand-repeats
+    (pattern
+      ((row 1) gs12)
+      ((row 2) gs9 w&t)
+      ((row 3) gs6 w&t)
+      ((row 4) gs3 w&t)
+      ((row 5 6) gs))
+    1 1)
+   (Pattern
+    "" "" null null
+    (vector
+     (Rowspec '((12 . #s(Stitch k 0))) "" 0 (seteq 0) 'no-turn)
+     (Rowspec '((9 . #s(Stitch k 0)) (1 . #s(Stitch w&tl 0))) "" 0 (seteq 0) 'w&t)
+     (Rowspec '((6 . #s(Stitch k 0)) (1 . #s(Stitch w&tr 0))) "" 0 (seteq 0) 'w&t)
+     (Rowspec '((3 . #s(Stitch k 0)) (1 . #s(Stitch w&tl 0))) "" 0 (seteq 0) 'w&t)
+     (Rowspec '((6 . #s(Stitch k 0))) "" 0 (seteq 0) 'no-turn)
+     (Rowspec '((12 . #s(Stitch k 0))) "" 0 (seteq 0) 'no-turn))
+    (Rowmap '#(#(1) #(2) #(3) #(4) #(5) #(6)) '#(0 1 2 3 4 5))
+    (vector
+     (Rowcount 0 0 0 0 0 12 12 12 12 0 0 0 0 0)
+     (Rowcount 0 0 0 3 0  9  9  9  9 0 0 0 0 0)
+     (Rowcount 0 3 0 3 0  6  6  6  6 0 0 0 0 0)
+     (Rowcount 0 3 0 6 0  3  3  3  3 0 0 0 0 0)
+     (Rowcount 0 6 0 0 0  6  6  6  6 0 0 0 0 0)
+     (Rowcount 0 0 0 0 0 12 12 12 12 0 0 0 0 0))
+    6 (Options 'hand 'flat 'rs 'right #f) (Repeats 12 0 #f #f) 1 default-yarns))
+
   ;; expand horizontal and vertical repeats
   (check-equal?
    (pattern-expand-repeats
@@ -2176,10 +2212,11 @@
     "" "" null null
     (vector
      (Rowspec '((3 . #s(Stitch k 0)) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn)
-     (Rowspec '((2 . #s(Stitch k 0)) (3 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
+     (Rowspec '((3 . #s(Stitch k 0)) (2 . #s(Stitch p 0))) "" 0 (set 0) 'no-turn))
     (make-rowmap '#(#(1) #(2)))
     (make-vector 2 (Rowcount 0 0 0 0 0 5 5 5 5 0 0 0 0 0))
     1 (Options 'hand 'flat 'rs 'right #f) (Repeats 3 1 1 1) 1 default-yarns))
+
 
   ;; single horizontal and vertical repeat
   (check-equal?
@@ -2350,5 +2387,5 @@
        #:repeat-rows 1
        ((rows 1) rss))))
   )
-;; end
 
+;; end

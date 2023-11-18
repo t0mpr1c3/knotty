@@ -78,11 +78,15 @@
 (define (make-rowcounts rowspecs rowmap)
   (dlog "in function count-stitches")
   (let* ([n-rows (vector-length (Rowmap-index rowmap))]
-         [rowcounts : Rowcounts (make-vector n-rows dummy-rowcount)])
+         [rowcounts (make-vector n-rows dummy-rowcount)]
+         [idx (Rowmap-index rowmap)])
     ;; count stitches in each row
     (for ([i (in-range n-rows)])
-      (let ([rowspec (vector-ref rowspecs (vector-ref (Rowmap-index rowmap) i))])
-        (vector-set! rowcounts i (tree-count (Rowspec-stitches rowspec)))))
+        (vector-set! rowcounts i (~>> i
+                                      (vector-ref idx)
+                                      (vector-ref rowspecs)
+                                      Rowspec-stitches
+                                      tree-count)))
     ;; calculate minimum number of repeats necessary to make the stitches consumed by each row
     ;; ensuring conformity between stitches produced and stitches consumed by consecutive rows
     (let ([caston-min
@@ -189,7 +193,7 @@
                                                     [after~ (- (+ prod-fix (* reps var)) in-fix)]
                                                     [caston-min~ in-fix~])
                                                (dlog (format "after~~ = ~a" after~))
-                                               (dlog (format "caston-min~~ ~a" caston-min~))
+                                               (dlog (format "caston-min~~ = ~a" caston-min~))
                                                (assert (natural? after~))
                                                (vector-set! rowcounts r
                                                             (Rowcount adj
@@ -872,8 +876,8 @@
                                                                        in-var
                                                                        in-fix))))
                                                      ;; there exist integral solutions to the linear Diophantine equation ax + by = c <=> gcd(a,b)|c
-                                                     (dlog (format "a ~a" a))
-                                                     (dlog (format "b ~a" b))
+                                                     (dlog (format "a = ~a" a))
+                                                     (dlog (format "b = ~a" b))
                                                      (assert (natural? a))
                                                      (assert (natural? b))
                                                      (let* ([n (lcm var in-var)]
@@ -886,10 +890,10 @@
                                                             [out-var~ (* q out-var)])
                                                        (assert (natural? p))
                                                        (assert (natural? q))
-                                                       (dlog (format "a ~a" a))
-                                                       (dlog (format "b ~a" b))
-                                                       (dlog (format "p ~a" p))
-                                                       (dlog (format "q ~a" q))
+                                                       (dlog (format "a = ~a" a))
+                                                       (dlog (format "b = ~a" b))
+                                                       (dlog (format "p = ~a" p))
+                                                       (dlog (format "q = ~a" q))
                                                        (combine-multiples! rowspecs rowmap rowcounts r a p)
                                                        (vector-set! rowcounts r
                                                                     (Rowcount adj
@@ -913,7 +917,7 @@
                                                              caston-min)))))))))))))))))])
 
       (calculate-totals! rowspecs rowmap rowcounts)
-      (dlog (format "before combining multiples: ~a" rowcounts))
+      (dlog (format "before combining multiples: rowcounts = ~a" rowcounts))
 
       (let* ([rowcount0 (vector-ref rowcounts 0)]
              [prod-var0 (Rowcount-stitches-out-var rowcount0)]
@@ -963,24 +967,23 @@
                [caston-mult~ (if (= 1 caston-mult)
                                  caston-mult-min
                                  (max caston-mult-min caston-mult))])
-          (dlog (format "caston-mult-min ~a" caston-mult-min))
-          (dlog (format "caston-mult ~a" caston-mult))
-          (dlog (format "caston-mult~~ ~a" caston-mult~))
+          (dlog (format "caston-mult-min = ~a" caston-mult-min))
+          (dlog (format "caston-mult = ~a" caston-mult))
+          (dlog (format "caston-mult~~ = ~a" caston-mult~))
 
           ;; update rowcounts based on caston-mult
           (combine-multiples! rowspecs rowmap rowcounts n-rows caston-mult~ 1)
-          (dlog (format "after combining multiples: ~a" rowcounts))
+          (dlog (format "after combining multiples: rowcounts = ~a" rowcounts))
           ))
       ;; update stitch totals
       (calculate-totals! rowspecs rowmap rowcounts)
-      (dlog (format "after calculating totals: ~a" rowcounts))
+      (dlog (format "after calculating totals: rowcounts =~a" rowcounts))
 
       ;; update stitches before/after
       (constrain-adjacent! rowspecs rowmap rowcounts)
-      (dlog (format "after constraining: ~a" rowcounts))
+      (dlog (format "final rowcounts = ~a" rowcounts))
 
       ;; return result
-      ;(dlog (format "final rowcounts: ~a" rowcounts))
       rowcounts)))
 
 (: combine-multiples! : (Vectorof Rowspec) Rowmap (Vectorof Rowcount) Natural Natural Natural -> Void)
@@ -1059,8 +1062,8 @@
                  [short?-j (rowspec-short-row? rowspec-j)]
                  [short?-i (rowspec-short-row? rowspec-i)]
                  [before-mult (Rowcount-stitches-in-before-mult rowcount-j)])
-            (dlog (format "row ~a" producer-row))
-            (dlog (format "last-full-row ~a" last-full-row))
+            (dlog (format "row = ~a" producer-row))
+            (dlog (format "last-full-row = ~a" last-full-row))
             (if (and short?-j short?-i)
                 ;; both rows short
                 (begin
@@ -1081,7 +1084,7 @@
                       (let ([res (- (+ produced prod-bef-fix) consumed)])
                         (assert (natural? res))
                         (rowcounts-set-after! rowcounts ri res before-mult)))
-                    (dlog (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                    (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                     (loop consumer-row
                           last-full-row)))
                 (if (and (not short?-j) short?-i)

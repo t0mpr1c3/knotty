@@ -223,12 +223,6 @@
   (rowspec-set-stitches rowspec
                         (tree-add-bo* (Rowspec-stitches rowspec))))
 
-;; Reverses elements in stitches and change Stitchtypes from RS to WS.
-(: rowspec-rs<->ws : Rowspec -> Rowspec)
-(define (rowspec-rs<->ws rowspec)
-  (rowspec-set-stitches rowspec
-                        (tree-rs<->ws (Rowspec-stitches rowspec))))
-
 ;; Checks compatibility of stitches with pattern technique.
 (: rowspec-stitches-compatible? : Rowspec Technique -> Boolean)
 (define (rowspec-stitches-compatible? rowspec technique)

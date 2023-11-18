@@ -904,10 +904,8 @@
        #"wwkkkk"
        #"wkkkkk*")))
 
-  #|
   ;; test of short rows
-  ;; rotl no offset
-  ;; FIXME fails
+  ;; r2l no offset
   (check-equal?
    (pattern->chart
     (pattern
@@ -915,8 +913,7 @@
       ((row 2) gs9 w&t)
       ((row 3) gs6 w&t)
       ((row 4) gs3 w&t)
-      ((row 5) gs)
-      ((row 6) gs)))
+      ((row 5 6) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkk*"
        #"ppppppppp#ww"
@@ -936,8 +933,7 @@
       ((row 2) gs9 w&t)
       ((row 3) gs6 w&t)
       ((row 4) gs3 w&t)
-      ((row 5) gs)
-      ((row 6) gs)))
+      ((row 5 6) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkk"
        #"ww$ppppppppp*"
@@ -956,8 +952,7 @@
       ((row 3) gs6 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -978,8 +973,7 @@
       ((row 4) gs6 w&t)
       ((row 5) gs3 w&t)
       ((row 6) gs6 w&t)
-      ((row 7) gs)
-      ((row 8) gs)))
+      ((row 7 8) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1001,8 +995,7 @@
       ((row 4) ssk gs4 w&t)
       ((row 5) gs3 w&t)
       ((row 6) gs6 w&t)
-      ((row 7) gs)
-      ((row 8) gs)))
+      ((row 7 8) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1024,8 +1017,7 @@
       ((row 4) k2tog gs4 w&t)
       ((row 5) gs3 w&t)
       ((row 6) gs6 w&t)
-      ((row 7) gs)
-      ((row 8) gs)))
+      ((row 7 8) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1047,16 +1039,15 @@
       ((row 4) bo1 gs4 w&t)
       ((row 5) gs3 w&t)
       ((row 6) gs6 w&t)
-      ((row 7) gs)
-      ((row 8) gs)))
+      ((row 7 8) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
        #"wkkkkkkkkkkkkw*"
-       #"wTpppp#wwwwwww"
-       #"ww$kkkwwwwwwww*"
-       #"wwwpppppp#wwww"
-       #"wwkkkkkkkwwwww*"
+       #"wTSpppp#wwwwww"
+       #"www$kkkwwwwwww*"
+       #"wwwwpppppp#www"
+       #"wwkkkkkkkkwwww*"
        #"wwpppppppppppw")))
 
   ;; test of short rows
@@ -1069,8 +1060,7 @@
       ((row 3) k2tog gs4 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1090,8 +1080,7 @@
       ((row 3) ssk gs4 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1111,16 +1100,15 @@
       ((row 3) bo1 gs4 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
-       #"wwwwww$kkkkTww*"
-       #"wwwwwwwppp#www"
-       #"www$kkkkkkwwww*"
-       #"wwwwpppppppwww"
-       #"wwkkkkkkkkkkkw*"))) ;; not ideal
+       #"wwwww$kkkkSTww*"
+       #"wwwwwwppp#wwww"
+       #"ww$kkkkkkwwwww*"
+       #"wwwppppppppwww"
+       #"wwkkkkkkkkkkkw*"))) ;; not ideal alignment
 
   ;; test of short rows
   ;; start r2l with offset & right increase
@@ -1132,8 +1120,7 @@
       ((row 3) mr gs4 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1153,8 +1140,7 @@
       ((row 3) ml gs4 w&t)
       ((row 4) gs3 w&t)
       ((row 5) gs6 w&t)
-      ((row 6) gs)
-      ((row 7) gs)))
+      ((row 6 7) gs)))
    (bytes->chart
     '#(#"kkkkkkkkkkkkkk*"
        #"wWppppppppppXw"
@@ -1163,7 +1149,7 @@
        #"wwww$kkkkkkwww*"
        #"wwwwwppppppppw"
        #"kkkkkkkkkkkkkw*")))
-|#
+
   (check-equal?
    ((inst sort (Pairof Symbol Natural) Natural)
     (hash->list

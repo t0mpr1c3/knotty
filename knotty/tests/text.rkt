@@ -120,7 +120,7 @@
     "Cast on a multiple of 2 stitches.\n"
     "Row 1 (RS): * in MC k1, p1; repeat from * to end of row.\n"
     "Repeat row 1.\n"))
-  
+
   ;; test `pattern->text`
   (check-equal?
    (pattern->text

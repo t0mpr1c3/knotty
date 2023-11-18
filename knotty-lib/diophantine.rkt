@@ -135,7 +135,7 @@
       (begin
         (dlog "No solution")
         (values x y))
-      (solution x y)))     
+      (solution x y)))
 
 ;; Returns solution
 (: solution : Natural Natural -> (values Natural Natural))

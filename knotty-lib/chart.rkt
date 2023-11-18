@@ -203,7 +203,7 @@
 (: pattern->chart (->* (Pattern) (Positive-Integer Positive-Integer) Chart))
 (define (pattern->chart p [h-repeats 1] [v-repeats 1])
   (dlog "in function `pattern->chart`")
-  (dlog (format "pattern p=~a" p))
+  (dlog (format "pattern p = ~a" p))
   (let* ([name (Pattern-name p)]
          [options (Pattern-options p)]
          [yarns (Pattern-yarns p)]
@@ -243,6 +243,8 @@
                  r2l?
                  short-row-i
                  0 0))))])
+    (dlog (format "expanded pattern = ~a" p~))
+    (dlog (format "chart rows before alignment = ~a" chart-rows))
     ;; return finished chart
     (chart-align-rows (Chart chart-rows
                              1 ;; width will be set in `chart-align-rows` function
@@ -306,8 +308,8 @@
                                         [start       : Integer            start1]      ;; start position of row on chart, before offset
                                         [acc-offset  : (Listof Integer)   '(0)]        ;; row offsets
                                         [acc-adj     : (Listof Integer)   '(0)])       ;; row adjustments
-                           (dlog (format "consumer row index i=~a" i))
-                           (dlog (format "producer row ~a" (vector-ref rows (sub1 i))))
+                           (dlog (format "consumer row index i = ~a" i))
+                           (dlog (format "producer row = ~a" (vector-ref rows (sub1 i))))
                            ;; check if we have reached the last row
                            (if (= height i)
                                (values
@@ -320,19 +322,21 @@
                                       [cons-short? (Chart-row-short? cons-row)]
                                       [cons-sts    (Chart-row-stitches cons-row)]
                                       [prod-len    (vector-length prod-out)]
-                                      [prod-avail  (- (apply + (vector->list prod-out)) pos)])
+                                      [prod-avail  (- (apply + (vector->list prod-out))
+                                                      pos)])
                                  ;; check conformability of sequences
                                  (let-values ([(cons-sts-in cons-in)
                                                (splice-in cons-sts)])
-                                   (dlog (format "pos=~a" pos))
-                                   (dlog (format "start=~a" start))
-                                   (dlog (format "prod-out=~a" prod-out))
-                                   (dlog (format "prod-avail=~a" prod-avail))
-                                   (dlog (format "prod-short?=~a" prod-short?))
-                                   (dlog (format "cons-st-in=~a" cons-sts-in))
-                                   (dlog (format "cons-in=~a" cons-in))
-                                   (dlog (format "acc-offset=~a" acc-offset))
-                                   (dlog (format "acc-adj=~a" acc-adj))
+                                   (dlog (format "consumer row = ~a" cons-row))
+                                   (dlog (format "pos = ~a" pos))
+                                   (dlog (format "start = ~a" start))
+                                   (dlog (format "prod-out = ~a" prod-out))
+                                   (dlog (format "prod-avail = ~a" prod-avail))
+                                   (dlog (format "prod-short? = ~a" prod-short?))
+                                   (dlog (format "cons-st-in = ~a" cons-sts-in))
+                                   (dlog (format "cons-in = ~a" cons-in))
+                                   (dlog (format "acc-offset = ~a" acc-offset))
+                                   (dlog (format "acc-adj = ~a" acc-adj))
                                    (when (> cons-sts-in prod-avail)
                                      (error (format "row ~a cannot be aligned as it consumes more stitches than are available" (add1 i))))
                                    (when (and (not (= cons-sts-in prod-avail))
@@ -340,9 +344,9 @@
                                      (error (format "row ~a cannot be aligned as it consumes fewer stitches than are available" (add1 i))))
                                    ;; obtain start position of consumer row on chart, before offset
                                    ;; partition producer sequence
-                                   (let*-values ([(prod-before prod-body)
+                                   (let*-values ([(prod-head prod-body)
                                                   (vector-split-at prod-out pos)]
-                                                 [(prod-align prod-after)
+                                                 [(prod-align prod-tail)
                                                   (vector-consume prod-body cons-sts-in)]
                                                  [(cons-sts-out cons-out)
                                                   (splice-out cons-sts)])
@@ -359,10 +363,10 @@
                                             [prepend~ (halve cum-offset~)] ;; offset including from current row
                                             [acc-offset~ (cons offset~ acc-offset)]
                                             ;; splice together new producer sequence
-                                            [prod-out~ (vector-append prod-before cons-out prod-after)]
+                                            [prod-out~ (vector-append prod-head cons-out prod-tail)]
                                             [pos~ (if (not cons-short?)
                                                       0
-                                                      (add1 (vector-length prod-after)))]
+                                                      (vector-length prod-tail))]
                                             [end (+ start
                                                     (if cons-r2l?
                                                         (- cons-sts-out cons-sts-in (sub1 cons-width))
@@ -377,16 +381,17 @@
                                                             (- end prepend)
                                                             (- start prepend))))]
                                             [acc-adj~ (cons adj acc-adj)])
-                                       (dlog (format "cons-short?=~a" cons-short?))
-                                       (dlog (format "cons-sts=~a" cons-sts))
-                                       (dlog (format "cons-in=~a" cons-in))
-                                       (dlog (format "cons-out=~a" cons-out))
-                                       (dlog (format "prod-before=~a" prod-before))
-                                       (dlog (format "prod-align=~a" prod-align))
-                                       (dlog (format "prod-after=~a" prod-after))
-                                       (dlog (format "offset=~a" offset))
-                                       (dlog (format "end=~a" end))
-                                       (dlog (format "start~~=~a" start~))
+                                       (dlog (format "cons-short? = ~a" cons-short?))
+                                       (dlog (format "cons-sts = ~a" cons-sts))
+                                       (dlog (format "cons-in = ~a" cons-in))
+                                       (dlog (format "cons-out = ~a" cons-out))
+                                       (dlog (format "prod-head = ~a" prod-head))
+                                       (dlog (format "prod-body = ~a" prod-body))
+                                       (dlog (format "prod-align = ~a" prod-align))
+                                       (dlog (format "prod-tail = ~a" prod-tail))
+                                       (dlog (format "offset = ~a" offset))
+                                       (dlog (format "end = ~a" end))
+                                       (dlog (format "start~~ = ~a" start~))
                                        (if (not cons-short?)
                                            ;; not short row
                                            (dev-loop (add1 i)
@@ -417,9 +422,9 @@
                                 (vector-map (λ ([i : Integer]) (min (vector-ref cum-offset~ i)
                                                                     (* 2 (- width (chart-row-width (vector-ref rows i))))))
                                             (list->vector (range (length offset)))))])
-              (dlog (format "cum-offset=~a" cum-offset))
-              (dlog (format "min-offset=~a" min-offset))
-              (dlog (format "prepend=~a" prepend))
+              (dlog (format "cum-offset = ~a" cum-offset))
+              (dlog (format "min-offset = ~a" min-offset))
+              (dlog (format "prepend = ~a" prepend))
               ;; set alignment in chart rows
               (let* ([padded-rows
                       (for/vector ([i (in-range height)]) : Chart-row
@@ -442,8 +447,8 @@
                                                 [align-right pad])))])
                 ;; return aligned chart
                 (dlog "returning from function `chart-align-rows` with:")
-                (dlog (format "final-rows=~a" final-rows))
-                (dlog (format "padded-width=~a" padded-width))
+                (dlog (format "final-rows = ~a" final-rows))
+                (dlog (format "padded-width = ~a" padded-width))
                 (Chart final-rows
                        padded-width
                        height

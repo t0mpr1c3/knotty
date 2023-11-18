@@ -156,6 +156,59 @@
               (tree-var (node-tree x)
                         (* multiplier (node-count x))))))))
 
+;; Is this a bind off sequence to finish the piece?
+(: tree-all-bo? : Tree -> Boolean)
+(define (tree-all-bo? tree)
+  (if (= 1 (length tree))
+      (let ([head (car tree)])
+        (if (and (Leaf? head)
+                 (eq? 'bo (leaf-symbol head))
+                 (zero? (leaf-count head)))
+            #t
+            #f))
+      #f))
+
+;; Adds bo* after last bo in run.
+;; A bind off sequence, other than one that finishes the piece,
+;; consumes and produces an extra stitch:
+;; see https://stitch-maps.com/patterns/display/buttonhole/
+;; Idempotent function.
+(: tree-add-bo* : Tree -> Tree)
+(define (tree-add-bo* tree)
+  (if (tree-all-bo? tree)
+      ;; bind off sequence to finish piece
+      tree
+      ;; otherwise
+      (reverse
+       (foldl
+        (λ ([x : (U Leaf Node)]
+            [acc : Tree])
+          (if (Leaf? x)
+              ;; leaf
+              (if (eq? 'bo (leaf-symbol x))
+                  ;; bind off sequence
+                  (tree-bo* acc x 0)
+                  ;; not bind off sequence
+                  (cons x acc))
+              ;; node
+              (cons (make-node (node-count x)
+                               (tree-add-bo* (node-tree x)))
+                    acc)))
+        null
+        (tree-remove-bo* tree)))))
+
+(: tree-bo* : Tree Leaf Natural -> Tree)
+(define (tree-bo* tree leaf reps)
+  (let* ([ct (leaf-count leaf)]
+         [bo* (make-leaf 1
+                         (make-stitch 'bo*
+                                      (Stitch-yarn (leaf-stitch leaf))))]
+         [n (if (zero? ct) reps ct)])
+    (cons bo*
+          (cons (make-leaf n
+                           (leaf-stitch leaf))
+                tree))))
+
 ;; Removes bo* stitches from tree.
 (: tree-remove-bo* : Tree -> Tree)
 (define (tree-remove-bo* tree)
@@ -175,57 +228,17 @@
     null
     tree)))
 
-;; Adds bo* after last bo in run, except variable repeats.
-;; Idempotent function.
-(: tree-add-bo* : Tree -> Tree)
-(define (tree-add-bo* tree)
-  (reverse
-   (foldl
-    (λ ([x : (U Leaf Node)]
-        [acc : Tree])
-      (if (Leaf? x)
-          ;; leaf
-          (if (eq? 'bo (leaf-symbol x))
-              ;; bind off sequence
-              (tree-bo* acc x 0)
-              ;; not bind off sequence
-              (cons x acc))
-          ;; node
-          (cons (make-node (node-count x)
-                           (tree-add-bo* (node-tree x)))
-                acc)))
-    null
-    (tree-remove-bo* tree))))
-
-(: tree-bo* : Tree Leaf Natural -> Tree)
-(define (tree-bo* tree leaf reps)
-  (let* ([ct (leaf-count leaf)]
-         [bo* (make-leaf 1
-                         (make-stitch 'bo*
-                                      (Stitch-yarn (leaf-stitch leaf))))]
-         [n (if (zero? ct) reps ct)])
-    (if (zero? n)
-        (cons leaf
-              tree)
-        (cons bo*
-              (cons (make-leaf n
-                               (leaf-stitch leaf))
-                    tree)))))
-
 ;; Replaces variable repeat(s) in tree with fixed integer value.
 ;; Adds bo* after last bo in run in variable repeats unless the sequence finishes the piece.
 (: tree-replace-var : Tree Natural -> Tree)
 (define (tree-replace-var tree reps)
-  (if (= 1 (length tree))
+  (if (tree-all-bo? tree)
+      ;; bind off sequence to finish piece
       (let ([head (car tree)])
-        (if (and (Leaf? head)
-                 (eq? 'bo (leaf-symbol head))
-                 (zero? (leaf-count head)))
-            ;; bind off sequence to finish piece
-            (list (make-leaf reps
-                             (leaf-stitch head)))
-            ;; otherwise do subroutine
-            (tree-replace-var-sub tree reps)))
+        (assert (Leaf? head))
+        (list (make-leaf reps
+                         (leaf-stitch head))))
+      ;; otherwise do subroutine
       (tree-replace-var-sub tree reps)))
 
 (: tree-replace-var-sub : Tree Natural -> Tree)
@@ -247,14 +260,13 @@
                   (cons x
                         acc)))
           ;; node
-          (if (zero? (node-count x))
-              (cons (make-node reps
-                               (node-tree x))
-                    acc)
-              (cons x
-                    acc))))
+          (let ([ct (node-count x)])
+            (cons (make-node (if (zero? ct) reps ct)
+                             (tree-replace-var-sub (node-tree x)
+                                                   reps))
+                  acc))))
     null
-    tree)))
+    (tree-remove-bo* tree))))
 
 ;; Checks for variable repeat nested within node.
 ;; This structure is not allowed.
@@ -278,40 +290,24 @@
                 nested?)))))
 
 ;; Calculates the sum of a function over every element in a tree.
-;; NB a bind off sequence, other than one that finishes the piece,
-;; consumes and produces an extra stitch:
-;; see https://stitch-maps.com/patterns/display/buttonhole/
 (: tree-sum-func : Tree (-> Stitchtype Natural) Natural -> Natural)
 (define (tree-sum-func tree func factor)
-  (if (null? tree)
-      0
-      (let ([x (car tree)])
-        (if (and (Leaf? x)
-                 (eq? 'bo (leaf-symbol x))
-                 (zero? (leaf-count x))
-                 (= 1 (length tree)))
-            ;; bind off sequence to finish piece
-            (* factor
-               (func (get-stitchtype 'bo)))
-            ;; otherwise
-            (foldl (λ ([x : (U Leaf Node)]
-                       [acc : Natural])
-                     (if (Leaf? x)
-                         ;; leaf
-                         (let ([ct (leaf-count x)]
-                               [st (leaf-symbol x)])
-                           (+ acc
-                              (* (if (zero? ct) factor ct)
-                                 (func (get-stitchtype st)))
-                              (if (and (eq? 'bo st)
-                                       (zero? ct)) 1 0)))
-                         ;; node
-                         (let ([ct (node-count x)])
-                           (+ acc
-                              (* (if (zero? ct) factor ct)
-                                 (tree-sum-func (node-tree x) func factor))))))
-                   0
-                   tree)))))
+  (foldl (λ ([x : (U Leaf Node)]
+             [acc : Natural])
+           (if (Leaf? x)
+               ;; leaf
+               (let ([ct (leaf-count x)]
+                     [st (leaf-symbol x)])
+                 (+ acc
+                    (* (if (zero? ct) factor ct)
+                       (func (get-stitchtype st)))))
+               ;; node
+               (let ([ct (node-count x)])
+                 (+ acc
+                    (* (if (zero? ct) factor ct)
+                       (tree-sum-func (node-tree x) func factor))))))
+         0
+         tree))
 
 ;; Recursively combines elements first by breadth, then by depth, until there are no further changes.
 (: tree-combine : Tree -> Tree)

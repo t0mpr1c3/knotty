@@ -155,7 +155,7 @@
         (ilog "  --web"))
       (dlog "in `cli-handler` with:")
       (dlog (format "command line flags=~a" flags))
-      
+
       #|
         ;; (de)obfuscate DAK files
         (when (or (and import-dak? export-stp?)
@@ -271,7 +271,7 @@
             (let ([h (if (null? repeats) 2 (cadar repeats))]
                   [v (if (null? repeats) 2 (caddar repeats))])
               (serve-pattern p h v)))))
-    
+
     (thread-send log-receiver-thread 'time-to-stop) ;; send message to log receiver thread
     (thread-wait log-receiver-thread))) ;; wait for log receiver to finish before exiting
 

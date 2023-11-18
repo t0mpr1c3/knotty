@@ -797,7 +797,7 @@
   (let* ([rowspecs  (Pattern-rowspecs  p)]
          [rowmap    (Pattern-rowmap    p)]
          [rowcounts (Pattern-rowcounts p)]
-         [n-rows    (Pattern-nrows p)]
+         [n-rows    (Pattern-nrows     p)]
          [options   (Pattern-options   p)]
          [repeats   (Pattern-repeats   p)]
          [first-repeat-row (Repeats-first-repeat-row repeats)]
@@ -836,17 +836,13 @@
           (for ([r : Natural (in-range n-rows~)])
             (let ([i (original-row-index repeats n-rows v-repeats~ (add1 r))])
               (assert (natural? i))
-              (let* ([rowspec~1  (vector-ref rowspecs (rowmap-find0 rowmap i))]
-                     [rowspec~2  (if (and rev? (odd? (- r i)))
-                                     (rowspec-rs<->ws rowspec~1)
-                                     rowspec~1)]
+              (let* ([rowspec~   (vector-ref rowspecs (rowmap-find0 rowmap i))]
                      [rowcount~1 (vector-ref rowcounts i)])
-                (vector-set! rowspecs~  r rowspec~2)
+                (vector-set! rowspecs~  r rowspec~)
                 (vector-set! rowcounts~ r rowcount~1))))
           ;; expand horizontal repeats in `rowspecs~`
           (for ([r : Natural (in-range n-rows~)])
             (let ([rowcount~ (vector-ref rowcounts~ r)])
-              (when (positive? (Rowcount-var-count rowcount~))
                 (let ([mult-fix (Rowcount-multiple-fix rowcount~)]
                       [mult-var (Rowcount-multiple-var rowcount~)])
                   (assert (natural? mult-fix))
@@ -861,7 +857,7 @@
                                  r
                                  (struct-copy
                                   Rowspec rowspec~
-                                  [stitches stitches~])))))))
+                                  [stitches stitches~]))))))
           ;; remake `rowcounts`
           ;; keep original `repeats`
           (struct-copy Pattern p
