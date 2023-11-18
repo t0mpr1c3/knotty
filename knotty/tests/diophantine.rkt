@@ -18,10 +18,11 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 |#
 
+(require "../../knotty-lib/global.rkt"
+         "../../knotty-lib/diophantine.rkt")
+
 (module+ test
   (require typed/rackunit)
-  (require "../../knotty-lib/diophantine.rkt")
-
   (define-syntax check-values-equal?
     (syntax-rules ()
       [(_ a b) (check-equal? (call-with-values (thunk a) list)

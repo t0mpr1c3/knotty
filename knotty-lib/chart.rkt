@@ -42,7 +42,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; chart struct
+;; Chart struct.
 (struct Chart
   ([rows : (Vectorof Chart-row)]
    [width : Natural]
@@ -60,7 +60,7 @@
       name
       yarns
       type-name)
-    ;(dlog "in `Chart` struct guard function")
+    (dlog "in `Chart` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose chart-guard-null
               chart-guard-set-width
@@ -74,7 +74,7 @@
      yarns))
   #:transparent)
 
-;; composable function as part of `Chart` struct guard function
+;; Composable function as part of `Chart` struct guard function.
 (: chart-guard-set-height ((Vectorof Chart-row)
                            Natural
                            Natural
@@ -113,7 +113,7 @@
               name
               yarns)))
 
-;; composable function as part of `Chart` struct guard function
+;; Composable function as part of `Chart` struct guard function.
 (: chart-guard-set-width ((Vectorof Chart-row)
                           Natural
                           Natural
@@ -154,7 +154,7 @@
               name
               yarns)))
 
-;; composable function as part of `Chart` struct guard function
+;; Composable function as part of `Chart` struct guard function.
 (: chart-guard-null ((Vectorof Chart-row)
                      Natural
                      Natural
@@ -196,13 +196,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; create chart from pattern
-;; NB * in circular knitting, rounds are all knit from the same side and on the same face
-;;    * in flat knitting, each row is knit on the opposite side and face to the previous row
-;;    * in machine knitting, rows are all on the same face but (usually) alternate sides (FIXME)
+;; Creates Chart from Pattern,
+;; NB * In flat hand knitting, each row is knit on the opposite side and face to the previous row.
+;;    * In machine knitting, all rows are knit on the same face.
+;;    * In circular knitting, rounds are all knit from the same side and on the same face.
 (: pattern->chart (->* (Pattern) (Positive-Integer Positive-Integer) Chart))
 (define (pattern->chart p [h-repeats 1] [v-repeats 1])
   (dlog "in function `pattern->chart`")
+  (dlog (format "pattern p=~a" p))
   (let* ([name (Pattern-name p)]
          [options (Pattern-options p)]
          [yarns (Pattern-yarns p)]
@@ -218,7 +219,7 @@
                      trimmed-stitchvector))
                rowspecs)]
          [chart-rows
-          (for/vector #:length height ([j : Natural (in-range height)]) : Chart-row
+          (for/vector ([j : Natural (in-range height)]) : Chart-row
             (let* ([r (add1 j)]
                    [rs? (options-row-rs? options r)]
                    [r2l? (options-row-r2l? options r)]
@@ -253,10 +254,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; method to align chart rows
-;; short rows can be considered a partition of the row
+;; Aligns chart rows.
+;;
+;; This is one of the more complex calculations,
+;; and the heuristics employed do not work in every case,
+;; so lots of debugging output is provided.
+;;
+;; Short rows can be considered a partition of the row
 ;; into one section which is aligned and sections on either end,
-;; possibly of length zero, which are not aligned
+;; possibly of length zero, which are not aligned.
 (: chart-align-rows : Chart -> Chart)
 (define (chart-align-rows c)
   (dlog "in function `chart-align-rows`")
@@ -288,7 +294,6 @@
                [start1 (if (Chart-row-r2l? (vector-ref rows 1))
                            (sub1 (chart-row-width row0))
                            0)])
-          (dlog (format "in function `chart-align-rows`, width=~a" width))
           (let*-values ([(stitches-out0 splice-out0)
                          (splice-out    producer0)]
                         ;; calculate offsets for each row in half-stitch units
@@ -301,9 +306,8 @@
                                         [start       : Integer            start1]      ;; start position of row on chart, before offset
                                         [acc-offset  : (Listof Integer)   '(0)]        ;; row offsets
                                         [acc-adj     : (Listof Integer)   '(0)])       ;; row adjustments
-                           ;(println (format "i ~a" i))
-                           ;(println (format "producer row ~a" (vector-ref rows (sub1 i))))
-                           ;(println (format "consumer row ~a" (vector-ref rows (sub1 i))))
+                           (dlog (format "consumer row index i=~a" i))
+                           (dlog (format "producer row ~a" (vector-ref rows (sub1 i))))
                            ;; check if we have reached the last row
                            (if (= height i)
                                (values
@@ -320,18 +324,15 @@
                                  ;; check conformability of sequences
                                  (let-values ([(cons-sts-in cons-in)
                                                (splice-in cons-sts)])
-                                   #|
-                                   (println (format "i ~a" i))
-                                   (println (format "pos ~a" pos))
-                                   (println (format "start ~a" start))
-                                   (println (format "prod-out ~a" prod-out))
-                                   (println (format "prod-avail ~a" prod-avail))
-                                   (println (format "prod-short? ~a" prod-short?))
-                                   (println (format "cons-st-in ~a" cons-sts-in))
-                                   (println (format "cons-in ~a" cons-in))
-                                   (println (format "acc-offset ~a" acc-offset))
-                                   (println (format "acc-adj ~a" acc-adj))
-                                   |#
+                                   (dlog (format "pos=~a" pos))
+                                   (dlog (format "start=~a" start))
+                                   (dlog (format "prod-out=~a" prod-out))
+                                   (dlog (format "prod-avail=~a" prod-avail))
+                                   (dlog (format "prod-short?=~a" prod-short?))
+                                   (dlog (format "cons-st-in=~a" cons-sts-in))
+                                   (dlog (format "cons-in=~a" cons-in))
+                                   (dlog (format "acc-offset=~a" acc-offset))
+                                   (dlog (format "acc-adj=~a" acc-adj))
                                    (when (> cons-sts-in prod-avail)
                                      (error (format "row ~a cannot be aligned as it consumes more stitches than are available" (add1 i))))
                                    (when (and (not (= cons-sts-in prod-avail))
@@ -376,18 +377,16 @@
                                                             (- end prepend)
                                                             (- start prepend))))]
                                             [acc-adj~ (cons adj acc-adj)])
-                                       #|
-                                       (println (format "cons-short? ~a" cons-short?))
-                                       (println (format "cons-sts ~a" cons-sts))
-                                       (println (format "cons-in ~a" cons-in))
-                                       (println (format "cons-out ~a" cons-out))
-                                       (println (format "prod-before ~a" prod-before))
-                                       (println (format "prod-align ~a" prod-align))
-                                       (println (format "prod-after ~a" prod-after))
-                                       (println (format "offset ~a" offset))
-                                       (println (format "end ~a" end))
-                                       (println (format "start~~ ~a" start~))
-                                       |#
+                                       (dlog (format "cons-short?=~a" cons-short?))
+                                       (dlog (format "cons-sts=~a" cons-sts))
+                                       (dlog (format "cons-in=~a" cons-in))
+                                       (dlog (format "cons-out=~a" cons-out))
+                                       (dlog (format "prod-before=~a" prod-before))
+                                       (dlog (format "prod-align=~a" prod-align))
+                                       (dlog (format "prod-after=~a" prod-after))
+                                       (dlog (format "offset=~a" offset))
+                                       (dlog (format "end=~a" end))
+                                       (dlog (format "start~~=~a" start~))
                                        (if (not cons-short?)
                                            ;; not short row
                                            (dev-loop (add1 i)
@@ -418,9 +417,9 @@
                                 (vector-map (λ ([i : Integer]) (min (vector-ref cum-offset~ i)
                                                                     (* 2 (- width (chart-row-width (vector-ref rows i))))))
                                             (list->vector (range (length offset)))))])
-              ;(println (format "cum-offset ~a" cum-offset))
-              ;(println (format "min-offset ~a" min-offset))
-              ;(println (format "prepend ~a" prepend))
+              (dlog (format "cum-offset=~a" cum-offset))
+              (dlog (format "min-offset=~a" min-offset))
+              (dlog (format "prepend=~a" prepend))
               ;; set alignment in chart rows
               (let* ([padded-rows
                       (for/vector ([i (in-range height)]) : Chart-row
@@ -453,7 +452,7 @@
                        name
                        yarns))))))))
 
-;; pad vector of integers with zeroes to length `width`
+;; Pads a vector of integers with zeroes to length `width`.
 (: pad : (Vectorof Integer) Natural -> (Vectorof Integer))
 (define (pad xs width)
   (let ([len (vector-length xs)])
@@ -461,7 +460,7 @@
         (vector-take xs width)
         (vector-append xs (make-vector (- width len) 0)))))
 
-;; abs-max of accumulated deviance
+;; Returns the integer with the largest absolute value.
 (: abs-max : (Listof Integer)-> Integer)
 (define (abs-max xs)
   (let ([a : Integer (apply min xs)]
@@ -493,22 +492,13 @@
               acc-stitches-in
               (list->vector
                (reverse acc-splice-in))))
-            #|
-             (values
-              acc-stitches-in
-              (list->vector
-               (if r2l?
-                   acc-splice-in
-                   (reverse acc-splice-in)))))
-            |#
             ([x : Stitch (vector->list xs)])
     : (values Natural (Vectorof Integer))
     (let* ([st    (get-stitchtype (Stitch-symbol x))]
            [width (Stitchtype-width        st)]
            [in    (Stitchtype-stitches-in  st)]
            [out   (Stitchtype-stitches-out st)]
-           [off   (Stitchtype-offset       st)]
-           #|[off~  (if r2l? (- off) off)]|#) ;; this option not used currently
+           [off   (Stitchtype-offset       st)])
       (values (+ in acc-stitches-in)
               (cond
                 ;; bunny ears (width = 2)
@@ -586,7 +576,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; make hash of yarns used in chart
+;; Make hash of yarns used in chart.
 (: chart-yarn-hash : Chart -> (HashTable Byte Byte))
 (define (chart-yarn-hash c)
   (let ([h : (HashTable Byte Byte) (make-hasheq)]
@@ -605,7 +595,7 @@
         (hash-set! h (list-ref keys i) (bitwise-and #xFF i)))
       h)))
 
-;; make hash of stitch symbols used in chart
+;; Make hash of stitch symbols used in chart.
 (: chart-stitch-hash : Chart -> (HashTable Symbol Byte))
 (define (chart-stitch-hash c)
   (let ([h : (HashTable Symbol Byte) (make-hasheq)]
@@ -631,8 +621,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; replace long floats with blanks
-;; return #f if any floats > `max-length`, #t otherwise
+;; Check length of floats at back of work.
+;; Replace long floats in chart with blanks.
+;; Ignore trailing floats at start/end.
+;; Return #f if any floats > `max-length`, #t otherwise
 (: check-floats : Chart Options Positive-Integer -> (values Chart Boolean))
 (define (check-floats c options max-length)
   (let ([technique (Options-technique options)])
@@ -641,7 +633,6 @@
     (if (eq? (Options-form options) 'flat)
         (flat-check-floats c max-length)
         (circular-check-floats c max-length))))
-;(values c #t)))
 
 (: flat-check-floats : Chart Positive-Integer -> (values Chart Boolean))
 (define (flat-check-floats c max-length)
@@ -684,7 +675,6 @@
          [res ((inst andmap Boolean Boolean Boolean) identity row-ok)])
     (values c res)))
 
-;; ignores trailing floats at start/end
 (: circular-check-floats : Chart Positive-Integer -> (values Chart Boolean))
 (define (circular-check-floats c max-length)
   (let* ([w (Chart-width c)]

@@ -30,29 +30,29 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; functions over Lists
+;; Functions over Lists
 
-;; restrict list to unique elements
+;; Restricts list to unique elements.
 (: uniq : (All (A) (Listof A) -> (Listof A)))
 (define (uniq [xs : (Listof A)])
   (cond [(null? xs) null]
         [(member (car xs) (cdr xs)) (uniq (cdr xs))]
         [else (cons (car xs) (uniq (cdr xs)))]))
 
-;; apply function to consecutive elements of list
+;; Applies function to consecutive elements of list.
 (: diff : (All (A) (-> A A A) (Listof A) -> (Listof A)))
 (define (diff f xs)
   (for/list ([x xs] [y (cdr xs)])
     (f y x)))
 
-;; sum of Naturals
+;; Obtains sum of Naturals.
 (: sum : (Listof Natural) -> Natural)
 (define (sum xs)
   (for/fold ([acc : Natural 0])
             ([x   : Natural xs])
     (+ acc x)))
 
-;; cumulative sums of Integer list
+;; Obtains cumulative sums of Integer list.
 (: cum-sum : (Listof Integer) -> (Listof Integer))
 (define (cum-sum xs)
   (let loop ([tail : (Listof Integer) xs]
@@ -73,19 +73,19 @@
        (map string->symbol)))
 
 #|
-;; find index of largest element in list
+;; Finds index of largest element in list.
 (: which-max : (Listof Real) -> Index)
 (define (which-max xs)
   (argmax (λ ([i : Index]) (list-ref xs i))
           (range (length xs))))
 
-;; find index of smallest element in list
+;; Finds index of smallest element in list.
 (: which-min : (Listof Real) -> Index)
 (define (which-min xs)
   (argmin (λ ([i : Index]) (list-ref xs i))
           (range (length xs))))
 
-;; find index of minimum absolute difference between an integer and elements in list
+;; Finds index of minimum absolute difference between an integer and elements in list.
 (: which-min-dist : (Listof Integer) -> (Integer -> Natural))
 (define ((which-min-dist ys) x)
   (which-min
@@ -94,14 +94,14 @@
 |#
 
 
-;; numerical functions
+;; Numerical functions
 
-;; curried product of Naturals
+;; Obtains curried product of Naturals.
 (: mult : Natural -> (-> Natural Natural))
 (define (mult x)
   (λ ([y : Natural]) (* x y)))
 
-;; halve (rounding up)
+;; Halves (rounding up).
 (: halve : Integer -> Integer)
 (define (halve x)
   (let-values ([(q r) (quotient/remainder x 2)])
@@ -114,7 +114,7 @@
       (+ y)
       (bitwise-and #xFF)))
 
-;; sequence of row numbers
+;; Returns sequence of row numbers.
 (: pos-range : Positive-Integer Positive-Integer Positive-Integer -> (Listof Positive-Integer))
 (define (pos-range start end step)
   (let loop ([x    : Positive-Integer          start]
@@ -123,7 +123,7 @@
         (reverse acc)
         (loop (+ x step) (cons x acc)))))
 
-;; string to natural
+;; Converts string to natural, or #f.
 (: string->natural : String -> (Option Natural))
 (define (string->natural x)
   (let ([n (string->number x)])
@@ -139,7 +139,7 @@
               #f
               i)))))
 
-;; string to positive integer
+;; Converts string to positive integer, or #f.
 (: string->positive-integer : String -> (Option Positive-Integer))
 (define (string->positive-integer x)
   (let ([n (string->natural x)])
@@ -148,7 +148,7 @@
         #f
         n)))
 
-;; string to bytes
+;; Converts string to byte, or #f.
 (: string->byte : String -> (Option Byte))
 (define (string->byte x)
   (let ([n (string->natural x)])
@@ -157,7 +157,7 @@
         #f
         n)))
 
-;; string to boolean
+;; Converts string to boolean.
 (: string->boolean : String -> Boolean)
 (define (string->boolean x)
   (if (or (equal? "" x)
@@ -165,9 +165,9 @@
       #f
       #t))
 
-;; functions over Bytes
+;; Functions over Bytes
 
-;; reverse bytes
+;; Reverses order of Bytes.
 (: bytes-reverse : Bytes -> Bytes)
 (define (bytes-reverse b)
   (~> b
@@ -175,7 +175,7 @@
       reverse
       list->bytes))
 
-;; unique values in byte string
+;; Returns unique values in byte string.
 (: unique-bytes : Bytes -> (Listof Byte))
 (define (unique-bytes bs)
   (~> bs
@@ -184,7 +184,7 @@
       set->list
       (sort <)))
 
-;; maximum of value of list of bytes
+;; Returns maximum of value of list of bytes.
 (: bytes-max : (Listof Byte) -> Byte)
 (define (bytes-max xs)
   (let loop ([tail : (Listof Byte) xs]
@@ -196,7 +196,7 @@
               (loop (cdr tail) head)
               (loop (cdr tail) m))))))
 
-;; map list of n bytes to their index
+;; Maps list of n bytes to their index.
 (: bytes-index : (Listof Byte) -> Bytes)
 (define (bytes-index xs)
   (let ([res (make-bytes (add1 (bytes-max xs)) #xFF)])
@@ -208,7 +208,7 @@
             (bytes-set! res head i)
             (loop (cdr tail) (add1 i)))))))
 
-;; make hash from list of keys, with index of key as the value
+;; Makes hash from list of keys, with index of key as the value.
 (: list-index : (Listof (Option Byte)) -> (HashTable (Option Byte) Byte))
 (define (list-index xs)
   (let ([h : (HashTable (Option Byte) Byte) (make-hasheqv)]
@@ -229,7 +229,7 @@
 |#
 
 
-;; logic
+;; Boolean functions
 
 ;; Boolean XOR
 (: boolean-xor : Boolean Boolean -> Boolean)
@@ -276,9 +276,9 @@
 |#
 
 
-;; color functions
+;; Color functions
 
-;; 24 bit number as 6-character hex string
+;; Converts 24 bit number to 6-character hex string.
 (: hex-color : Nonnegative-Fixnum -> String)
 (define (hex-color c)
   (let* ([str
@@ -290,6 +290,7 @@
          [len (string-length str)])
     (substring str (- len 6))))
 
+;; Converts RGB bytes to 6-character hex string.
 (: rgb->color : Byte Byte Byte -> Nonnegative-Fixnum)
 (define (rgb->color r g b)
   (bitwise-ior (fxlshift r 16)
@@ -305,13 +306,14 @@
   (regexp-replace* #rx"_" (symbol->string s) " "))
 
 
-;; returns high contrast text color given background color
+;; Returns high contrast text color given background color as RGB bytes.
 (: contrast-color-rgb : Byte Byte Byte -> String)
 (define (contrast-color-rgb r g b)
   (if (> (+ (* r 0.299) (* g 0.587) (* b 0.114)) 186)
       "black"
       "white"))
 
+;; Returns high contrast text color given background color as hex string.
 (: contrast-color-hex : String -> String)
 (define (contrast-color-hex hex)
   (if (< (string-length hex) 6)
@@ -326,6 +328,7 @@
             "black"
             (contrast-color-rgb r g b)))))
 
+;; Converts hex string to byte.
 (: hex->byte : String -> (Option Byte))
 (define (hex->byte hex)
   (let ([n (string->number hex 16)])
@@ -333,9 +336,9 @@
         n
         #f)))
 
-;; functions over vectors
+;; Functions over vectors
 
-;; index of first non-false element of vector
+;; Returns index of first non-false element of vector.
 (: vector-which : (Vectorof Any) -> (U Natural False))
 (define (vector-which vec)
   (let loop ([xs (vector->list vec)]
@@ -347,22 +350,22 @@
               i
               (loop (cdr xs) (add1 i)))))))
 
-;; maximum of vector of Natural integers
+;; Returns maximum of vector of Natural integers.
 (: vector-min : (Vectorof Natural) -> Natural)
 (define (vector-min xs)
   (apply min (vector->list xs)))
 
-;; maximum of vector of Natural integers
+;; Returns maximum of vector of Natural integers.
 (: vector-max : (Vectorof Natural) -> Natural)
 (define (vector-max xs)
   (apply max (vector->list xs)))
 
-;; sum of vector of Natural integers
+;; Returns sum of vector of Natural integers.
 (: vector-sum : (Vectorof Natural) -> Natural)
 (define (vector-sum xs)
   (apply + (vector->list xs)))
 
-;; reverse vector
+;; Reverses vector.
 (: vector-reverse : (All (A) (Vectorof A) -> (Vectorof A)))
 (define (vector-reverse v)
   (~> v
@@ -371,10 +374,10 @@
       list->vector))
 
 
-;; generic text output functions
-;; used in error messages etc.
+;; Generic text output functions
+;; Used in knitting instructions, error messages, etc.
 
-;; substring to end of string or length(x), whichever is shorter
+;; Returns substring to end of string or length(x), whichever is shorter.
 (: safe-substring : String Integer Integer -> String)
 (define (safe-substring str start end)
   (substring str
@@ -475,9 +478,9 @@
    s
    ""))
 
-;; chop last letter of string
+;; Chops last letter off string
 (: string-chop-last : String -> String)
 (define (string-chop-last x)
   (safe-substring x 0 (sub1 (string-length x))))
 
-;end
+;; end

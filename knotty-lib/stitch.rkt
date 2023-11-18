@@ -25,14 +25,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; stitch definitions
-;; NB symbols are based on Stitchmastery Dash font
+;; Stitch definitions.
+;; NB symbols are based on Stitchmastery Dash font.
 
-;; type of stitch
-;; FIXME perhaps need another field to indicate
-;; whether the stitch should encode yarn information
-;; because some "stitches" are placeholders that
-;; do not actually use yarn at all e.g. 'ns 'na
+;; Stitchtype struct.
 (struct Stitchtype
   ([rs-symbol : Symbol]
    [ws-symbol : Symbol]
@@ -58,12 +54,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; stitch struct
+;; Stitch struct.
 (struct Stitch
   ([symbol : Symbol]
    [yarn : (Option Byte)]) ;; #f = default yarn, which is 0 (MC) if not otherwise specified
   #:prefab)
 
+;; Alternative constructor.
 (: make-stitch : Symbol (Option Byte) -> Stitch)
 (define (make-stitch sym yrn)
   (Stitch sym yrn))
@@ -455,6 +452,7 @@
 
 (define stitch-hash (make-stitch-hash stitch-list-with-aliases))
 
+;; Returns Stitchtype given WS symbol.
 (: get-stitchtype : Symbol -> Stitchtype)
 (define (get-stitchtype s)
   (let ([result : (Option Stitchtype) (hash-ref stitch-hash s be-false)])
@@ -464,7 +462,7 @@
           (err SAFE (format "unknown stitch: ~a" s))
           (get-stitchtype 'ns)))))
 
-;; change stitch to its WS representation
+;; Changes stitch between its RS and WS representation
 ;; NB some cable stitches do not have a WS equivalent
 ;; FIXME need tests that s = (stitch-rs<->ws (stitch-rs<->ws s))
 (: stitch-rs<->ws : Stitch -> Stitch)
@@ -472,12 +470,14 @@
   (Stitch (Stitchtype-ws-symbol (get-stitchtype (Stitch-symbol s)))
           (Stitch-yarn s)))
 
+;; Does the symbol represent a turn Stitchtype?
 (: turn? : Symbol -> Boolean)
 (define (turn? st)
   (or (eq? st 'turn)
       (eq? st 'turnl)
       (eq? st 'turnr)))
 
+;; Does the symbol represent a wrap-and-turn Stitchtype?
 (: w&t? : Symbol -> Boolean)
 (define (w&t? st)
   (or (eq? st 'w&t)

@@ -27,12 +27,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; stitch information in each row is encoded in a tree structure:
-;; leaf data = sequence of stitches
-;; node data = number of repeats
-;; each node can have multiple children
+;; Stitch information in each row is encoded in a tree structure:
+;; Leaf data = sequence of stitches.
+;; Node data = repeated sequence of different stitches.
+;; Each node can have multiple children.
+;; A count of zero indicates a variable number repeat.
+;; A stitch tree may contain a maximum of one variable repeat.
+;; Variable repeat stitch sequences may not be nested within nodes.
 
-;; recursive definition of Tree and related types
+;; Recursive definitions of Tree and related types.
 
 (define-type Tree (Listof (U Leaf Node)))
 (define-type Leaf (Pairof Natural Stitch)) ; repeat-count stitch
@@ -44,7 +47,7 @@
 ;; Leaf functions
 (define-predicate Leaf? Leaf)
 
-;; constructor
+;; Constructor.
 (: make-leaf : Natural Stitch -> Leaf)
 (define (make-leaf n st)
   (cons n st))
@@ -71,7 +74,7 @@
   (make-vector (leaf-count leaf)
                (leaf-stitch leaf)))
 
-;; count stitches consumed by leaf (excluding variable repeats)
+;; Counts stitches consumed by leaf (excluding variable repeats).
 (: leaf-stitches-in : Leaf -> Natural)
 (define (leaf-stitches-in leaf)
   (* (leaf-count leaf)
@@ -80,7 +83,7 @@
          get-stitchtype
          Stitchtype-stitches-in)))
 
-;; count stitches produced by leaf (excluding variable repeats)
+;; Counts stitches produced by leaf (excluding variable repeats).
 (: leaf-stitches-out : Leaf -> Natural)
 (define (leaf-stitches-out leaf)
   (* (leaf-count leaf)
@@ -94,7 +97,7 @@
 ;; Node functions
 (define-predicate Node? Node)
 
-;; constructor
+;; Constructor.
 (: make-node : Natural Tree -> Node)
 (define (make-node n tree)
   (cons n tree))
@@ -112,11 +115,11 @@
 ;; Tree functions
 (define-predicate Tree? Tree)
 
-;; constructor
+;; Constructor.
 (: make-tree : (U Leaf Node) (U Leaf Node) * -> Tree)
 (define (make-tree . xs) xs)
 
-;; count (non-nested) variable repeats in tree
+;; Counts (non-nested) variable repeats in tree.
 (: tree-count-var : Tree -> Natural)
 (define (tree-count-var tree)
   (foldl
@@ -134,8 +137,8 @@
    0
    tree))
 
-;; obtain (leftmost non-nested) variable repeat from tree
-;; or return #f if no variable repeat
+;; Obtains (left-most, non-nested) variable repeat from tree.
+;; Returns #f if no variable repeat.
 (: tree-var : (->* (Tree) (Natural) (Option (Pairof Tree Natural))))
 (define (tree-var tree [multiplier 1])
   (for/or : (Option (Pairof Tree Natural)) ([i (in-range (length tree))])
@@ -153,6 +156,7 @@
               (tree-var (node-tree x)
                         (* multiplier (node-count x))))))))
 
+;; Removes bo* stitches from tree.
 (: tree-remove-bo* : Tree -> Tree)
 (define (tree-remove-bo* tree)
   (reverse
@@ -171,8 +175,8 @@
     null
     tree)))
 
-;; add bo* after last bo in run, except variable repeats
-;; idempotent
+;; Adds bo* after last bo in run, except variable repeats.
+;; Idempotent function.
 (: tree-add-bo* : Tree -> Tree)
 (define (tree-add-bo* tree)
   (reverse
@@ -208,8 +212,8 @@
                                (leaf-stitch leaf))
                     tree)))))
 
-;; replace variable repeat(s) in tree with fixed integer value
-;; add bo* after last bo in run in variable repeats unless the sequence finishes the piece
+;; Replaces variable repeat(s) in tree with fixed integer value.
+;; Adds bo* after last bo in run in variable repeats unless the sequence finishes the piece.
 (: tree-replace-var : Tree Natural -> Tree)
 (define (tree-replace-var tree reps)
   (if (= 1 (length tree))
@@ -252,7 +256,8 @@
     null
     tree)))
 
-;; check for variable repeat nested within node
+;; Checks for variable repeat nested within node.
+;; This structure is not allowed.
 (: tree-nested-var? ( ->* (Tree) (Boolean) Boolean))
 (define (tree-nested-var? tree [root? #t])
   (let loop ([tail    : Tree    tree]
@@ -272,6 +277,7 @@
                          (tree-nested-var? (node-tree x) #f)))
                 nested?)))))
 
+;; Calculates the sum of a function over every element in a tree.
 ;; NB a bind off sequence, other than one that finishes the piece,
 ;; consumes and produces an extra stitch:
 ;; see https://stitch-maps.com/patterns/display/buttonhole/
@@ -307,7 +313,7 @@
                    0
                    tree)))))
 
-;; recursively combine first by breadth, then by depth, until there are no further changes
+;; Recursively combines elements first by breadth, then by depth, until there are no further changes.
 (: tree-combine : Tree -> Tree)
 (define (tree-combine xs)
   (let ([xs~ (tree-combine-depth (tree-combine-breadth xs))])
@@ -315,8 +321,8 @@
         xs~
         (tree-combine xs~))))
 
-;; recursively combine adjacent leaves with same stitch and yarn type into single leaf
-;; retain zero counts
+;; Recursively combines adjacent leaves with same stitch and yarn type into single leaf.
+;; Retains zero counts.
 (: tree-combine-breadth : Tree -> Tree)
 (define (tree-combine-breadth xs)
   (reverse
@@ -348,8 +354,8 @@
     null
     xs)))
 
-;; recursively combine singleton node/leaf nested node
-;; retain zero counts
+;; Recursively combines singleton node/leaf nested node.
+;; Retains zero counts.
 (: tree-combine-depth : Tree -> Tree)
 (define (tree-combine-depth xs)
   (reverse
@@ -402,8 +408,8 @@
     null
     xs)))
 
-;; recursively combine adjacent leaves with same stitch and yarn type into single leaf
-;; eliminate zero number elements
+;; Recursively combines adjacent leaves with same stitch and yarn type into single leaf.
+;; Eliminate zero count elements.
 (: combine-leaves : (Listof Leaf) -> (Listof Leaf))
 (define (combine-leaves xs)
   (reverse
@@ -426,14 +432,14 @@
     null
     xs)))
 
-;; flatten tree to a list of leaves
-;; ignores variable repeats
+;; Flattens tree to a list of leaves.
+;; Eliminates zero count leaves.
 (: tree-flatten : Tree -> (Listof Leaf))
 (define (tree-flatten tree)
   (combine-leaves (reverse (tree-flatten-recurse tree))))
 
-;; flatten every node in tree to list of leaves
-;; ignores variable repeats
+;; Flattens every node in tree to list of leaves.
+;; Eliminates zero count leaves.
 (: tree-flatten-recurse : Tree -> (Listof Leaf))
 (define (tree-flatten-recurse tree)
   (foldl
@@ -450,7 +456,7 @@
    null
    tree))
 
-;; traverse stitch tree finding yarns used
+;; Traverses stitch tree finding yarns used.
 (: tree-yarns (->* (Tree) (Byte) (Setof Byte)))
 (define (tree-yarns tree [default 0])
   (let ([h : (HashTable Byte Boolean) (make-hasheq)])
@@ -466,7 +472,7 @@
                   (loop (node-tree next))
                   (loop (cdr tail)))))))))
 
-;; flattens tree to vector of stitches and strips no-stitches from ends
+;; Flattens tree to vector of stitches and strips no-stitches from ends.
 (: trimmed-stitchvector : (Listof Leaf) -> (Vectorof Stitch))
 (define (trimmed-stitchvector row)
   (trim-ns
@@ -490,7 +496,7 @@
                   (list->vector (reverse trimmed)))])
     res))
 
-;; traverse stitch tree checking work compatibility
+;; Traverses stitch tree checking whether stitches are compatible with pattern technique.
 (: tree-stitches-compatible? : Tree (Stitchtype -> Boolean) -> Boolean)
 (define (tree-stitches-compatible? tree test-function)
   (if (null? tree)
@@ -505,7 +511,7 @@
             (and (tree-stitches-compatible? (node-tree next) test-function)
                  (tree-stitches-compatible? (cdr tree) test-function))))))
 
-;; reverse elements in tree
+;; Reverses order of elements in tree.
 (: tree-reverse : Tree -> Tree)
 (define (tree-reverse tree)
   (let loop ([tail : Tree tree]
@@ -519,7 +525,7 @@
                                                 (tree-reverse (node-tree next)))
                                      acc)))))))
 
-;; reverse elements in tree and change Stitchtypes from RS to WS
+;; Reverses order of elements in tree and change Stitchtypes from RS to WS.
 (: tree-rs<->ws : Tree -> Tree)
 (define (tree-rs<->ws tree)
   (let loop ([tail : Tree tree]
@@ -535,7 +541,7 @@
                                                 (tree-rs<->ws (node-tree next)))
                                      acc)))))))
 
-;; search tree for a particular set of stitches
+;; Searches tree for a particular set of stitches.
 (: tree-has-stitches? : Tree (Listof Symbol) -> Boolean)
 (define (tree-has-stitches? tree sts)
   (if (null? tree)
@@ -549,7 +555,7 @@
             (or (tree-has-stitches? (node-tree next) sts)
                 (tree-has-stitches? (cdr tree) sts))))))
 
-;; replace one stitchtype with another
+;; Replaces one stitchtype with another.
 (: tree-swap-stitch : Tree Symbol Symbol -> Tree)
 (define (tree-swap-stitch tree swap-out swap-in)
   (tree-combine
@@ -570,7 +576,7 @@
                                       (tree-swap-stitch (node-tree next) swap-out swap-in))
                            acc))))))))
 
-;; first stitchtype in tree
+;; Obtains first stitchtype in tree.
 (: tree-first-stitchtype : Tree -> (Option Symbol))
 (define (tree-first-stitchtype tree)
   (let loop ([tail : Tree tree])
@@ -581,13 +587,13 @@
               (leaf-symbol next)
               (loop (node-tree next)))))))
 
-;; last stitchtype in tree
+;; Obtains last stitchtype in tree.
 (: tree-last-stitchtype : Tree -> (Option Symbol))
 (define (tree-last-stitchtype tree)
   (tree-first-stitchtype (tree-reverse tree)))
 
-;; list of stitchtypes in tree, ignoring counts and repeats
-;; list is reversed
+;; Obtains list of stitchtypes in tree, ignoring counts and repeats.
+;; List order is reversed.
 (: tree-stitchtype-list : Tree -> (Listof Symbol))
 (define (tree-stitchtype-list tree)
   (let loop ([tail : Tree tree]
@@ -647,7 +653,7 @@
 ;; Treelike functions
 (define-predicate Treelike? Treelike)
 
-;; convert Treelike list to Tree
+;; Converts Treelike list to Tree.
 (: treelike->tree : Treelike -> Tree)
 (define (treelike->tree xs)
   (reverse
@@ -664,19 +670,19 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; repeat functions
+;; Repeat functions
 
-;; variable number repeat
+;; Variable number repeat.
 (: repeat : (U Leaf Node Treelike) (U Leaf Node Treelike) * -> Node)
 (define (repeat . xs)
   (make-node 0 (treelike->tree xs)))
 
-;; fixed number repeat
+;; Fixed number repeat.
 (: times (-> Natural (-> (U Leaf Node Treelike) (U Leaf Node Treelike) * Node)))
 (define ((times n) . xs)
   (make-node n (treelike->tree xs)))
 
-;; aliases for small number repeats
+;; Aliases for small number repeats
 (define once (times 1))
 (define twice (times 2))
 (define one (times 1))

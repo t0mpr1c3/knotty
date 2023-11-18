@@ -20,28 +20,29 @@
 
 (provide diophantine
          diophantine-alt)
+(require "global.rkt")
 
-;; solve linear Diophantine equation ax + b = cy + d for non-negative integers x, y
+;; Solves linear Diophantine equation ax + b = cy + d for non-negative integers x, y
 (: diophantine : Natural Natural Natural Natural -> (values (Option Natural) (Option Natural)))
 (define (diophantine a b c d)
-  ;(println (format "~a * x + ~a = ~a * y + ~a" a b c d))
+  (dlog (format "Diophantine equation ~a * x + ~a = ~a * y + ~a" a b c d))
   ;; rearrange to ax - cy = (d - b)
   (diophantine-alt a c (- d b)))
 
-;; solve linear Diophantine equation ax - cy = rhs for non-negative integers x, y
+;; Solves linear Diophantine equation ax - cy = rhs for non-negative integers x, y
 (: diophantine-alt : Natural Natural Integer -> (values (Option Natural) (Option Natural)))
 (define (diophantine-alt a c rhs)
-  ;(println (format "~a * x - ~a * y = ~a" a c rhs))
+  (dlog (format "Reduced Diophantine equation ~a * x - ~a * y = ~a" a c rhs))
   (if (zero? rhs)
       ;; trivially
-      (values 0 0)
+      (solution 0 0)
       ;; there exist integral solutions <=> GCD(a,c) | rhs
       (let ([divisor (gcd a c)])
         (if (zero? divisor)
-            (values #f #f)
+            (result #f #f)
             (if (not (zero? (modulo rhs divisor)))
                 ;; no solution
-                (values #f #f)
+                (result #f #f)
                 ;; divide through by GCD to get
                 ;; ix - jy = k
                 ;; where i, j are mutually prime
@@ -55,29 +56,28 @@
                   (let-values ([(e f) (if (>= i j)
                                           (values i j)
                                           (values j i))])
-                    #|
-                    (println (format "a ~a" a))
-                    (println (format "c ~a" c))
-                    (println (format "rhs ~a" rhs))
-                    (println (format "i ~a" i))
-                    (println (format "j ~a" j))
-                    (println (format "k ~a" k))
-                    (println (format "e ~a" e))
-                    (println (format "f ~a" f))
-                    (println (format "s ~a" s))
-                    (println (format "t ~a" t))
-                    |#
+                    (dlog "Working values:")
+                    (dlog (format "a ~a" a))
+                    (dlog (format "c ~a" c))
+                    (dlog (format "rhs ~a" rhs))
+                    (dlog (format "i ~a" i))
+                    (dlog (format "j ~a" j))
+                    (dlog (format "k ~a" k))
+                    (dlog (format "e ~a" e))
+                    (dlog (format "f ~a" f))
+                    (dlog (format "s ~a" s))
+                    (dlog (format "t ~a" t))
                     ;; solutions for e,f <= 1
                     (if (zero? f)
                         (if (negative? t)
-                            (values #f #f)
+                            (result #f #f)
                             (if (positive? s)
-                                (values t 0)
-                                (values 0 t)))
+                                (solution t 0)
+                                (solution 0 t)))
                         (if (= 1 e)
                             (if (positive? t)
-                                (values t 0)
-                                (values 0 (- t)))
+                                (solution t 0)
+                                (solution 0 (- t)))
                             (if (= 1 f)
                                 (let ([u (- e t)])
                                   (if (positive? s)
@@ -87,8 +87,7 @@
                                 (let-values ([(p q) (euclidean e f)])
                                   (reduce (* p t) (* q t) i j))))))))))))
 
-
-;; reduce coefficients to lowest non-negative values
+;; Reduce coefficients to lowest non-negative values.
 (: reduce : Integer Integer Natural Natural -> (values Natural Natural))
 (define (reduce x y i j)
   (let* ([u (floor (/ x j))]
@@ -98,9 +97,9 @@
          [y~ (- y (* m i))])
     (assert (natural? x~))
     (assert (natural? y~))
-    (values x~ y~)))
+    (solution x~ y~)))
 
-;; apply Euclidean algorithm to find GCD by repeated division
+;; Apply Euclidean algorithm to find GCD by repeated division
 ;; to solve e * x - f * y = 1
 (: euclidean : Integer Integer -> (values Integer Integer))
 (define (euclidean e f)
@@ -110,16 +109,16 @@
                     [(p~ q~) (euclidean f r)])
         (substitute e f 1 q p~ q~))))
 
-;; recursively substitute remainders to obtain equation for GCD
-;; in terms of the original parameters
-;; each equation is of the form p * e - q * f = r
-;; p~, q~ are the coefficients from the next equation in the sequence
+;; Recursively substitute remainders to obtain equation for GCD
+;; in terms of the original parameters.
+;; Each equation is of the form p * e - q * f = r
+;; p~, q~ are the coefficients from the next equation in the sequence.
 (: substitute : Integer Integer Integer Integer Integer Integer -> (values Integer Integer))
 (define (substitute e f p q p~ q~)
   (let* ([r (- (* p e) (* q f))]) ;; remainder
     (if (< r 2)
         (begin
-          ;(println (format "~a * ~a - ~a * ~a = ~a" p e q f r))
+          (dlog (format "Working equation ~a * ~a - ~a * ~a = ~a" p e q f r))
           (values p q))
         (substitute e
                     f
@@ -127,3 +126,19 @@
                     (- 0 p~ (* q q~))
                     0
                     0))))
+
+;; Returns result
+(: result : (Option Natural) (Option Natural) -> (values (Option Natural) (Option Natural)))
+(define (result x y)
+  (if (or (false? x)
+          (false? y))
+      (begin
+        (dlog "No solution")
+        (values x y))
+      (solution x y)))     
+
+;; Returns solution
+(: solution : Natural Natural -> (values Natural Natural))
+(define (solution x y)
+  (dlog (format "Solution: x=~a, y=~a" x y))
+  (values x y))

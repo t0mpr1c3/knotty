@@ -9,7 +9,7 @@
          "pattern.rkt"
          "html.rkt")
 
-;; serve HTML from Pattern
+;; Serves HTML from Pattern.
 (define (serve-pattern p [h-repeats 1] [v-repeats 1] [static? #f])
   (let* ([nohreps? (nohrep? p)]
          [novreps? (novrep? p)]

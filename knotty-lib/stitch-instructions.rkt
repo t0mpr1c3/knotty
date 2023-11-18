@@ -45,6 +45,7 @@
 
 (define wt : String "Wrap and turn: Slip stitch purlwise, bring yarn forward between needle tips, slip stitch back to left needle, turn")
 
+;; Hash of hand knitting instructions.
 (define hand-instructions-hash
   ((inst make-hasheq Symbol String)
    (append
@@ -317,6 +318,7 @@
                            (n-st i)))
                   ))))))))
 
+;; Hash of machine knitting instructions.
 (define machine-instructions-hash
   ((inst make-hasheq Symbol String)
    ;; these are the stitches for which we have symbols in the Stitchmastery fonts
@@ -358,8 +360,7 @@
      (turnr     . "Turn right (short row)")
      (yo        . "Lace tool: eyelet"))))
 
-;; get instructions from stitch-instructions-hash
-;; FIXME better to just output #f if instruction not found?
+;; Returns instructions for hand or machine knitting, or #f if not found.
 (: get-stitch-instructions : Symbol Boolean -> (Option String))
 (define (get-stitch-instructions s hand?)
   (let ([result : (Option String)
@@ -371,7 +372,6 @@
         #f)))
 
 ;; comment this out as we now (sensibly) have separate instructions for hand and machine knitting
-;; FIXME needs to be reimplemented
 #|
 ;; update instructions in stitch-instructions-hash
 (: update-stitch-instructions : Symbol String -> Void)

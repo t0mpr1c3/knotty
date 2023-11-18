@@ -24,7 +24,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Repeats struct definition
+;; Repeats struct definition.
 (struct Repeats
   ([caston-count  : Natural]
    [caston-repeat : Natural]
@@ -32,13 +32,13 @@
    [last-repeat-row  : (Option Positive-Integer)])
   #:transparent)
 
-;; dummy Repeats
+;; Default Repeats.
 (define dummy-repeats : Repeats
   (Repeats 0 0 #f #f))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; return original 0-indexed rownumber from 1-indexed rownumber of expanded pattern
+;; Returns original 0-indexed rownumber from 1-indexed rownumber of expanded pattern.
 (: original-row-index : Repeats Positive-Integer Positive-Integer Positive-Integer -> (Option Natural))
 (define (original-row-index repeats nrows v-repeats n)
   (let* ([frr (Repeats-first-repeat-row repeats)]

@@ -48,8 +48,8 @@
            "serv.rkt"
            "gui.rkt")
 
-  ;; this function obtains the arguments from `command-line`
-  ;; and runs the executable
+  ;; Obtains the arguments from `command-line`
+  ;; and runs the executable.
   (define (cli-handler flags filestem)
     (let* (#|
            [input-suffix (path-get-extension input-filename)]
@@ -302,6 +302,7 @@
                     (raise e))])
               (thunk))))))
 
+  ;; Sets command line options for executable.
   (command-line
    #:program "knotty"
    #:usage-help

@@ -40,9 +40,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; convert PNG file to Knotty pattern
-;; Fair Isle hand knit flat
-;; max 256 yarns
+;; Imports PNG file as Pattern struct.
 (: import-png (->* (Path-String)
                    (#:name String
                     #:url String
@@ -82,6 +80,9 @@
      #:gauge gauge
      #:row-repeats row-repeats)))
 
+;; Converts PNG file to Knotty pattern.
+;; * Fair Isle hand knit flat
+;; * max 256 yarns
 (: bitmap->pattern (->* ((Instance Bitmap%))
                         (#:name String
                          #:url String
@@ -260,6 +261,7 @@
           (struct-copy Pattern p
                        [repeats (pattern-make-repeats p row-repeats)])))))
 
+;; Run length encoding for PNG.
 (: run-length-encode : Bytes -> (Listof (Pairof Positive-Integer Byte)))
 (define (run-length-encode b)
   (let ([n (bytes-length b)])

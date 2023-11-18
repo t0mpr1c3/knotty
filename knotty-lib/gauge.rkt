@@ -29,8 +29,8 @@
   (U 'cm 'inch))
 (define-predicate Measurement-Unit? Measurement-Unit)
 
-;; Gauge
-;; related: yarn weight, needle size/machine needle spacing
+;; Gauge struct.
+;; related: yarn weight, needle size/machine needle spacing, aspect ratio
 (struct Gauge
   ([stitch-count       : Positive-Integer]
    [stitch-measurement : Positive-Integer]
@@ -39,7 +39,7 @@
    [measurement-unit   : Measurement-Unit])
   #:prefab)
 
-;; default
+;; default Gauge
 (define default-pattern-gauge #f)
 
 (: gauge-unit : Gauge -> String)
@@ -51,8 +51,8 @@
 (: gauge->aspect-ratio : (Option Gauge) -> Float)
 (define (gauge->aspect-ratio g)
   (if (false? g)
-      0.80 ;; default value
+      0.80 ;; default aspect ratio
       (/ (* (Gauge-row-measurement g) (Gauge-stitch-count g) 1.0)
          (* (Gauge-stitch-measurement g) (Gauge-row-count g) 1.0))))
 
-;;end
+;; end

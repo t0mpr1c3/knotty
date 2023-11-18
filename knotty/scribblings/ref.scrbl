@@ -1843,14 +1843,14 @@ define
 
 Set the parameter @racket[VERBOSE] to @racket[true] or @racket[#t]
 to receive more detailed messages from Knotty. You can use the
-@racket[parameterize] or @racket[with] forms, or the macro @racket[SO]:
+@racket[parameterize] or @racket[with] forms, or the macro @racket[TRULY]:
 
 @; NB whitespace indentation is required here
 @codeblock[#:keep-lang-line? #f]|{
 #lang sweet-exp typed/racket
 define
   bad-pattern
-  SO VERBOSE
+  TRULY VERBOSE
     pattern
       row(1) k1
 

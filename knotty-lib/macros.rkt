@@ -31,7 +31,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; define macros for stitch function definitions
+;; Macros for stitch function definitions.
+
 (define-syntax-rule (define-variable-repeat-stitch id st)
   (define-syntax (id stx)
     (syntax-case stx ()
@@ -48,7 +49,7 @@
       [_ #'(make-leaf 1 (Stitch (Stitchtype-rs-symbol st) #f))])))
 
 
-;; stitch function definitions
+;; Stitch function definitions.
 
 (define-variable-repeat-stitch co     (get-stitchtype 'co))
 (define-variable-repeat-stitch bo     (get-stitchtype 'bo))
@@ -408,7 +409,7 @@
 (define-unrepeatable-stitch lpc-4/4/4    (get-stitchtype 'lpc-4/4/4))
 (define-unrepeatable-stitch lpc-4/4/4-ws (get-stitchtype 'lpc-4/4/4-ws))
 
-;; other aliases
+;; other aliases:
 ;; knit = k
 ;; purl = p
 ;; LT = lc-1/1
@@ -418,7 +419,7 @@
 
 (require (for-syntax racket/syntax)) ; for `format-id`
 
-;; define macro for k1 ... k40, p1 ... p40, etc.
+;; Define macro for k1 ... k40, p1 ... p40, etc.
 (define-syntax (define-repeatable-stitches stx)
   (syntax-case stx ()
     [(_) (let ([make-name (λ (id n) (format-id stx "~a~a" id n))])
@@ -431,15 +432,14 @@
                  (define name (id n))
                  ...)))]))
 
-;; run macro
+;; Run macro
 (define-repeatable-stitches)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require (for-syntax racket/list)) ;; for `range`
 
-;; repeat macro definition
-;; define x1 ... x40``
+;; Repeat macro defines x1 ... x40
 (define-syntax (define-xns stx)
   (syntax-case stx ()
     [(_) (let ([xn-id (λ (i) (format-id stx "x~a" i))])
@@ -450,18 +450,18 @@
                  (define xn (times n))
                  ...)))]))
 
-;; run macro
+;; Run macro
 (define-xns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; macro to define yarn function mc
+;; Macro to define yarn function mc
 (define-syntax (mc stx)
   (syntax-case stx ()
     [(_ x ...) #'((with-yarn 0) x ...)]
     [_ (syntax 'mc)]))
 
-;; define macro for yarn functions cc1 ... cc40
+;; Macro for yarn functions cc1 ... cc40
 (define-syntax (define-ccns stx)
   (syntax-case stx ()
     [(_) (let ([ccn-id (λ (i) (format-id stx "cc~a" i))])
@@ -475,18 +475,18 @@
                      [ccn (syntax 'ccn)]))
                  ...)))]))
 
-;;run macro
+;; Run macro
 (define-ccns)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; define symbol function macro
+;; Symbol function macro.
 (define-syntax-rule (define-symbolfunc id)
   (define-syntax (id stx)
     (syntax-case stx ()
       [_ #'(quote id)])))
 
-;; create symbol functions for Pattern options
+;; Create symbol functions for Pattern options.
 (define-symbolfunc hand)
 (define-symbolfunc machine-texture)
 (define-symbolfunc machine-fair-isle)
@@ -501,7 +501,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; colorwork codes for yarn using single character codes
+;; Colorwork codes for yarn using single character codes
 (: colorwork-code : Byte -> (Option Byte))
 (define (colorwork-code x)
   (cond [(< x #x30) #f]
@@ -519,23 +519,23 @@
           (make-leaf 1 (Stitch 'ss (colorwork-code x)))) ;; stockinette
         (bytes->list xs))))
 
-;; colorwork macro
+;; Colorwork macro
 (define-syntax (cw stx)
   (syntax-case stx ()
     [(_ x) #'(colorwork (string->bytes/latin-1 (~a x)))]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; alias for parameterize
+;; Alias for parameterize.
 ;; e.g. (with ([SAFE #f]) ...)
 (define-syntax with (make-rename-transformer #'parameterize))
 
-;; with-flag-off macro
+;; With-flag-off macro.
 ;; e.g. (TRULY SAFE ...)
 (define-syntax-rule (TRULY flag thunk)
   (parameterize ([flag #t]) thunk))
 
-;; with-flag-off macro
+;; With-flag-off macro.
 ;; e.g. (UN SAFE ...)
 (define-simple-macro
   (UN param:id body:expr ...+)

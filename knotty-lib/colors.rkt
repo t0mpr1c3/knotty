@@ -27,7 +27,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; 24 bit RGB number to name of approximate color
+;; Given a 24 bit RGB number, returns the name of its approximate color.
 (: rgb->name : Nonnegative-Fixnum -> String)
 (define (rgb->name rgb)
   (let* ([r : Byte (bitwise-and (fxrshift rgb 16) #xFF)]
@@ -42,7 +42,7 @@
                 b~)])
     (get-color rgb~)))
 
-;; reduce color channel resolution from 8 to 4 bits
+;; Reduces color channel resolution from 8 to 4 bits.
 (: bitcrunch : Byte -> Byte)
 (define (bitcrunch x)
   (let* ([hi-nibble : Byte (bitwise-and x #xF0)]
@@ -61,10 +61,10 @@
         (fxrshift 4)
         (bitwise-and #x0F))))
 
-;; get color name from vector
+;; Gets color name from vector.
 (: get-color : Nonnegative-Fixnum -> String)
 (define (get-color rgb)
-  (if (> rgb #xFFFFFF)
+  (if (> rgb #xFFF)
       ""
       (let ([sym (vector-ref named-colors rgb)])
         (remove-hyphen sym))))

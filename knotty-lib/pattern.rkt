@@ -42,7 +42,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Pattern struct
+;; Pattern struct.
 (struct Pattern
   ([name : String]
    [url : String]
@@ -58,7 +58,7 @@
    [yarns : Yarns])
   #:guard
   (λ (name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns type-name)
-    ;(dlog "in `Pattern` struct guard function")
+    (dlog "in `Pattern` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose pattern-guard-sort-rowmap
               pattern-guard-row-repeats
@@ -71,7 +71,7 @@
      name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns))
   #:transparent)
 
-;; composable guard function for Pattern struct
+;; Composable guard function for Pattern struct.
 (: pattern-guard-options (String
                           String
                           Attribution
@@ -109,7 +109,7 @@
           (err SAFE "short rows are ony allowed in flat hand knits")))))
   (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns))
 
-;; composable guard function for Pattern struct
+;; Composable guard function for Pattern struct.
 (: pattern-guard-turns (String
                         String
                         Attribution
@@ -212,8 +212,8 @@
           (wlog "check your pattern information: yarn weight may be incompatible with pattern gauge"))))
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
-;; check that stitches are compatible with machine/hand knitting
-;; composable guard function for Pattern struct
+;; Checka that stitches are compatible with machine/hand knitting technique.
+;; Composable guard function for Pattern struct.
 (: pattern-guard-stitch-compatibility (String
                                        String
                                        Attribution
@@ -249,7 +249,7 @@
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
 #|
-;; composable function as part of Pattern struct guard function
+;; Composable guard function for Pattern struct.
 (: pattern-guard-rows-conformable (String
                                    String
                                    Attribution
@@ -359,7 +359,7 @@
 |#
 
 #|
-;; composable function as part of Pattern struct guard function
+;; Composable guard function for Pattern struct.
 (: pattern-guard-max-colors (String
                              String
                              Attribution
@@ -399,7 +399,7 @@
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 |#
 
-;; composable function as part of Pattern struct guard function
+;; Composable guard function for Pattern struct.
 (: pattern-guard-row-repeats (String
                               String
                               Attribution
@@ -433,7 +433,7 @@
       (err SAFE "error in row repeats"))
     (values name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)))
 
-;; composable function as part of Pattern struct guard function
+;; Composable guard function for Pattern struct.
 (: pattern-guard-sort-rowmap (String
                               String
                               Attribution
@@ -459,7 +459,6 @@
                                       Natural
                                       Yarns)))
 (define (pattern-guard-sort-rowmap name url attribution keywords rowspecs rowmap rowcounts nrows options repeats max-colors yrns)
-  ;(dlog "in `pattern-guard-sort-rowmap` function")
   ;; sort rowmap and rowspec by lowest rownumber
   (let* ([row-numbers (Rowmap-numbers rowmap)]
          [n (vector-length row-numbers)]
@@ -482,7 +481,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; alternative constructor
+;; Alternative constructor for Pattern struct.
 (: pattern (->* () (#:name String
                     #:url String
                     #:attribution Attribution
@@ -507,7 +506,7 @@
           #:gauge [gauge default-pattern-gauge]
           #:repeat-rows [repeat-rows #f]
           . rows-yarns)
-  ;(dlog "in `pattern` constructor")
+  (dlog "in `pattern` constructor")
   (let ([flat-rows-yarns : (Listof (U Rows Yarn))
                          (for/fold ([rys : (Listof (U Rows Yarn)) null])
                                    ([ry rows-yarns])
@@ -559,33 +558,33 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; setter functions
+;; Setter functions
 
-;; set pattern name
+;; Sets pattern name.
 (: pattern-set-name : Pattern String -> Pattern)
 (define (pattern-set-name p name~)
   (struct-copy Pattern p
                [name name~]))
 
-;; set pattern url
+;; Sets pattern URL.
 (: pattern-set-url : Pattern String -> Pattern)
 (define (pattern-set-url p url~)
   (struct-copy Pattern p
                [url url~]))
 
-;; set pattern attribution
+;; Sets pattern attribution.
 (: pattern-set-attribution : Pattern Attribution -> Pattern)
 (define (pattern-set-attribution p attribution~)
   (struct-copy Pattern p
                [attribution attribution~]))
 
-;; set pattern keywords
+;; Sets pattern keywords.
 (: pattern-set-keywords : Pattern Keywords -> Pattern)
 (define (pattern-set-keywords p keywords~)
   (struct-copy Pattern p
                [keywords keywords~]))
 
-;; set pattern gauge
+;; Sets pattern gauge.
 (: pattern-set-gauge : Pattern Gauge -> Pattern)
 (define (pattern-set-gauge p gauge~)
   (let ([options~ (struct-copy Options (Pattern-options p)
@@ -593,13 +592,13 @@
     (struct-copy Pattern p
                  [options options~])))
 
-;; set pattern yarns
+;; Sets pattern yarns.
 (: pattern-set-yarns : Pattern Yarns -> Pattern)
 (define (pattern-set-yarns p yarns~)
   (struct-copy Pattern p
                [yarns yarns~]))
 
-;; set pattern technique
+;; Sets pattern technique.
 (: pattern-set-technique : Pattern Technique -> Pattern)
 (define (pattern-set-technique p technique~)
   (let ([options (Pattern-options p)])
@@ -609,7 +608,7 @@
             (pattern-set-hand p)
             (pattern-set-machine p technique~)))))
 
-;; make pattern hand knit
+;; Converts pattern to hand knit.
 (: pattern-set-hand : Pattern -> Pattern)
 (define (pattern-set-hand p)
   ;; check that all stitches are compatible with hand knitting
@@ -625,7 +624,7 @@
     (struct-copy Pattern p
                  [options options~])))
 
-;; make pattern machine knit
+;; Converts pattern to machine knit.
 (: pattern-set-machine : Pattern Technique -> Pattern)
 (define (pattern-set-machine p technique~)
   ;; check that all stitches are compatible with machine knitting
@@ -656,13 +655,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; transformation functions:
+;; Transformation functions:
 ;; for both of these transformations
 ;; the knitting instructions change
-;; but the chart stays the same
+;; but the chart stays the same.
 
-;; changes the face of the workpiece
-;; and direction of knitting for every row
+;; Changes the face of the workpiece
+;; and direction of knitting for every row.
 (: pattern-rs<->ws : Pattern -> Pattern)
 (define (pattern-rs<->ws p)
   (let* ([options (Pattern-options p)]
@@ -684,8 +683,8 @@
                  [rowspecs rowspecs~]
                  [options options~])))
 
-;; changes the face of the workpiece
-;; and direction of knitting for even-numbered rows
+;; Changes the face of the workpiece
+;; and direction of knitting for even-numbered rows.
 (: pattern-flat<->circular : Pattern -> Pattern)
 (define (pattern-flat<->circular p)
   (let* ([options (Pattern-options p)]
@@ -715,16 +714,16 @@
                      [rowmap rowmap~]
                      [options options~])))))
 
-;; stitch symbols used in pattern
+;; Returns the stitch symbols used in pattern.
 (: pattern-symbols : Pattern -> (Listof Symbol))
 (define (pattern-symbols p)
   (rowspecs-stitchtype-list (Pattern-rowspecs p)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; other Pattern functions
+;; Other Pattern functions
 
-;; split rowmap entries making a duplicate rowspec for the even row numbers
+;; Splits rowmap entries making a duplicate rowspec for the even row numbers.
 (: pattern-split-even : Rowspecs Rowmap (Listof Natural) -> (values Rowspecs Rowmap))
 (define (pattern-split-even rowspecs rowmap dups)
   (let ([rownums (Rowmap-numbers rowmap)])
@@ -743,7 +742,7 @@
                   (vector-append rowspecs~ (vector rowspec-j))
                   (vector-append rownums~  (vector (vector-filter even? rownums-j)))))))))
 
-;; restrict pattern to range given by row repeat
+;; Restricts pattern to the range given by row repeat.
 (: pattern-select-rows : Pattern Natural Natural -> Pattern)
 (define (pattern-select-rows p start-row end-row)
   (when (> start-row end-row)
@@ -792,7 +791,7 @@
                              [nrows     nrows~]
                              [repeats   dummy-repeats])))))))
 
-;; expand variable repeats
+;; Expands the pattern by specified numbers of horizontal and vertical repeats.
 (: pattern-expand-repeats (->* (Pattern) (Positive-Integer Positive-Integer) Pattern))
 (define (pattern-expand-repeats p [h-repeats 1] [v-repeats 1])
   (let* ([rowspecs  (Pattern-rowspecs  p)]
@@ -871,6 +870,7 @@
                        [rowcounts (make-rowcounts rowspecs~ rowmap~)]
                        [nrows     n-rows~]))))))
 
+;; Creates Repeats struct.
 (: pattern-make-repeats : Pattern (U False Positive-Integer (List Positive-Integer Positive-Integer)) -> Repeats)
 (define (pattern-make-repeats p repeat-rows)
   (let ([rowspecs  (Pattern-rowspecs p)]
@@ -919,6 +919,7 @@
                        first-repeat-row
                        last-repeat-row)))))))
 
+;; Returns true if there are no horizontal repeats in the pattern.
 (: nohrep? : Pattern -> Boolean)
 (define (nohrep? p)
   (~> p
@@ -926,6 +927,7 @@
       Repeats-caston-repeat
       zero?))
 
+;; Returns true if there are no vertical repeats in the pattern.
 (: novrep? : Pattern -> Boolean)
 (define (novrep? p)
   (let* ([repeats (Pattern-repeats p)]
@@ -935,6 +937,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Substitutes generic stitches in the pattern with the appropriate specific stitches.
 (: pattern-substitute-stitches : Pattern -> Pattern)
 (define (pattern-substitute-stitches p)
   ;; gs   -> ss on 1st row observed and every 2nd row after, rss on other rows
@@ -1076,14 +1079,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; pattern attribution
+;; Pattern attribution type.
 (define-type Attribution (Listof Author))
 
+;; Default attribution.
 (define default-attribution : Attribution null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; author information
+;; Author struct.
 (struct Author
   ([name : String]
    [url : String])
@@ -1091,11 +1095,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; pattern keywords
-;; limit of 30 keywords
-;; limit of 30 characters each
+;; Pattern keywords type.
+;; XML schema limits patterns to:
+;; * maximum of 30 keywords (tags)
+;; * maximum of 30 characters each
 (define-type Keywords (Listof String))
 
+;; Default keywords.
 (define default-keywords : Keywords null)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

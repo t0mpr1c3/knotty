@@ -32,12 +32,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; display pattern
+;; Displays pattern as written knitting instructions.
 (: text : Pattern -> Void)
 (define (text p)
   (display (pattern->text p)))
 
-;; format pattern for text output
+;; Formats pattern for text output.
 (: pattern->text : Pattern -> String)
 (define (pattern->text p)
   (transform-pattern-text
@@ -83,3 +83,4 @@
                       (html->xexp s))))))))))))))))))))
    ""))
 
+;; end

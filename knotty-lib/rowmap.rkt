@@ -31,17 +31,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Rowmap struct definition
-(struct Rowmap
-  ([numbers : (Vectorof (Vectorof Positive-Integer))] ;; vectors of row numbers sorted by lowest number
-   [index : (Vectorof Natural)])  ;; maps from row numbers to rowspec index
-  #:guard
-  (λ (numbers index type-name)
-    ;(dlog "in `Rowmap` struct guard function")
-    (rowmap-guard numbers index))
-  #:transparent)
+;; Creates row number index.
+(: rowmap-index : (Vectorof (Vectorof Positive-Integer)) -> (Vectorof Natural))
+(define (rowmap-index numbers)
+  (let* ([n (apply max
+                   (map (λ ([v : (Vectorof Positive-Integer)]) (apply max (vector->list v)))
+                        (vector->list numbers)))]
+         [index : (Vectorof Natural) (make-vector n)])
+    (for ([i : Natural (in-range (vector-length numbers))])
+      (let ([v (vector-ref numbers i)])
+        (for ([j (in-range (vector-length v))])
+          (vector-set! index (sub1 (vector-ref v j)) i))))
+    index))
 
-;; Rowmap guard function
+;; Rowmap guard function.
 (: rowmap-guard ((Vectorof (Vectorof Positive-Integer))
                  (Vectorof Natural) ->
                  (values (Vectorof (Vectorof Positive-Integer))
@@ -57,37 +60,40 @@
         (err SAFE "pattern must specify consecutive row numbers")))
     (values numbers (rowmap-index numbers))))
 
-;; alternative constructor
+;; Rowmap struct definition.
+(struct Rowmap
+  ([numbers : (Vectorof (Vectorof Positive-Integer))] ;; vectors of row numbers sorted by lowest number
+   [index : (Vectorof Natural)])  ;; maps from row numbers to rowspec index
+  #:guard
+  (λ (numbers index type-name)
+    (dlog "in `Rowmap` struct guard function")
+    (rowmap-guard numbers index))
+  #:transparent)
+
+;; Dummy Rowmap.
+(define dummy-rowmap
+  (Rowmap
+   '#(#(1))
+   '#(1)))
+
+;; Alternative constructor.
 (: make-rowmap : (Vectorof (Vectorof Positive-Integer)) -> Rowmap)
 (define (make-rowmap numbers)
   (Rowmap numbers '#()))
 
 ;; Rowmap functions
 
-;; create row number index
-(: rowmap-index : (Vectorof (Vectorof Positive-Integer)) -> (Vectorof Natural))
-(define (rowmap-index numbers)
-  (let* ([n (apply max
-                   (map (λ ([v : (Vectorof Positive-Integer)]) (apply max (vector->list v)))
-                        (vector->list numbers)))]
-         [index : (Vectorof Natural) (make-vector n)])
-    (for ([i : Natural (in-range (vector-length numbers))])
-      (let ([v (vector-ref numbers i)])
-        (for ([j (in-range (vector-length v))])
-          (vector-set! index (sub1 (vector-ref v j)) i))))
-    index))
-
-;; find 1-indexed row number as rowmap index
+;; Finds 1-indexed row number as rowmap index.
 (: rowmap-find : Rowmap Positive-Integer -> Natural)
 (define (rowmap-find rowmap r)
   (vector-ref (Rowmap-index rowmap) (sub1 r)))
 
-;; find 0-indexed row number as rowmap index
+;; Finds 0-indexed row number as rowmap index.
 (: rowmap-find0 : Rowmap Natural -> Natural)
 (define (rowmap-find0 rowmap r)
   (vector-ref (Rowmap-index rowmap) r))
 
-;; find indices that map to both odd and even row numbers
+;; Finds indices that map to both odd and even row numbers.
 (: rowmap-odd&even : Rowmap -> (Listof Natural))
 (define (rowmap-odd&even rowmap)
   (let loop ([i   : Natural (vector-length (Rowmap-numbers rowmap))]
@@ -102,17 +108,12 @@
               (loop j (cons j acc))
               (loop j acc))))))
 
-;; lowest row number matching index
+;; Finds lowest row number matching index.
 (: rowmap-first : Rowmap Natural -> Positive-Integer)
 (define (rowmap-first rowmap i)
   (apply min
          (vector->list
           (vector-ref
            (Rowmap-numbers rowmap) i))))
-
-(define dummy-rowmap
-  (Rowmap
-   '#(#(1))
-   '#(1)))
 
 ;; end

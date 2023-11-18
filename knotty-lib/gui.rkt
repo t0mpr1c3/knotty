@@ -42,14 +42,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; generic display method
+;; Displays Pattern as webpage.
 (: show : Pattern -> Void)
 (define (show p)
   (serve-pattern p 2 2))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; export static HTML page
+;; Exports static HTML page.
 (: export-html (->* (Pattern Path-String) (Positive-Integer Positive-Integer) Void))
 (define (export-html p filename [h 1] [v 1])
   (let ([inputs

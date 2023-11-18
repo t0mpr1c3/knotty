@@ -25,7 +25,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Options struct
+;; Options struct.
 (struct Options
   ([technique : Technique]
    [form : Form]
@@ -34,7 +34,7 @@
    [gauge : (Option Gauge)])
   #:guard
   (λ (technique form face side gauge type-name)
-    ;(dlog "in `Options` struct guard function")
+    (dlog "in `Options` struct guard function")
     (options-guard technique form face side gauge))
   #:transparent)
 
@@ -48,12 +48,6 @@
                                             Side
                                             (Option Gauge))))
 (define (options-guard technique form face side gauge)
-    #|
-    ;; circular knitting is for hand knits only, not machine knits
-    (when (and (not (eq? technique 'hand))
-               (eq? form 'circular))
-      (err SAFE "machine knit patterns must be flat, not circular"))
-    |#
     ;; hand knits that start on the right side are knitted right-to-left
     (when (and (eq? technique 'hand)
                (eq? face 'rs)
@@ -66,7 +60,7 @@
       (err SAFE "hand knits that start on the wrong side must be knitted left-to-right"))
     (values technique form face side gauge))
 
-;; dummy Options
+;; Default Options.
 (define default-options : Options
   (Options
    default-pattern-technique
@@ -75,10 +69,10 @@
    default-pattern-side
    default-pattern-gauge))
 
-;; utility functions
+;; Utility functions
 
-;; is row r knit on RS?
-;; row numbers are 1-indexed
+;; Is row r knit on RS?
+;; Row numbers are 1-indexed
 (: options-row-rs? : Options Positive-Integer -> Boolean)
 (define (options-row-rs? options r)
   (let* ([hand?  : Boolean (eq? (Options-technique options) 'hand)]
@@ -86,22 +80,22 @@
          [rs?    : Boolean (eq? (Options-face options) 'rs)])
     (row-rs? hand? flat? rs? r)))
 
-;; is row r knit on RS?
-;; row numbers are 1-indexed
+;; Is row r knit on RS?
+;; Row numbers are 1-indexed
 (: row-rs? : Boolean Boolean Boolean Positive-Integer -> Boolean)
 (define (row-rs? hand? flat? rs? r)
   (or (and (not hand?) rs?)
       (and hand? (not flat?) rs?)
       (and hand? flat? (boolean-xor rs? (even? r)))))
 
-;; is row knit on WS?
-;; row numbers are 1-indexed
+;; Is row knit on WS?
+;; Row numbers are 1-indexed
 (: options-row-ws? : Options Positive-Integer -> Boolean)
 (define (options-row-ws? options r)
   (not (options-row-rs? options r)))
 
-;; is row 1 knit from right to left?
-;; row numbers are 1-indexed
+;; Is row 1 knit from right to left?
+;; Row numbers are 1-indexed
 (: options-row-r2l? : Options Positive-Integer -> Boolean)
 (define (options-row-r2l? options r)
   (let* ([hand?  : Boolean (eq? (Options-technique options) 'hand)]
@@ -109,16 +103,16 @@
          [right? : Boolean (eq? (Options-side options) 'right)])
     (row-r2l? hand? flat? right? r)))
 
-;; is row 1 knit from right to left?
-;; row numbers are 1-indexed
+;; Is row 1 knit from right to left?
+;; Row numbers are 1-indexed
 (: row-r2l? : Boolean Boolean Boolean Positive-Integer -> Boolean)
 (define (row-r2l? hand? flat? right? r)
   (or (and (not hand?) right?)
       (and hand? (not flat?) right?)
       (and hand? flat? (boolean-xor right? (even? r)))))
 
-;; is row knit from left to right?
-;; row numbers are 1-indexed
+;; Is row knit from left to right?
+;; Row numbers are 1-indexed
 (: options-row-l2r? : Options Positive-Integer -> Boolean)
 (define (options-row-l2r? options r)
   (not (options-row-r2l? options r)))

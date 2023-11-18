@@ -44,7 +44,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; import pattern from XML file
+;; Imports pattern from XML file.
 (: import-xml : Path-String -> Pattern)
 (define (import-xml filename)
   (dlog "in `import-xml` with:")
@@ -56,6 +56,7 @@
   (let ([in (open-input-file filename)])
     (ssax:xml->sxml in null)))
 
+;; Converts SXML from XML file to Pattern struct.
 (: sxml->pattern : Sexp -> Pattern)
 (define (sxml->pattern sxml)
   (pattern
@@ -405,7 +406,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; export pattern as XML file
+;; Exports pattern as XML file.
 (: export-xml : Pattern Path-String -> Void)
 (define (export-xml p filename)
   (dlog "in `export-xml` with:")
@@ -415,6 +416,7 @@
     (write-bytes (string->bytes/latin-1 (srl:sxml->xml sxml)) out)
     (close-output-port out)))
 
+;; Converts Pattern struct to SXML.
 (: pattern->sxml : Pattern -> Sexp)
 (define (pattern->sxml p)
   (let* ([options (Pattern-options p)]
@@ -581,7 +583,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; define aliases
+;; Aliases
 (define recover import-xml)
 (define save    export-xml)
 

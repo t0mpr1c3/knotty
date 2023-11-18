@@ -42,9 +42,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; View elements for HTML template
-
-;; Keeping all view elements untyped because typed-untyped interaction is very slow
+;; View elements for HTML template.
+;; Template elements untyped because typed-untyped interaction is very slow.
 
 (define (pattern-name p)
   (let ([name (Pattern-name p)])
@@ -52,6 +51,7 @@
         "Knotty"
         name)))
 
+;; Returns SXML for pattern title.
 (define (title-sxml p)
   (let ([name (Pattern-name p)]
         [url  (Pattern-url p)])
@@ -61,6 +61,7 @@
                 `((h1 (@ [class "title"])
                       ,(linked-text name url)))))))
 
+;; Returns SXML for pattern authors.
 (define (attribution-sxml p)
   (let* ([attrib (Pattern-attribution p)]
          [n (length attrib)])
@@ -81,6 +82,7 @@
                                         [(= i (- n 2)) '(" and ")]
                                         [else          '(", ")])))))))))))
 
+;; Returns SXML for keywords.
 (define (keywords-sxml p)
   (let* ([keywords (Pattern-keywords p)]
          [n (length keywords)])
@@ -97,6 +99,7 @@
                                        "."
                                        ", "))))))))))
 
+;; Returns text description of Gauge struct.
 (define (gauge-text g)
   (if (false? g)
       ""
@@ -111,6 +114,7 @@
                (Gauge-row-measurement g)
                (gauge-unit g)))))
 
+;; Returns SXML for gauge text.
 (define (gauge-sxml p)
   (let ([gauge (Options-gauge (Pattern-options p))])
     `(div (@ [class "gauge"])
@@ -122,6 +126,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Returns SXML for knitting chart.
 (define (figure-sxml p [h-repeats 1] [v-repeats 1] [max-float-length 0])
   (let* ([c (pattern->chart p h-repeats v-repeats)]
          [options (Pattern-options p)])
@@ -144,6 +149,7 @@
                           (row-sxml p h-repeats v-repeats rows yrns hand? r))
                       ,(ruler width r2l?))))))))
 
+;; Returns SXML for ruler underneath chart.
 (define (ruler width r2l?)
   `(tr (@ [class "figure"])
        (td (@ [class "figure"]))
@@ -155,6 +161,7 @@
                        "."))))
        (td (@ [class "figure"]))))
 
+;; Returns SXML for row of stitch symbol cells.
 (define (row-sxml p h-repeats v-repeats rows yrns hand? r)
   (let* ([row (vector-ref rows r)]
          [rs? (Chart-row-rs? row)]
@@ -162,14 +169,12 @@
          [sts (Chart-row-stitches row)]
          [symbols ;: (Vectorof Symbol)
           (vector-map
-           ;(λ ([s : Stitch])
-           (λ (s)
+           (λ (s) ;([s : Stitch])
              (or (Stitch-symbol s) 'na))
            sts)]
          [ys ;: (Vectorof (Option Byte))
           (vector-map
-           ;(λ ([s : Stitch])
-           (λ (s)
+           (λ (s) ;([s : Stitch])
              (if (false? (Stitch-symbol s))
                  #f
                  (Stitch-yarn s)))
@@ -230,12 +235,12 @@
              (span (@ [class "figure rownumber"])
                    ,@(if r2l? rownumber null))))))
 
+;; Returns SXML for stitch symbol cell.
 (define (stitch-sxml hand? rs? s y c cls)
   (let* ([st (get-stitchtype s)]
-         [s~ (if rs? s (Stitchtype-ws-symbol st))]
-         [st~ (get-stitchtype s~)]
          [blank? (eq? 'na s)]
          [ns? (eq? 'ns s)]
+         [s~ (if rs? s (Stitchtype-ws-symbol st))]
          [instr (get-stitch-instructions s~ hand?)]
          [title
           (string-append
@@ -272,6 +277,7 @@
                      '((div (@ [class "strikethrough"])))
                      null)))))
 
+;; Returns hover text for row number.
 (define (rownumber-abbr p h-repeats v-repeats n)
   (let* ([options (Pattern-options p)]
          [rs? (eq? 'rs (Options-face options))]
@@ -320,10 +326,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; define formlets
-;; NB these use xexpr's not SXML
+;; Functions to define formlets.
+;; NB these use xexpr's not SXML.
 
-;; drop-down menus
+;; Returns formlet for drop-down menus.
 (define (selector val dis? label)
   (let* ([disabled? (or dis? (zero? val))]
          [selected (if disabled? "1" (~a val))])
@@ -340,7 +346,7 @@
         (label ,label))
      (list reps))))
 
-;; slider
+;; Returns formlet for slider.
 (define (slider z)
   (formlet
    (div ([class "slider"])
@@ -360,7 +366,7 @@
                                        [id "slider"]))) . => . zoom})
    (list zoom)))
 
-;; max float length input
+;; Returns formlet for  max float length input.
 ;; f < 0: hide button and text input
 ;; f = 0: show button, hide text input
 ;; f > 0: disable button, show text input
@@ -387,7 +393,7 @@
                                                          "none;"))]))) . => . float})
    (list float)))
 
-;; hidden checkboxes to record panel visibility
+;; Returns formlet for hidden checkboxes that record panel visibility.
 (define (hidden-checkbox name checked?)
   (formlet
    (span
@@ -397,7 +403,7 @@
                                       ,@(if checked? `([checked "true"]) null)))) . => . check})
    (list check)))
 
-;; hidden input to record figure height
+;; Returns formlet for hidden input that records figure height.
 (define (hidden-input name val)
   (formlet
    (span
@@ -406,6 +412,7 @@
                          #:attributes `([id "size"]))) . => . size})
    (list size)))
 
+;; Returns combined formlet.
 (define (combined-formlet inputs)
   (let ([s? (int->bool (hash-ref inputs 'stat))]
         [h  (hash-ref inputs 'hreps)]
@@ -440,7 +447,7 @@
                      ,{(hidden-input    "size"  s ) . => . size})))
      (list hreps vreps zoom float notes yarn instr size))))
 
-;; complete form
+;; Returns SXML for complete form.
 (define (form-sxml inputs)
   `(form (@ [id "form"]
             [action "/knotty"]
@@ -451,6 +458,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Returns SXML for yarn table.
 (define (yarn-sxml p [visible? #f])
   `(div (@ [class "yarn"])
         (h3 (@ [class "yarn"])
@@ -498,6 +506,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Returns SXML for pattern notes.
 (define (notes-sxml p [visible? #f])
   (let* ([options (Pattern-options p)]
          [hand? (eq? 'hand  (Options-technique options))]
@@ -540,6 +549,7 @@
                        ,(symbol->string (Options-side options))
                        " hand side of the pattern."))))))
 
+;; Returns SXML for knitting instructions for the whole pattern.
 (define (instructions-sxml p [visible? #f])
   (let* ([options (Pattern-options p)]
          [flat? (eq? (Options-form options) 'flat)]
@@ -559,7 +569,7 @@
                         ,@(rowdata-sxml p flat? face)
                         ,@(repeats-sxml p flat?)))))))
 
-;; caston row
+;; Returns text describing cast on row.
 (define (caston repeats flat?)
   (let* ([coa (Repeats-caston-count  repeats)]
          [com (Repeats-caston-repeat repeats)])
@@ -573,6 +583,7 @@
                (if flat? "" " and join in the round")
                "."))))))
 
+;; Returns SXML for knitting instructions for one row.
 (define (rowdata-sxml p flat? face)
   (let* ([rowspecs (Pattern-rowspecs p)]
          [rowcounts (Pattern-rowcounts p)]
@@ -619,6 +630,7 @@
                                 (string-append " (" (string-join annot "; ") ")")))
                          ".")))))))))
 
+;; Returns SXML for the row repeats.
 (define (repeats-sxml p flat?)
   (let* ([repeats (Pattern-repeats p)]
          [frr (Repeats-first-repeat-row repeats)]
@@ -636,7 +648,7 @@
                      [else
                       (format "s ~a–~a." frr lrr)]))))))
 
-;; format stitch tree for SXML output
+;; Formats a stitch tree as SXML.
 (define (stitches-sxml tree [prev-yrn #f])
   (sexp-chop-last ;; remove trailing comma
    (let loop ([tail tree]
@@ -741,7 +753,7 @@
         " to end of row"
         (format " to last ~a" (st->text n)))))
 
-;; chop last letter of string
+;; Chop last letter of string
 (define (sexp-chop-last xs)
   (if (null? xs)
       null
@@ -753,6 +765,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Returns SXML for webpage footer.
 (define footer
   `(div (@ [class "footer"])
         (p (@ [class "footer"])
@@ -761,7 +774,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; HTML template
+;; Creates HTML template for the webpage.
 (define (pattern-template
          op p inputs
          [to-text? #f])
@@ -831,11 +844,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; xml -> sxml
-;; formlets use `xexpr` X-expressions from module `xml`
-;; XSLT requires module `sxml`
-;; this function converts an xexpr into an SXML tree suitable for SXPath
-;; the output is not a strict version of SXML because it lacks the root element `*TOP*`
+;; Converts xml -> sxml.
+;; Formlets use `xexpr` X-expressions from module `xml`, XSLT requires module `sxml`
+;; This function converts an xexpr into an SXML tree suitable for SXPath
+;; The output is not a strict version of SXML because it lacks the root element `*TOP*`
 (define (xexpr->sxml x)
   (let loop ([tail x]
              [acc null])

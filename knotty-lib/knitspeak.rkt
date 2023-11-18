@@ -25,7 +25,7 @@
 
 (require threading)
 
-;; Notes on Knitspeak parser
+;; Notes on Knitspeak parser:
 
 ;; By and large the intention is to follow the implementation
 ;; of Knitspeak used by stitch-maps.com and documented at
@@ -71,7 +71,7 @@
 
 
 
-;; Notes on Knitspeak export
+;; Notes on Knitspeak export:
 
 ;; 1. All yarn, color, and technique information is ignored.
 ;;
@@ -86,20 +86,20 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; define namespace `knotty-ns`
-;; set as `current-namespace` for `eval`
+;; Defines namespace `knotty-ns`.
+;; Sets as `current-namespace` for `eval`.
 (define-namespace-anchor knotty-anchor)
 (define knotty-ns (namespace-anchor->namespace knotty-anchor))
 ;(current-namespace knotty-ns)
 
-;; shallow typed submodule
+;; Creates shallow typed submodule
 (module shallow typed/racket/shallow
   (provide ks->pattern)
   (require "pattern.rkt")
   (require/typed "knitspeak-parser.rkt"
                  [parse-ks (String -> Syntax)])
 
-  ;; evaluate parsed knitspeak
+  ;; Evaluates parsed knitspeak.
   (: ks->pattern : String Namespace -> Pattern)
   (define (ks->pattern str ns)
     (cast
@@ -110,7 +110,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; import pattern from Knitspeak .ks file
+;; Imports pattern from Knitspeak .ks file.
 (: import-ks : Path-String -> Pattern)
 (define (import-ks filename)
   (dlog "in `import-ks` with:")
@@ -119,7 +119,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; export pattern as Knitspeak .ks file
+;; Exports pattern as Knitspeak .ks file.
 (: export-ks : Pattern Path-String -> Void)
 (define (export-ks p filename)
   (dlog "in `export-ks` with:")
@@ -129,7 +129,7 @@
     (write-bytes (string->bytes/latin-1 ks) out)
     (close-output-port out)))
 
-;; convert pattern to Knitspeak .ks string
+;; Converts pattern to Knitspeak .ks string.
 (: pattern->ks : Pattern -> String)
 (define (pattern->ks p)
   (let* ([rowspecs (Pattern-rowspecs p)]
@@ -175,7 +175,7 @@
                            first-repeat-row
                            last-repeat-row))))))))
 
-;; format stitch tree for knotty text output
+;; Formats stitch tree for knotty text output.
 (: stitches->ks-text : Tree -> String)
 (define (stitches->ks-text tree)
   (string-chop-last ;; remove trailing comma
@@ -224,12 +224,12 @@
             (error (format "stitch ~a has no equivalent in Knitspeak" (symbol->string s)))
             (remove-underscore s~)))))
 
-;; Knitspeak stitch hash
+;; Define Knitspeak stitch hash.
 (define ks-stitch-hash : (HashTable Symbol Symbol) (make-hasheq))
 (for ([s (hash-keys stitch-hash)])
   ((inst hash-set! Symbol Symbol) ks-stitch-hash s s))
 
-;; renamed/substituted stitches
+;; Set Knotty stitch symbols and their corresponding Knitspeak stitch symbols.
 (for ([s : (Pairof Symbol Symbol)
          '((bebd           . bunny_ears_back_dec)
            (bebd-ws        . bunny_ears_back_dec)
@@ -333,7 +333,7 @@
                                    (remove-underscore
                                     (cdr s)))))
 
-;; cable stitches
+;; Set Knotty symbols for cable stitches, and their corresponding Knitspeak symbols.
 (for ([s (filter
           (λ ([s : Symbol])
             (regexp-match #rx"^[rl](p?t|p?c|cc|sa?c)"

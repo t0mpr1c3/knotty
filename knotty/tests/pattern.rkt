@@ -19,8 +19,7 @@
 |#
 
 (require threading)
-(require "../../knotty-lib/logger.rkt"
-         "../../knotty-lib/global.rkt"
+(require "../../knotty-lib/global.rkt"
          "../../knotty-lib/util.rkt"
          "../../knotty-lib/stitch.rkt"
          "../../knotty-lib/tree.rkt"

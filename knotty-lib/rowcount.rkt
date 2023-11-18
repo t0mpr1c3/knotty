@@ -35,7 +35,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; stitch counts for one course
+;; Rowcount struct defining stitch counts for one course.
 (struct Rowcount
   ([offset                  : Integer]
    [stitches-in-before-fix  : (Option Natural)] ;; \
@@ -53,7 +53,7 @@
    [var-count : Natural])
   #:transparent)
 
-;; Rowcounts type definition
+;; Rowcounts type definition.
 (define-type Rowcounts (Vectorof Rowcount))
 
 ;; dummy Rowcount
@@ -73,10 +73,10 @@
 
 ;; Rowcount(s) functions
 
-;; create Rowcounts object from Rowspecs and Rowmap
+;; Creates Rowcounts struct from Rowspecs and Rowmap.
 (: make-rowcounts : Rowspecs Rowmap -> Rowcounts)
 (define (make-rowcounts rowspecs rowmap)
-  ;(println "in function count-stitches")
+  (dlog "in function count-stitches")
   (let* ([n-rows (vector-length (Rowmap-index rowmap))]
          [rowcounts : Rowcounts (make-vector n-rows dummy-rowcount)])
     ;; count stitches in each row
@@ -98,19 +98,19 @@
               [last-full-adj : Integer 0] ;; value of `adj` from last short row
               [adj           : Integer 0] ;; adjustment to `min-length` from increases/decreases in short rows
               [caston-min    : Natural 0]) ;; minimum row length derived from short rows
-             ;(println (format "r = ~a" r))
-             ;(println (format "last-full-row = ~a" last-full-row))
-             ;(println (format "before = ~a" before))
-             ;(println (format "after = ~a" after))
-             ;(println (format "fix = ~a" fix))
-             ;(println (format "var = ~a" var))
-             ;(println (format "last-full-row = ~a" last-full-row))
-             ;(println (format "last-full-var = ~a" last-full-var))
-             ;(println (format "last-full-fix = ~a" last-full-fix))
-             ;(println (format "last-full-adj = ~a" last-full-adj))
-             ;(println (format "adj = ~a" adj))
-             ;(println (format "caston-min = ~a" caston-min))
-             ;(println rowcounts)
+             (dlog (format "r = ~a" r))
+             (dlog (format "last-full-row = ~a" last-full-row))
+             (dlog (format "before = ~a" before))
+             (dlog (format "after = ~a" after))
+             (dlog (format "fix = ~a" fix))
+             (dlog (format "var = ~a" var))
+             (dlog (format "last-full-row = ~a" last-full-row))
+             (dlog (format "last-full-var = ~a" last-full-var))
+             (dlog (format "last-full-fix = ~a" last-full-fix))
+             (dlog (format "last-full-adj = ~a" last-full-adj))
+             (dlog (format "adj = ~a" adj))
+             (dlog (format "caston-min = ~a" caston-min))
+             (dlog (format "rowcounts = ~a" rowcounts))
              (if (= n-rows r)
                  ;; result
                  caston-min
@@ -126,10 +126,10 @@
                           [in-var  (Rowcount-stitches-in-var  rowcount)]
                           [out-fix (Rowcount-stitches-out-fix rowcount)]
                           [out-var (Rowcount-stitches-out-var rowcount)])
-                     ;(println (format "in-fix = ~a" in-fix))
-                     ;(println (format "in-var = ~a" in-var))
-                     ;(println (format "out-fix = ~a" out-fix))
-                     ;(println (format "out-var = ~a" out-var))
+                     (dlog (format "in-fix = ~a" in-fix))
+                     (dlog (format "in-var = ~a" in-var))
+                     (dlog (format "out-fix = ~a" out-fix))
+                     (dlog (format "out-var = ~a" out-var))
                      (if (zero? r)
                          ;; first row
                          (begin
@@ -170,11 +170,11 @@
                                  ;; in-var = out-var = 0
                                  (let* ([min-after (if (eq? 'w&t (Rowspec-turn rowspec)) 1 0)]
                                         [in-fix~ (+ in-fix min-after)])
-                                   ;(println (format "min-after = ~a" min-after))
+                                   (dlog (format "min-after = ~a" min-after))
                                    (if (= last-full-row (sub1 r))
                                        ;; previous row is full row
                                        (begin
-                                         ;(println "start of short row sequence")
+                                         (dlog "start of short row sequence")
                                          (assert (natural? var))
                                          (if (and (zero? var)
                                                   (> in-fix~ fix))
@@ -188,8 +188,8 @@
                                                               (max 1 (ceiling (/ (- in-fix~ fix before) var))))]
                                                     [after~ (- (+ prod-fix (* reps var)) in-fix)]
                                                     [caston-min~ in-fix~])
-                                               ;(println (format "after~~ = ~a" after~))
-                                               ;(println (format "caston-min~~ ~a" caston-min~))
+                                               (dlog (format "after~~ = ~a" after~))
+                                               (dlog (format "caston-min~~ ~a" caston-min~))
                                                (assert (natural? after~))
                                                (vector-set! rowcounts r
                                                             (Rowcount adj
@@ -213,14 +213,14 @@
                                                      (max caston-min caston-min~)))))
                                        ;; previous row is short row
                                        (begin
-                                         ;(println "continuing short row sequence")
+                                         (dlog "continuing short row sequence")
                                          (if (even? (- last-full-row r))
                                              ;; even number of short rows
                                              (begin
-                                               ;(println "(- last-full-row r) = even")
+                                               (dlog "(- last-full-row r) = even")
                                                (let ([before~ after]
                                                      [after~ (- prod-fix in-fix)])
-                                                 ;(println (format "after~~ = ~a" after~))
+                                                 (dlog (format "after~~ = ~a" after~))
                                                  (if (< after~ min-after)
                                                      ;; row is too long
                                                      (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
@@ -232,8 +232,8 @@
                                                      (begin
                                                        (assert (natural? after~))
                                                        (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
-                                                         ;(println (format "prev-before-mult = ~a" prev-before-mult))
-                                                         ;(println (format "prev-after-mult = ~a" prev-after-mult))
+                                                         (dlog (format "prev-before-mult = ~a" prev-before-mult))
+                                                         (dlog (format "prev-after-mult = ~a" prev-after-mult))
                                                          (vector-set! rowcounts r
                                                                       (Rowcount adj
                                                                                 before~ prev-after-mult
@@ -256,17 +256,17 @@
                                                                caston-min))))))
                                              ;; odd number of short rows
                                              (begin
-                                               ;(println "(- last-full-row r) = odd")
+                                               (dlog "(- last-full-row r) = odd")
                                                (let ([shorter (- fix in-fix)])
-                                                 ;(println (format "shorter = ~a" shorter))
+                                                 (dlog (format "shorter = ~a" shorter))
                                                  (if (>= shorter min-after)
                                                      ;; do not extend short row footprint
                                                      (let ([after~ (- prod-fix in-fix)])
-                                                       ;(println (format "after~~ = ~a" after~))
+                                                       (dlog (format "after~~ = ~a" after~))
                                                        (assert (natural? after~))
                                                        (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
-                                                         ;(println (format "prev-before-mult = ~a" prev-before-mult))
-                                                         ;(println (format "prev-after-mult = ~a" prev-after-mult))
+                                                         (dlog (format "prev-before-mult = ~a" prev-before-mult))
+                                                         (dlog (format "prev-after-mult = ~a" prev-after-mult))
                                                          (vector-set! rowcounts r
                                                                       (Rowcount adj
                                                                                 before~ prev-after-mult
@@ -291,7 +291,7 @@
                                                      (if (zero? last-full-var)
                                                          ;; last full row had fixed number of stitches
                                                          (let ([after~ (- prod-fix in-fix)])
-                                                           ;(println (format "after~~ = ~a" after~))
+                                                           (dlog (format "after~~ = ~a" after~))
                                                            (if (< after~ min-after)
                                                                ;; cannot extend short row footprint
                                                                (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
@@ -353,23 +353,23 @@
                                  (let ([produced  (+ last-full-fix (- adj last-full-adj))]
                                        [consumed  (+ in-fix before~)]
                                        [produced~ (+ out-fix before~)])
-                                   ;(println "not a short row")
+                                   (dlog "not a short row")
                                    (assert (natural? in-var))
                                    (assert (natural? out-var))
                                    (if (zero? (Rowcount-var-count rowcount))
                                        ;; not short row, no repeats in row
                                        (begin
-                                         ;(println "no repeats in current row")
+                                         (dlog "no repeats in current row")
                                          (if (< last-full-row (sub1 r))
                                              ;; current row is first full row after a sequence of short rows
                                              (begin
-                                               ;(println "end of short row sequence")
+                                               (dlog "end of short row sequence")
                                                (if (even? (- last-full-row r))
                                                    ;; (even? (- last-full-row r))
                                                    ;; treat as short row
                                                    (begin
-                                                     ;(println "(- last-full-row r) = even")
-                                                     ;(println "treat as short row")
+                                                     (dlog "(- last-full-row r) = even")
+                                                     (dlog "treat as short row")
                                                      (if (not (= prod-fix in-fix))
                                                          ;; row consumes wrong number of stitches
                                                          (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
@@ -379,8 +379,8 @@
                                                                         (sts->text in-fix)))
                                                          ;; row consumes right number of stitches
                                                          (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
-                                                           ;(println (format "prev-before-mult = ~a" prev-before-mult))
-                                                           ;(println (format "prev-after-mult = ~a" prev-after-mult))
+                                                           (dlog (format "prev-before-mult = ~a" prev-before-mult))
+                                                           (dlog (format "prev-after-mult = ~a" prev-after-mult))
                                                            (vector-set! rowcounts r
                                                                         (Rowcount adj
                                                                                   before~ prev-after-mult
@@ -404,14 +404,14 @@
                                                    ;; (odd? (- last-full-row r))
                                                    ;; treat as short row, repeat constrained by end of row
                                                    (begin
-                                                     ;(println "(- last-full-row r) = odd")
-                                                     ;(println "treat as full row")
+                                                     (dlog "(- last-full-row r) = odd")
+                                                     (dlog "treat as full row")
                                                      (if (zero? last-full-var)
                                                          ;; last full row produces a fixed number of stitches
                                                          (begin
-                                                           ;(println "last full row produces a fixed number of stitches")
-                                                           ;(println (format "produced = ~a" produced))
-                                                           ;(println (format "consumed = ~a" consumed))
+                                                           (dlog "last full row produces a fixed number of stitches")
+                                                           (dlog (format "produced = ~a" produced))
+                                                           (dlog (format "consumed = ~a" consumed))
                                                            (assert (natural? produced))
                                                            (assert (natural? consumed))
                                                            (unless (= produced consumed)
@@ -442,11 +442,11 @@
                                                                  caston-min))
                                                          ;; last full row produces a variable number of stitches
                                                          (begin
-                                                           ;(println "last full row produces a variable number of stitches")
+                                                           (dlog "last full row produces a variable number of stitches")
                                                            (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)]
                                                                         [(q rem) (quotient/remainder (- consumed produced)
                                                                                                      last-full-var)]) ;; no danger of division by zero
-                                                             ;(println "(- last-full-row r) = odd")
+                                                             (dlog "(- last-full-row r) = odd")
                                                              (when (or (< q 0)
                                                                        (not (zero? rem)))
                                                                (error (format "non-conformable rows: row ~a consumes ~a, but row ~a provides ~a"
@@ -480,12 +480,12 @@
                                                                    caston-min)))))))
                                              ;; previous row was full row
                                              (begin
-                                               ;(println "previous row was full row")
+                                               (dlog "previous row was full row")
                                                (if (zero? var)
                                                    ;; previous row produces a fixed number of stitches
                                                    ;; FIXME bind off and other stitches with var = 0
                                                    (begin
-                                                     ;(println "previous row produces a fixed number of stitches")
+                                                     (dlog "previous row produces a fixed number of stitches")
                                                      (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
                                                        (assert (natural? prev-before-mult))
                                                        (assert (zero? prev-before-mult))
@@ -519,7 +519,7 @@
                                                              caston-min)))
                                                    ;; previous row produces a variable number of stitches
                                                    (begin
-                                                     ;(println "previous row produces a variable number of stitches")
+                                                     (dlog "previous row produces a variable number of stitches")
                                                      (let-values ([(q rem) (quotient/remainder (- in-fix fix)
                                                                                                var)]) ;; no danger of division by zero
                                                        (when (or (< q 0)
@@ -560,24 +560,24 @@
                                                              caston-min)))))))
                                        ;; row contains repeats
                                        (begin
-                                         ;(println "current row contains repeats")
+                                         (dlog "current row contains repeats")
                                          (if (< last-full-row (sub1 r))
                                              ;; current row is first full row after a sequence of short rows
                                              (begin
-                                               ;(println "end of short row sequence")
+                                               (dlog "end of short row sequence")
                                                (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
                                                  (if (even? (- last-full-row r))
                                                      ;; (even? (- last-full-row r))
                                                      ;; treat as short row, repeat constrained by end of row
                                                      (begin
-                                                       ;(println "(- last-full-row r) = even")
-                                                       ;(println "treat as short row")
+                                                       (dlog "(- last-full-row r) = even")
+                                                       (dlog "treat as short row")
                                                        (if (zero? in-var)
                                                            ;; variable repeat consumes 0 stitches
                                                            ;; repeat once, treat as fixed
                                                            (let ([in-fix~  (+ in-fix  in-var)]
                                                                  [out-fix~ (+ out-fix out-var)])
-                                                             ;(println "in-var = 0")
+                                                             (dlog "in-var = 0")
                                                              (unless (= prod-fix in-fix)
                                                                (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
                                                                               r
@@ -607,7 +607,7 @@
                                                            ;; variable repeat consumes at least 1 stitch
                                                            (let-values ([(q rem) (quotient/remainder (- prod-fix in-fix)
                                                                                                      in-var)])
-                                                             ;(println "in-var > 0")
+                                                             (dlog "in-var > 0")
                                                              (when (or (< q 0)
                                                                        (not (zero? rem)))
                                                                (error (format "non-conformable rows: row ~a consumes ~a, but row ~a provides ~a"
@@ -641,17 +641,17 @@
                                                                      caston-min)))))
                                                      ;; (odd? (- last-full-row r))
                                                      (begin
-                                                       ;(println "(- last-full-row r) = odd")
+                                                       (dlog "(- last-full-row r) = odd")
                                                        (if (zero? last-full-var)
                                                            ;; last full row produces a fixed number of stitches
                                                            (begin
-                                                             ;(println "last-full-var = 0")
+                                                             (dlog "last-full-var = 0")
                                                              (if (zero? in-var)
                                                                  ;; variable repeat consumes 0 stitches
                                                                  ;; repeat once, treat as fixed
                                                                  (let ([in-fix~  (+ in-fix  in-var)]
                                                                        [out-fix~ (+ out-fix out-var)])
-                                                                   ;(println "in-var = 0")
+                                                                   (dlog "in-var = 0")
                                                                    (unless (= prod-fix in-fix)
                                                                      (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
                                                                                     r
@@ -681,7 +681,7 @@
                                                                  ;; variable repeat consumes at least 1 stitch
                                                                  (let-values ([(q rem) (quotient/remainder (- prod-fix in-fix)
                                                                                                            in-var)])
-                                                                   ;(println "in-var > 0")
+                                                                   (dlog "in-var > 0")
                                                                    (when (or (< q 0)
                                                                              (not (zero? rem)))
                                                                      (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
@@ -715,17 +715,17 @@
                                                                            caston-min)))))
                                                            ;; last full row produces a variable number of stitches
                                                            (let* ([rows-back (- r last-full-row 1)])
-                                                             ;(println "last-full-var > 0")
+                                                             (dlog "last-full-var > 0")
                                                              (assert (natural? rows-back))
                                                              (let-values ([(a b) (diophantine-alt last-full-var
                                                                                                   in-var
                                                                                                   (- (+ in-fix before~)
                                                                                                      last-full-fix
                                                                                                      (- adj last-full-adj)))])
-                                                               ;(println (format "last-full-var = ~a" last-full-var))
-                                                               ;(println (format "last-full-fix = ~a" last-full-fix))
-                                                               ;(println (format "in-var = ~a" in-var))
-                                                               ;(println (format "(+ in-fix (car after)) = ~a" (+ in-fix after)))
+                                                               (dlog (format "last-full-var = ~a" last-full-var))
+                                                               (dlog (format "last-full-fix = ~a" last-full-fix))
+                                                               (dlog (format "in-var = ~a" in-var))
+                                                               (dlog (format "(+ in-fix (car after)) = ~a" (+ in-fix after)))
                                                                (when (false? b)
                                                                  (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
                                                                                 r
@@ -739,8 +739,8 @@
                                                                ;; there exist integral solutions to the linear Diophantine equation ax + by = c <=> gcd(a,b)|c
                                                                (assert (natural? a))
                                                                (assert (natural? b))
-                                                               ;(println (format "a = ~a" a))
-                                                               ;(println (format "b = ~a" b))
+                                                               (dlog (format "a = ~a" a))
+                                                               (dlog (format "b = ~a" b))
                                                                (let* ([n (lcm last-full-var in-var)]
                                                                       [p (quotient n last-full-var)]
                                                                       [q (if (zero? in-var) 0 (quotient n in-var))]
@@ -749,11 +749,11 @@
                                                                       [in-var~ (* q in-var)]
                                                                       [out-fix~ (+ out-fix (* b~ out-var))]
                                                                       [out-var~ (* q out-var)])
-                                                                 ;(println (format "a ~a" a))
-                                                                 ;(println (format "b ~a" b))
-                                                                 ;(println (format "p ~a" p))
-                                                                 ;(println (format "q ~a" q))
-                                                                 ;(println (format "b~~ = ~a" b~))
+                                                                 (dlog (format "a ~a" a))
+                                                                 (dlog (format "b ~a" b))
+                                                                 (dlog (format "p ~a" p))
+                                                                 (dlog (format "q ~a" q))
+                                                                 (dlog (format "b~~ = ~a" b~))
                                                                  (assert (natural? p))
                                                                  (assert (natural? q))
                                                                  (let-values ([(prev-before-mult prev-after-mult) (prev-mult rowcounts r)])
@@ -782,13 +782,13 @@
                                              (if (zero? var)
                                                  ;; previous row produces a fixed number of stitches
                                                  (begin
-                                                   ;(println "previous row produces a fixed number of stitches")
+                                                   (dlog "previous row produces a fixed number of stitches")
                                                    (if (zero? in-var)
                                                        ;; variable repeat consumes 0 stitches
                                                        ;; repeat once, treat as fixed
                                                        (let ([in-fix~ (+ in-fix in-var)]
                                                              [out-fix~ (+ out-fix out-var)])
-                                                         ;(println "in-var = 0")
+                                                         (dlog "in-var = 0")
                                                          (unless (= prod-fix in-fix)
                                                            (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
                                                                           r
@@ -818,7 +818,7 @@
                                                                  caston-min)))
                                                        ;; variable repeat consumes at least 1 stitch
                                                        (begin
-                                                         ;(println "in-var > 0")
+                                                         (dlog "in-var > 0")
                                                          (let-values ([(q rem) (quotient/remainder (- prod-fix in-fix)
                                                                                                    in-var)])
                                                            (when (or (< q 0)
@@ -859,7 +859,7 @@
                                                  ;; previous row produces a variable number of stitches
                                                  ;; FIXME extend short rows further back
                                                  (begin
-                                                   ;(println "previous row produces a variable number of stitches")
+                                                   (dlog "previous row produces a variable number of stitches")
                                                    (let-values ([(a b) (diophantine var fix in-var in-fix)])
                                                      (when (false? b)
                                                        (error (format "non-conformable rows: row ~a provides ~a, but row ~a consumes ~a"
@@ -872,8 +872,8 @@
                                                                        in-var
                                                                        in-fix))))
                                                      ;; there exist integral solutions to the linear Diophantine equation ax + by = c <=> gcd(a,b)|c
-                                                     ;(println (format "a ~a" a))
-                                                     ;(println (format "b ~a" b))
+                                                     (dlog (format "a ~a" a))
+                                                     (dlog (format "b ~a" b))
                                                      (assert (natural? a))
                                                      (assert (natural? b))
                                                      (let* ([n (lcm var in-var)]
@@ -886,10 +886,10 @@
                                                             [out-var~ (* q out-var)])
                                                        (assert (natural? p))
                                                        (assert (natural? q))
-                                                       ;(println (format "a ~a" a))
-                                                       ;(println (format "b ~a" b))
-                                                       ;(println (format "p ~a" p))
-                                                       ;(println (format "q ~a" q))
+                                                       (dlog (format "a ~a" a))
+                                                       (dlog (format "b ~a" b))
+                                                       (dlog (format "p ~a" p))
+                                                       (dlog (format "q ~a" q))
                                                        (combine-multiples! rowspecs rowmap rowcounts r a p)
                                                        (vector-set! rowcounts r
                                                                     (Rowcount adj
@@ -913,7 +913,7 @@
                                                              caston-min)))))))))))))))))])
 
       (calculate-totals! rowspecs rowmap rowcounts)
-      ;(println (format "before combining multiples: ~a" rowcounts))
+      (dlog (format "before combining multiples: ~a" rowcounts))
 
       (let* ([rowcount0 (vector-ref rowcounts 0)]
              [prod-var0 (Rowcount-stitches-out-var rowcount0)]
@@ -963,24 +963,24 @@
                [caston-mult~ (if (= 1 caston-mult)
                                  caston-mult-min
                                  (max caston-mult-min caston-mult))])
-          ;(println (format "caston-mult-min ~a" caston-mult-min))
-          ;(println (format "caston-mult ~a" caston-mult))
-          ;(println (format "caston-mult~~ ~a" caston-mult~))
+          (dlog (format "caston-mult-min ~a" caston-mult-min))
+          (dlog (format "caston-mult ~a" caston-mult))
+          (dlog (format "caston-mult~~ ~a" caston-mult~))
 
           ;; update rowcounts based on caston-mult
           (combine-multiples! rowspecs rowmap rowcounts n-rows caston-mult~ 1)
-          ;(println (format "after combining multiples: ~a" rowcounts))
+          (dlog (format "after combining multiples: ~a" rowcounts))
           ))
       ;; update stitch totals
       (calculate-totals! rowspecs rowmap rowcounts)
-      ;(println (format "after calculating totals: ~a" rowcounts))
+      (dlog (format "after calculating totals: ~a" rowcounts))
 
       ;; update stitches before/after
       (constrain-adjacent! rowspecs rowmap rowcounts)
-      ;(println (format "after constraining: ~a" rowcounts))
+      (dlog (format "after constraining: ~a" rowcounts))
 
       ;; return result
-      ;(println (format "rowcounts ~a" rowcounts))
+      ;(dlog (format "final rowcounts: ~a" rowcounts))
       rowcounts)))
 
 (: combine-multiples! : (Vectorof Rowspec) Rowmap (Vectorof Rowcount) Natural Natural Natural -> Void)
@@ -1035,15 +1035,15 @@
                                 [stitches-in-total  (+ sif (* siv mf))]
                                 [stitches-out-total (+ sof (* sov mf))])))))
 
-;; constrain number of stitches produced/consumed by adjacent rows
-;; mainly updates before and after values in short rows
+;; Constrains number of stitches produced/consumed by adjacent rows.
+;; Mainly updates before and after values in short rows.
 (: constrain-adjacent! : Rowspecs Rowmap Rowcounts -> Void)
 (define (constrain-adjacent! rowspecs rowmap rowcounts)
   (let ([n-rows (vector-length (Rowmap-index rowmap))])
     ;; loop over row numbers
     (when (> n-rows 1)
-      ;(println "constrain-adjacent!")
-      ;(println rowcounts)
+      (dlog "in function `constrain-adjacent!`")
+      (dlog (format "rowcounts = ~a" rowcounts))
       (let loop ([producer-row  : Positive-Integer 1]  ;; 1-indexed
                  [last-full-row : Positive-Integer 1]) ;; 1-indexed
         (when (< producer-row n-rows)
@@ -1059,12 +1059,12 @@
                  [short?-j (rowspec-short-row? rowspec-j)]
                  [short?-i (rowspec-short-row? rowspec-i)]
                  [before-mult (Rowcount-stitches-in-before-mult rowcount-j)])
-            ;(println (format "row ~a" producer-row))
-            ;(println (format "last-full-row ~a" last-full-row))
+            (dlog (format "row ~a" producer-row))
+            (dlog (format "last-full-row ~a" last-full-row))
             (if (and short?-j short?-i)
                 ;; both rows short
                 (begin
-                  ;(println "both rows short")
+                  (dlog "both rows are short")
                   (let ([produced      (Rowcount-stitches-out-total     rowcount-j)]
                         [prod-bef-fix  (Rowcount-stitches-in-before-fix rowcount-j)]
                         [prod-aft-fix  (Rowcount-stitches-in-after-fix  rowcount-j)]
@@ -1081,13 +1081,13 @@
                       (let ([res (- (+ produced prod-bef-fix) consumed)])
                         (assert (natural? res))
                         (rowcounts-set-after! rowcounts ri res before-mult)))
-                    ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                    (dlog (format "rowcount-i ~a" (vector-ref rowcounts ri)))
                     (loop consumer-row
                           last-full-row)))
                 (if (and (not short?-j) short?-i)
                     ;; i is a short row after a full row
                     (begin
-                      ;(println "short row after a full row")
+                      (dlog "consumer row is a short row after a full row")
                       (let ([produced    (Rowcount-stitches-out-total      rowcount-j)]
                             [before-fix  (Rowcount-stitches-in-before-fix  rowcount-j)]
                             [prod-var    (Rowcount-stitches-out-var        rowcount-j)]
@@ -1095,14 +1095,14 @@
                             [consumed    (Rowcount-stitches-in-total       rowcount-i)]
                             [after-fix   (Rowcount-stitches-in-after-fix   rowcount-i)]
                             [after-mult  (Rowcount-stitches-in-after-mult  rowcount-i)])
-                        ;(println (format "produced ~a" produced))
-                        ;(println (format "before-fix ~a" before-fix))
-                        ;(println (format "before-mult ~a" before-mult))
-                        ;(println (format "prod-var ~a" prod-var))
-                        ;(println (format "prod-mult ~a" prod-mult))
-                        ;(println (format "consumed ~a" consumed))
-                        ;(println (format "after-fix ~a" after-fix))
-                        ;(println (format "after-mult ~a" after-mult))
+                        (dlog (format "produced = ~a" produced))
+                        (dlog (format "before-fix = ~a" before-fix))
+                        (dlog (format "before-mult = ~a" before-mult))
+                        (dlog (format "prod-var = ~a" prod-var))
+                        (dlog (format "prod-mult = ~a" prod-mult))
+                        (dlog (format "consumed = ~a" consumed))
+                        (dlog (format "after-fix = ~a" after-fix))
+                        (dlog (format "after-mult = ~a" after-mult))
                         (rowcounts-set-after!  rowcounts rj 0 0)
                         (rowcounts-set-before! rowcounts ri 0 0)
                         (when (and (not (false? produced))
@@ -1115,21 +1115,21 @@
                           ;; plus the unknitted stitches after it
                           (let* ([mult (* prod-mult prod-var)]
                                  [fix  (- (+ produced before-fix) consumed)])
-                            ;(println (format "fix ~a" fix))
-                            ;(println (format "mult ~a" mult))
+                            (dlog (format "fix = ~a" fix))
+                            (dlog (format "mult = ~a" mult))
                             (assert (natural? fix))
                             (assert (natural? mult))
                             (rowcounts-set-after! rowcounts ri fix mult)))
-                        ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                        (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                         (loop consumer-row
                               last-full-row)))
                     (if (and short?-j (not short?-i))
                         ;; i is a full row after a short row
                         (begin
-                          ;(println "full row after a short row")
+                          (dlog "consumer row is a full row after a short row")
                           (if (even? (- producer-row last-full-row))
                               (begin
-                                ;(println "treat as short row")
+                                (dlog "treat as short row")
                                 (let ([produced      (Rowcount-stitches-out-total     rowcount-j)]
                                       [prod-bef-fix  (Rowcount-stitches-in-before-fix rowcount-j)]
                                       [prod-aft-fix  (Rowcount-stitches-in-after-fix  rowcount-j)]
@@ -1144,11 +1144,11 @@
                                              (not (false? prod-bef-fix))
                                              (not (false? consumed)))
                                     (rowcounts-set-after! rowcounts ri 0 0))
-                                  ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                                  (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                                   (loop consumer-row
                                         last-full-row)))
                               (begin
-                                ;(println "treat as full row")
+                                (dlog "treat as full row")
                                 (let ([produced    (Rowcount-stitches-out-total     rowcount-j)]
                                       [before-fix  (Rowcount-stitches-in-before-fix rowcount-j)]
                                       [after-fix   (Rowcount-stitches-in-after-fix  rowcount-j)]
@@ -1157,22 +1157,22 @@
                                       [cons-var    (Rowcount-stitches-in-var        rowcount-i)]
                                       [cons-mult   (Rowcount-multiple-var           rowcount-i)]
                                       [cons-before-mult (Rowcount-stitches-in-before-mult rowcount-i)])
-                                  ;(println (format "produced ~a" produced))
-                                  ;(println (format "before-fix ~a" before-fix))
-                                  ;(println (format "before-mult ~a" before-mult))
-                                  ;(println (format "after-fix ~a" after-fix))
-                                  ;(println (format "after-mult ~a" after-mult))
-                                  ;(println (format "consumed ~a" consumed))
-                                  ;(println (format "cons-var ~a" cons-var))
-                                  ;(println (format "cons-mult ~a" cons-mult))
-                                  ;(println (format "cons-before-mult ~a" cons-before-mult))
+                                  (dlog (format "produced = ~a" produced))
+                                  (dlog (format "before-fix = ~a" before-fix))
+                                  (dlog (format "before-mult = ~a" before-mult))
+                                  (dlog (format "after-fix = ~a" after-fix))
+                                  (dlog (format "after-mult = ~a" after-mult))
+                                  (dlog (format "consumed = ~a" consumed))
+                                  (dlog (format "cons-var = ~a" cons-var))
+                                  (dlog (format "cons-mult = ~a" cons-mult))
+                                  (dlog (format "cons-before-mult = ~a" cons-before-mult))
                                   (rowcounts-set-after! rowcounts ri 0 0)
                                   (when (and (not (false? after-fix))
                                              (not (false? after-mult)))
                                     (assert (natural? after-fix))
                                     (assert (natural? after-mult))
                                     (rowcounts-set-before! rowcounts ri after-fix after-mult))
-                                  ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                                  (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                                   (when (or (and (not (false? produced))
                                                  (not (false? before-fix))
                                                  (not (false? consumed))
@@ -1188,12 +1188,13 @@
                                     ;; together with the unknitted stitches before it
                                     ;; should equal the stitches consumed by the next row
                                     (err SAFE (format "pattern rows ~a and ~a do not have conformable stitch counts" producer-row consumer-row)))
-                                  ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                                  (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                                   (loop consumer-row
                                         producer-row)))))
                         (begin
                           (assert (and (not short?-j) (not short?-i)))
                           ;; neither row short
+                          (dlog "neither row is short")
                           (let ([produced   (Rowcount-stitches-out-total     rowcount-j)]
                                 [before-fix (Rowcount-stitches-in-before-fix rowcount-j)]
                                 [consumed   (Rowcount-stitches-in-total      rowcount-i)])
@@ -1206,6 +1207,7 @@
                                             rowspec-short-row?)))
                                 (begin
                                   ;; j is the row after a short row
+                                  (dlog "producer row is the row after a short row")
                                   (if (and (not (false? before-mult))
                                            (not (zero?  before-mult)))
                                       ;; before-mult > 0
@@ -1251,6 +1253,7 @@
                                   ;; j is not a short row
                                   ;; j is not the row before a short row
                                   ;; j is not the row after a short row
+                                  (dlog "producer row is neither the row before nor the row after a short row")
                                   (when (and (not (false? produced))
                                              (not (false? consumed))
                                              (not (= produced consumed)))
@@ -1284,7 +1287,7 @@
                                       (unless (false? consumed)
                                         ;; constrain to the number of stitches consumed by the next row
                                         (rowcounts-set-produced! rowcounts rj consumed)))))))
-                          ;(println (format "rowcount-i ~a" (vector-ref rowcounts ri)))
+                          (dlog (format "rowcount-i = ~a" (vector-ref rowcounts ri)))
                           (loop consumer-row
                                 producer-row)))))))))))
 
@@ -1295,7 +1298,7 @@
      (Rowcount-stitches-in-before-mult rowcount-)
      (Rowcount-stitches-in-after-mult  rowcount-))))
 
-;; create Rowcount from Tree
+;; Creates Rowcount from Tree.
 (: tree-count : Tree -> Rowcount)
 (define (tree-count tree)
   (let ([var-count (tree-count-var tree)])
@@ -1329,7 +1332,7 @@
        #f #f
        var-count))))
 
-;; calculate caston repeats from rowcount
+;; Calculates caston repeats from rowcount.
 (: rowcount-caston-repeats : Rowcount -> (values Natural Natural Natural Natural))
 (define (rowcount-caston-repeats rowcount)
   (let ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
@@ -1355,7 +1358,7 @@
       (assert (natural? caston-repeat-addition))
       (values caston-repeat-multiple caston-repeat-addition sbf sbm))))
 
-;; calculate castoff repeats from rowcount
+;; Calculates castoff repeats from rowcount.
 (: rowcount-castoff-repeats : Rowcount -> (values Natural Natural Natural Natural))
 (define (rowcount-castoff-repeats rowcount)
   (let* ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
@@ -1381,7 +1384,7 @@
       (assert (natural? castoff-repeat-addition))
     (values castoff-repeat-multiple castoff-repeat-addition saf sam))))
 
-;; end of row stitch count annotation
+;; End of row stitch count annotation.
 (: rowcount-annotation : Rowcount -> String)
 (define (rowcount-annotation rowcount)
   (let-values ([(irm ira sbf sbm) (rowcount-caston-repeats  rowcount)]
@@ -1394,9 +1397,9 @@
                 (more-or-less (- ora ira))))
         (multiple->text orm ora))))
 
-;; is the pattern capable of repeating vertically between the specified rows?
-;; FIXME knitspeak is slightly more liberal:
-;; it allows the first and last row of the repeating sequence to be short rows
+;; Is the pattern capable of repeating vertically between the specified rows?
+;; NB Knitspeak is slightly more liberal:
+;; Knitspeak allows the first and last row of the repeating sequence to be short rows
 ;; provided that these rows are of fixed length, i.e. no multiple length repeats.
 (: rowcounts-vertical-repeatable? : (Vectorof Rowcount) Positive-Integer Positive-Integer -> Boolean)
 (define (rowcounts-vertical-repeatable? rowcounts start-row end-row)

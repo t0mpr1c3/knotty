@@ -30,9 +30,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; specification for one course
-;; NB unlike Knitspeak, we do not encode Row/Round info for each course.
-;; The whole pattern is either flat or circular.
+;; Rowspec struct.
+;; Contains specification for one course.
+;; NB Unlike Knitspeak, we do not encode Row/Round info for each course:
+;; the whole pattern is either flat or circular.
 ;; Likewise, RS/WS information is not encoded at the row level.
 ;; RS/WS is specified only for Row 1, and alternates for flat patterns.
 ;; These are generally sensible restrictions, justifiable w.r.t. existing patterns.
@@ -49,7 +50,7 @@
       yarns-used
       short-row?
       type-name)
-    ;(log-message knotty-logger 'debug "in `Rowspec` struct guard function" #f)
+    (dlog "in `Rowspec` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose rowspec-guard-count-yarns-used
               ;rowspec-guard-bo
@@ -63,7 +64,7 @@
      turn))
   #:transparent)
 
-;; composable function as part of `Rowspec` struct guard function
+;; Composable function to guard `Rowspec` struct.
 (: rowspec-guard-turns (Tree
                         String
                         Byte
@@ -100,7 +101,7 @@
                   (err SAFE "short row cannot have variable number repeat"))))
             (values stitches memo default-yarn yarns-used turn~))))))
 
-;; composable function as part of `Rowspec` struct guard function
+;; Composable function to guard `Rowspec` struct.
 (: rowspec-guard-vars (Tree
                        String
                        Byte
@@ -121,7 +122,7 @@
     (err SAFE "variable number repeat nested within node"))
   (values stitches memo default-yarn yarns-used short-row?))
 
-;; composable function as part of `Rowspec` struct guard function
+;; Composable function to guard `Rowspec` struct.
 (: rowspec-guard-combine-stitches (Tree
                                    String
                                    Byte
@@ -136,7 +137,7 @@
   (values (tree-combine stitches) memo default-yarn yarns-used short-row?))
 
 #|
-;; composable function as part of `Rowspec` struct guard function
+;; Composable function to guard `Rowspec` struct.
 (: rowspec-guard-bo (Tree
                      String
                      Byte
@@ -151,7 +152,7 @@
   (values (tree-replace-bo stitches) memo default-yarn yarns-used short-row?))
 |#
 
-;; composable function as part of `Rowspec` struct guard function
+;; Composable function to guard `Rowspec` struct.
 (: rowspec-guard-count-yarns-used (Tree
                                    String
                                    Byte
@@ -167,7 +168,7 @@
   (let ([yarns-used~ : (Setof Byte) (tree-yarns stitches default-yarn)])
     (values stitches memo default-yarn yarns-used~ short-row?)))
 
-;; constructor
+;; Alternative constructor.
 (: make-rowspec (->* (Tree) (#:memo String
                              #:yarn Byte) Rowspec))
 (define (make-rowspec tree
@@ -180,13 +181,13 @@
    (tree-yarns tree)
    'no-turn))
 
-;; Rowspecs type definition
+;; Rowspecs type definition.
 (define-type Rowspecs (Vectorof Rowspec))
 
 (define dummy-rowspec  : Rowspec
   (Rowspec null "" 0 (set 0) 'no-turn))
 
-;; dummy Rowspecs
+;; Dummy Rowspecs.
 (define dummy-rowspecs : Rowspecs
   (vector dummy-rowspec))
 
@@ -211,7 +212,7 @@
                     (λ ([j : Byte]) (hash-set! h j #t))))
     (apply seteq (hash-keys h))))
 
-;; change stitches, keep other variables
+;; Change stitches in Rowspec struct, retains other members.
 (: rowspec-set-stitches : Rowspec Tree -> Rowspec)
 (define (rowspec-set-stitches rowspec tree~)
   (struct-copy Rowspec rowspec
@@ -222,26 +223,26 @@
   (rowspec-set-stitches rowspec
                         (tree-add-bo* (Rowspec-stitches rowspec))))
 
-;; reverse elements in stitches and change Stitchtypes from RS to WS
+;; Reverses elements in stitches and change Stitchtypes from RS to WS.
 (: rowspec-rs<->ws : Rowspec -> Rowspec)
 (define (rowspec-rs<->ws rowspec)
   (rowspec-set-stitches rowspec
                         (tree-rs<->ws (Rowspec-stitches rowspec))))
 
-;; checks work compatibility
+;; Checks compatibility of stitches with pattern technique.
 (: rowspec-stitches-compatible? : Rowspec Technique -> Boolean)
 (define (rowspec-stitches-compatible? rowspec technique)
   (cond [(eq? technique 'hand) (tree-stitches-compatible? (Rowspec-stitches rowspec) Stitchtype-hand-compatible?)]
         [else                  (tree-stitches-compatible? (Rowspec-stitches rowspec) Stitchtype-machine-compatible?)]))
 
-;; replace one stitchtype with another
+;; Replaces one stitchtype with another.
 (: rowspec-swap-stitch : Rowspec Symbol Symbol -> Rowspec)
 (define (rowspec-swap-stitch rowspec swap-out swap-in)
   (rowspec-set-stitches
    rowspec
    (tree-swap-stitch (Rowspec-stitches rowspec) swap-out swap-in)))
 
-;; sorted list of stitch symbols present in Rowspecs object
+;; Returns sorted list of stitch symbols present in Rowspecs object.
 (: rowspecs-stitchtype-list : Rowspecs -> (Listof Symbol))
 (define (rowspecs-stitchtype-list rowspecs)
   (~>> rowspecs

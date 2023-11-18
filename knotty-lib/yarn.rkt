@@ -26,7 +26,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; yarn struct definition
+;; Yarn struct definition.
 (struct Yarn
   ([color : Nonnegative-Fixnum] ;; RGB
    [name : String]
@@ -35,7 +35,7 @@
    [brand : String])
   #:guard
   (λ (color name weight fiber brand type-name)
-    ;(dlog "in `yarntype` struct guard function")
+    (dlog "in `yarntype` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose yarn-guard-weight
               yarn-guard-color)
@@ -75,14 +75,12 @@
   (values color name weight fiber brand))
 
 
-;; yarns type definition
+;; Yarns type definition.
 (define-type Yarns
   (Vectorof Yarn))
 
 
-;; Yarn functions
-
-;; constructor
+;; Alternative constructor.
 (: yarn (->* (Nonnegative-Fixnum) (String (Option Byte) String String) Yarn))
 (define (yarn color
               [name ""]
@@ -91,9 +89,24 @@
               [brand ""])
   (Yarn color name weight fiber brand))
 
+;; default Yarn
+(define default-yarn-color #xFFFFFF)
+(define default-yarn-color-name "White")
+(define default-yarn : Yarn
+  (yarn default-yarn-color
+        default-yarn-color-name))
+
+;; Alternative constructor.
 (: yarns : Yarn * -> Yarns)
 (define (yarns . ys)
   ((inst list->vector Yarn) ys))
+
+;; default Yarns
+(define default-yarns : Yarns
+  (yarns default-yarn))
+
+
+;; Yarn functions
 
 (: with-yarn : (Option Byte) -> ((U Leaf Node Treelike) (U Leaf Node Treelike) * -> Tree))
 (define ((with-yarn n) . xs)
@@ -129,16 +142,5 @@
   (if (false? y)
       ""
       (string-append "in " (yarn-id y))))
-
-;; default yarn
-(define default-yarn-color #xFFFFFF)
-(define default-yarn-color-name "White")
-(define default-yarn : Yarn
-  (yarn default-yarn-color
-        default-yarn-color-name))
-
-;; default yarns
-(define default-yarns : Yarns
-  (yarns default-yarn))
 
 ;; end

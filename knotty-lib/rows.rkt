@@ -31,18 +31,17 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; row struct
+;; Rows struct.
 (struct Rows
   ([rownums : (Listof Positive-Integer)]
    [rowspec : Rowspec])
   #:guard
   (λ (rownums rowspec type-name)
-    ;(log-message knotty-logger 'debug "in `Rows` struct guard function" #f)
-    ;; NB composed functions are applied in reverse order
+    (dlog "in `Rows` struct guard function")
     (rows-guard-rownums rownums rowspec))
   #:transparent)
 
-;; composable function as part of `Rows` struct guard function
+;; Composable function to guard `Rows` struct.
 (: rows-guard-rownums ((Listof Positive-Integer)
                        Rowspec
                        -> (values (Listof Positive-Integer)
@@ -55,10 +54,10 @@
     (values rownums~
             rowspec)))
 
-;; Rownums type
+;; Rownums type.
 (define-type Rownums-input (Listof (U Positive-Integer Rownums-input)))
 
-;; alternative constructor
+;; Alternative constructor.
 (: rows (->* () (#:memo String
                  #:yarn (Option Symbol))
              #:rest (U Positive-Integer Rownums-input) ;; Everything else is a row number
@@ -108,7 +107,7 @@
       (seteq 0)
       'no-turn))))
 
-;; aliases
+;; Aliases
 (define row rows)
 (define rounds rows)
 
@@ -118,7 +117,7 @@
    (> (length rownums) 1)
    (= 1 (apply min (diff - rownums)))))
 
-;; function for defining sequences of row numbers
+;; Defines sequences of row numbers.
 (: sequence (->* (Positive-Integer) (Positive-Integer Positive-Integer) (Listof Positive-Integer)))
 (define sequence
   (case-lambda
@@ -130,7 +129,7 @@
       [z : Positive-Integer]) (pos-range x (add1 y) z)]
     [else (error "Error in defining sequence")]))
 
-;; alias
+;; Alias
 (define seq sequence)
 
 ;; end
