@@ -11,7 +11,7 @@ Domain Specific Language for knitting patterns
 Grid-based editors are handy for colorwork.
 [Knitspeak](https://stitch-maps.com/about/knitspeak/) is great for lace.
 Knotty aims for the best of both worlds. It's a way to design knitting patterns
-that looks a lot like Knitspeak, but can handle multiple colors of yarn.
+that incorporate both textured stitches and multiple colors of yarn.
 
 ## Features
 
