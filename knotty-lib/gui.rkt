@@ -68,15 +68,3 @@
     (close-output-port out)))
 
 ;; end
-
-#|
-((setup-log-receiver 'debug))
-(show 
- (pattern
-   ((row 1) gs14)
-   ((row 2) ssk k10 k2tog)
-   ((row 3) bo1 gs4 w&t)
-   ((row 4) gs3 w&t)
-   ((row 5) gs6 w&t)
-   ((row 6 7) gs)))
-|#

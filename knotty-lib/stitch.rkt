@@ -74,7 +74,7 @@
    ;; ⤫⤬⤱⤱⛌⭮⭯⯇⯈⯅⯆⭠⭢⭡⭣⭦⭨⭩⭧⮢⮣◤◢◣◥◦◎✱✽❋❖↤↦↥↧
 
    ;; NB a bind off sequence consumes and produces an extra stitch: https://stitch-maps.com/patterns/display/buttonhole/
-   (Stitchtype 'bo*       'bo*       'bo*       'bo*       1 #f #"\053"         #"\053"         #f   #f   1 1  0 #f #f #t #t "stitch remaining on right needle after bind off")
+   (Stitchtype 'bo*       'bo*       'bo*       'bo*       1 #f #"\303\202\174" #"\303\202\174" #f   #f   1 1  0 #f #f #t #t "stitch remaining on right needle after bind off")
 
    ;; variable repeat stitches
    (Stitchtype 'bo         'bo        'bo        'bo       1 #f #"\124"         #"\124"         #xDE #xDE 1 0  0 #t #t #t #t "bind off")

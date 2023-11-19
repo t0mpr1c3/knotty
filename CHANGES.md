@@ -16,3 +16,6 @@ v1.0.4
 v1.0.5
 * Replace edging in code example #22
 * Fix charts for short rows
+
+v1.0.6
+* Fix alignment for repeating patterns #32

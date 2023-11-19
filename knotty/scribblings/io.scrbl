@@ -183,7 +183,7 @@ Now if you look in the @elem[#:style typewriter]{example} folder you should see
 a new file called @elem[#:style typewriter]{lattice.html}. You will also find
 folders called @elem[#:style typewriter]{css}, @elem[#:style typewriter]{js}
 and @elem[#:style typewriter]{icon} that contain the associated files. Open the
-HTML file in a web browser to view the page. 
+HTML file in a web browser to view the page.
 
 By default, the application saves output files with the same filename stem as
 the input file. The @elem[#:style typewriter]{-o} option allows other

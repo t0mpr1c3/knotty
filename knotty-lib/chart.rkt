@@ -37,6 +37,7 @@
          "rowspec.rkt"
          "rowmap.rkt"
          "options.rkt"
+         "repeats.rkt"
          "pattern.rkt"
          "chart-row.rkt")
 
@@ -47,16 +48,12 @@
   ([rows : (Vectorof Chart-row)]
    [width : Natural]
    [height : Natural]
-   [h-repeats : Positive-Integer]
-   [v-repeats : Positive-Integer]
    [name : String]
    [yarns : Yarns])
   #:guard
   (λ (rows
       width
       height
-      h-repeats
-      v-repeats
       name
       yarns
       type-name)
@@ -68,8 +65,6 @@
      rows
      width
      height
-     h-repeats
-     v-repeats
      name
      yarns))
   #:transparent)
@@ -78,38 +73,28 @@
 (: chart-guard-set-height ((Vectorof Chart-row)
                            Natural
                            Natural
-                           Positive-Integer
-                           Positive-Integer
                            String
                            Yarns
                            -> (values (Vectorof Chart-row)
                                       Natural
                                       Natural
-                                      Positive-Integer
-                                      Positive-Integer
                                       String
                                       Yarns)))
 (define (chart-guard-set-height
          rows
          width
          height
-         h-repeats
-         v-repeats
          name
          yarns)
   (if (zero? height)
       (values rows
               width
               (vector-length rows)
-              h-repeats
-              v-repeats
               name
               yarns)
       (values rows
               width
               height
-              h-repeats
-              v-repeats
               name
               yarns)))
 
@@ -117,23 +102,17 @@
 (: chart-guard-set-width ((Vectorof Chart-row)
                           Natural
                           Natural
-                          Positive-Integer
-                          Positive-Integer
                           String
                           Yarns
                           -> (values (Vectorof Chart-row)
                                      Natural
                                      Natural
-                                     Positive-Integer
-                                     Positive-Integer
                                      String
                                      Yarns)))
 (define (chart-guard-set-width
          rows
          width
          height
-         h-repeats
-         v-repeats
          name
          yarns)
   (if (zero? width)
@@ -142,15 +121,11 @@
                   0
                   (vector-max (vector-map chart-row-width rows)))
               height
-              h-repeats
-              v-repeats
               name
               yarns)
       (values rows
               width
               height
-              h-repeats
-              v-repeats
               name
               yarns)))
 
@@ -158,23 +133,17 @@
 (: chart-guard-null ((Vectorof Chart-row)
                      Natural
                      Natural
-                     Positive-Integer
-                     Positive-Integer
                      String
                      Yarns
                      -> (values (Vectorof Chart-row)
                                 Natural
                                 Natural
-                                Positive-Integer
-                                Positive-Integer
                                 String
                                 Yarns)))
 (define (chart-guard-null
          rows
          width
          height
-         h-repeats
-         v-repeats
          name
          yarns)
   (if (or (zero? width)
@@ -182,15 +151,11 @@
       (values '#()
               0
               0
-              h-repeats
-              v-repeats
               name
               yarns)
       (values rows
               width
               height
-              h-repeats
-              v-repeats
               name
               yarns)))
 
@@ -249,10 +214,10 @@
     (chart-align-rows (Chart chart-rows
                              1 ;; width will be set in `chart-align-rows` function
                              height
-                             h-repeats
-                             v-repeats
                              name
-                             yarns))))
+                             yarns)
+                      (Pattern-repeats p)
+                      h-repeats)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -265,35 +230,34 @@
 ;; Short rows can be considered a partition of the row
 ;; into one section which is aligned and sections on either end,
 ;; possibly of length zero, which are not aligned.
-(: chart-align-rows : Chart -> Chart)
-(define (chart-align-rows c)
+(: chart-align-rows : Chart Repeats Positive-Integer -> Chart)
+(define (chart-align-rows c repeats h-repeats)
   (dlog "in function `chart-align-rows`")
-  (let* ([rows (Chart-rows c)]
-         [height (Chart-height c)]
-         [h-repeats (Chart-h-repeats c)]
-         [v-repeats (Chart-v-repeats c)]
-         [name (Chart-name c)]
-         [yarns (Chart-yarns c)]
-         [any-short-rows? (for/or ([row (vector->list rows)]) : Boolean
-                            (Chart-row-short? row))]
-         [row0 (vector-ref rows 0)])
-    ;; if only 1 row, do not need to align rows
+  ;; if only 1 row, do not need to align rows
+  (let ([height (Chart-height c)])
     (if (= 1 height)
-        (begin
-          (Chart (vector row0)
-                 (chart-row-width row0)
-                 1
-                 h-repeats
-                 v-repeats
-                 name
-                 yarns))
-        ;; first row is initial producer sequence
-        ;; initial offset is 0, turns not allowed
-        (let* ([width : Natural (vector-max (vector-map chart-row-width rows))] ;; widest row has this many stitches after alignment, if no short rows
-               ;; initial producer sequence
-               [producer0 (Chart-row-stitches row0)]
+        c
+        (let* ([rows (Chart-rows c)]
+               [name (Chart-name c)]
+               [yarns (Chart-yarns c)]
+               [any-short-rows? (for/or ([row (vector->list rows)]) : Boolean
+                                  (Chart-row-short? row))]
+               [width : Natural (vector-max (vector-map chart-row-width rows))] ;; widest row has this many stitches after alignment, if no short rows
+               ;; if first row is the beginning of the repeat
+               ;; then do one whole additional repeat to align first row
+               [frr (Repeats-first-repeat-row repeats)]
+               [lrr (Repeats-last-repeat-row repeats)]
+               [initial-repeats
+                (if (and (not (false? lrr))
+                         (not (false? frr))
+                         (= 1 frr))
+                    lrr
+                    0)]
                ;; start position of row 1
-               [start1 (if (Chart-row-r2l? (vector-ref rows 1))
+               ;; initial offset is 0, turns not allowed
+               [row0 (vector-ref rows 0)]
+               [producer0 (Chart-row-stitches row0)]
+               [start0 (if (Chart-row-r2l? (vector-ref rows 1))
                            (sub1 (chart-row-width row0))
                            0)])
           (let*-values ([(stitches-out0 splice-out0)
@@ -301,22 +265,24 @@
                         ;; calculate offsets for each row in half-stitch units
                         [([offset : (Listof Integer)]
                           [adj    : (Listof Integer)])
-                         (let dev-loop ([i           : Positive-Integer   1]           ;; 0-index of consumer row
+                         (let dev-loop ([idx         : Natural            1]           ;; 0-index of consumer row
                                         [prod-out    : (Vectorof Integer) splice-out0] ;; producer splice-out sequence
                                         [prod-short? : Boolean            #f]          ;; producer is short row
                                         [pos         : Integer            0]           ;; index in `producer` of first position in aligned region
-                                        [start       : Integer            start1]      ;; start position of row on chart, before offset
+                                        [start       : Integer            start0]      ;; start position of row on chart, before offset
                                         [acc-offset  : (Listof Integer)   '(0)]        ;; row offsets
                                         [acc-adj     : (Listof Integer)   '(0)])       ;; row adjustments
-                           (dlog (format "consumer row index i = ~a" i))
-                           (dlog (format "producer row = ~a" (vector-ref rows (sub1 i))))
+                           (dlog (format "consumer row index idx = ~a" idx))
                            ;; check if we have reached the last row
-                           (if (= height i)
+                           (if (= idx (+ height initial-repeats))
                                (values
                                 (reverse acc-offset)
                                 (reverse acc-adj))
                                ;; obtain data from consumer row
-                               (let* ([cons-row    (vector-ref rows i)]
+                               (let* ([idx~        (if (< idx initial-repeats)
+                                                       idx
+                                                       (- idx initial-repeats))]
+                                      [cons-row    (vector-ref rows idx~)]
                                       [cons-width  (chart-row-width cons-row)]
                                       [cons-r2l?   (Chart-row-r2l? cons-row)]
                                       [cons-short? (Chart-row-short? cons-row)]
@@ -338,10 +304,10 @@
                                    (dlog (format "acc-offset = ~a" acc-offset))
                                    (dlog (format "acc-adj = ~a" acc-adj))
                                    (when (> cons-sts-in prod-avail)
-                                     (error (format "row ~a cannot be aligned as it consumes more stitches than are available" (add1 i))))
+                                     (error (format "row ~a cannot be aligned as it consumes more stitches than are available" (add1 idx))))
                                    (when (and (not (= cons-sts-in prod-avail))
                                               (not cons-short?))
-                                     (error (format "row ~a cannot be aligned as it consumes fewer stitches than are available" (add1 i))))
+                                     (error (format "row ~a cannot be aligned as it consumes fewer stitches than are available" (add1 idx))))
                                    ;; obtain start position of consumer row on chart, before offset
                                    ;; partition producer sequence
                                    (let*-values ([(prod-head prod-body)
@@ -394,7 +360,7 @@
                                        (dlog (format "start~~ = ~a" start~))
                                        (if (not cons-short?)
                                            ;; not short row
-                                           (dev-loop (add1 i)
+                                           (dev-loop (add1 idx)
                                                      prod-out~
                                                      #f
                                                      pos~
@@ -402,7 +368,7 @@
                                                      acc-offset~
                                                      acc-adj~)
                                            ;; short row
-                                           (dev-loop (add1 i)
+                                           (dev-loop (add1 idx)
                                                      prod-out~
                                                      #t
                                                      pos~
@@ -419,8 +385,12 @@
                                       cum-offset))]
                    [prepend (if any-short-rows?
                                 cum-offset~
-                                (vector-map (λ ([i : Integer]) (min (vector-ref cum-offset~ i)
-                                                                    (* 2 (- width (chart-row-width (vector-ref rows i))))))
+                                (vector-map (λ ([i : Integer])
+                                              (let ([j (if (< i initial-repeats)
+                                                           i
+                                                           (- i initial-repeats))])
+                                              (min (vector-ref cum-offset~ i)
+                                                   (* 2 (- width (chart-row-width (vector-ref rows j)))))))
                                             (list->vector (range (length offset)))))])
               (dlog (format "cum-offset = ~a" cum-offset))
               (dlog (format "min-offset = ~a" min-offset))
@@ -428,10 +398,11 @@
               ;; set alignment in chart rows
               (let* ([padded-rows
                       (for/vector ([i (in-range height)]) : Chart-row
-                        (let ([pad (halve (vector-ref prepend i))])
+                        (let* ([j (+ i initial-repeats)]
+                               [pad (halve (vector-ref prepend j))])
                           (assert (natural? pad))
-                        (struct-copy Chart-row (vector-ref rows i)
-                                     [align-left pad])))]
+                          (struct-copy Chart-row (vector-ref rows i)
+                                       [align-left pad])))]
                      [padded-row-lengths
                       : (Vectorof Natural)
                       (vector-map
@@ -440,11 +411,12 @@
                             (Chart-row-align-left cr)))
                        padded-rows)]
                      [padded-width (vector-max padded-row-lengths)]
-                     [final-rows (for/vector ([i (in-range height)]) : Chart-row
-                                   (let ([pad (- padded-width (vector-ref padded-row-lengths i))])
-                                     (assert (natural? pad))
-                                   (struct-copy Chart-row (vector-ref padded-rows i)
-                                                [align-right pad])))])
+                     [final-rows
+                      (for/vector ([i (in-range height)]) : Chart-row
+                        (let ([pad (- padded-width (vector-ref padded-row-lengths i))])
+                          (assert (natural? pad))
+                          (struct-copy Chart-row (vector-ref padded-rows i)
+                                       [align-right pad])))])
                 ;; return aligned chart
                 (dlog "returning from function `chart-align-rows` with:")
                 (dlog (format "final-rows = ~a" final-rows))
@@ -452,8 +424,6 @@
                 (Chart final-rows
                        padded-width
                        height
-                       h-repeats
-                       v-repeats
                        name
                        yarns))))))))
 

@@ -273,7 +273,7 @@ even-numbered rows on the WS.
 The first row starts on the right hand side of the pattern.
 
 Yarn:
-MC - #FFFFFF White 
+MC - #FFFFFF White
 
 Instructions:
 Cast on 8 stitches.

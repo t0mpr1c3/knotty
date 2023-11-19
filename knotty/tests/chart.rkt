@@ -59,10 +59,10 @@
                                                      [(= #x6F x) (Stitch 'yo    0)] ;; o
                                                      [(= #x54 x) (Stitch 'bo    0)] ;; T
                                                      [(= #x53 x) (Stitch 'bo*   0)] ;; S
-                                                     [(= #x55 x) (Stitch 'k2tog 0)]
-                                                     [(= #x57 x) (Stitch 'p2tog 0)]
-                                                     [(= #x56 x) (Stitch 'ssk   0)]
-                                                     [(= #x58 x) (Stitch 'ssp   0)]
+                                                     [(= #x55 x) (Stitch 'k2tog 0)] ;; U
+                                                     [(= #x57 x) (Stitch 'p2tog 0)] ;; W
+                                                     [(= #x56 x) (Stitch 'ssk   0)] ;; V
+                                                     [(= #x58 x) (Stitch 'ssp   0)] ;; X
                                                      [(= #x75 x) (Stitch 'p3tog 0)]
                                                      [(= #x76 x) (Stitch 'sssp  0)]
                                                      [(= #x28 x) (Stitch 'cddp  0)]
@@ -97,12 +97,12 @@
   (define (bytes->chart b)
     (Chart
      (vector-map bytes->chart-row b)
-     0 0 1 1 "" default-yarns))
+     0 0 "" default-yarns))
 
   ;; empty
   (check-equal?
-   (Chart '#() 1 0 1 1 "" default-yarns)
-   (Chart '#() 0 0 1 1 "" default-yarns))
+   (Chart '#() 1 0 "" default-yarns)
+   (Chart '#() 0 0 "" default-yarns))
 
   ;; one row
   (check-equal?
@@ -111,10 +111,11 @@
       ((row 1) k1)))
    (Chart
     (vector (Chart-row #(#s(Stitch k 0)) 0 #t #t #f 0 0))
-    1 1 1 1 "" default-yarns))
+    1 1 "" default-yarns))
 
-  #|
-  ;; 1884 sawtooth edging
+  ;; tests of alignment
+
+  ;; sawtooth edging
   (check-equal?
    (pattern->chart
     (pattern
@@ -124,13 +125,16 @@
       ((row 9) k2 yo p2tog k)
       ((row 10) bo4 p7 yo ssk p2)))
    (bytes->chart
-    '#(#"kkoWpppppppppppppppppp*"
-       #"wWppppppppppppppXw"
-       #"wppppppppppppppppw*"
-       #"wwwwwWppWppWppWppw")))
-  |#
-
-  ;; tests of alignment
+    '#(#"wwwkkoUoUokkWokk*"
+       #"wwwkkkkkkkkkoWkk"
+       #"wwkkoUoUokkkWokk*"
+       #"wwkkkkkkkkkkoWkk"
+       #"wkkoUoUokkkkWokk*"
+       #"wkkkkkkkkkkkoWkk"
+       #"kkoUoUokkkkkWokk*"
+       #"kkkkkkkkkkkkoWkk"
+       #"kkkkkkkkkkkkWokk*"
+       #"TTTTSkkkkkkkoWkk")))
 
   ;; single decreases
 

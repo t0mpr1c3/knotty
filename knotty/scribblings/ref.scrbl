@@ -194,8 +194,6 @@ styles as well: for more information, see the @racket[sweet-exp]
  ([rows (vectorof Chart-row?)]
   [width natural?]
   [height natural?]
-  [h-repeats (and/c exact-integer? positive?)]
-  [v-repeats (and/c exact-integer? positive?)]
   [name string?]
   [yarns (vectorof Yarn?)])
  #:transparent]{
@@ -538,14 +536,6 @@ styles as well: for more information, see the @racket[sweet-exp]
   [p Pattern?])
  void?]{
  Displays hand knitting instructions for a Knotty pattern.}
-
-@defproc[
- (update-stitch-instructions
-  [stitch-id symbol?]
-  [instructions string?])
- Void]{
- Updates the default knitting instructions for the stitch corresponding to
- @racket[stitch-id].}
 
 @defproc[
  (import-xml
@@ -1047,9 +1037,9 @@ way, the @racket[turn] and @racket[w&t] macros substitute @racket[turnl] /
        (list @element[dash ","]  @element[drop-style
                                           "Drop stitch"]                  @element[drop-style
                                                                                    "Drop stitch"]                  @racket[drop-st]     "✓"        "-")
-       (list @element[dash "+"]  @element[bo-star-style
+       (list @element[dash "Â|"] @element[bo-star-style
                                           "Remaining after bind off"]     @element[bo-star-style
-                                                                                   "Remaining after bind off"]     @racket[bo*]         "✓"        "✓")
+                                                                                   "Remaining after bind off"]     ""                   "✓"        "✓")
        (list @element[dash "w"]  "No stitch"                                       "No stitch"                     @racket[ns]          "✓"        "✓")
        (list @element[dash "º"]  @element[tl-style
                                           "Thread lace"]                  @element[tl-style
