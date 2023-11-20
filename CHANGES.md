@@ -19,3 +19,6 @@ v1.0.5
 
 v1.0.6
 * Fix alignment for repeating patterns #32
+
+v1.0.7
+* Include fonts in distribution #33

@@ -200,7 +200,5 @@ move the position of the chart. Click the heading marked "Instructions" and
 written knitting pattern will appear.
 
 If you are familiar with CSS, you can give the pages a personal touch by editing
-the stylesheets that come with the web pages. If, for example, you prefer the
-@emph{Stitchmastery Dot} font to @emph{Stitchmastery Dash}, it takes just a few
-moments to make the change. In a similar way, you can tweak the appearance so
-that the colors, font, and layout match your preferences.
+the stylesheets that come with the web pages so that the colors, fonts, and layout
+match your preferences.

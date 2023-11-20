@@ -125,10 +125,11 @@
                                                    (eq? 'debug log-level)))))))))
            (eprintf "[~a] ~a\n"
                     msg-level
-                    (vector-ref v 1)))
-         (when (thread-try-receive)
-           (kill-thread (current-thread)))
-         (sync-loop)))))))
+                    (vector-ref v 1))))
+       ;; kill thread if sent a message
+       (when (thread-try-receive)
+         (kill-thread (current-thread)))
+       (sync-loop))))))
 
 ;; Raises parameterized error message.
 (define-syntax (err stx)

@@ -88,12 +88,15 @@
                                 (cadar output))])
 
       ;; set logging level
+      (define lvl (cond [quiet? 'none]
+                        [debug? 'debug]
+                        [verbose? 'info]
+                        [else 'warning]))
       (define log-receiver-thread
-        ((setup-log-receiver
-         (cond [quiet? 'none]
-               [debug? 'debug]
-               [verbose? 'info]
-               [else 'warning]))))
+        ((setup-log-receiver lvl)))
+      (dlog (format "Set up log receiver thread ~a with level ~a"
+                    log-receiver-thread
+                    lvl))
 
       ;; set parameter value
       (SAFE safe?)
@@ -221,32 +224,27 @@
                                 [else base])]
                      [h (if (null? repeats) 1 (cadar repeats))]
                      [v (if (null? repeats) 1 (caddar repeats))]
-                     [out-file-path (path-replace-extension output-filestem #".html")]
-                     [css-dest-dir-path (build-path dir "css")]
-                     [js-dest-dir-path (build-path dir "js")]
-                     [icon-dest-dir-path (build-path dir "icon")])
+                     [out-file-path (path-replace-extension output-filestem #".html")])
                 (replace-file-if-forced force?
                                         out-file-path
                                         (thunk (export-html p out-file-path h v))
                                         "html")
-                (unless (directory-exists? css-dest-dir-path)
-                  (make-directory css-dest-dir-path))
-                (copy-file (build-path resources-path "css" "knotty.css")
-                           (build-path css-dest-dir-path "knotty.css")
-                           #:exists-ok? #t)
-                (copy-file (build-path resources-path "css" "knotty-manual.css")
-                           (build-path css-dest-dir-path "knotty-manual.css")
-                           #:exists-ok? #t)
-                (unless (directory-exists? js-dest-dir-path)
-                  (make-directory js-dest-dir-path))
-                (copy-file (build-path resources-path "js" "knotty.js")
-                           (build-path js-dest-dir-path "knotty.js")
-                           #:exists-ok? #t)
-                (unless (directory-exists? icon-dest-dir-path)
-                  (make-directory icon-dest-dir-path))
-                (copy-file (build-path resources-path "icon" "favicon.ico")
-                           (build-path icon-dest-dir-path "favicon.ico")
-                           #:exists-ok? #t))))
+                (overwrite-files
+                 (build-path resources-path "css")
+                 (build-path dir "css")
+                 '("knotty.css" "knotty-manual.css"))
+                (overwrite-files
+                 (build-path resources-path "js")
+                 (build-path dir "js")
+                 '("knotty.js"))
+                (overwrite-files
+                 (build-path resources-path "font")
+                 (build-path dir "font")
+                 '("StitchMasteryDash.ttf" "georgia.ttf"))
+                (overwrite-files
+                 (build-path resources-path "icon")
+                 (build-path dir "icon")
+                 '("favicon.ico")))))
           (when export-ks?
             (let ([out-file-path (path-replace-extension output-filestem #".ks")])
               (replace-file-if-forced force?
@@ -272,14 +270,25 @@
                   [v (if (null? repeats) 2 (caddar repeats))])
               (serve-pattern p h v)))))
 
-    (thread-send log-receiver-thread 'time-to-stop) ;; send message to log receiver thread
-    (thread-wait log-receiver-thread))) ;; wait for log receiver to finish before exiting
+      ;; send message to kill log receiver thread
+      (thread-send log-receiver-thread 'time-to-stop)
+      (dlog "Quitting Knotty")
+      ;; wait for log receiver to finish before exiting
+      (thread-wait log-receiver-thread)))
 
   ;; filesystem functions
 
   (define (move-file src-path dest-path)
     (copy-file src-path dest-path)
     (delete-file src-path))
+
+  (define (overwrite-files src-dir-path dest-dir-path filenames)
+    (unless (directory-exists? dest-dir-path)
+      (make-directory dest-dir-path))
+    (for ([f filenames])
+      (copy-file (build-path src-dir-path  f)
+                 (build-path dest-dir-path f)
+                 #:exists-ok? #t)))
 
   (define (replace-file-if-forced force? file-path thunk suffix)
     (let ([file-exists-msg "file ~a exists, use option --force to overwrite it"])

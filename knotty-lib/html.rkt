@@ -763,6 +763,14 @@
               (append head (list (safe-substring x 0 (sub1 (string-length x)))))
               xs)))))
 
+(define (font-face name url)
+  `(style
+    ,(string-append
+      "@font-face { "
+      "font-family: '" name "'; "
+      "src: url('" url "') format('truetype'); "
+      "}")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Returns SXML for webpage footer.
@@ -810,7 +818,11 @@
                 [href "css/knotty.css"]
                 [title "default"]))
        (link (@ [rel "icon"]
-                [href "icon/favicon.ico"])))
+                [href "icon/favicon.ico"]))
+       (%sxml (font-face "Stitchmastery Dash"
+                         "font/StitchmasteryDash.ttf"))
+       (%sxml (font-face "Georgia Pro"
+                         "font/georgia.ttf")))
       (body
        (script (%verbatim (format "var aspectRatio = ~a;\n"
                                   (~> p

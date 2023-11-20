@@ -35,7 +35,7 @@
    [brand : String])
   #:guard
   (λ (color name weight fiber brand type-name)
-    (dlog "in `yarntype` struct guard function")
+    (dlog "in `Yarn` struct guard function")
     ;; NB composed functions are applied in reverse order
     ((compose yarn-guard-weight
               yarn-guard-color)

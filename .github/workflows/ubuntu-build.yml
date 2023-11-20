@@ -96,12 +96,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      - name: Install Racket
-        uses: Bogdanp/setup-racket@v1.11
-        with:
-          architecture: 'x64'
-          distribution: 'full'
-          version: 'stable'
       - name: Set variables
         id: vars
         run: |
