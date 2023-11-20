@@ -51,7 +51,8 @@
                     #:face Face
                     #:side Side
                     #:gauge (Option Gauge)
-                    #:row-repeats (U False Positive-Integer (List Positive-Integer Positive-Integer)))
+                    #:row-repeats (U False Positive-Integer (List Positive-Integer Positive-Integer))
+                    #:imports-with (Path-String Symbol -> (Instance Bitmap%)))
                    Pattern))
 (define (import-png
          filename
@@ -65,7 +66,8 @@
          #:face [face default-pattern-face]
          #:side [side default-pattern-side]
          #:gauge [gauge #f]
-         #:row-repeats [row-repeats #f])
+         #:row-repeats [row-repeats #f]
+         #:imports-with [read-bitmap read-bitmap])
   (let ([bitmap (read-bitmap filename 'png)])
     (bitmap->pattern
      bitmap
