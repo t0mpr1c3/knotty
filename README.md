@@ -32,18 +32,14 @@ one format to another.
 
 ## Getting Started
 
-Install the [Stitchmastery fonts](https://stitchmastery.com/fonts/). It is also
-recommended to install [Georgia Pro](https://apps.microsoft.com/detail/georgia-pro/9N9DZG1XT2MB).
-You may need to restart your computer before you can see the new fonts.
+Clone [this repository](https://github.com/t0mpr1c3/knotty).
 
 Download the latest version of [Racket](https://download.racket-lang.org/)
 for your operating system. It comes with the graphical application DrRacket.
 Open DrRacket and select the menu option "File > Install Package". Type
 "knotty" into the text box and press "Install".
 
-Clone [this repository](https://github.com/t0mpr1c3/knotty).
-
-The easiest way to run Knotty is using DrRacket. Open the test script `demo.rkt`
-from the `knotty-lib` directory of the repository and press "Run" in the top right
-of the window. The demonstration script contains a very short knitting pattern,
-together with many lines of comments describing how to go about making your own.
+Open the test script `demo.rkt` from the `knotty-lib` directory of the repository
+and press "Run" in the top right of the window. The demonstration script contains
+a very short knitting pattern, together with many lines of comments describing how
+to go about making your own.
