@@ -112,7 +112,7 @@
    (thread
     (thunk
      (let sync-loop ()
-       (let* ([v (sync knotty-receiver)]
+       (let* ([v (sync knotty-receiver)] ;; wait for log message
               [msg-level (vector-ref v 0)])
          (when (and (not (eq? 'none log-level))
                     (or (eq? 'fatal msg-level)
@@ -126,7 +126,7 @@
            (eprintf "[~a] ~a\n"
                     msg-level
                     (vector-ref v 1))))
-       ;; kill thread if sent a message
+       ;; kill thread if thread mailbox receives a message
        (when (thread-try-receive)
          (kill-thread (current-thread)))
        (sync-loop))))))

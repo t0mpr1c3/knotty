@@ -22,3 +22,6 @@ v1.0.6
 
 v1.0.7
 * Include fonts in distribution #33
+
+v1.0.8
+* Test side effects using mocks #34

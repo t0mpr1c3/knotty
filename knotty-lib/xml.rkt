@@ -22,8 +22,8 @@
 
 (provide (all-defined-out))
 (require/typed sxml
-               [srl:sxml->xml  (Sexp -> String)]
-               [ssax:xml->sxml (Input-Port (Listof (U Symbol String)) -> Sexp)])
+               [srl:sxml->xml-noindent (Sexp -> String)]
+               [ssax:xml->sxml         (Input-Port (Listof (U Symbol String)) -> Sexp)])
 (require/typed sxml/sxpath
                [sxpath         (->* (Any) (Any) ((U Sexp (Listof Sexp)) -> (Listof Sexp)))])
 (require threading)
@@ -45,16 +45,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Imports pattern from XML file.
-(: import-xml : Path-String -> Pattern)
-(define (import-xml filename)
+(: import-xml (->* (Path-String) (#:imports-with (Path-String -> Input-Port)) Pattern))
+(define (import-xml filename
+                    #:imports-with [open-input-file open-input-file])
   (dlog "in `import-xml` with:")
-  (dlog (format "filename=~a" filename))
-  (sxml->pattern (file->sxml filename)))
-
-(: file->sxml : Path-String -> Sexp)
-(define (file->sxml filename)
+  (dlog (format "filename = ~a" filename))
   (let ([in (open-input-file filename)])
-    (ssax:xml->sxml in null)))
+    (sxml->pattern (ssax:xml->sxml in null))))
 
 ;; Converts SXML from XML file to Pattern struct.
 (: sxml->pattern : Sexp -> Pattern)
@@ -407,14 +404,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Exports pattern as XML file.
-(: export-xml : Pattern Path-String -> Void)
-(define (export-xml p filename)
+(: export-xml (->* (Pattern Path-String) (#:exports-with (Path-String -> Output-Port)) Void))
+(define (export-xml p filename
+                    #:exports-with [open-output-file open-output-file])
   (dlog "in `export-xml` with:")
-  (dlog (format "filename=~a" filename))
-  (let ([sxml (pattern->sxml p)]
-        [out (open-output-file filename)])
-    (write-bytes (string->bytes/latin-1 (srl:sxml->xml sxml)) out)
-    (close-output-port out)))
+  (dlog (format "filename = ~a" filename))
+  (let ([out (open-output-file filename)])
+    (~> (pattern->sxml p)
+        srl:sxml->xml-noindent
+        string->bytes/utf-8
+        (write-bytes _ out)
+        void)))
 
 ;; Converts Pattern struct to SXML.
 (: pattern->sxml : Pattern -> Sexp)
@@ -442,21 +442,21 @@
                  [frr     (Repeats-first-repeat-row repeats)]
                  [lrr     (Repeats-last-repeat-row repeats)])
             `(dimensions
-              (rows ,(Pattern-nrows p))
-              (cast-on-count  ,(Repeats-caston-count  repeats))
-              (cast-on-repeat ,(Repeats-caston-repeat repeats))
+              (rows           ,(~a (Pattern-nrows p)))
+              (cast-on-count  ,(~a (Repeats-caston-count  repeats)))
+              (cast-on-repeat ,(~a (Repeats-caston-repeat repeats)))
               ,@(if (or (false? frr)
                         (false? lrr))
                     null
-                    `((row-repeat-first ,frr)
-                      (row-repeat-last  ,lrr)))
+                    `((row-repeat-first ,(~a frr))
+                      (row-repeat-last  ,(~a lrr))))
               ,@(if (false? gauge)
                     null
                     `((gauge
-                       (stitch-count       ,(Gauge-stitch-count       gauge))
-                       (stitch-measurement ,(Gauge-stitch-measurement gauge))
-                       (row-count          ,(Gauge-row-count          gauge))
-                       (row-measurement    ,(Gauge-row-measurement    gauge))
+                       (stitch-count       ,(~a (Gauge-stitch-count       gauge)))
+                       (stitch-measurement ,(~a (Gauge-stitch-measurement gauge)))
+                       (row-count          ,(~a (Gauge-row-count          gauge)))
+                       (row-measurement    ,(~a (Gauge-row-measurement    gauge)))
                        (measurement-unit   ,(symbol->string (Gauge-measurement-unit   gauge))))))))]
          [pattern-yarns
           `(yarns
@@ -512,7 +512,7 @@
                           ""
                           (~a weight))])
         `(yarn
-          (number ,i)
+          (number ,(~a i))
           (color  ,(hex-color (Yarn-color y)))
           (name   ,(Yarn-name  y))
           (weight ,weight~)
@@ -533,14 +533,14 @@
         `(rows
           ,@(row-numbers->sxml (vector-ref rownums i))
           (memo         ,memo~)
-          (default-yarn ,default-yarn~)
-          (short-row    ,short-row~)
+          (default-yarn ,(~a default-yarn~))
+          (short-row    ,(~a short-row~))
           (stitches     ,@stitches~))))))
 
 (: row-numbers->sxml : (Vectorof Positive-Integer) -> (Listof Sexp))
 (define (row-numbers->sxml row-numbers)
   (for/list ([r (vector->list row-numbers)]) : (Listof Sexp)
-    `(row-number ,r)))
+    `(row-number ,(~a r))))
 
 (: tree->sxml : Tree -> (Listof Sexp))
 (define (tree->sxml tree)
@@ -558,16 +558,16 @@
                                                get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
-                                  (yarn   ,(leaf-yarn head)))
+                                  (yarn   ,(~a (leaf-yarn head))))
                                 acc)
                           (cons `(run
-                                  (count  ,ct)
+                                  (count  ,(~a ct))
                                   (stitch ,(~> head
                                                leaf-symbol
                                                get-stitchtype
                                                Stitchtype-rs-symbol
                                                symbol->string))
-                                  (yarn   ,(leaf-yarn head)))
+                                  (yarn   ,(~a (leaf-yarn head))))
                                 acc))
                       (cdr tail)))
               (let ([ct (node-count head)])
@@ -576,7 +576,7 @@
                                   (stitches ,@(tree->sxml (node-tree head))))
                                 acc)
                           (cons `(seq
-                                  (count ,ct)
+                                  (count ,(~a ct))
                                   (stitches ,@(tree->sxml (node-tree head))))
                                 acc))
                       (cdr tail))))))))

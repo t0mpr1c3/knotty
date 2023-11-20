@@ -15,7 +15,7 @@ that incorporate both textured stitches and multiple colors of yarn.
 
 ## Features
 
-Knotty patterns are encoded in a format that is easy for humans to write and parse,
+Knotty patterns are encoded in a format that is easy for humans to read and write,
 but is also highly structured.
 
 Patterns can be viewed and saved in an HTML format that contains an interactive

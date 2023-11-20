@@ -50,8 +50,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Exports static HTML page.
-(: export-html (->* (Pattern Path-String) (Positive-Integer Positive-Integer) Void))
-(define (export-html p filename [h 1] [v 1])
+(: export-html (->* (Pattern Path-String) (Positive-Integer Positive-Integer #:exports-with (Path-String -> Output-Port)) Void))
+(define (export-html p filename [h 1] [v 1]
+                     #:exports-with [open-output-file open-output-file])
   (let ([inputs
          (make-hasheq
           `((stat  . 1)
