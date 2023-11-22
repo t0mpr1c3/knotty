@@ -43,16 +43,16 @@
 (define default-pattern-gauge #f)
 
 (: gauge-unit : Gauge -> String)
-(define (gauge-unit g)
-  (if (eq? 'cm (Gauge-measurement-unit g))
+(define (gauge-unit self)
+  (if (eq? 'cm (Gauge-measurement-unit self))
       " cm"
       "\""))
 
 (: gauge->aspect-ratio : (Option Gauge) -> Float)
-(define (gauge->aspect-ratio g)
-  (if (false? g)
+(define (gauge->aspect-ratio self)
+  (if (false? self)
       0.80 ;; default aspect ratio
-      (/ (* (Gauge-row-measurement g) (Gauge-stitch-count g) 1.0)
-         (* (Gauge-stitch-measurement g) (Gauge-row-count g) 1.0))))
+      (/ (* (Gauge-row-measurement self) (Gauge-stitch-count self) 1.0)
+         (* (Gauge-stitch-measurement self) (Gauge-row-count self) 1.0))))
 
 ;; end

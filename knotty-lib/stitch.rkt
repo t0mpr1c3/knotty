@@ -440,14 +440,15 @@
 (define stitch-list-with-aliases : (Listof Stitchtype)
   (append stitch-list
           (for/list ([alias : (Pairof Symbol Symbol)
-                      '((sl1-k2tog-psso . sssk)
-                        (sl2-k1-p2sso   . cdd)
-                        (k2tog-twisted  . k2tog-tbl)
-                        (k3tog-twisted  . k3tog-tbl)
-                        (p2tog-twisted  . p2tog-tbl)
-                        (p3tog-twisted  . p3tog-tbl)
-                        (cdd-twisted    . cdd)
-                        (cddp-twisted   . cddp))]) : (Listof Stitchtype)
+                            (in-list
+                             '((sl1-k2tog-psso . sssk)
+                               (sl2-k1-p2sso   . cdd)
+                               (k2tog-twisted  . k2tog-tbl)
+                               (k3tog-twisted  . k3tog-tbl)
+                               (p2tog-twisted  . p2tog-tbl)
+                               (p3tog-twisted  . p3tog-tbl)
+                               (cdd-twisted    . cdd)
+                               (cddp-twisted   . cddp)))]) : (Listof Stitchtype)
             (stitch-alias (car alias) (cdr alias)))))
 
 (define stitch-hash (make-stitch-hash stitch-list-with-aliases))

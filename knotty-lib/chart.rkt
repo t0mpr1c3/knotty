@@ -22,7 +22,7 @@
          pattern->chart
          chart-yarn-hash
          chart-stitch-hash
-         check-floats)
+         chart-check-floats)
 
 (require racket/vector   ;; needed for `vector-map`
          racket/fixnum
@@ -231,16 +231,16 @@
 ;; into one section which is aligned and sections on either end,
 ;; possibly of length zero, which are not aligned.
 (: chart-align-rows : Chart Repeats Positive-Integer -> Chart)
-(define (chart-align-rows c repeats h-repeats)
+(define (chart-align-rows self repeats h-repeats)
   (dlog "in function `chart-align-rows`")
   ;; if only 1 row, do not need to align rows
-  (let ([height (Chart-height c)])
+  (let ([height (Chart-height self)])
     (if (= 1 height)
-        c
-        (let* ([rows (Chart-rows c)]
-               [name (Chart-name c)]
-               [yarns (Chart-yarns c)]
-               [any-short-rows? (for/or ([row (vector->list rows)]) : Boolean
+        self
+        (let* ([rows (Chart-rows self)]
+               [name (Chart-name self)]
+               [yarns (Chart-yarns self)]
+               [any-short-rows? (for/or ([row (in-vector rows)]) : Boolean
                                   (Chart-row-short? row))]
                [width : Natural (vector-max (vector-map chart-row-width rows))] ;; widest row has this many stitches after alignment, if no short rows
                ;; if first row is the beginning of the repeat
@@ -553,14 +553,14 @@
 
 ;; Make hash of yarns used in chart.
 (: chart-yarn-hash : Chart -> (HashTable Byte Byte))
-(define (chart-yarn-hash c)
+(define (chart-yarn-hash self)
   (let ([h : (HashTable Byte Byte) (make-hasheq)]
-        [rows (Chart-rows c)])
-    (for ([r : Chart-row rows])
+        [rows (Chart-rows self)])
+    (for ([r : Chart-row (in-vector rows)])
       (let ([row-data : (Listof (Option Byte))
                       (map (λ ([s : Stitch]) (Stitch-yarn s))
                            (vector->list (Chart-row-stitches r)))])
-        (for ([datum row-data])
+        (for ([datum (in-list row-data)])
           (unless (false? datum)
             (hash-set! h datum #xFF)))))
     (let* ([keys (sort (hash-keys h) <)]
@@ -572,14 +572,14 @@
 
 ;; Make hash of stitch symbols used in chart.
 (: chart-stitch-hash : Chart -> (HashTable Symbol Byte))
-(define (chart-stitch-hash c)
+(define (chart-stitch-hash self)
   (let ([h : (HashTable Symbol Byte) (make-hasheq)]
-        [rows (Chart-rows c)])
-    (for ([r : Chart-row rows])
+        [rows (Chart-rows self)])
+    (for ([r : Chart-row (in-vector rows)])
       (let ([row-data : (Listof (Option Symbol))
                       (map (λ ([s : Stitch]) (Stitch-symbol s))
                            (vector->list (Chart-row-stitches r)))])
-        (for ([datum row-data])
+        (for ([datum (in-list row-data)])
           (unless (false? datum)
             (hash-set! h datum #xFF)))))
     (let* ([keys
@@ -600,19 +600,19 @@
 ;; Replace long floats in chart with blanks.
 ;; Ignore trailing floats at start/end.
 ;; Return #f if any floats > `max-length`, #t otherwise
-(: check-floats : Chart Options Positive-Integer -> (values Chart Boolean))
-(define (check-floats c options max-length)
+(: chart-check-floats : Chart Options Positive-Integer -> (values Chart Boolean))
+(define (chart-check-floats self options max-length)
   (let ([technique (Options-technique options)])
     ;(if (or (eq? 'hand technique)
     ;        (eq? 'machine-fair-isle technique))
     (if (eq? (Options-form options) 'flat)
-        (flat-check-floats c max-length)
-        (circular-check-floats c max-length))))
+        (chart-check-floats-flat self max-length)
+        (chart-check-floats-circular self max-length))))
 
-(: flat-check-floats : Chart Positive-Integer -> (values Chart Boolean))
-(define (flat-check-floats c max-length)
-  (let* ([h (Chart-height c)]
-         [chart-rows (Chart-rows c)]
+(: chart-check-floats-flat : Chart Positive-Integer -> (values Chart Boolean))
+(define (chart-check-floats-flat self max-length)
+  (let* ([h (Chart-height self)]
+         [chart-rows (Chart-rows self)]
          [row-ok : (Listof Boolean)
                  (for/list ([i (in-range h)]) ;; row i
                    (let* ([cr (vector-ref chart-rows i)]
@@ -648,14 +648,14 @@
                                          (max max-float (vector-max floats~))
                                          (sub1 j)))))))))]
          [res ((inst andmap Boolean Boolean Boolean) identity row-ok)])
-    (values c res)))
+    (values self res)))
 
-(: circular-check-floats : Chart Positive-Integer -> (values Chart Boolean))
-(define (circular-check-floats c max-length)
-  (let* ([w (Chart-width c)]
-         [h (Chart-height c)]
+(: chart-check-floats-circular : Chart Positive-Integer -> (values Chart Boolean))
+(define (chart-check-floats-circular self max-length)
+  (let* ([w (Chart-width self)]
+         [h (Chart-height self)]
          [num-st (* w h)]
-         [chart-rows (Chart-rows c)]
+         [chart-rows (Chart-rows self)]
          [colors : Bytes
                  (for/fold ([acc #""])
                            ([i (in-range h)])
@@ -710,6 +710,6 @@
                                               0))))))))
                         (loop max-float~
                               (add1 j))))))])
-    (values c res)))
+    (values self res)))
 
 ;; end

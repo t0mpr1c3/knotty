@@ -254,7 +254,7 @@
          [keys (hash-keys yarn-hash)]
          [yarn-vector : (Vectorof Yarn)
                       (make-vector (add1 (apply max keys)) default-yarn)])
-    (for ([k : Byte keys])
+    (for ([k : Byte (in-list keys)])
       (let ([y : Yarn (hash-ref yarn-hash k)])
         (vector-set! yarn-vector k y)))
     (vector->list yarn-vector)))
@@ -346,7 +346,7 @@
           (Listof (Listof Sexp)))])
     (map (λ ([x : (U Leaf Node False)]) (cast x (U Leaf Node)))
          (filter (λ ([x : (U Leaf Node False)]) (not (false? x)))
-                 (for/list ([el : (Listof Sexp) sxml~]) : (Listof (U Leaf Node False))
+                 (for/list ([el : (Listof Sexp) (in-list sxml~)]) : (Listof (U Leaf Node False))
                    (let ([head (car el)])
                      (cond [(not (symbol? head)) #f]
                            [(eq? 'run head)    (sxml->leaf el)]
@@ -414,7 +414,8 @@
         srl:sxml->xml-noindent
         string->bytes/utf-8
         (write-bytes _ out)
-        void)))
+        void)
+    (close-output-port out)))
 
 ;; Converts Pattern struct to SXML.
 (: pattern->sxml : Pattern -> Sexp)
@@ -466,7 +467,7 @@
          [hand? (eq? (Options-technique options) 'hand)]
          [pattern-stitch-instructions
           `(stitch-instructions
-            ,@(for/list ([s (pattern-symbols p)]
+            ,@(for/list ([s (in-list (pattern-symbols p))]
                          #:when (not (false? s))) : (Listof Sexp)
                 (let* ([id (Stitchtype-rs-symbol (get-stitchtype s))]
                        [id-str (symbol->string id)]
@@ -539,7 +540,7 @@
 
 (: row-numbers->sxml : (Vectorof Positive-Integer) -> (Listof Sexp))
 (define (row-numbers->sxml row-numbers)
-  (for/list ([r (vector->list row-numbers)]) : (Listof Sexp)
+  (for/list ([r (in-vector row-numbers)]) : (Listof Sexp)
     `(row-number ,(~a r))))
 
 (: tree->sxml : Tree -> (Listof Sexp))

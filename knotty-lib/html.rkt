@@ -133,7 +133,7 @@
     (let-values ([(c~ _)
                   (if (zero? max-float-length)
                       (values c #t)
-                      (check-floats c options max-float-length))])
+                      (chart-check-floats c options max-float-length))])
       (let ([rows (Chart-rows c~)]
             [width (Chart-width c~)]
             [height (Chart-height c~)]
@@ -145,7 +145,7 @@
                         [id "figure"]
                         [height "fit-content"])
                      (tbody
-                      ,@(for/list ([r (reverse (range height))])
+                      ,@(for/list ([r (in-list (reverse (range height)))])
                           (row-sxml p h-repeats v-repeats rows yrns hand? r))
                       ,(ruler width r2l?))))))))
 
@@ -471,7 +471,7 @@
                             "display: none;")])
              (table (@ [class "yarn"])
                     ,@(apply append
-                             (for/list ([i  (in-range (vector-length (Pattern-yarns p)))])
+                             (for/list ([i (in-range (vector-length (Pattern-yarns p)))])
                                (let ([y (vector-ref (Pattern-yarns p) i)])
                                  (if (or (false? y)
                                          (false? i))
@@ -635,8 +635,8 @@
   (let* ([repeats (Pattern-repeats p)]
          [frr (Repeats-first-repeat-row repeats)]
          [lrr (Repeats-last-repeat-row repeats)]
-         [novrep? (or (false? frr) (false? lrr))])
-    (if novrep?
+         [novreps? (or (false? frr) (false? lrr))])
+    (if novreps?
         null
         `((li (@ [class "rowdata"])
               "Repeat "

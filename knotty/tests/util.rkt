@@ -211,5 +211,14 @@
   (check-equal? (string->boolean "0") #f)
   (check-equal? (string->boolean "1") #t)
 
+  (check-equal?
+   (findf-index (λ (_) #t) null)
+   #f)
+  (check-equal?
+   (findf-index odd? '(0 1 2 3))
+   1)
+
+  ;; end of submodule
   )
+
 ;; end

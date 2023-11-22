@@ -100,7 +100,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
      (list
       (append
        '(stitches)
-       (for/list ([id (filter (compose not false?) (hash-keys stitch-hash))])
+       (for/list ([id (in-list (filter (compose not false?) (hash-keys stitch-hash)))])
          (let* ([st      (get-stitchtype id)]
                 [rs-sym  (~a id)]
                 [ws-sym  (~a (Stitchtype-ws-symbol st))]

@@ -174,7 +174,7 @@
            [color-names : (HashTable String Natural) (make-hash)])
       (hash-set! color-names main-color-name 1)
       (vector-set! yrns 0 (yarn main-color main-color-name))
-      (for ([c : Nonnegative-Fixnum colors])
+      (for ([c : Nonnegative-Fixnum (in-list colors)])
         (let* ([n : Byte (hash-ref yarn-palette c)]
                [y : Byte (cond [(< main-yarn n) n]
                                [(> main-yarn n) (byte-sum n 1)]

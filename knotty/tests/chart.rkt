@@ -1210,12 +1210,12 @@
     (Pattern-options owl))
 
   (check-equal?
-   (let-values ([(_ res) (check-floats owl-chart owl-opt 5)])
+   (let-values ([(_ res) (chart-check-floats owl-chart owl-opt 5)])
      res)
    #t)
 
   (check-equal?
-   (let-values ([(_ res) (check-floats owl-chart owl-opt 4)])
+   (let-values ([(_ res) (chart-check-floats owl-chart owl-opt 4)])
      res)
    #f)
 
@@ -1237,13 +1237,13 @@
           [owl~ (struct-copy Pattern owl
                              [options owl-opt~])]
           [owl-chart~ (pattern->chart owl~)])
-     (let-values ([(_ res) (check-floats owl-chart~ owl-opt~ 5)])
+     (let-values ([(_ res) (chart-check-floats owl-chart~ owl-opt~ 5)])
        res))
    #f)
 
   (check-equal?
    (let ([c (pattern->chart (pattern (yarn 0) (yarn 1) ((row 1) k1 (cc1 lc-1/1) k1)))])
-    (let-values ([(_ res) (check-floats c default-options 1)])
+    (let-values ([(_ res) (chart-check-floats c default-options 1)])
       res))
    #f)
 

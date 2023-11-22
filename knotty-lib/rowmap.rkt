@@ -85,35 +85,35 @@
 
 ;; Finds 1-indexed row number as rowmap index.
 (: rowmap-find : Rowmap Positive-Integer -> Natural)
-(define (rowmap-find rowmap r)
-  (vector-ref (Rowmap-index rowmap) (sub1 r)))
+(define (rowmap-find self r)
+  (vector-ref (Rowmap-index self) (sub1 r)))
 
 ;; Finds 0-indexed row number as rowmap index.
 (: rowmap-find0 : Rowmap Natural -> Natural)
-(define (rowmap-find0 rowmap r)
-  (vector-ref (Rowmap-index rowmap) r))
+(define (rowmap-find0 self r)
+  (vector-ref (Rowmap-index self) r))
 
 ;; Finds indices that map to both odd and even row numbers.
 (: rowmap-odd&even : Rowmap -> (Listof Natural))
-(define (rowmap-odd&even rowmap)
-  (let loop ([i   : Natural (vector-length (Rowmap-numbers rowmap))]
+(define (rowmap-odd&even self)
+  (let loop ([i   : Natural (vector-length (Rowmap-numbers self))]
              [acc : (Listof Natural) null])
     (if (zero? i)
         acc
         (let* ([j (sub1 i)]
-               [rownums-j (vector-ref (Rowmap-numbers rowmap) j)])
+               [rownums-j (vector-ref (Rowmap-numbers self) j)])
           (assert (natural? j))
-          (if (and (for/or ([x (vector-map odd?  rownums-j)]) : Boolean x)
-                   (for/or ([x (vector-map even? rownums-j)]) : Boolean x))
+          (if (and (for/or ([x (in-vector (vector-map odd?  rownums-j))]) : Boolean x)
+                   (for/or ([x (in-vector (vector-map even? rownums-j))]) : Boolean x))
               (loop j (cons j acc))
               (loop j acc))))))
 
 ;; Finds lowest row number matching index.
 (: rowmap-first : Rowmap Natural -> Positive-Integer)
-(define (rowmap-first rowmap i)
+(define (rowmap-first self i)
   (apply min
          (vector->list
           (vector-ref
-           (Rowmap-numbers rowmap) i))))
+           (Rowmap-numbers self) i))))
 
 ;; end

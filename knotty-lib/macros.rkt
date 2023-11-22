@@ -425,7 +425,7 @@
     [(_) (let ([make-name (λ (id n) (format-id stx "~a~a" id n))])
            (with-syntax ([((id n name) ...)
                           (map (λ (xs) (list (car xs) (cdr xs) (make-name (car xs) (cdr xs))))
-                               (for*/list ([id '(co bo k p na ss rss gs tl ktbl ptbl kb pb pbk pbp slwyib slwyif slkwyib slkwyif mml mmr)]
+                               (for*/list ([id (in-list '(co bo k p na ss rss gs tl ktbl ptbl kb pb pbk pbp slwyib slwyif slkwyib slkwyif mml mmr))]
                                            [n (in-range 1 (add1 (STITCH-MACRO-MAX-NUMBER)))])
                                  (cons id n)))])
              #'(begin

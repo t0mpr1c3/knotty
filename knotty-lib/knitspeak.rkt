@@ -226,107 +226,108 @@
 
 ;; Define Knitspeak stitch hash.
 (define ks-stitch-hash : (HashTable Symbol Symbol) (make-hasheq))
-(for ([s (hash-keys stitch-hash)])
+(for ([s (in-hash-keys stitch-hash)])
   ((inst hash-set! Symbol Symbol) ks-stitch-hash s s))
 
 ;; Set Knotty stitch symbols and their corresponding Knitspeak stitch symbols.
 (for ([s : (Pairof Symbol Symbol)
-         '((bebd           . bunny_ears_back_dec)
-           (bebd-ws        . bunny_ears_back_dec)
-           (bebyo          . bunny_ears_back_yo)
-           (bebyo-ws       . bunny_ears_back_yo)
-           (bed            . bunny_ears_dec)
-           (bed-ws         . bunny_ears_dec)
-           (beyo           . bunny_ears_yo)
-           (beyo-ws        . bunny_ears_yo)
-           (bo             . BO)
-           (brk            . ERROR) ;; not implemented in Stitch-maps
-           (brk2tog        . ERROR) ;; not implemented in Stitch-maps
-           (brk3tog        . ERROR) ;; not implemented in Stitch-maps
-           ;(brk-brp-brk    . ERROR) ;; not implemented in Stitch-maps
-           (brk-tbl        . ERROR) ;; not implemented in Stitch-maps
-           ;(brk-yo-brk     . ERROR) ;; not implemented in Stitch-maps
-           (brp            . ERROR) ;; not implemented in Stitch-maps
-           (brp2tog        . ERROR) ;; not implemented in Stitch-maps
-           (brp3tog        . ERROR) ;; not implemented in Stitch-maps
-           ;(brp-brk-brp    . ERROR) ;; not implemented in Stitch-maps
-           (brp-tbl        . ERROR) ;; not implemented in Stitch-maps
-           ;(brp-yo-brp     . ERROR) ;; not implemented in Stitch-maps
-           (brsl           . brSl)
-           (cdd            . sl2-k1-p2sso)
-           (cdd-twisted    . cdd_twisted)
-           (cddp-twisted   . cddp_twisted)
-           (cdi            . ctr_dbl_inc)
-           (co             . CO)
-           ;(dip-st         . dip_st)
-           (drop-st        . drop_st)
-           (en             . ERROR) ;; not implemented in Stitch-maps
-           (gs             . ERROR) ;; not implemented in Stitch-maps
-           (inc4k          . 1-to-4_inc)
-           (inc4p          . 1-to-4_inc)
-           (inc5k          . 1-to-5_inc)
-           (inc5p          . 1-to-5_inc)
-           (k2tog-tbl      . k2tog_tbl)
-           (k2tog-twisted  . k2tog_twisted)
-           (k2w            . k_wrapping_yarn_twice)
-           (k3tog-tbl      . k3tog_tbl)
-           (k3tog-twisted  . k3tog_twisted)
-           (k3w            . k_wrapping_yarn_3_times)
-           (k4w            . k_wrapping_yarn_4_times)
-           (kb             . k_below)
-           (ktbl           . k_tbl)
-           (kyk            . |(k1, yo, k1) in next st|)
-           (lt             . ERROR) ;; not implemented in Stitch-maps
-           (m              . m1L)
-           (mb             . MB)
-           (ml             . m1L)
-           (mlp            . m1Lp)
-           (mml            . ERROR) ;; not implemented in Stitch-maps
-           (mmr            . ERROR) ;; not implemented in Stitch-maps
-           (mp             . m1Lp)
-           (mr             . m1R)
-           (mrp            . m1Rp)
-           (na             . ERROR) ;; not implemented in Stitch-maps
-           (ns             . ERROR) ;; not implemented in Stitch-maps
-           (p2tog-tbl      . p2tog_tbl)
-           (p2tog-twisted  . p2tog_twisted)
-           (p2w            . p_wrapping_yarn_twice)
-           (p3tog-tbl      . p3tog_tbl)
-           (p3tog-twisted  . p3tog_twisted)
-           (p3w            . p_wrapping_yarn_3_times)
-           (p4w            . p_wrapping_yarn_4_times)
-           (pb             . p_below)
-           (pbk            . PBk)
-           (pbp            . PBp)
-           (ptbl           . p_tbl)
-           (pyp            . |(p1, yo, p1) in next st|)
-           (rss            . ERROR) ;; not implemented in Stitch-maps
-           (rt             . ERROR) ;; not implemented in Stitch-maps
-           (slkwyib        . sl_wyib)
-           (slkwyif        . sl_wyif)
-           (slwyib         . sl_wyib)
-           (slwyif         . sl_wyif)
-           (sp             . ERROR) ;; not implemented in Stitch-maps
-           (ss             . ERROR) ;; not implemented in Stitch-maps
-           (ssbrk          . ERROR) ;; not implemented in Stitch-maps
-           (ssbrp          . ERROR) ;; not implemented in Stitch-maps
-           (ssk2tog        . ssk)
-           (ssp2tog        . ssp)
-           (sssbrk         . ERROR) ;; not implemented in Stitch-maps
-           (sssbrp         . ERROR) ;; not implemented in Stitch-maps
-           (sssk           . sl1-k2tog-psso)
-           (sssk3tog       . sssk)
-           (sssp3tog       . sssp)
-           (tuck           . ERROR) ;; not implemented in Stitch-maps
-           (turnl          . turn)
-           (turnr          . turn)
-           (w&tl           . w&t)
-           (w&tr           . w&t)
-           (yf-slk-yo      . ERROR) ;; not implemented in Stitch-maps
-           (yf-sl-yo2      . ERROR) ;; not implemented in Stitch-maps
-           (yo2w           . yo_wrapping_yarn_twice)
-           (yo3w           . yo_wrapping_yarn_3_times)
-           (yo4w           . yo_wrapping_yarn_4_times))])
+         (in-list
+          '((bebd           . bunny_ears_back_dec)
+            (bebd-ws        . bunny_ears_back_dec)
+            (bebyo          . bunny_ears_back_yo)
+            (bebyo-ws       . bunny_ears_back_yo)
+            (bed            . bunny_ears_dec)
+            (bed-ws         . bunny_ears_dec)
+            (beyo           . bunny_ears_yo)
+            (beyo-ws        . bunny_ears_yo)
+            (bo             . BO)
+            (brk            . ERROR) ;; not implemented in Stitch-maps
+            (brk2tog        . ERROR) ;; not implemented in Stitch-maps
+            (brk3tog        . ERROR) ;; not implemented in Stitch-maps
+            ;(brk-brp-brk    . ERROR) ;; not implemented in Stitch-maps
+            (brk-tbl        . ERROR) ;; not implemented in Stitch-maps
+            ;(brk-yo-brk     . ERROR) ;; not implemented in Stitch-maps
+            (brp            . ERROR) ;; not implemented in Stitch-maps
+            (brp2tog        . ERROR) ;; not implemented in Stitch-maps
+            (brp3tog        . ERROR) ;; not implemented in Stitch-maps
+            ;(brp-brk-brp    . ERROR) ;; not implemented in Stitch-maps
+            (brp-tbl        . ERROR) ;; not implemented in Stitch-maps
+            ;(brp-yo-brp     . ERROR) ;; not implemented in Stitch-maps
+            (brsl           . brSl)
+            (cdd            . sl2-k1-p2sso)
+            (cdd-twisted    . cdd_twisted)
+            (cddp-twisted   . cddp_twisted)
+            (cdi            . ctr_dbl_inc)
+            (co             . CO)
+            ;(dip-st         . dip_st)
+            (drop-st        . drop_st)
+            (en             . ERROR) ;; not implemented in Stitch-maps
+            (gs             . ERROR) ;; not implemented in Stitch-maps
+            (inc4k          . 1-to-4_inc)
+            (inc4p          . 1-to-4_inc)
+            (inc5k          . 1-to-5_inc)
+            (inc5p          . 1-to-5_inc)
+            (k2tog-tbl      . k2tog_tbl)
+            (k2tog-twisted  . k2tog_twisted)
+            (k2w            . k_wrapping_yarn_twice)
+            (k3tog-tbl      . k3tog_tbl)
+            (k3tog-twisted  . k3tog_twisted)
+            (k3w            . k_wrapping_yarn_3_times)
+            (k4w            . k_wrapping_yarn_4_times)
+            (kb             . k_below)
+            (ktbl           . k_tbl)
+            (kyk            . |(k1, yo, k1) in next st|)
+            (lt             . ERROR) ;; not implemented in Stitch-maps
+            (m              . m1L)
+            (mb             . MB)
+            (ml             . m1L)
+            (mlp            . m1Lp)
+            (mml            . ERROR) ;; not implemented in Stitch-maps
+            (mmr            . ERROR) ;; not implemented in Stitch-maps
+            (mp             . m1Lp)
+            (mr             . m1R)
+            (mrp            . m1Rp)
+            (na             . ERROR) ;; not implemented in Stitch-maps
+            (ns             . ERROR) ;; not implemented in Stitch-maps
+            (p2tog-tbl      . p2tog_tbl)
+            (p2tog-twisted  . p2tog_twisted)
+            (p2w            . p_wrapping_yarn_twice)
+            (p3tog-tbl      . p3tog_tbl)
+            (p3tog-twisted  . p3tog_twisted)
+            (p3w            . p_wrapping_yarn_3_times)
+            (p4w            . p_wrapping_yarn_4_times)
+            (pb             . p_below)
+            (pbk            . PBk)
+            (pbp            . PBp)
+            (ptbl           . p_tbl)
+            (pyp            . |(p1, yo, p1) in next st|)
+            (rss            . ERROR) ;; not implemented in Stitch-maps
+            (rt             . ERROR) ;; not implemented in Stitch-maps
+            (slkwyib        . sl_wyib)
+            (slkwyif        . sl_wyif)
+            (slwyib         . sl_wyib)
+            (slwyif         . sl_wyif)
+            (sp             . ERROR) ;; not implemented in Stitch-maps
+            (ss             . ERROR) ;; not implemented in Stitch-maps
+            (ssbrk          . ERROR) ;; not implemented in Stitch-maps
+            (ssbrp          . ERROR) ;; not implemented in Stitch-maps
+            (ssk2tog        . ssk)
+            (ssp2tog        . ssp)
+            (sssbrk         . ERROR) ;; not implemented in Stitch-maps
+            (sssbrp         . ERROR) ;; not implemented in Stitch-maps
+            (sssk           . sl1-k2tog-psso)
+            (sssk3tog       . sssk)
+            (sssp3tog       . sssp)
+            (tuck           . ERROR) ;; not implemented in Stitch-maps
+            (turnl          . turn)
+            (turnr          . turn)
+            (w&tl           . w&t)
+            (w&tr           . w&t)
+            (yf-slk-yo      . ERROR) ;; not implemented in Stitch-maps
+            (yf-sl-yo2      . ERROR) ;; not implemented in Stitch-maps
+            (yo2w           . yo_wrapping_yarn_twice)
+            (yo3w           . yo_wrapping_yarn_3_times)
+            (yo4w           . yo_wrapping_yarn_4_times)))])
   ((inst hash-set! Symbol Symbol) ks-stitch-hash
                                   (car s)
                                   (string->symbol
@@ -334,11 +335,12 @@
                                     (cdr s)))))
 
 ;; Set Knotty symbols for cable stitches, and their corresponding Knitspeak symbols.
-(for ([s (filter
-          (λ ([s : Symbol])
-            (regexp-match #rx"^[rl](p?t|p?c|cc|sa?c)"
-                          (symbol->string s)))
-          (hash-keys stitch-hash))])
+(for ([s (in-list
+          (filter
+           (λ ([s : Symbol])
+             (regexp-match #rx"^[rl](p?t|p?c|cc|sa?c)"
+                           (symbol->string s)))
+           (hash-keys stitch-hash)))])
   ((inst hash-set! Symbol Symbol) ks-stitch-hash
                                   s
                                   (string->symbol

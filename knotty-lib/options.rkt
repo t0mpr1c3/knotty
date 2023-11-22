@@ -74,10 +74,10 @@
 ;; Is row r knit on RS?
 ;; Row numbers are 1-indexed
 (: options-row-rs? : Options Positive-Integer -> Boolean)
-(define (options-row-rs? options r)
-  (let* ([hand?  : Boolean (eq? (Options-technique options) 'hand)]
-         [flat?  : Boolean (eq? (Options-form options) 'flat)]
-         [rs?    : Boolean (eq? (Options-face options) 'rs)])
+(define (options-row-rs? self r)
+  (let* ([hand?  : Boolean (eq? (Options-technique self) 'hand)]
+         [flat?  : Boolean (eq? (Options-form self) 'flat)]
+         [rs?    : Boolean (eq? (Options-face self) 'rs)])
     (row-rs? hand? flat? rs? r)))
 
 ;; Is row r knit on RS?
@@ -91,16 +91,16 @@
 ;; Is row knit on WS?
 ;; Row numbers are 1-indexed
 (: options-row-ws? : Options Positive-Integer -> Boolean)
-(define (options-row-ws? options r)
-  (not (options-row-rs? options r)))
+(define (options-row-ws? self r)
+  (not (options-row-rs? self r)))
 
 ;; Is row 1 knit from right to left?
 ;; Row numbers are 1-indexed
 (: options-row-r2l? : Options Positive-Integer -> Boolean)
-(define (options-row-r2l? options r)
-  (let* ([hand?  : Boolean (eq? (Options-technique options) 'hand)]
-         [flat?  : Boolean (eq? (Options-form options) 'flat)]
-         [right? : Boolean (eq? (Options-side options) 'right)])
+(define (options-row-r2l? self r)
+  (let* ([hand?  : Boolean (eq? (Options-technique self) 'hand)]
+         [flat?  : Boolean (eq? (Options-form self) 'flat)]
+         [right? : Boolean (eq? (Options-side self) 'right)])
     (row-r2l? hand? flat? right? r)))
 
 ;; Is row 1 knit from right to left?
@@ -114,5 +114,5 @@
 ;; Is row knit from left to right?
 ;; Row numbers are 1-indexed
 (: options-row-l2r? : Options Positive-Integer -> Boolean)
-(define (options-row-l2r? options r)
-  (not (options-row-r2l? options r)))
+(define (options-row-l2r? self r)
+  (not (options-row-r2l? self r)))

@@ -65,7 +65,7 @@
             `(#:repeat-rows ,(append '(list)
                                      (list (first repeat-rows))
                                      (list (second repeat-rows)))))
-        (for/list ([statement-stx (syntax->list #'(statement-stxs ...))]
+        (for/list ([statement-stx (in-list (syntax->list #'(statement-stxs ...)))]
                    #:do [(define res (interpret-statement statement-stx))]
                    #:when (not (void? res)))
           res)))]))
@@ -100,7 +100,7 @@
 (define (interpret-course-id-list course-id-list-stx)
   (syntax-parse course-id-list-stx
     [(_ course-id-or-range-stxs ...)
-     (for/list ([course-id-or-range-stx (syntax->list #'(course-id-or-range-stxs ...))])
+     (for/list ([course-id-or-range-stx (in-list (syntax->list #'(course-id-or-range-stxs ...)))])
        (let ([r (interpret-course-id-or-range course-id-or-range-stx)])
          (range (first r) (add1 (second r)))))]))
 
@@ -118,7 +118,7 @@
 (define (interpret-stitch-statement-list stitch-statement-list-stx)
   (syntax-parse stitch-statement-list-stx
     [(_ stitch-statement-stxs ...)
-     (for/list ([stitch-statement-stx (syntax->list #'(stitch-statement-stxs ...))])
+     (for/list ([stitch-statement-stx (in-list (syntax->list #'(stitch-statement-stxs ...)))])
        (interpret-stitch-statement stitch-statement-stx))]))
 
 (define (interpret-stitch-statement stitch-statement-stx)
@@ -224,7 +224,7 @@
 (define (interpret-static-stitch-statement-list static-stitch-statement-list-stx)
   (syntax-parse static-stitch-statement-list-stx
     [(_ static-stitch-statement-stxs ...)
-     (for/list ([static-stitch-statement-stx (syntax->list #'(static-stitch-statement-stxs ...))])
+     (for/list ([static-stitch-statement-stx (in-list (syntax->list #'(static-stitch-statement-stxs ...)))])
        (interpret-static-stitch-statement static-stitch-statement-stx))]))
 
 (define (interpret-static-stitch-statement static-stitch-statement-stx)
@@ -489,10 +489,10 @@
 
 
 (define (pattern-form statement-stxs)
-  (let* ([forms (for/list ([statement-stx statement-stxs])
+  (let* ([forms (for/list ([statement-stx (in-list statement-stxs)])
                   (interpret-statement-form statement-stx))]
          [res (car forms)])
-    (for ([f forms])
+    (for ([f (in-list forms)])
       (when (and (not (void? f))
                  (not (eq? f res)))
         (error "Knitspeak pattern uses both Row and Round course types"))) ;; this is allowed in knitspeak but not in knotty
@@ -526,10 +526,10 @@
 
 
 (define (pattern-face statement-stxs form)
-  (let ([faces (for/list ([statement-stx statement-stxs])
+  (let ([faces (for/list ([statement-stx (in-list statement-stxs)])
                  (interpret-statement-face statement-stx))]
         [face-hash (make-hasheq)])
-    (for ([f faces])
+    (for ([f (in-list faces)])
       (unless (void? f)
         (let ([face (cadr f)])
           (if (eq? 'circular form)
@@ -537,7 +537,7 @@
               (begin
                 ;; NB RS and WS rows can be combined in any sequence in stitch-maps.com
                 ;; e.g. https://stitch-maps.com/patterns/display/diamonds-in-moss/
-                (for ([row (car f)])
+                (for ([row (in-list (car f))])
                   (hash-set! face-hash
                              (if (odd? row)
                                  face
@@ -582,7 +582,7 @@
 
 
 (define (pattern-repeat-rows statement-stxs)
-  (let ([repeat-rows (for/list ([statement-stx statement-stxs])
+  (let ([repeat-rows (for/list ([statement-stx (in-list statement-stxs)])
                        (interpret-statement-repeat-rows statement-stx))])
     (flatten (filter-not void? repeat-rows))))
 

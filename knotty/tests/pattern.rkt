@@ -2237,30 +2237,30 @@
     (make-vector 4 (Rowcount 0 0 0 0 0 17 17 17 17 0 0 0 0 0))
     4 (Options 'hand 'flat 'rs 'right #f) (Repeats 17 0 #f #f) 1 default-yarns))
 
-  ;; nohrep?
+  ;; pattern-nohreps?
   (check-equal?
-   (nohrep?
+   (pattern-nohreps?
     (pattern
       ((rows 1) k1)))
    #t)
 
-  ;; nohrep?
+  ;; pattern-nohreps?
   (check-equal?
-   (nohrep?
+   (pattern-nohreps?
     (pattern
       ((rows 1) k)))
    #f)
 
-  ;; novrep?
+  ;; pattern-novreps?
   (check-equal?
-   (novrep?
+   (pattern-novreps?
     (pattern
       ((rows 1) k3tog)))
    #t)
 
-  ;; novrep?
+  ;; pattern-novreps?
   (check-equal?
-   (novrep?
+   (pattern-novreps?
     (pattern
       #:repeat-rows 1
       ((rows 1) k)))

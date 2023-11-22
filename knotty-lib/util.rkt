@@ -42,7 +42,8 @@
 ;; Applies function to consecutive elements of list.
 (: diff : (All (A) (-> A A A) (Listof A) -> (Listof A)))
 (define (diff f xs)
-  (for/list ([x xs] [y (cdr xs)])
+  (for/list ([x (in-list xs)]
+             [y (in-list (cdr xs))])
     (f y x)))
 
 ;; Obtains sum of Naturals.
@@ -71,6 +72,14 @@
        (map symbol->string)
        (sort _ string<?)
        (map string->symbol)))
+
+;; adapted from `list-utils`
+(: findf-index (All (A) (->* ((-> A Boolean) (Listof A)) (Natural) (Option Natural))))
+(define (findf-index proc lst [idx 0])
+  (cond [(null? lst) #f]
+        [(proc (car lst)) idx]
+        [else ((inst findf-index A)
+               proc (cdr lst) (add1 idx))]))
 
 #|
 ;; Finds index of largest element in list.
@@ -165,6 +174,7 @@
       #f
       #t))
 
+
 ;; Functions over Bytes
 
 ;; Reverses order of Bytes.
@@ -223,7 +233,7 @@
 (: map-bytes : Positive-Integer (Listof Byte) (-> Byte Byte) -> Bytes)
 (define (map-bytes len bs func)
   (let ([res (make-bytes len #xFF)])
-    (for ([b : Byte bs])
+    (for ([b : Byte (in-list bs)])
       (bytes-set! res b (func b)))
     res))
 |#
@@ -399,7 +409,7 @@
             (if (> n 2)
                 (apply string-append
                        (for/list : (Listof String)
-                         ([i : Natural middle])
+                         ([i : Natural (in-list middle)])
                          (format ", ~a" i)))
                 "")
             (format " and ~a" (car end))))

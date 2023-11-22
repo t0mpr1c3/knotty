@@ -285,7 +285,7 @@
   (define (overwrite-files src-dir-path dest-dir-path filenames)
     (unless (directory-exists? dest-dir-path)
       (make-directory dest-dir-path))
-    (for ([f filenames])
+    (for ([f (in-list filenames)])
       (copy-file (build-path src-dir-path  f)
                  (build-path dest-dir-path f)
                  #:exists-ok? #t)))

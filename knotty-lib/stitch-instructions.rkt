@@ -34,7 +34,7 @@
 (: format-stitch : String String -> (Listof (Pairof Symbol String)))
 (define (format-stitch sym instr)
   (apply append
-         (for/list ([p? '(#f #t)]) : (Listof (Listof (Pairof Symbol String)))
+         (for/list ([p? (in-list '(#f #t))]) : (Listof (Listof (Pairof Symbol String)))
            (list
             (cons
              (string->symbol
@@ -179,7 +179,7 @@
     (format-stitch "b"
                    " into centre of stitch on row below next stitch, dropping stitch above as it is transferred to right needle so that both loops are caught in new stitch")
     (apply append
-           (for/list ([p? '(#f #t)]) : (Listof (Listof (Pairof Symbol String)))
+           (for/list ([p? (in-list '(#f #t))]) : (Listof (Listof (Pairof Symbol String)))
              (let ([pk (if p? "p" "k")]
                    [purlknit (if p? "purl" "knit")])
                (list
@@ -212,8 +212,8 @@
             '((5 . 5)
               (6 . 6)))])
       (apply append
-             (for*/list ([p pairs]
-                         [l? '(#t #f)])
+             (for*/list ([p (in-list pairs)]
+                         [l? (in-list '(#t #f))])
                : (Listof (Listof (Pairof Symbol String)))
                (let ([i (car p)]
                      [j (cdr p)])
@@ -246,10 +246,10 @@
     ;; twisted cable stitches
     (let ([pairs-twisted '((1 . 1) (2 . 1) (2 . 2))])
       (apply append
-             (for*/list ([p   pairs-twisted]
-                         [l?  '(#t #f)]
-                         [p?  '(#f #t)]
-                         [rs? '(#t #f)])
+             (for*/list ([p   (in-list pairs-twisted)]
+                         [l?  (in-list '(#t #f))]
+                         [p?  (in-list '(#f #t))]
+                         [rs? (in-list '(#t #f))])
                : (Listof (Listof (Pairof Symbol String)))
                (let ([i (car p)]
                      [j (cdr p)])
@@ -270,8 +270,8 @@
     ;; 3-way cable stitches
     (let ([pairs-3-way '((1 . 1) (1 . 2) (1 . 3) (2 . 1) (2 . 2) (3 . 1) (3 . 2) (3 . 3) (4 . 1) (4 . 4))])
       (apply append
-             (for*/list ([p pairs-3-way]
-                         [p?  '(#f #t)])
+             (for*/list ([p (in-list pairs-3-way)]
+                         [p?  (in-list '(#f #t))])
                : (Listof (Listof (Pairof Symbol String)))
                (let ([i (car p)]
                      [j (cdr p)])
