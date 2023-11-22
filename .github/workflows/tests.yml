@@ -34,6 +34,7 @@ jobs:
           raco pkg install --auto --batch --no-docs --skip-installed \
                sweet-exp-lib threading-lib brag-lib br-parser-tools \
                sxml html-template html-parsing \
+               typed-graph \
                mock mock-rackunit
       - name: (Re)install knotty from source
         run:  |
@@ -94,6 +95,7 @@ jobs:
           raco pkg install --auto --batch --no-docs --skip-installed \
                sweet-exp-lib threading-lib brag-lib br-parser-tools \
                sxml html-template html-parsing \
+               typed-graph \
                mock mock-rackunit \
                cover-lib cover-coveralls
 #      - name: Run headless coverage report

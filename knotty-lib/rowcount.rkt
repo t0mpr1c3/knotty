@@ -1303,16 +1303,16 @@
 
 ;; Creates Rowcount from Tree.
 (: tree-count : Tree -> Rowcount)
-(define (tree-count tree)
-  (let ([var-count (tree-count-var tree)])
+(define (tree-count self)
+  (let ([var-count (tree-count-var self)])
     (when (> var-count 1)
       (err SAFE "more than one variable number repeat specified"))
     (let* ([stitches-consumed (λ ([factor : Natural])
-                                (tree-sum-func tree
+                                (tree-sum-func self
                                                Stitchtype-stitches-in
                                                factor))]
            [stitches-produced (λ ([factor : Natural])
-                                (tree-sum-func tree
+                                (tree-sum-func self
                                                Stitchtype-stitches-out
                                                factor))]
            [stitches-in-total  (stitches-consumed 1)]
@@ -1337,15 +1337,15 @@
 
 ;; Calculates caston repeats from rowcount.
 (: rowcount-caston-repeats : Rowcount -> (values Natural Natural Natural Natural))
-(define (rowcount-caston-repeats rowcount)
-  (let ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
-        [sbm (Rowcount-stitches-in-before-mult rowcount)]
-        [saf (Rowcount-stitches-in-after-fix   rowcount)]
-        [sam (Rowcount-stitches-in-after-mult  rowcount)]
-        [sif (Rowcount-stitches-in-fix         rowcount)]
-        [siv (Rowcount-stitches-in-var         rowcount)]
-        [mf  (Rowcount-multiple-fix            rowcount)]
-        [mv  (Rowcount-multiple-var            rowcount)])
+(define (rowcount-caston-repeats self)
+  (let ([sbf (Rowcount-stitches-in-before-fix  self)]
+        [sbm (Rowcount-stitches-in-before-mult self)]
+        [saf (Rowcount-stitches-in-after-fix   self)]
+        [sam (Rowcount-stitches-in-after-mult  self)]
+        [sif (Rowcount-stitches-in-fix         self)]
+        [siv (Rowcount-stitches-in-var         self)]
+        [mf  (Rowcount-multiple-fix            self)]
+        [mv  (Rowcount-multiple-var            self)])
     (assert (natural? sbf))
     (assert (natural? sbm))
     (assert (natural? saf))
@@ -1363,15 +1363,15 @@
 
 ;; Calculates castoff repeats from rowcount.
 (: rowcount-castoff-repeats : Rowcount -> (values Natural Natural Natural Natural))
-(define (rowcount-castoff-repeats rowcount)
-  (let* ([sbf (Rowcount-stitches-in-before-fix  rowcount)]
-         [sbm (Rowcount-stitches-in-before-mult rowcount)]
-         [saf (Rowcount-stitches-in-after-fix   rowcount)]
-         [sam (Rowcount-stitches-in-after-mult  rowcount)]
-         [sof (Rowcount-stitches-out-fix        rowcount)]
-         [sov (Rowcount-stitches-out-var        rowcount)]
-         [mf  (Rowcount-multiple-fix            rowcount)]
-         [mv  (Rowcount-multiple-var            rowcount)])
+(define (rowcount-castoff-repeats self)
+  (let* ([sbf (Rowcount-stitches-in-before-fix  self)]
+         [sbm (Rowcount-stitches-in-before-mult self)]
+         [saf (Rowcount-stitches-in-after-fix   self)]
+         [sam (Rowcount-stitches-in-after-mult  self)]
+         [sof (Rowcount-stitches-out-fix        self)]
+         [sov (Rowcount-stitches-out-var        self)]
+         [mf  (Rowcount-multiple-fix            self)]
+         [mv  (Rowcount-multiple-var            self)])
     (assert (natural? sbf))
     (assert (natural? sbm))
     (assert (natural? saf))
@@ -1389,9 +1389,9 @@
 
 ;; End of row stitch count annotation.
 (: rowcount-annotation : Rowcount -> String)
-(define (rowcount-annotation rowcount)
-  (let-values ([(irm ira sbf sbm) (rowcount-caston-repeats  rowcount)]
-               [(orm ora saf sam) (rowcount-castoff-repeats rowcount)])
+(define (rowcount-annotation self)
+  (let-values ([(irm ira sbf sbm) (rowcount-caston-repeats  self)]
+               [(orm ora saf sam) (rowcount-castoff-repeats self)])
     (if (= irm orm)
         (if (= ira ora)
             ""
@@ -1405,8 +1405,8 @@
 ;; Knitspeak allows the first and last row of the repeating sequence to be short rows
 ;; provided that these rows are of fixed length, i.e. no multiple length repeats.
 (: rowcounts-vertical-repeatable? : (Vectorof Rowcount) Positive-Integer Positive-Integer -> Boolean)
-(define (rowcounts-vertical-repeatable? rowcounts start-row end-row)
-  (let ([n-rows (vector-length rowcounts)])
+(define (rowcounts-vertical-repeatable? self start-row end-row)
+  (let ([n-rows (vector-length self)])
     (if (or (zero? n-rows)
             (> start-row n-rows)
             (> end-row   n-rows)
@@ -1414,8 +1414,8 @@
         #f ;; pattern does not repeat vertically
         (begin
           (assert (positive-integer? n-rows))
-          (let* ([start-rowcount (vector-ref rowcounts (sub1 start-row))]
-                 [end-rowcount   (vector-ref rowcounts (sub1 end-row))])
+          (let* ([start-rowcount (vector-ref self (sub1 start-row))]
+                 [end-rowcount   (vector-ref self (sub1 end-row))])
             (let-values ([(start-com start-coa start-sbf start-sbm) (rowcount-caston-repeats  start-rowcount)]
                          [(end-com   end-coa   end-saf   end-sam)   (rowcount-castoff-repeats end-rowcount)])
               (and (= start-com end-com)
@@ -1431,64 +1431,64 @@
                                         start-com)))))))))))
 
 (: rowcounts-set-consumed! : (Vectorof Rowcount) Natural (Option Natural) -> Void)
-(define (rowcounts-set-consumed! rowcounts index val)
+(define (rowcounts-set-consumed! self index val)
   (unless (false? val)
-    (vector-set! rowcounts index
-                 (struct-copy Rowcount (vector-ref rowcounts index)
+    (vector-set! self index
+                 (struct-copy Rowcount (vector-ref self index)
                               [stitches-in-total val]))))
 
 (: rowcounts-set-produced! : (Vectorof Rowcount) Natural (Option Natural) -> Void)
-(define (rowcounts-set-produced! rowcounts index val)
+(define (rowcounts-set-produced! self index val)
   (unless (false? val)
-    (vector-set! rowcounts index
-                 (struct-copy Rowcount (vector-ref rowcounts index)
+    (vector-set! self index
+                 (struct-copy Rowcount (vector-ref self index)
                               [stitches-out-total val]))))
 
 (: rowcounts-set-before! : (Vectorof Rowcount) Natural (Option Natural) (Option Natural) -> Void)
-(define (rowcounts-set-before! rowcounts index fix mult)
+(define (rowcounts-set-before! self index fix mult)
   (if (and (not (false? fix))
            (not (false? mult)))
-      (vector-set! rowcounts index
-                   (struct-copy Rowcount (vector-ref rowcounts index)
+      (vector-set! self index
+                   (struct-copy Rowcount (vector-ref self index)
                                 [stitches-in-before-fix  fix]
                                 [stitches-in-before-mult mult]))
       (if (not (false? fix))
-          (vector-set! rowcounts index
-                       (struct-copy Rowcount (vector-ref rowcounts index)
+          (vector-set! self index
+                       (struct-copy Rowcount (vector-ref self index)
                                     [stitches-in-before-fix  fix]))
           (unless (false? mult)
-            (vector-set! rowcounts index
-                         (struct-copy Rowcount (vector-ref rowcounts index)
+            (vector-set! self index
+                         (struct-copy Rowcount (vector-ref self index)
                                       [stitches-in-before-mult mult]))))))
 
 (: rowcounts-set-after! : (Vectorof Rowcount) Natural (Option Natural) (Option Natural) -> Void)
-(define (rowcounts-set-after! rowcounts index fix mult)
+(define (rowcounts-set-after! self index fix mult)
   (if (and (not (false? fix))
            (not (false? mult)))
-      (vector-set! rowcounts index
-                   (struct-copy Rowcount (vector-ref rowcounts index)
+      (vector-set! self index
+                   (struct-copy Rowcount (vector-ref self index)
                                 [stitches-in-after-fix  fix]
                                 [stitches-in-after-mult mult]))
       (if (not (false? fix))
-          (vector-set! rowcounts index
-                       (struct-copy Rowcount (vector-ref rowcounts index)
-                                    [stitches-in-after-fix  fix]))
+          (vector-set! self index
+                       (struct-copy Rowcount (vector-ref self index)
+                                    [stitches-in-after-fix fix]))
           (unless (false? mult)
-            (vector-set! rowcounts index
-                         (struct-copy Rowcount (vector-ref rowcounts index)
+            (vector-set! self index
+                         (struct-copy Rowcount (vector-ref self index)
                                       [stitches-in-after-mult mult]))))))
 
 (: rowcount-full-row : Rowcount -> Rowcount)
-(define (rowcount-full-row rowcount)
-  (struct-copy Rowcount rowcount
+(define (rowcount-full-row self)
+  (struct-copy Rowcount self
                [stitches-in-before-fix  0]
                [stitches-in-before-mult 0]
                [stitches-in-after-fix   0]
                [stitches-in-after-mult  0]))
 
 (: rowcounts-no-turns! : Rowcounts -> Void)
-(define (rowcounts-no-turns! rowcounts)
-  (for ([i (in-range (vector-length rowcounts))])
-    (vector-set! rowcounts i (rowcount-full-row (vector-ref rowcounts i)))))
+(define (rowcounts-no-turns! self)
+  (for ([i (in-range (vector-length self))])
+    (vector-set! self i (rowcount-full-row (vector-ref self i)))))
 
 ;; end

@@ -195,51 +195,50 @@
 ;; Rowspec(s) functions
 
 (: rowspec-short-row? : Rowspec -> Boolean)
-(define (rowspec-short-row? rowspec)
-  (not (eq? 'no-turn (Rowspec-turn rowspec))))
+(define (rowspec-short-row? self)
+  (not (eq? 'no-turn (Rowspec-turn self))))
 
 (: rowspecs-max-yarns-used : Rowspecs -> Natural)
-(define (rowspecs-max-yarns-used rowspecs)
+(define (rowspecs-max-yarns-used self)
   (vector-max
-   (for/vector ([rowspec rowspecs]) : Natural
+   (for/vector ([rowspec self]) : Natural
      (set-count (Rowspec-yarns-used rowspec)))))
 
 (: rowspecs-yarns-used : Rowspecs -> (Setof Byte))
-(define (rowspecs-yarns-used rowspecs)
+(define (rowspecs-yarns-used self)
   (let ([h : (HashTable Byte Boolean) (make-hasheq)])
-    (for ([i (in-range (vector-length rowspecs))])
-      (set-for-each (Rowspec-yarns-used (vector-ref rowspecs i))
+    (for ([i (in-range (vector-length self))])
+      (set-for-each (Rowspec-yarns-used (vector-ref self i))
                     (λ ([j : Byte]) (hash-set! h j #t))))
     (apply seteq (hash-keys h))))
 
 ;; Change stitches in Rowspec struct, retains other members.
 (: rowspec-set-stitches : Rowspec Tree -> Rowspec)
-(define (rowspec-set-stitches rowspec tree~)
-  (struct-copy Rowspec rowspec
+(define (rowspec-set-stitches self tree~)
+  (struct-copy Rowspec self
                [stitches tree~]))
 
 (: rowspec-add-bo* : Rowspec -> Rowspec)
-(define (rowspec-add-bo* rowspec)
-  (rowspec-set-stitches rowspec
-                        (tree-add-bo* (Rowspec-stitches rowspec))))
+(define (rowspec-add-bo* self)
+  (rowspec-set-stitches self
+                        (tree-add-bo* (Rowspec-stitches self))))
 
 ;; Checks compatibility of stitches with pattern technique.
 (: rowspec-stitches-compatible? : Rowspec Technique -> Boolean)
-(define (rowspec-stitches-compatible? rowspec technique)
-  (cond [(eq? technique 'hand) (tree-stitches-compatible? (Rowspec-stitches rowspec) Stitchtype-hand-compatible?)]
-        [else                  (tree-stitches-compatible? (Rowspec-stitches rowspec) Stitchtype-machine-compatible?)]))
+(define (rowspec-stitches-compatible? self technique)
+  (cond [(eq? technique 'hand) (tree-stitches-compatible? (Rowspec-stitches self) Stitchtype-hand-compatible?)]
+        [else                  (tree-stitches-compatible? (Rowspec-stitches self) Stitchtype-machine-compatible?)]))
 
 ;; Replaces one stitchtype with another.
 (: rowspec-swap-stitch : Rowspec Symbol Symbol -> Rowspec)
-(define (rowspec-swap-stitch rowspec swap-out swap-in)
-  (rowspec-set-stitches
-   rowspec
-   (tree-swap-stitch (Rowspec-stitches rowspec) swap-out swap-in)))
+(define (rowspec-swap-stitch self swap-out swap-in)
+  (rowspec-set-stitches self
+                        (tree-swap-stitch (Rowspec-stitches self) swap-out swap-in)))
 
 ;; Returns sorted list of stitch symbols present in Rowspecs object.
 (: rowspecs-stitchtype-list : Rowspecs -> (Listof Symbol))
-(define (rowspecs-stitchtype-list rowspecs)
-  (~>> rowspecs
+(define (rowspecs-stitchtype-list self)
+  (~>> self
        vector->list
        (map Rowspec-stitches)
        (map tree-stitchtype-list)

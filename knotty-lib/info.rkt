@@ -41,7 +41,8 @@
     "sxml"
     "html-template"
     "html-writing"
-    "html-parsing"))
+    "html-parsing"
+    "typed/graph-lib"))
 
 (define build-deps
   '("lazy"

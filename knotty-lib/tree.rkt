@@ -53,41 +53,41 @@
   (cons n st))
 
 (: leaf-count : Leaf -> Natural)
-(define (leaf-count leaf)
-  (car leaf))
+(define (leaf-count self)
+  (car self))
 
 (: leaf-stitch : Leaf -> Stitch)
-(define (leaf-stitch leaf)
-  (cdr leaf))
+(define (leaf-stitch self)
+  (cdr self))
 
 (: leaf-symbol : Leaf -> Symbol)
-(define (leaf-symbol leaf)
-  (Stitch-symbol (leaf-stitch leaf)))
+(define (leaf-symbol self)
+  (Stitch-symbol (leaf-stitch self)))
 
 (: leaf-yarn : Leaf -> (Option Byte))
-(define (leaf-yarn leaf)
-  (Stitch-yarn (leaf-stitch leaf)))
+(define (leaf-yarn self)
+  (Stitch-yarn (leaf-stitch self)))
 
 ;; NB this excludes variable repeats
 (: leaf-stitchvector : Leaf -> (Vectorof Stitch))
-(define (leaf-stitchvector leaf)
-  (make-vector (leaf-count leaf)
-               (leaf-stitch leaf)))
+(define (leaf-stitchvector self)
+  (make-vector (leaf-count self)
+               (leaf-stitch self)))
 
 ;; Counts stitches consumed by leaf (excluding variable repeats).
 (: leaf-stitches-in : Leaf -> Natural)
-(define (leaf-stitches-in leaf)
-  (* (leaf-count leaf)
-     (~> leaf
+(define (leaf-stitches-in self)
+  (* (leaf-count self)
+     (~> self
          leaf-symbol
          get-stitchtype
          Stitchtype-stitches-in)))
 
 ;; Counts stitches produced by leaf (excluding variable repeats).
 (: leaf-stitches-out : Leaf -> Natural)
-(define (leaf-stitches-out leaf)
-  (* (leaf-count leaf)
-     (~> leaf
+(define (leaf-stitches-out self)
+  (* (leaf-count self)
+     (~> self
          leaf-symbol
          get-stitchtype
          Stitchtype-stitches-out)))
@@ -103,12 +103,12 @@
   (cons n tree))
 
 (: node-count : Node -> Natural)
-(define (node-count node)
-  (car node))
+(define (node-count self)
+  (car self))
 
 (: node-tree : Node -> Tree)
-(define (node-tree node)
-  (cdr node))
+(define (node-tree self)
+  (cdr self))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -121,7 +121,7 @@
 
 ;; Counts (non-nested) variable repeats in tree.
 (: tree-count-var : Tree -> Natural)
-(define (tree-count-var tree)
+(define (tree-count-var self)
   (foldl
    (λ ([x : (U Leaf Node)]
        [acc : Natural])
@@ -135,14 +135,14 @@
              (add1 acc)
              (+ acc (tree-count-var (node-tree x))))))
    0
-   tree))
+   self))
 
 ;; Obtains (left-most, non-nested) variable repeat from tree.
 ;; Returns #f if no variable repeat.
 (: tree-var : (->* (Tree) (Natural) (Option (Pairof Tree Natural))))
-(define (tree-var tree [multiplier 1])
-  (for/or : (Option (Pairof Tree Natural)) ([i (in-range (length tree))])
-    (let ([x : (U Leaf Node) (list-ref tree i)])
+(define (tree-var self [multiplier 1])
+  (for/or : (Option (Pairof Tree Natural)) ([i (in-range (length self))])
+    (let ([x : (U Leaf Node) (list-ref self i)])
       (if (Leaf? x)
           ;; leaf
           (if (zero? (leaf-count x))
@@ -158,9 +158,9 @@
 
 ;; Is this a bind off sequence to finish the piece?
 (: tree-all-bo? : Tree -> Boolean)
-(define (tree-all-bo? tree)
-  (if (= 1 (length tree))
-      (let ([head (car tree)])
+(define (tree-all-bo? self)
+  (if (= 1 (length self))
+      (let ([head (car self)])
         (if (and (Leaf? head)
                  (eq? 'bo (leaf-symbol head))
                  (zero? (leaf-count head)))
@@ -174,10 +174,10 @@
 ;; see https://stitch-maps.com/patterns/display/buttonhole/
 ;; Idempotent function.
 (: tree-add-bo* : Tree -> Tree)
-(define (tree-add-bo* tree)
-  (if (tree-all-bo? tree)
+(define (tree-add-bo* self)
+  (if (tree-all-bo? self)
       ;; bind off sequence to finish piece
-      tree
+      self
       ;; otherwise
       (reverse
        (foldl
@@ -195,10 +195,10 @@
                                (tree-add-bo* (node-tree x)))
                     acc)))
         null
-        (tree-remove-bo* tree)))))
+        (tree-remove-bo* self)))))
 
 (: tree-bo* : Tree Leaf Natural -> Tree)
-(define (tree-bo* tree leaf reps)
+(define (tree-bo* self leaf reps)
   (let* ([ct (leaf-count leaf)]
          [bo* (make-leaf 1
                          (make-stitch 'bo*
@@ -207,11 +207,11 @@
     (cons bo*
           (cons (make-leaf n
                            (leaf-stitch leaf))
-                tree))))
+                self))))
 
 ;; Removes bo* stitches from tree.
 (: tree-remove-bo* : Tree -> Tree)
-(define (tree-remove-bo* tree)
+(define (tree-remove-bo* self)
   (reverse
    (foldl
     (λ ([x : (U Leaf Node)]
@@ -226,23 +226,23 @@
                            (tree-remove-bo* (node-tree x)))
                 acc)))
     null
-    tree)))
+    self)))
 
 ;; Replaces variable repeat(s) in tree with fixed integer value.
 ;; Adds bo* after last bo in run in variable repeats unless the sequence finishes the piece.
 (: tree-replace-var : Tree Natural -> Tree)
-(define (tree-replace-var tree reps)
-  (if (tree-all-bo? tree)
+(define (tree-replace-var self reps)
+  (if (tree-all-bo? self)
       ;; bind off sequence to finish piece
-      (let ([head (car tree)])
+      (let ([head (car self)])
         (assert (Leaf? head))
         (list (make-leaf reps
                          (leaf-stitch head))))
       ;; otherwise do subroutine
-      (tree-replace-var-sub tree reps)))
+      (tree-replace-var-sub self reps)))
 
 (: tree-replace-var-sub : Tree Natural -> Tree)
-(define (tree-replace-var-sub tree reps)
+(define (tree-replace-var-sub self reps)
   (reverse
    (foldl
     (λ ([x : (U Leaf Node)]
@@ -266,13 +266,13 @@
                                                    reps))
                   acc))))
     null
-    (tree-remove-bo* tree))))
+    (tree-remove-bo* self))))
 
 ;; Checks for variable repeat nested within node.
 ;; This structure is not allowed.
 (: tree-nested-var? ( ->* (Tree) (Boolean) Boolean))
-(define (tree-nested-var? tree [root? #t])
-  (let loop ([tail    : Tree    tree]
+(define (tree-nested-var? self [root? #t])
+  (let loop ([tail    : Tree    self]
              [res     : Boolean #f]
              [nested? : Boolean (not root?)])
     (if (or res
@@ -291,7 +291,7 @@
 
 ;; Calculates the sum of a function over every element in a tree.
 (: tree-sum-func : Tree (-> Stitchtype Natural) Natural -> Natural)
-(define (tree-sum-func tree func factor)
+(define (tree-sum-func self func factor)
   (foldl (λ ([x : (U Leaf Node)]
              [acc : Natural])
            (if (Leaf? x)
@@ -307,20 +307,20 @@
                     (* (if (zero? ct) factor ct)
                        (tree-sum-func (node-tree x) func factor))))))
          0
-         tree))
+         self))
 
 ;; Recursively combines elements first by breadth, then by depth, until there are no further changes.
 (: tree-combine : Tree -> Tree)
-(define (tree-combine xs)
-  (let ([xs~ (tree-combine-depth (tree-combine-breadth xs))])
-    (if (equal? xs xs~)
-        xs~
-        (tree-combine xs~))))
+(define (tree-combine self)
+  (let ([tree~ (tree-combine-depth (tree-combine-breadth self))])
+    (if (equal? self tree~)
+        self
+        (tree-combine tree~))))
 
 ;; Recursively combines adjacent leaves with same stitch and yarn type into single leaf.
 ;; Retains zero counts.
 (: tree-combine-breadth : Tree -> Tree)
-(define (tree-combine-breadth xs)
+(define (tree-combine-breadth self)
   (reverse
    (foldl
     (λ ([x : (U Leaf Node)]
@@ -348,12 +348,12 @@
                              (tree-combine-breadth (node-tree x))) ;; match only leaves, not nodes
                   acc))))
     null
-    xs)))
+    self)))
 
 ;; Recursively combines singleton node/leaf nested node.
 ;; Retains zero counts.
 (: tree-combine-depth : Tree -> Tree)
-(define (tree-combine-depth xs)
+(define (tree-combine-depth self)
   (reverse
    (foldl
     (λ ([x : (U Leaf Node)]
@@ -402,7 +402,7 @@
                                  (tree-combine-depth t))
                       acc)))))
     null
-    xs)))
+    self)))
 
 ;; Recursively combines adjacent leaves with same stitch and yarn type into single leaf.
 ;; Eliminate zero count elements.
@@ -431,13 +431,13 @@
 ;; Flattens tree to a list of leaves.
 ;; Eliminates zero count leaves.
 (: tree-flatten : Tree -> (Listof Leaf))
-(define (tree-flatten tree)
-  (combine-leaves (reverse (tree-flatten-recurse tree))))
+(define (tree-flatten self)
+  (combine-leaves (reverse (tree-flatten-recurse self))))
 
 ;; Flattens every node in tree to list of leaves.
 ;; Eliminates zero count leaves.
 (: tree-flatten-recurse : Tree -> (Listof Leaf))
-(define (tree-flatten-recurse tree)
+(define (tree-flatten-recurse self)
   (foldl
    (λ ([x : (U Leaf Node)]
        [acc : (Listof Leaf)])
@@ -450,13 +450,13 @@
                      ([i (in-range (node-count x))])
              (append t res)))))
    null
-   tree))
+   self))
 
 ;; Traverses stitch tree finding yarns used.
 (: tree-yarns (->* (Tree) (Byte) (Setof Byte)))
-(define (tree-yarns tree [default 0])
+(define (tree-yarns self [default 0])
   (let ([h : (HashTable Byte Boolean) (make-hasheq)])
-    (let loop ([tail : Tree tree])
+    (let loop ([tail : Tree self])
       (if (null? tail)
           (apply seteq (hash-keys h))
           (let ([next (car tail)])
@@ -494,23 +494,23 @@
 
 ;; Traverses stitch tree checking whether stitches are compatible with pattern technique.
 (: tree-stitches-compatible? : Tree (Stitchtype -> Boolean) -> Boolean)
-(define (tree-stitches-compatible? tree test-function)
-  (if (null? tree)
+(define (tree-stitches-compatible? self test-function)
+  (if (null? self)
       #t
-      (let ([next (car tree)])
+      (let ([next (car self)])
         (if (Leaf? next)
             (~> next
                 leaf-symbol
                 get-stitchtype
                 test-function
-                (and (tree-stitches-compatible? (cdr tree) test-function)))
+                (and (tree-stitches-compatible? (cdr self) test-function)))
             (and (tree-stitches-compatible? (node-tree next) test-function)
-                 (tree-stitches-compatible? (cdr tree) test-function))))))
+                 (tree-stitches-compatible? (cdr self) test-function))))))
 
 ;; Reverses order of elements in tree.
 (: tree-reverse : Tree -> Tree)
-(define (tree-reverse tree)
-  (let loop ([tail : Tree tree]
+(define (tree-reverse self)
+  (let loop ([tail : Tree self]
              [acc : Tree null])
     (if (null? tail)
         acc
@@ -523,8 +523,8 @@
 
 ;; Reverses order of elements in tree and change Stitchtypes from RS to WS.
 (: tree-rs<->ws : Tree -> Tree)
-(define (tree-rs<->ws tree)
-  (let loop ([tail : Tree tree]
+(define (tree-rs<->ws self)
+  (let loop ([tail : Tree self]
              [acc : Tree null])
     (if (null? tail)
         acc
@@ -539,23 +539,23 @@
 
 ;; Searches tree for a particular set of stitches.
 (: tree-has-stitches? : Tree (Listof Symbol) -> Boolean)
-(define (tree-has-stitches? tree sts)
-  (if (null? tree)
+(define (tree-has-stitches? self sts)
+  (if (null? self)
       #f
-      (let ([next (car tree)])
+      (let ([next (car self)])
         (if (Leaf? next)
             (let ([next-sym (leaf-symbol next)])
               (or (for/or ([s sts]) : Boolean
                     (eq? next-sym s))
-                  (tree-has-stitches? (cdr tree) sts)))
+                  (tree-has-stitches? (cdr self) sts)))
             (or (tree-has-stitches? (node-tree next) sts)
-                (tree-has-stitches? (cdr tree) sts))))))
+                (tree-has-stitches? (cdr self) sts))))))
 
 ;; Replaces one stitchtype with another.
 (: tree-swap-stitch : Tree Symbol Symbol -> Tree)
-(define (tree-swap-stitch tree swap-out swap-in)
+(define (tree-swap-stitch self swap-out swap-in)
   (tree-combine
-   (let loop ([tail : Tree tree]
+   (let loop ([tail : Tree self]
               [acc  : Tree null])
      (if (null? tail)
          (reverse acc)
@@ -574,8 +574,8 @@
 
 ;; Obtains first stitchtype in tree.
 (: tree-first-stitchtype : Tree -> (Option Symbol))
-(define (tree-first-stitchtype tree)
-  (let loop ([tail : Tree tree])
+(define (tree-first-stitchtype self)
+  (let loop ([tail : Tree self])
     (if (null? tail)
         #f
         (let ([next (car tail)])
@@ -585,14 +585,14 @@
 
 ;; Obtains last stitchtype in tree.
 (: tree-last-stitchtype : Tree -> (Option Symbol))
-(define (tree-last-stitchtype tree)
-  (tree-first-stitchtype (tree-reverse tree)))
+(define (tree-last-stitchtype self)
+  (tree-first-stitchtype (tree-reverse self)))
 
 ;; Obtains list of stitchtypes in tree, ignoring counts and repeats.
 ;; List order is reversed.
 (: tree-stitchtype-list : Tree -> (Listof Symbol))
-(define (tree-stitchtype-list tree)
-  (let loop ([tail : Tree tree]
+(define (tree-stitchtype-list self)
+  (let loop ([tail : Tree self]
              [acc  : (Listof Symbol) null])
     (if (null? tail)
         acc
@@ -604,8 +604,8 @@
                     (append (tree-stitchtype-list (node-tree next)) acc)))))))
 
 (: tree-first-yarn : Tree -> (U False Byte))
-(define (tree-first-yarn tree)
-  (let loop ([tail : Tree tree])
+(define (tree-first-yarn self)
+  (let loop ([tail : Tree self])
     (if (null? tail)
         #f
         (let ([head (car tail)])
@@ -622,13 +622,13 @@
                     y)))))))
 
 (: tree-all-same-yarn (->* (Tree) ((U False Byte)) Boolean))
-(define (tree-all-same-yarn tree [yrn #f])
+(define (tree-all-same-yarn self [yrn #f])
   (if (false? yrn)
-      (let ([y0 (tree-first-yarn tree)])
+      (let ([y0 (tree-first-yarn self)])
         (if (false? y0)
             #t
-            (tree-all-same-yarn tree y0)))
-      (let loop ([tail : Tree tree])
+            (tree-all-same-yarn self y0)))
+      (let loop ([tail : Tree self])
         (if (null? tail)
             #t
             (let ([head (car tail)])

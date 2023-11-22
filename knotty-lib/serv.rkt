@@ -11,8 +11,8 @@
 
 ;; Serves HTML from Pattern.
 (define (serve-pattern p [h-repeats 1] [v-repeats 1] [static? #f])
-  (let* ([nohreps? (nohrep? p)]
-         [novreps? (novrep? p)]
+  (let* ([nohreps? (pattern-nohreps? p)]
+         [novreps? (pattern-novreps? p)]
          ;; form defaults
          [inputs
           (make-hasheq

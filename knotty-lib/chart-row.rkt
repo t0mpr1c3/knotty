@@ -44,22 +44,22 @@
 
 ;; Changes stitches, retains other members of struct.
 (: chart-row-set-stitches : Chart-row (Vectorof Stitch) -> Chart-row)
-(define (chart-row-set-stitches cr sts)
-  (struct-copy Chart-row cr
+(define (chart-row-set-stitches self sts)
+  (struct-copy Chart-row self
                [stitches sts]))
 
 ;; Calculates width of row.
 (: chart-row-width : Chart-row -> Natural)
-(define (chart-row-width cr)
+(define (chart-row-width self)
   (for/fold ([w  : Natural 0])
-            ([st : Stitch (vector->list (Chart-row-stitches cr))])
+            ([st : Stitch (vector->list (Chart-row-stitches self))])
      (+ w (Stitchtype-width (get-stitchtype (Stitch-symbol st))))))
 
 ;; Returns yarns used in row as byte string.
 (: chart-row-colors : Chart-row -> Bytes)
-(define (chart-row-colors cr)
-  (let ([v (Chart-row-stitches cr)]
-        [default (Chart-row-default-yarn cr)])
+(define (chart-row-colors self)
+  (let ([v (Chart-row-stitches self)]
+        [default (Chart-row-default-yarn self)])
     (list->bytes
      (for/list ([i (in-range (vector-length v))])
        (~> v
@@ -69,8 +69,8 @@
 
 ;; Returns stitchtypes used in row as list.
 (: chart-row-stitchtypes : Chart-row -> (Listof Symbol))
-(define (chart-row-stitchtypes cr)
-  (let ([v (Chart-row-stitches cr)])
+(define (chart-row-stitchtypes self)
+  (let ([v (Chart-row-stitches self)])
      (for/list ([i (in-range (vector-length v))])
        (~> v
            (vector-ref i)

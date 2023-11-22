@@ -133,7 +133,7 @@
     (let-values ([(c~ _)
                   (if (zero? max-float-length)
                       (values c #t)
-                      (check-floats c options max-float-length))])
+                      (chart-check-floats c options max-float-length))])
       (let ([rows (Chart-rows c~)]
             [width (Chart-width c~)]
             [height (Chart-height c~)]
@@ -635,8 +635,8 @@
   (let* ([repeats (Pattern-repeats p)]
          [frr (Repeats-first-repeat-row repeats)]
          [lrr (Repeats-last-repeat-row repeats)]
-         [novrep? (or (false? frr) (false? lrr))])
-    (if novrep?
+         [novreps? (or (false? frr) (false? lrr))])
+    (if novreps?
         null
         `((li (@ [class "rowdata"])
               "Repeat "

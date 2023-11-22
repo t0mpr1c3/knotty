@@ -562,73 +562,73 @@
 
 ;; Sets pattern name.
 (: pattern-set-name : Pattern String -> Pattern)
-(define (pattern-set-name p name~)
-  (struct-copy Pattern p
+(define (pattern-set-name self name~)
+  (struct-copy Pattern self
                [name name~]))
 
 ;; Sets pattern URL.
 (: pattern-set-url : Pattern String -> Pattern)
-(define (pattern-set-url p url~)
-  (struct-copy Pattern p
+(define (pattern-set-url self url~)
+  (struct-copy Pattern self
                [url url~]))
 
 ;; Sets pattern attribution.
 (: pattern-set-attribution : Pattern Attribution -> Pattern)
-(define (pattern-set-attribution p attribution~)
-  (struct-copy Pattern p
+(define (pattern-set-attribution self attribution~)
+  (struct-copy Pattern self
                [attribution attribution~]))
 
 ;; Sets pattern keywords.
 (: pattern-set-keywords : Pattern Keywords -> Pattern)
-(define (pattern-set-keywords p keywords~)
-  (struct-copy Pattern p
+(define (pattern-set-keywords self keywords~)
+  (struct-copy Pattern self
                [keywords keywords~]))
 
 ;; Sets pattern gauge.
 (: pattern-set-gauge : Pattern Gauge -> Pattern)
-(define (pattern-set-gauge p gauge~)
-  (let ([options~ (struct-copy Options (Pattern-options p)
+(define (pattern-set-gauge self gauge~)
+  (let ([options~ (struct-copy Options (Pattern-options self)
                                [gauge gauge~])])
-    (struct-copy Pattern p
+    (struct-copy Pattern self
                  [options options~])))
 
 ;; Sets pattern yarns.
 (: pattern-set-yarns : Pattern Yarns -> Pattern)
-(define (pattern-set-yarns p yarns~)
-  (struct-copy Pattern p
+(define (pattern-set-yarns self yarns~)
+  (struct-copy Pattern self
                [yarns yarns~]))
 
 ;; Sets pattern technique.
 (: pattern-set-technique : Pattern Technique -> Pattern)
-(define (pattern-set-technique p technique~)
-  (let ([options (Pattern-options p)])
+(define (pattern-set-technique self technique~)
+  (let ([options (Pattern-options self)])
     (if (eq? (Options-technique options) technique~)
-        p
+        self
         (if (eq? technique~ 'hand)
-            (pattern-set-hand p)
-            (pattern-set-machine p technique~)))))
+            (pattern-set-hand self)
+            (pattern-set-machine self technique~)))))
 
 ;; Converts pattern to hand knit.
 (: pattern-set-hand : Pattern -> Pattern)
-(define (pattern-set-hand p)
+(define (pattern-set-hand self)
   ;; check that all stitches are compatible with hand knitting
-  (for ([s (pattern-symbols p)])
+  (for ([s (pattern-symbols self)])
     (when (~> s
               get-stitchtype
               Stitchtype-hand-compatible?
               false?)
       (err SAFE (format "stitch ~s is not compatible with hand knitting"
                         (Stitchtype-rs-symbol (get-stitchtype s))))))
-  (let ([options~ (struct-copy Options (Pattern-options p)
+  (let ([options~ (struct-copy Options (Pattern-options self)
                                [technique 'hand])])
-    (struct-copy Pattern p
+    (struct-copy Pattern self
                  [options options~])))
 
 ;; Converts pattern to machine knit.
 (: pattern-set-machine : Pattern Technique -> Pattern)
-(define (pattern-set-machine p technique~)
+(define (pattern-set-machine self technique~)
   ;; check that all stitches are compatible with machine knitting
-  (for ([s (pattern-symbols p)])
+  (for ([s (pattern-symbols self)])
     (when (~> s
               get-stitchtype
               Stitchtype-machine-compatible?
@@ -636,7 +636,7 @@
       (err SAFE (format "stitch ~s is not compatible with machine knitting"
                         (Stitchtype-rs-symbol (get-stitchtype s))))))
   ;; check that number of colors is compatible with specified technique
-  (let ([max-colors (Pattern-max-colors p)])
+  (let ([max-colors (Pattern-max-colors self)])
     #|
     (when (and (eq? 'machine-texture technique~)
                (> max-colors 1))
@@ -648,9 +648,9 @@
                (> max-colors 6))
       (err SAFE "too many colors: machine Jacquard can handle a maximum of 6 colors per row"))
     |#
-    (let ([options~ (struct-copy Options (Pattern-options p)
+    (let ([options~ (struct-copy Options (Pattern-options self)
                                  [technique technique~])])
-      (struct-copy Pattern p
+      (struct-copy Pattern self
                    [options options~]))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -663,8 +663,8 @@
 ;; Changes the face of the workpiece
 ;; and direction of knitting for every row.
 (: pattern-rs<->ws : Pattern -> Pattern)
-(define (pattern-rs<->ws p)
-  (let* ([options (Pattern-options p)]
+(define (pattern-rs<->ws self)
+  (let* ([options (Pattern-options self)]
          [face~ : Face
                 (if (eq? (Options-face options) 'rs)
                     'ws
@@ -674,28 +674,28 @@
                     'left
                     'right)]
          [rowspecs~ : Rowspecs
-                    (for/vector ([r (Pattern-rowspecs p)]) : Rowspec
+                    (for/vector ([r (Pattern-rowspecs self)]) : Rowspec
                       (rowspec-set-stitches r (tree-rs<->ws (Rowspec-stitches r))))]
          [options~ (struct-copy Options options
                                 [face face~]
                                 [side side~])])
-    (struct-copy Pattern p
+    (struct-copy Pattern self
                  [rowspecs rowspecs~]
                  [options options~])))
 
 ;; Changes the face of the workpiece
 ;; and direction of knitting for even-numbered rows.
 (: pattern-flat<->circular : Pattern -> Pattern)
-(define (pattern-flat<->circular p)
-  (let* ([options (Pattern-options p)]
+(define (pattern-flat<->circular self)
+  (let* ([options (Pattern-options self)]
          [form~ : Form
                 (if (eq? (Options-form options) 'flat)
                     'circular
                     'flat)]
          [options~ (struct-copy Options options
                                 [form form~])]
-         [rowspecs (Pattern-rowspecs p)]
-         [rowmap (Pattern-rowmap p)]
+         [rowspecs (Pattern-rowspecs self)]
+         [rowmap (Pattern-rowmap self)]
          ;; find rows that map to both odd and even row numbers
          [dups (rowmap-odd&even rowmap)])
     ;; split rowmap entries making a duplicate for the even row numbers
@@ -709,15 +709,15 @@
                  [stitches-j~ (tree-rs<->ws stitches-j)]
                  [rowspec-j~  (rowspec-set-stitches rowspec-j stitches-j~)])
             (vector-set! rowspecs~ j rowspec-j~)))
-        (struct-copy Pattern p
+        (struct-copy Pattern self
                      [rowspecs rowspecs~]
                      [rowmap rowmap~]
                      [options options~])))))
 
 ;; Returns the stitch symbols used in pattern.
 (: pattern-symbols : Pattern -> (Listof Symbol))
-(define (pattern-symbols p)
-  (rowspecs-stitchtype-list (Pattern-rowspecs p)))
+(define (pattern-symbols self)
+  (rowspecs-stitchtype-list (Pattern-rowspecs self)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -744,16 +744,16 @@
 
 ;; Restricts pattern to the range given by row repeat.
 (: pattern-select-rows : Pattern Natural Natural -> Pattern)
-(define (pattern-select-rows p start-row end-row)
+(define (pattern-select-rows self start-row end-row)
   (when (> start-row end-row)
     (err SAFE "invalid row repeat range"))
   (if (and (= start-row 1)
-           (= end-row   (Pattern-nrows p)))
-      p
-      (let* ([rowmap  (Pattern-rowmap p)]
+           (= end-row   (Pattern-nrows self)))
+      self
+      (let* ([rowmap  (Pattern-rowmap self)]
              [numbers  (Rowmap-numbers rowmap)]
              [n        (vector-length numbers)]
-             [rowspecs (Pattern-rowspecs p)])
+             [rowspecs (Pattern-rowspecs self)])
         (let loop ([i : Natural 0]
                    [number-acc  : (Listof (Vectorof Positive-Integer)) null]
                    [rowspec-acc : (Listof Rowspec) null])
@@ -784,7 +784,7 @@
                      [rowcounts~ (make-rowcounts rowspecs~ rowmap~)]
                      [nrows~     (- end-row start-row -1)])
                 (assert (positive-integer? nrows~))
-                (struct-copy Pattern p
+                (struct-copy Pattern self
                              [rowmap    rowmap~]
                              [rowspecs  rowspecs~]
                              [rowcounts rowcounts~]
@@ -793,13 +793,13 @@
 
 ;; Expands the pattern by specified numbers of horizontal and vertical repeats.
 (: pattern-expand-repeats (->* (Pattern) (Positive-Integer Positive-Integer) Pattern))
-(define (pattern-expand-repeats p [h-repeats 1] [v-repeats 1])
-  (let* ([rowspecs  (Pattern-rowspecs  p)]
-         [rowmap    (Pattern-rowmap    p)]
-         [rowcounts (Pattern-rowcounts p)]
-         [n-rows    (Pattern-nrows     p)]
-         [options   (Pattern-options   p)]
-         [repeats   (Pattern-repeats   p)]
+(define (pattern-expand-repeats self [h-repeats 1] [v-repeats 1])
+  (let* ([rowspecs  (Pattern-rowspecs  self)]
+         [rowmap    (Pattern-rowmap    self)]
+         [rowcounts (Pattern-rowcounts self)]
+         [n-rows    (Pattern-nrows     self)]
+         [options   (Pattern-options   self)]
+         [repeats   (Pattern-repeats   self)]
          [first-repeat-row (Repeats-first-repeat-row repeats)]
          [last-repeat-row  (Repeats-last-repeat-row  repeats)])
     ;; expand vertical repeats
@@ -860,7 +860,7 @@
                                   [stitches stitches~]))))))
           ;; remake `rowcounts`
           ;; keep original `repeats`
-          (struct-copy Pattern p
+          (struct-copy Pattern self
                        [rowspecs  rowspecs~]
                        [rowmap    rowmap~]
                        [rowcounts (make-rowcounts rowspecs~ rowmap~)]
@@ -868,10 +868,10 @@
 
 ;; Creates Repeats struct.
 (: pattern-make-repeats : Pattern (U False Positive-Integer (List Positive-Integer Positive-Integer)) -> Repeats)
-(define (pattern-make-repeats p repeat-rows)
-  (let ([rowspecs  (Pattern-rowspecs p)]
-        [rowmap    (Pattern-rowmap p)]
-        [rowcounts (Pattern-rowcounts p)]
+(define (pattern-make-repeats self repeat-rows)
+  (let ([rowspecs  (Pattern-rowspecs self)]
+        [rowmap    (Pattern-rowmap self)]
+        [rowcounts (Pattern-rowcounts self)]
         [repeat-rows~
          (if (positive-integer? repeat-rows)
              (list repeat-rows repeat-rows)
@@ -899,7 +899,7 @@
                                                         first-repeat-row
                                                         last-repeat-row)
                         ;; restrict pattern to repeat row range
-                        (let* ([p~ (pattern-select-rows p
+                        (let* ([p~ (pattern-select-rows self
                                                         first-repeat-row
                                                         last-repeat-row)]
                                [rowcounts~ (make-rowcounts (Pattern-rowspecs p~)
@@ -916,17 +916,17 @@
                        last-repeat-row)))))))
 
 ;; Returns true if there are no horizontal repeats in the pattern.
-(: nohrep? : Pattern -> Boolean)
-(define (nohrep? p)
-  (~> p
+(: pattern-nohreps? : Pattern -> Boolean)
+(define (pattern-nohreps? self)
+  (~> self
       Pattern-repeats
       Repeats-caston-repeat
       zero?))
 
 ;; Returns true if there are no vertical repeats in the pattern.
-(: novrep? : Pattern -> Boolean)
-(define (novrep? p)
-  (let* ([repeats (Pattern-repeats p)]
+(: pattern-novreps? : Pattern -> Boolean)
+(define (pattern-novreps? self)
+  (let* ([repeats (Pattern-repeats self)]
          [frr (Repeats-first-repeat-row repeats)]
          [lrr (Repeats-last-repeat-row repeats)])
     (or (false? frr) (false? lrr))))
@@ -935,13 +935,13 @@
 
 ;; Substitutes generic stitches in the pattern with the appropriate specific stitches.
 (: pattern-substitute-stitches : Pattern -> Pattern)
-(define (pattern-substitute-stitches p)
+(define (pattern-substitute-stitches self)
   ;; gs   -> ss on 1st row observed and every 2nd row after, rss on other rows
   ;; ss   -> k on RS, p on WS
   ;; rss  -> p on RS, k on WS
   ;; turn -> turnl if knitting l2r, turnr if knitting r2l
   ;; w&t  -> w&tl if knitting l2r, w&tr if knitting r2l
-  (let* ([options (Pattern-options p)]
+  (let* ([options (Pattern-options self)]
          [technique (Options-technique options)]
          [form (Options-form options)]
          [face (Options-face options)]
@@ -950,10 +950,10 @@
          [flat? : Boolean (eq? form 'flat)]
          [rs?   : Boolean (eq? face 'rs)]
          [r2l?  : Boolean (eq? side 'right)]
-         [rowspecs (Pattern-rowspecs p)]
-         [rowmap (Pattern-rowmap p)]
+         [rowspecs (Pattern-rowspecs self)]
+         [rowmap (Pattern-rowmap self)]
          [index (Rowmap-index rowmap)]
-         [repeats (Pattern-repeats p)]
+         [repeats (Pattern-repeats self)]
          [frr (Repeats-first-repeat-row repeats)]
          [lrr (Repeats-last-repeat-row  repeats)]
          [odd-row-repeat-length? (if (or (false? frr) (false? lrr) (odd? (- lrr frr))) #f #t)]
@@ -1069,7 +1069,7 @@
                                                  (~> rowspec
                                                      (rowspec-swap-stitch _ 'turn 'turnl)
                                                      (rowspec-swap-stitch _ 'w&t  'w&tl)))))))])
-            (struct-copy Pattern p
+            (struct-copy Pattern self
                          [rowspecs no-turn-rowspecs]
                          [rowmap   maybe-split-rowmap])))))))
 

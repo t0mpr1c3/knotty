@@ -25,3 +25,6 @@ v1.0.7
 
 v1.0.8
 * Test side effects using mocks #34
+
+v.1.1.0
+* Add Garn, Loop, Course, and Knitgraph structs
