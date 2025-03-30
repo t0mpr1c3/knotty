@@ -37,6 +37,8 @@
     "named-arguments"
     "sxml"
     "scribble-lib"
+    "draw-lib"
+    "mock"
     "mock-rackunit"))
 
 (define build-deps
