@@ -36,7 +36,8 @@
     "typed/rackunit"
     "named-arguments"
     "sxml"
-    "scribble-lib"))
+    "scribble-lib"
+    "mock-rackunit"))
 
 (define build-deps
   '("lazy"

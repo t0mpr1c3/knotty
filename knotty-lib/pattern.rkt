@@ -463,9 +463,11 @@
   (let* ([row-numbers (Rowmap-numbers rowmap)]
          [n (vector-length row-numbers)]
          [rowspecs-order
-          ((inst sort Index)
+          ;;((inst sort Index)
+          ((inst sort Natural)
            (range n) <
-           #:key (λ ([j : Index]) (apply min (vector->list (vector-ref row-numbers j)))))]
+           ;;#:key (λ ([j : Index]) (apply min (vector->list (vector-ref row-numbers j)))))]
+           #:key (λ ([j : Natural]) (apply min (vector->list (vector-ref row-numbers j)))))]
          [rowspecs~
           (for/vector
               ([i (in-range n)]) : Rowspec
