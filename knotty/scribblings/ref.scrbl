@@ -542,7 +542,7 @@ styles as well: for more information, see the @racket[sweet-exp]
   [filename path-string?])
  Pattern?]{
  Loads a Knotty pattern from an XML file. The XML schema should conform to
- @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty.xsd
+ @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/knotty-lib/resources/xml/knotty.xsd
   knotty.xsd}.}
 
 @defproc[
@@ -557,14 +557,8 @@ styles as well: for more information, see the @racket[sweet-exp]
   [filename path-string?])
  bytes?]{
  Saves a Knotty Pattern data structure as an XML file with schema
- @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty.xsd
-  knotty.xsd}.  This XML format can be converted directly to an HTML page of
- knitting instructions using the stylesheet
- @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty-text.xsl
-  knotty-text.xsl}.  It can also be turned into a color knitting chart using the
- stylesheet
- @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty-chart.xsl
-  knotty-chart.xsl}.}
+ @hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/knotty-lib/resources/xml/knotty.xsd
+  knotty.xsd}.}
 
 @defproc[
  (save

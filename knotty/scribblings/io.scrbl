@@ -49,7 +49,7 @@ the text-based format XML. Since this is a text file, you can load it into a
 web browser or text editor and view the data directly.
 
 The data format is defined in a separate file called a schema. The
-@hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/xml/knotty.xsd
+@hyperlink{https://github.com/t0mpr1c3/knotty/blob/main/knotty-lib/resources/xml/knotty.xsd
  Knotty schema} will always be freely available. This means that you truly
 own your Knotty patterns, and will always be able to use them without
 restriction.
